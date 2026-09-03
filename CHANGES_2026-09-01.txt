@@ -1,0 +1,12 @@
+SUBSTACK UPDATER REPAIR - 1 SEPTEMBER 2026
+
+- Confirmed the live Cloudflare Worker cron was running, but all three direct
+  Substack sources returned HTTP 429 to Cloudflare egress.
+- Added a reader-backed yearly-sitemap fallback that discovers current posts
+  and retrieves title, publish time, summary and the genuine article image.
+- Manually seeded the five newest posts through 1 September 2026, with their
+  correct Substack article images, so the live site updates on deployment.
+- Replaced unsafe emergency-seed ordering with publication-date ordering. A
+  future fetched post can no longer be pushed below an older manual seed.
+- Bumped the check-state key to force a fresh post-deployment check.
+- Added parser and ordering regression tests and validated the Worker bundle.

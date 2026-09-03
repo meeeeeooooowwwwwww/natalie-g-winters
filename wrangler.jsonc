@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "nataliegwinters-site",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-18",
+
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+
+  "kv_namespaces": [
+    {
+      "binding": "NATALIE_KV",
+      "id": "7751d2c212db4316b98316b280882892",
+      "remote": true
+    }
+  ],
+
+  "triggers": {
+    "crons": [
+      "17 * * * *"
+    ]
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,25 @@
+NatalieGWinters.com update - 27 Aug 2026
+
+ARTICLE UPDATER
+- Replaced single fragile homepage-scraping dependency with a three-stage source chain:
+  1. Substack archive JSON endpoint
+  2. Substack RSS feed
+  3. Existing homepage HTML scraper as final fallback
+- Primary updater now normally needs one request instead of homepage + multiple post-detail requests.
+- Refresh cadence changed from every 2 hours to hourly (minute 17).
+- Page-load overdue check changed to hourly as well.
+- Existing Cloudflare KV history/fallback behaviour remains intact: failed checks never wipe known-good articles.
+- /api/status continues to expose last source/result/error for diagnostics.
+- Tested with mocked Cloudflare KV for both JSON-primary success and RSS fallback success.
+
+SEO / DISCOVERY
+- Articles page now declares CollectionPage structured data.
+- Added RSS autodiscovery <link> in page head.
+- Added og:locale and theme-color metadata.
+- Refreshed sitemap lastmod dates to 2026-08-27.
+- Existing canonical URLs, robots controls, ProfilePage mainEntity schema and workers.dev noindex protections retained.
+
+CONTENT / UX
+- Updated archive explanation to accurately describe hourly multi-source refresh.
+- Added a couple of intentionally excessive developer/fan jokes to the archive and Verdict page.
+- No reporting/article text is copied; archive links continue to point to Natalie Winters' original Substack posts.

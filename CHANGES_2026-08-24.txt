@@ -1,0 +1,48 @@
+NATALIEGWINTERS.COM CONTENT + SEO EXPANSION
+24 August 2026
+
+NEW INDEXABLE PAGES
+- /war-room
+- /videos
+- /interviews
+- /articles
+- /china
+
+LAYOUT
+- Kept the existing main header deliberately uncluttered.
+- Added a structured "More Natalie Winters" editorial navigation area in the footer.
+- Added responsive editorial hero layouts, fact ribbons, source cards, video layouts, article archive layouts and mobile-specific fallbacks.
+- Removed reliance on a missing /bg_images/site_bg.jpg asset. The background is now self-contained CSS.
+- Added restrained humorous microcopy throughout the new sections.
+
+EXISTING PAGES EXPANDED
+- Homepage title and copy now target both "Natalie Winters" and "Natalie G. Winters" naturally.
+- /career substantially expanded with chronology and source links.
+- /reporting expanded with specific reporting themes and links into deeper topical pages.
+- /white-house substantially expanded with context, video and contemporary source links.
+
+SUBSTACK
+- Cache version bumped from v3 to v4.
+- Cached archive depth increased from 5 posts to up to 25 posts.
+- The site-wide "latest reporting" strip still displays only the newest 5.
+- /articles displays the larger cached archive.
+- Refresh logic also updates when archive depth changes, not only when the newest URL changes.
+
+SEO
+- Homepage title now begins with "Natalie Winters" while retaining Natalie G. Winters branding.
+- Expanded Person alternateName schema.
+- Added War Room to sameAs schema.
+- Added all new pages to sitemap.xml.
+- Added canonical trailing-slash normalization for the new routes.
+- New pages use descriptive titles/meta descriptions and contextual internal linking.
+
+SOURCES USED FOR FACTUAL PAGE CONTENT
+- War Room official site and Natalie Winters tag archive.
+- Claremont Institute 2024 Lincoln Fellows biography.
+- PBS / Firing Line.
+- Taiwan Office of the President / Presidential Office.
+- Natalie Winters Substack.
+- Selected direct programme/podcast pages for appearances.
+
+NOTE
+Several Rumble archive embeds may be subject to Rumble's own availability or Premium rules over time. Source/context links are included alongside them where practical.

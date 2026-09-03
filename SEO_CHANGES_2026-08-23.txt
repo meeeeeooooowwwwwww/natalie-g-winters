@@ -1,0 +1,27 @@
+SEO CHANGES APPLIED - 23 AUG 2026
+
+- Added a crawlable, keyword-relevant homepage H1 and introductory biography copy above the video.
+- Reworked homepage title and meta description around Natalie G. Winters, journalist, War Room, and White House correspondent search intent.
+- Expanded About, Career and Reporting pages with substantially more factual, entity-rich copy.
+- Added Person, WebSite and WebPage/ProfilePage JSON-LD structured data.
+- Added alternate names, University of Chicago, job roles, Substack, X and She's So Right entity links to structured data.
+- Added Open Graph and Twitter image metadata.
+- Added max-image-preview, max-snippet and max-video-preview directives.
+- Improved semantic image alt text for Substack article cards.
+- Added <time> semantics to article dates.
+- Improved internal linking from the homepage into About, Career, Reporting and White House pages.
+- Improved 'Latest Reporting' heading to include Natalie Winters name/search context.
+- Added X profile link in footer.
+- Added lastmod dates to XML sitemap and adjusted page priorities/frequencies.
+- Added permanent canonical redirects for trailing-slash content URLs.
+- Added redirects for old /index.html, /index.htm and legacy /wedding URLs.
+- Kept workers.dev protected with X-Robots-Tag noindex/no-follow.
+
+IMPORTANT AFTER DEPLOYMENT
+- In Google Search Console, submit https://nataliegwinters.com/sitemap.xml again.
+- Inspect the homepage and click Request Indexing.
+- Request indexing for /about, /career, /reporting and /white-house after confirming deployment.
+- Do not expect the ranking switch immediately; Google is currently still carrying legacy/stale information for the .com in some search results.
+
+IMAGE NOTE
+- Public image search found several genuine Natalie Winters photographs, but this build does not copy third-party publisher photographs into the repository because the available sources do not establish reuse rights. Existing configured images remain in use. The SEO changes make image metadata stronger without creating a copyright problem.

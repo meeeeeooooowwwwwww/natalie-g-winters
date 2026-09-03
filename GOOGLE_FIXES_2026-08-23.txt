@@ -1,0 +1,16 @@
+Google/Search fixes applied 2026-08-23
+
+- Fixed ProfilePage structured data by adding required mainEntity -> Natalie G. Winters Person.
+- Removed the ProfilePage 'about' relationship in favour of mainEntity while retaining 'about' on ordinary WebPage/WebSite markup.
+- Added a stable, locally hosted Natalie G. Winters profile image.
+- Added Google-recommended high-resolution 1:1, 4:3 and 16:9 profile image variants.
+- Added primaryImageOfPage ImageObject markup.
+- Updated Open Graph/Twitter preview image to the local 16:9 image.
+- Added explicit 96x96 PNG favicon, multi-size favicon.ico and 180x180 Apple touch icon.
+- Updated the Worker static-asset routing so the new favicon/image files are served correctly.
+
+After deployment:
+1. Test https://nataliegwinters.com/ in Google's Rich Results Test.
+2. In Search Console URL Inspection, run Test Live URL.
+3. Request indexing for the homepage.
+4. Favicon changes can take several days or longer to update in Google Search.
