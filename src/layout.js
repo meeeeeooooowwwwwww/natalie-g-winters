@@ -250,7 +250,7 @@ export function renderLayout({
   </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#020202">
+  <meta name="theme-color" content="#090208">
   <title>${safeTitle}</title>
   <meta name="description" content="${safeDescription}">
   <meta name="robots" content="${escapeHtml(robots)}">
@@ -258,6 +258,7 @@ export function renderLayout({
   <link rel="canonical" href="${safeCanonical}">
   <link rel="alternate" type="application/rss+xml" title="Natalie Winters on Substack" href="${escapeHtml(SITE.substackHome)}feed">
   <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/theme-magenta.css">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
