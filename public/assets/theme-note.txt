@@ -1,0 +1,1 @@
+Theme assets are applied through theme-magenta.css loaded after styles.css.
