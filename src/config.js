@@ -2,7 +2,7 @@ export const SITE = {
   name: "Natalie G. Winters",
   domain: "https://nataliegwinters.com",
   substackHome: "https://nataliegwinters.substack.com/",
-  rumbleEmbed: "https://rumble.com/embed/v7cogje/?pub=4kxtac",
+  rumbleEmbed: "https://rumble.com/embed/v7cvsue/?pub=4kxtac",
 
   images: {
     portrait:
