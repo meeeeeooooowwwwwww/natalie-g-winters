@@ -1,1 +1,0 @@
-Background artwork generated for the site is stored as public/images/ngw-background.webp and styled via public/assets/theme-magenta.css.
