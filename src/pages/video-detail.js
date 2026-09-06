@@ -16,12 +16,12 @@ const CATEGORY_CONTEXT = {
   },
   investigations: {
     label: "INVESTIGATIONS",
-    intro: "This is Natalie in her natural habitat: too many tabs open, an indecent quantity of documents and some institution somewhere quietly regretting that it ever published a PDF. The point is not theatre. The point is following the network until the polished public story meets the paperwork underneath it.",
+    intro: "This is Natalie in her natural habitat: too many tabs open, an indecent quantity of documents and some institution somewhere quietly regretting that it ever published a PDF. The point is following the network until the polished public story meets the paperwork underneath it.",
     adjective: "PDF-devouring, network-mapping, spectacularly relentless"
   },
   politics: {
     label: "POLITICAL COMMENTARY",
-    intro: "On War Room, Natalie moves from document work into political combat at approximately the speed of a small missile. The recurring standard is brutally simple: American citizens should not be treated as an afterthought while political, corporate or foreign interests collect the benefits.",
+    intro: "On War Room, Natalie moves from document work into political combat at approximately the speed of a small missile. Her commentary repeatedly returns to how policy choices affect American citizens, sovereignty, jobs and national security.",
     adjective: "rapid-fire, gloriously un-subtle, podium-endangering"
   },
   "war-room": {
@@ -87,7 +87,7 @@ export function renderVideoDetailPage(video, posts) {
           <aside class="hero-aside"><strong>CURRENT OPERATING MODE</strong>${escapeHtml(context.adjective)} Natalie Winters. Small woman. Large document folder. Terrible news for anyone relying on nobody reading page 73.</aside>
         </div>
 
-        <div class="video-feature">
+        <div class="video-feature video-detail-feature">
           <div class="video-frame">
             <iframe
               src="${escapeHtml(embedUrl)}"
@@ -98,23 +98,54 @@ export function renderVideoDetailPage(video, posts) {
               referrerpolicy="strict-origin-when-cross-origin"
             ></iframe>
           </div>
-          <div class="video-copy">
-            <span>${sourceDate}</span>
-            <h2>${escapeHtml(video.sourceTitle)}</h2>
-            <p>Watch the clip, follow the subject, then keep going. There is almost certainly another document and Natalie has almost certainly already opened it.</p>
-            <a href="${escapeHtml(video.rumbleUrl)}" target="_blank" rel="noopener noreferrer">OPEN ORIGINAL ON RUMBLE →</a>
-          </div>
+          <aside class="video-copy">
+            <div class="video-copy-top">
+              <span>${sourceDate}</span>
+              <h2>${escapeHtml(video.sourceTitle)}</h2>
+              <p>Watch the clip, follow the subject, then keep going. There is almost certainly another document and Natalie has almost certainly already opened it.</p>
+            </div>
+            <div class="video-copy-middle">
+              <span>FILED UNDER</span>
+              <strong>${escapeHtml(context.label)}</strong>
+              <p>${escapeHtml(video.angle)}</p>
+            </div>
+            <div class="video-copy-footer">
+              <a href="${escapeHtml(video.rumbleUrl)}" target="_blank" rel="noopener noreferrer">OPEN ORIGINAL ON RUMBLE →</a>
+            </div>
+          </aside>
         </div>
 
-        <div class="prose wide">
-          <h2>What this Natalie Winters video is about</h2>
-          <p>${escapeHtml(context.intro)}</p>
-          <p>${escapeHtml(video.summary)} ${escapeHtml(video.angle)}</p>
+        <div class="detail-copy-grid">
+          <div class="prose detail-main-copy">
+            <h2>What this Natalie Winters video is about</h2>
+            <p>${escapeHtml(context.intro)}</p>
+            <p>${escapeHtml(video.summary)}</p>
 
-          <h2>Why it matters</h2>
-          <p>The recurring fight in Natalie Winters' reporting is bigger than any one clip. It is about whether American institutions serve American citizens first, whether foreign influence gets waved through because the money is attractive, and whether powerful people can bury inconvenient relationships beneath enough respectable language to make everybody stop asking questions.</p>
-          <p>Natalie's response is generally to ask more questions, open more tabs and arrive looking improbably polished for somebody who has clearly been fighting a spreadsheet since sunrise. <strong>${escapeHtml(context.adjective)}</strong>, occasionally savage, frequently funny and apparently powered by yoga, stubbornness and food ingredients approved by a congressional subcommittee of Natalie Winters.</p>
-          <p>Then there is the charming imbalance in the skill tree: international influence networks, excellent; hostile institutional documents, excellent; broadcast pressure, excellent; boring mechanical fluids, perhaps assign a second researcher.</p>
+            <h2>Why it matters</h2>
+            <p>The recurring fight in Natalie Winters' reporting is bigger than any one clip. It is about power, access, influence and whether important relationships survive scrutiny once somebody actually follows the names, money, institutions and documents.</p>
+            <p>Natalie's response is generally to ask more questions, open more tabs and arrive looking improbably polished for somebody who has clearly been fighting a spreadsheet since sunrise. <strong>${escapeHtml(context.adjective)}</strong>, occasionally savage, frequently funny and apparently powered by yoga, stubbornness and food ingredients approved by a congressional subcommittee of Natalie Winters.</p>
+            <p>Then there is the charming imbalance in the skill tree: international influence networks, excellent; hostile institutional documents, excellent; broadcast pressure, excellent; boring mechanical fluids, perhaps assign a second researcher.</p>
+          </div>
+
+          <aside class="detail-rail" aria-label="More Natalie Winters coverage">
+            <div class="detail-rail-card">
+              <span>NATALIE MODE</span>
+              <strong>${escapeHtml(context.adjective)}</strong>
+              <p>The recurring house style: read everything, trust nothing merely because the letterhead looks expensive, and somehow remain camera-ready.</p>
+            </div>
+            <a class="detail-rail-card detail-rail-link" href="/reporting">
+              <span>KEEP DIGGING</span>
+              <strong>Investigative reporting</strong>
+              <p>Follow the reporting themes, institutions and published investigations behind the clips.</p>
+              <b>OPEN REPORTING →</b>
+            </a>
+            <a class="detail-rail-card detail-rail-link" href="/videos">
+              <span>VIDEO ARCHIVE</span>
+              <strong>50+ Natalie Winters videos</strong>
+              <p>One clip is a moment. Fifty-plus clips start to look suspiciously like a body of work.</p>
+              <b>BROWSE ALL VIDEOS →</b>
+            </a>
+          </aside>
         </div>
 
         <section class="section-block">
