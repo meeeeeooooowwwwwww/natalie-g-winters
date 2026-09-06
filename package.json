@@ -7,7 +7,7 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "tail": "wrangler tail",
-    "test": "node test/substack.test.mjs"
+    "test": "node test/substack.test.mjs && node test/video-data.test.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"
