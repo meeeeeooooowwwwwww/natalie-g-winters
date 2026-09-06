@@ -6,22 +6,23 @@ const NAV = [
   ["career", "/career", "CAREER"],
   ["reporting", "/reporting", "REPORTING"],
   ["white-house", "/white-house", "WHITE HOUSE"],
+  ["videos", "/videos", "VIDEOS"],
   ["verdict", "/verdict", "THE VERDICT"],
 ];
 
 const FOOTER_EXPLORE = [
   ["/war-room", "WAR ROOM", "Co-host, executive editor and the clips that built the association."],
-  ["/videos", "VIDEOS", "Rumble, broadcasts and selected on-camera appearances."],
+  ["/videos", "50 VIDEOS", "Rumble, War Room, White House reports and dedicated video pages."],
   ["/interviews", "INTERVIEWS", "Long-form appearances, debates and conversations beyond War Room."],
-  ["/articles", "ARTICLES", "A larger rolling archive of Natalie Winters' Substack investigations."],
+  ["/articles", "ARTICLES", "A rolling archive of Natalie Winters' Substack investigations."],
   ["/china", "CHINA FILES", "CCP influence, United Front networks, Taiwan and national-security reporting."],
 ];
 
 export function renderHeader(active = "") {
   return `
     <header class="site-header">
-      <a class="brand" href="/" aria-label="Natalie G. Winters home">
-        NATALIE G. WINTERS
+      <a class="brand" href="/" aria-label="Natalie Winters home">
+        NATALIE WINTERS
       </a>
 
       <nav class="site-nav" aria-label="Main navigation">
@@ -36,7 +37,6 @@ export function renderHeader(active = "") {
 function localImageUrl(post) {
   if (!post?.image) return "";
 
-  // Emergency/manual articles can use a bundled local image directly.
   if (String(post.image).startsWith("/images/")) return String(post.image);
 
   if (!post?.id || !post?.imageVersion) return "";
@@ -110,9 +110,9 @@ export function renderFooter() {
         <div class="footer-intro">
           <div>
             <span class="footer-kicker">MORE NATALIE WINTERS</span>
-            <h2>The unnecessarily comprehensive section.</h2>
+            <h2>The magnificently excessive section.</h2>
           </div>
-          <p>For search engines, curious humans and anyone who thought five pages would be a normal amount of Natalie Winters.</p>
+          <p>For curious humans, ambitious search engines and anyone who thought one page could contain the ferociously productive, document-hoarding, institution-poking Natalie Winters. Adorable.</p>
         </div>
 
         <nav class="footer-explore" aria-label="Explore more Natalie Winters coverage">
@@ -152,16 +152,24 @@ function renderStructuredData({ canonical, description, title, pageType = "WebPa
   const person = {
     "@type": "Person",
     "@id": personId,
-    name: "Natalie G. Winters",
-    alternateName: ["Natalie Winters", "Natalie G Winters", "Miss Winters", "Ms Winters"],
+    name: "Natalie Winters",
+    alternateName: ["Natalie G. Winters", "Natalie G Winters", "Miss Winters", "Ms Winters"],
     url: `${SITE.domain}/`,
-    description: "Investigative journalist, War Room co-host and White House correspondent.",
+    description: "Natalie Winters, also known as Natalie G. Winters, is an investigative journalist, War Room co-host and White House correspondent.",
     image: [
       SITE.images.profile1x1,
       SITE.images.profile4x3,
       SITE.images.profile16x9,
     ],
     jobTitle: ["Investigative Journalist", "White House Correspondent", "Political Commentator", "Broadcaster"],
+    knowsAbout: [
+      "China and Chinese Communist Party influence",
+      "United States politics",
+      "White House reporting",
+      "National security",
+      "Foreign influence",
+      "Media and political institutions"
+    ],
     alumniOf: {
       "@type": "CollegeOrUniversity",
       name: "University of Chicago",
@@ -197,9 +205,9 @@ function renderStructuredData({ canonical, description, title, pageType = "WebPa
       "@type": "WebSite",
       "@id": websiteId,
       url: `${SITE.domain}/`,
-      name: "Natalie G. Winters",
-      alternateName: "Natalie Winters",
-      description: "Independent information site about journalist and White House correspondent Natalie G. Winters.",
+      name: "Natalie Winters",
+      alternateName: "Natalie G. Winters",
+      description: "Independent information and video archive about journalist and White House correspondent Natalie Winters, also known as Natalie G. Winters.",
       inLanguage: "en-US",
       about: { "@id": personId },
     },
@@ -210,7 +218,7 @@ function renderStructuredData({ canonical, description, title, pageType = "WebPa
       contentUrl: SITE.images.profile1x1,
       width: 1200,
       height: 1200,
-      caption: "Natalie G. Winters",
+      caption: "Natalie Winters (Natalie G. Winters)",
     },
     page,
   ];
@@ -262,19 +270,19 @@ export function renderLayout({
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <meta property="og:site_name" content="Natalie G. Winters">
+  <meta property="og:site_name" content="Natalie Winters">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="${safeTitle}">
   <meta property="og:description" content="${safeDescription}">
   <meta property="og:type" content="${ogType}">
   <meta property="og:url" content="${safeCanonical}">
   <meta property="og:image" content="${ogImage}">
-  <meta property="og:image:alt" content="Natalie G. Winters">
+  <meta property="og:image:alt" content="Natalie Winters, also known as Natalie G. Winters">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${safeTitle}">
   <meta name="twitter:description" content="${safeDescription}">
   <meta name="twitter:image" content="${ogImage}">
-  <meta name="twitter:image:alt" content="Natalie G. Winters">
+  <meta name="twitter:image:alt" content="Natalie Winters, also known as Natalie G. Winters">
   <script type="application/ld+json">${renderStructuredData({ canonical, description, title, pageType })}</script>
 </head>
 <body>
