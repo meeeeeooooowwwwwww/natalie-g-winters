@@ -34,14 +34,14 @@ export function renderVideosPage(posts) {
           <div>
             <div class="eyebrow">50+ VIDEO ARCHIVE</div>
             <h1>Natalie Winters Videos</h1>
-            <p class="hero-deck"><strong>Natalie Winters</strong> videos, War Room clips, White House reports, interviews and investigations, each with its own crawlable page, original Rumble source and actual editorial context. Because apparently one extremely formidable, magnificently caffeinated journalist required an entire internal-link civilisation.</p>
+            <p class="hero-deck"><strong>Natalie Winters</strong> videos, War Room clips, White House reports, interviews and investigations, each with its own page, original Rumble source and useful context. Because one extremely formidable, yoga-powered, seed-oil-suspicious journalist apparently produces more rabbit holes than a normal browser tab bar can safely contain.</p>
           </div>
-          <aside class="hero-aside"><strong>SEO, BUT MAKE IT USEFUL</strong>Dozens of silent iframes would be lazy. More than fifty unique pages connecting Natalie Winters to actual subjects, sources and appearances gives humans something to read and search engines something meaningful to understand.</aside>
+          <aside class="hero-aside"><strong>ARCHIVE STATUS</strong>Fifty-plus clips and counting. China files, War Room, White House, interviews, politics and several subjects that looked considerably less innocent after somebody opened the PDF.</aside>
         </div>
 
         <div class="video-feature">
           <div class="video-frame"><iframe src="${SITE.rumbleEmbed}" title="Featured Natalie Winters video" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe></div>
-          <div class="video-copy"><span>FEATURED NATALIE WINTERS VIDEO</span><h2>The current featured Rumble clip</h2><p>The homepage video stays here as the lead item while the archive below expands the site from a single embed into a proper Natalie Winters video knowledge hub.</p><a href="/war-room">EXPLORE NATALIE WINTERS ON WAR ROOM →</a></div>
+          <div class="video-copy"><span>FEATURED NATALIE WINTERS VIDEO</span><h2>Start here</h2><p>One clip gets the spotlight. Then the archive opens into War Room appearances, White House reports, investigations, interviews and enough institutional rabbit holes to ruin a perfectly sensible evening.</p><a href="/war-room">EXPLORE NATALIE WINTERS ON WAR ROOM →</a></div>
         </div>
 
         <section class="section-block">
@@ -53,9 +53,9 @@ export function renderVideosPage(posts) {
         </section>
 
         <div class="prose wide">
-          <h2>Why build a Natalie Winters video archive?</h2>
-          <p>The shorter search name <strong>Natalie Winters</strong> is competitive because it can refer to a person without the extra disambiguating middle initial. The sensible response is not to repeat the name 900 times until Google files a restraining order. It is to build clearer topical authority around the person: reporting subjects, programmes, interviews, career milestones and individual pieces of work.</p>
-          <p>Each archive page therefore has a unique title, description, canonical URL, embedded Rumble video or Rumble-player resolver, source attribution and internal links into the rest of the site. The result is a much denser entity map around <strong>Natalie Winters</strong> while preserving <strong>Natalie G. Winters</strong> as an alternate form of the same name.</p>
+          <h2>Why the archive goes beyond clips</h2>
+          <p>A name and job title only tell you so much. The useful part is seeing the actual subjects, institutions, interviews, arguments and recurring themes around <strong>Natalie Winters</strong>. Each page connects one appearance to the broader body of work instead of dumping fifty silent players into a wall and calling it an archive.</p>
+          <p>The result is a much clearer map of her reporting and media work across China, national security, political institutions, War Room, the White House and long-form interviews, while preserving <strong>Natalie G. Winters</strong> as the full form of the same name.</p>
         </div>
       </article>
     </main>
