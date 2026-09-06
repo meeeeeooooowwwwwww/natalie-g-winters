@@ -125,7 +125,7 @@ export function renderVideoDetailPage(video, posts) {
           <div class="editorial-grid">${renderRelated(video)}</div>
         </section>
 
-        <div class="callout">Fifty video pages. One woman. A frankly unreasonable number of browser tabs.<small><a href="/videos">Browse the full Natalie Winters video archive →</a></small></div>
+        <div class="callout">Fifty-plus video pages. One woman. A frankly unreasonable number of browser tabs.<small><a href="/videos">Browse the full Natalie Winters video archive →</a></small></div>
       </article>
     </main>
   `;
