@@ -1,0 +1,113 @@
+/* Compact icon treatment for the global footer utility row. */
+.footer-bottom-icons{
+  min-height:54px;
+  padding-top:16px;
+}
+
+.footer-social-cluster,
+.footer-site-cluster{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
+.footer-bottom-label{
+  margin-right:3px;
+  font-size:7px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#3f3f3f;
+  white-space:nowrap;
+}
+
+.footer-icon-link,
+.footer-grid-link{
+  flex:0 0 auto;
+  height:34px;
+  border:1px solid #232323;
+  background:#050505;
+  color:#727272!important;
+  text-decoration:none;
+  transition:border-color .16s ease,color .16s ease,background .16s ease,transform .16s ease;
+}
+
+.footer-icon-link{
+  width:34px;
+  display:grid;
+  place-items:center;
+}
+
+.footer-icon-link svg{
+  width:15px;
+  height:15px;
+  display:block;
+  fill:currentColor;
+}
+
+.footer-icon-link:hover,
+.footer-grid-link:hover{
+  border-color:#555;
+  background:#090909;
+  color:#fff!important;
+  transform:translateY(-1px);
+}
+
+.footer-icon-link:focus-visible,
+.footer-grid-link:focus-visible{
+  outline:1px solid #aaa;
+  outline-offset:3px;
+}
+
+.footer-david img{
+  width:19px;
+  height:19px;
+  display:block;
+  object-fit:contain;
+  border-radius:3px;
+}
+
+.footer-mini-divider{
+  width:1px;
+  height:20px;
+  margin:0 3px;
+  background:#202020;
+}
+
+.footer-grid-link{
+  min-width:116px;
+  padding:0 11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:8px!important;
+  font-weight:700;
+  letter-spacing:.13em!important;
+  white-space:nowrap;
+}
+
+.footer-grid-link svg{
+  width:14px;
+  height:14px;
+  display:block;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.5;
+}
+
+@media (max-width:560px){
+  .footer-bottom-icons{
+    width:100%;
+    gap:14px;
+  }
+
+  .footer-social-cluster,
+  .footer-site-cluster{
+    width:100%;
+  }
+
+  .footer-site-cluster{
+    flex-wrap:wrap;
+  }
+}
