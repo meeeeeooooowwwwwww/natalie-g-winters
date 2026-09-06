@@ -18,15 +18,35 @@ export function renderHomePage(posts) {
             </div>
           </div>
 
-          <div class="hero-video" aria-label="Natalie Winters featured video">
-            <iframe
-              src="${SITE.rumbleEmbed}"
-              title="Natalie Winters featured video"
-              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-              allowfullscreen
-              scrolling="no"
-              loading="lazy"
-            ></iframe>
+          <div class="hero-media">
+            <div class="hero-video" aria-label="Natalie Winters featured video">
+              <iframe
+                src="${SITE.rumbleEmbed}"
+                title="Natalie Winters featured video"
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                allowfullscreen
+                scrolling="no"
+                loading="lazy"
+              ></iframe>
+            </div>
+
+            <nav class="hero-quick-grid" aria-label="Explore Natalie Winters coverage">
+              <a class="hero-quick-card" href="/china">
+                <span>CHINA FILES</span>
+                <strong>CCP influence, networks, access and the paperwork behind the polite language.</strong>
+                <small>OPEN FILES →</small>
+              </a>
+              <a class="hero-quick-card" href="/war-room">
+                <span>WAR ROOM</span>
+                <strong>Broadcasts, investigations and the clips where the document pile becomes television.</strong>
+                <small>ENTER WAR ROOM →</small>
+              </a>
+              <a class="hero-quick-card" href="/white-house">
+                <span>WHITE HOUSE</span>
+                <strong>Briefing-room reporting, political pressure and considerably better wardrobe discipline than the average press scrum.</strong>
+                <small>VIEW COVERAGE →</small>
+              </a>
+            </nav>
           </div>
         </div>
       </section>
