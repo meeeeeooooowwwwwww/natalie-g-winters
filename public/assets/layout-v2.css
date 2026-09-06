@@ -1,0 +1,297 @@
+/* Layout density and responsive refinements.
+   Loaded after the base theme so these rules can evolve without disturbing the original design system. */
+
+/* HOME HERO */
+.home-hero-inner{
+  grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);
+  gap:clamp(28px,3.4vw,54px);
+  align-items:start;
+}
+
+.hero-copy-inner{max-width:740px}
+.hero-intro{max-width:730px;line-height:1.66}
+
+.hero-media{
+  min-width:0;
+  display:grid;
+  gap:12px;
+  align-content:start;
+}
+
+.hero-quick-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+
+.hero-quick-card{
+  min-width:0;
+  min-height:118px;
+  padding:16px;
+  border:1px solid #252525;
+  background:linear-gradient(155deg,#090909,#040404);
+  display:flex;
+  flex-direction:column;
+  text-decoration:none;
+  transition:border-color .16s ease,transform .16s ease,background .16s ease;
+}
+
+.hero-quick-card:hover{
+  border-color:#4d4d4d;
+  background:#090909;
+  transform:translateY(-2px);
+}
+
+.hero-quick-card span{
+  margin-bottom:11px;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#676767;
+}
+
+.hero-quick-card strong{
+  display:block;
+  font-size:13px;
+  line-height:1.42;
+  color:#e7e7e7;
+}
+
+.hero-quick-card small{
+  margin-top:auto;
+  padding-top:14px;
+  font-size:8px;
+  letter-spacing:.12em;
+  color:#8a8a8a;
+}
+
+/* VIDEO DETAIL PAGES */
+.video-detail-feature{
+  grid-template-columns:minmax(0,1.62fr) minmax(300px,.58fr);
+  gap:16px;
+  align-items:stretch;
+}
+
+.video-detail-feature .video-copy{
+  min-width:0;
+  padding:22px;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  gap:22px;
+  justify-content:initial;
+}
+
+.video-copy-top span,
+.video-copy-middle span{
+  display:block;
+  margin-bottom:10px;
+  font-size:8px;
+  letter-spacing:.15em;
+  color:#626262;
+}
+
+.video-detail-feature .video-copy h2{
+  margin:0 0 13px;
+  font-size:clamp(20px,1.8vw,28px);
+  line-height:1.08;
+  letter-spacing:-.03em;
+  color:#f1f1f1;
+}
+
+.video-copy-top p,
+.video-copy-middle p{
+  margin:0;
+  font-size:12px;
+  line-height:1.62;
+  color:#8f8f8f;
+}
+
+.video-copy-middle{
+  align-self:end;
+  padding:17px 0;
+  border-top:1px solid #252525;
+  border-bottom:1px solid #202020;
+}
+
+.video-copy-middle strong{
+  display:block;
+  margin-bottom:9px;
+  font-size:13px;
+  line-height:1.35;
+  color:#e4e4e4;
+}
+
+.video-copy-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.video-copy-footer a{
+  font-size:9px;
+  letter-spacing:.12em;
+  color:#ddd;
+  text-decoration:none;
+}
+
+.detail-copy-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.56fr) minmax(260px,.44fr);
+  gap:clamp(34px,4.5vw,72px);
+  margin-top:48px;
+  align-items:start;
+}
+
+.detail-main-copy{
+  max-width:none!important;
+  min-width:0;
+}
+
+.detail-main-copy h2:first-child{margin-top:0}
+
+.detail-rail{
+  display:grid;
+  gap:10px;
+  position:sticky;
+  top:66px;
+}
+
+.detail-rail-card{
+  padding:18px;
+  border:1px solid #242424;
+  background:linear-gradient(150deg,#080808,#040404);
+}
+
+.detail-rail-card span{
+  display:block;
+  margin-bottom:11px;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#5f5f5f;
+}
+
+.detail-rail-card strong{
+  display:block;
+  margin-bottom:9px;
+  font-size:15px;
+  line-height:1.3;
+  color:#ededed;
+}
+
+.detail-rail-card p{
+  margin:0;
+  font-size:11px;
+  line-height:1.58;
+  color:#7d7d7d;
+}
+
+.detail-rail-link{
+  display:block;
+  text-decoration:none;
+  transition:border-color .16s ease,transform .16s ease;
+}
+
+.detail-rail-link:hover{
+  border-color:#4a4a4a;
+  transform:translateY(-1px);
+}
+
+.detail-rail-link b{
+  display:block;
+  margin-top:12px;
+  font-size:9px;
+  letter-spacing:.11em;
+  color:#bdbdbd;
+}
+
+/* On wide screens, generic video sidebars should not look like giant empty boxes. */
+.video-feature:not(.video-detail-feature){align-items:start}
+.video-feature:not(.video-detail-feature) .video-copy{justify-content:flex-start;min-height:0}
+.video-feature:not(.video-detail-feature) .video-copy h2{margin:12px 0;font-size:clamp(22px,2vw,30px);line-height:1.1}
+
+@media (max-width:1180px){
+  .home-hero-inner{
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+    gap:28px;
+  }
+
+  .hero-copy-inner{max-width:none}
+  .hero-quick-card{min-height:108px;padding:14px}
+
+  .video-detail-feature{
+    grid-template-columns:minmax(0,1.5fr) minmax(280px,.6fr);
+  }
+
+  .detail-copy-grid{
+    grid-template-columns:minmax(0,1.45fr) minmax(240px,.55fr);
+    gap:36px;
+  }
+}
+
+@media (max-width:980px){
+  .home-hero-inner{
+    max-width:860px;
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+
+  .hero-copy-inner{max-width:820px}
+  .hero-intro{max-width:820px}
+  .hero-media{width:100%}
+  .hero-quick-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+  .video-detail-feature{grid-template-columns:1fr;gap:12px}
+  .video-detail-feature .video-copy{
+    grid-template-columns:minmax(0,1.25fr) minmax(220px,.75fr);
+    grid-template-rows:auto auto;
+    gap:18px 28px;
+    align-items:start;
+  }
+  .video-copy-middle{
+    align-self:stretch;
+    padding:0 0 0 22px;
+    border-top:0;
+    border-bottom:0;
+    border-left:1px solid #252525;
+  }
+  .video-copy-footer{grid-column:1/-1;padding-top:14px;border-top:1px solid #202020}
+
+  .detail-copy-grid{grid-template-columns:1fr;gap:24px}
+  .detail-rail{
+    position:static;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media (max-width:760px){
+  .hero-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-quick-card{min-height:104px}
+
+  .video-detail-feature .video-copy{
+    grid-template-columns:1fr;
+    gap:15px;
+  }
+  .video-copy-middle{
+    padding:15px 0;
+    border-left:0;
+    border-top:1px solid #252525;
+    border-bottom:1px solid #202020;
+  }
+  .video-copy-footer{grid-column:auto;padding-top:0;border-top:0}
+
+  .detail-copy-grid{margin-top:34px}
+  .detail-rail{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media (max-width:560px){
+  .home-hero-inner{gap:22px}
+  .hero-quick-grid{grid-template-columns:1fr;gap:8px}
+  .hero-quick-card{min-height:92px}
+  .hero-quick-card strong{font-size:12px}
+
+  .video-detail-feature .video-copy{padding:17px}
+  .video-detail-feature .video-copy h2{font-size:21px}
+  .detail-rail{grid-template-columns:1fr}
+}
