@@ -32,11 +32,11 @@ export function renderVideosPage(posts) {
       <article class="content-inner wide-shell">
         <div class="editorial-hero">
           <div>
-            <div class="eyebrow">50-VIDEO ARCHIVE</div>
+            <div class="eyebrow">50+ VIDEO ARCHIVE</div>
             <h1>Natalie Winters Videos</h1>
             <p class="hero-deck"><strong>Natalie Winters</strong> videos, War Room clips, White House reports, interviews and investigations, each with its own crawlable page, original Rumble source and actual editorial context. Because apparently one extremely formidable, magnificently caffeinated journalist required an entire internal-link civilisation.</p>
           </div>
-          <aside class="hero-aside"><strong>SEO, BUT MAKE IT USEFUL</strong>Fifty silent iframes would be lazy. Fifty unique pages connecting Natalie Winters to actual subjects, sources and appearances gives humans something to read and search engines something meaningful to understand.</aside>
+          <aside class="hero-aside"><strong>SEO, BUT MAKE IT USEFUL</strong>Dozens of silent iframes would be lazy. More than fifty unique pages connecting Natalie Winters to actual subjects, sources and appearances gives humans something to read and search engines something meaningful to understand.</aside>
         </div>
 
         <div class="video-feature">
@@ -46,7 +46,7 @@ export function renderVideosPage(posts) {
 
         <section class="section-block">
           <div class="section-title-row">
-            <h2>Browse all 50 Natalie Winters video pages</h2>
+            <h2>Browse 50+ Natalie Winters video pages</h2>
             <p>China, investigations, War Room, White House, interviews, politics and the occasional magnificently impolite institutional autopsy.</p>
           </div>
           <div class="editorial-grid">${renderVideoArchiveCards()}</div>
@@ -62,10 +62,11 @@ export function renderVideosPage(posts) {
   `;
 
   return renderLayout({
-    title: "Natalie Winters Videos | 50 Rumble, War Room & Interview Clips",
-    description: "Watch 50 Natalie Winters videos with dedicated pages, Rumble sources and context covering War Room, White House reporting, China investigations, interviews and political commentary.",
+    title: "Natalie Winters Videos | 50+ Rumble, War Room & Interview Clips",
+    description: "Watch more than 50 Natalie Winters videos with dedicated pages, Rumble sources and context covering War Room, White House reporting, China investigations, interviews and political commentary.",
     canonical: `${SITE.domain}/videos`,
     pageContent,
     posts,
+    active: "videos",
   });
 }
