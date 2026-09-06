@@ -27,12 +27,12 @@ const CATEGORY_CONTEXT = {
   "war-room": {
     label: "WAR ROOM",
     intro: "War Room is one of the strongest recurring entities attached to Natalie Winters' public career. The archive matters because it shows the progression from regular appearances to co-host, executive editor and White House correspondent.",
-    adjective: "broadcast-ready, espresso-powered, teleprompter-threatening"
+    adjective: "broadcast-ready, yoga-powered, teleprompter-threatening"
   },
   "white-house": {
     label: "WHITE HOUSE",
     intro: "Natalie Winters' White House work added on-location reporting and briefing-room access to an already unusually crowded résumé. These clips document that phase directly instead of treating 'White House correspondent' as a decorative biography label.",
-    adjective: "briefing-room-ready, relentlessly alert, magnificently caffeinated"
+    adjective: "briefing-room-ready, relentlessly alert, seed-oil-suspicious"
   },
   media: {
     label: "MEDIA & APPEARANCES",
