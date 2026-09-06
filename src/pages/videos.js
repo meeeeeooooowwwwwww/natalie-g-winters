@@ -36,7 +36,7 @@ export function renderVideosPage(posts) {
             <h1>Natalie Winters Videos</h1>
             <p class="hero-deck"><strong>Natalie Winters</strong> videos, War Room clips, White House reports, interviews and investigations covering foreign influence, institutional capture, political power and the recurring American tradition of discovering that somebody described an obviously terrible idea as a “partnership”.</p>
           </div>
-          <aside class="hero-aside"><strong>ARCHIVE STATUS</strong>Fifty-plus clips and counting. China files, War Room, White House, politics and enough suspiciously cheerful institutional acronyms to make Natalie reach for another PDF. Not coffee. Never coffee. Probably something with ingredients the rest of us cannot pronounce.</aside>
+          <aside class="hero-aside"><strong>ARCHIVE STATUS</strong>Fifty-plus clips and counting. China files, War Room, White House, politics and enough suspiciously cheerful institutional acronyms to make Natalie reach for another PDF. Not coffee. Never coffee. Probably something with three ingredients and a lecture about seed oils.</aside>
         </div>
 
         <div class="video-feature">

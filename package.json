@@ -7,7 +7,7 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "tail": "wrangler tail",
-    "check": "node --check src/worker.js && node --check src/layout.js && node --check src/config.js && node --check src/video-data.js && node --check src/pages/home.js && node --check src/pages/about.js && node --check src/pages/videos.js && node --check src/pages/video-detail.js",
+    "check": "node --check src/worker.js && node --check src/layout.js && node --check src/config.js && node --check src/substack.js && node --check src/utils.js && node --check src/video-data.js && node --check src/pages/home.js && node --check src/pages/about.js && node --check src/pages/career.js && node --check src/pages/reporting.js && node --check src/pages/white-house.js && node --check src/pages/verdict.js && node --check src/pages/war-room.js && node --check src/pages/videos.js && node --check src/pages/video-detail.js && node --check src/pages/interviews.js && node --check src/pages/articles.js && node --check src/pages/china.js",
     "test": "node test/substack.test.mjs && node test/video-data.test.mjs"
   },
   "devDependencies": {

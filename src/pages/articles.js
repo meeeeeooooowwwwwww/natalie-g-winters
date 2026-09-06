@@ -34,5 +34,6 @@ export function renderArticlesPage(posts) {
     pageContent,
     posts,
     pageType: "CollectionPage",
+    showLatestReporting: false,
   });
 }

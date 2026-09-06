@@ -1,6 +1,6 @@
 import { SITE } from "../config.js";
 import { renderLayout } from "../layout.js";
-import { escapeHtml } from "../utils.js";
+import { escapeHtml, formatDate } from "../utils.js";
 import { getRelatedVideos } from "../video-data.js";
 
 const CATEGORY_CONTEXT = {
@@ -72,7 +72,7 @@ export function renderVideoDetailPage(video, posts) {
   const embedUrl = video.embedUrl || `/media/rumble/${encodeURIComponent(video.slug)}`;
   const titleTopic = cleanTitle(video.title);
   const sourceDate = video.date
-    ? `<time datetime="${escapeHtml(video.date)}">${escapeHtml(video.date)}</time>`
+    ? `<time datetime="${escapeHtml(video.date)}">${escapeHtml(formatDate(video.date) || video.date)}</time>`
     : "Archive video";
 
   const pageContent = `
@@ -153,7 +153,7 @@ export function renderVideoDetailPage(video, posts) {
             <h2>More Natalie Winters videos</h2>
             <p>More files from the ongoing national sport of discovering what was hiding behind the pleasant-sounding acronym.</p>
           </div>
-          <div class="editorial-grid">${renderRelated(video)}</div>
+          <div class="editorial-grid four-up-grid">${renderRelated(video)}</div>
         </section>
 
         <div class="callout">Fifty-plus video pages. One journalist. Several endangered narratives. An unreasonable number of browser tabs.<small><a href="/videos">Browse the full Natalie Winters video archive →</a></small></div>
@@ -167,5 +167,6 @@ export function renderVideoDetailPage(video, posts) {
     canonical,
     pageContent,
     posts,
+    active: "videos",
   });
 }

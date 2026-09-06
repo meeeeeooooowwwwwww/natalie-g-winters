@@ -238,6 +238,7 @@ export function renderLayout({
   active = "",
   robots = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
   pageType = "WebPage",
+  showLatestReporting = true,
 }) {
   const safeTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description);
@@ -291,7 +292,7 @@ export function renderLayout({
   <div class="page">
     ${renderHeader(active)}
     ${pageContent}
-    ${renderLatestReporting(posts)}
+    ${showLatestReporting ? renderLatestReporting(posts) : ""}
     ${renderFooter()}
   </div>
 </body>

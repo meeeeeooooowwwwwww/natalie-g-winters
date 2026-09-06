@@ -4,11 +4,10 @@ const ARTICLE_CACHE_KEY = "natalie_latest_articles_v4";
 const LEGACY_CACHE_KEY = "natalie_latest_articles_v3";
 
 /*
-  v2 deliberately forces one fresh check after this update is deployed.
-  The article data itself stays in the existing v4 KV key, so the live
-  site never goes blank while the new updater warms up.
+  Bump the check-state key when updater behaviour changes materially.
+  The article cache itself stays on v4 so a deploy never blanks the site.
 */
-const CHECK_STATE_KEY = "natalie_article_check_v3";
+const CHECK_STATE_KEY = "natalie_article_check_v4";
 
 const CHECK_INTERVAL_MS = 60 * 60 * 1000;
 const MAX_STORED_POSTS = 25;
@@ -22,12 +21,11 @@ const SUBSTACK_ARCHIVE_API = `${SITE.substackHome}api/v1/archive?sort=new&search
 const JINA_READER = "https://r.jina.ai/http://nataliegwinters.substack.com";
 
 /*
-  Manual emergency seed. Substack is currently returning HTTP 429 to
-  Cloudflare Worker egress, so these verified newest posts are prepended
-  to KV on first request after deployment. Remove entries once automated
-  discovery is healthy again.
+  Last-resort bootstrap only. These are never re-injected into a healthy
+  rolling archive. If every live source is unavailable and KV is empty,
+  a known-good list is better than a blank article section.
 */
-const MANUAL_POSTS = [
+const EMERGENCY_FALLBACK_POSTS = [
   {
     id: "web-exclusive-the-ccp-infiltrated-epas",
     title: "EXCLUSIVE: The CCP Infiltrated EPA’s Drinking-Water Committee",
@@ -72,7 +70,7 @@ const MANUAL_POSTS = [
     id: "web-was-an-obama-energy-secretary-a-ccp",
     title: "Was An Obama Energy Secretary A CCP Plant?",
     url: "https://nataliegwinters.substack.com/p/was-an-obama-energy-secretary-a-ccp",
-    image: "/images/natalie-g-winters-profile-16x9.jpg",
+    image: "",
     subtitle: "NEVER BEFORE REPORTED: Obama Energy Secretary Steven Chu was listed as an ‘Overseas Honorary President’ of a CCP United Front group used to cultivate and mobilize elite overseas scientists.",
     date: "2026-08-26T12:00:00.000Z",
   },
@@ -80,102 +78,11 @@ const MANUAL_POSTS = [
     id: "web-revealed-the-government-paid-hundreds",
     title: "REVEALED: The Government Paid Hundreds Of Influencers To Promote COVID Vaccines. I Unmasked Dozens Of Them.",
     url: "https://nataliegwinters.substack.com/p/revealed-the-government-paid-hundreds",
-    image: "/images/natalie-g-winters-profile-4x3.jpg",
+    image: "",
     subtitle: "Among the recovered ads: ‘vaccinate your children!!,’ pregnancy and breastfeeding appeals, a vaccinated six-year-old—and claims that the shots were ‘completely safe.’",
     date: "2026-08-25T12:00:00.000Z",
   },
 ];
-
-
-function imageVersion(url = "") {
-  try {
-    const parsed = new URL(url);
-    const last = parsed.pathname.split("/").filter(Boolean).pop() || "image";
-    return last.replace(/[^a-zA-Z0-9._-]/g, "").slice(0, 180) || "image";
-  } catch {
-    return "image";
-  }
-}
-
-
-function stablePostId(url = "") {
-  try {
-    const parsed = new URL(url);
-    const slug = parsed.pathname.split("/").filter(Boolean).pop() || "post";
-    return `web-${slug.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
-  } catch {
-    return `web-${Date.now()}`;
-  }
-}
-
-
-function normalisePost(post = {}) {
-  const image = post.cover_image || post.social_image || post.image || "";
-  const url = post.canonical_url || post.url || (
-    post.slug ? `${SITE.substackHome}p/${post.slug}` : `${SITE.substackHome}archive`
-  );
-
-  return {
-    id: String(post.id || stablePostId(url)),
-    title: post.title || "Natalie Winters reporting",
-    url,
-    image,
-    imageVersion: post.imageVersion || imageVersion(image),
-    subtitle: post.subtitle || post.description || "",
-    date: post.post_date || post.published_at || post.date || "",
-  };
-}
-
-
-async function readKey(env, key) {
-  if (!env?.NATALIE_KV) return null;
-
-  try {
-    return await env.NATALIE_KV.get(key, "json");
-  } catch (error) {
-    console.error(`KV read error for ${key}:`, error);
-    return null;
-  }
-}
-
-
-async function writeKey(env, key, value) {
-  if (!env?.NATALIE_KV) return;
-
-  try {
-    await env.NATALIE_KV.put(key, JSON.stringify(value));
-  } catch (error) {
-    console.error(`KV write error for ${key}:`, error);
-  }
-}
-
-
-async function saveArticleState(env, state) {
-  return writeKey(env, ARTICLE_CACHE_KEY, state);
-}
-
-
-async function saveCheckState(env, state) {
-  return writeKey(env, CHECK_STATE_KEY, state);
-}
-
-
-export async function getUpdaterStatus(env) {
-  const articles = await getStoredArticleState(env);
-  const check = await readKey(env, CHECK_STATE_KEY);
-
-  return {
-    articleCount: Array.isArray(articles?.posts) ? articles.posts.length : 0,
-    newestTitle: articles?.posts?.[0]?.title || null,
-    newestUrl: articles?.posts?.[0]?.url || null,
-    articlesUpdatedAt: articles?.updatedAt || null,
-    lastCheckedAt: check?.lastCheckedAt || null,
-    lastCheckResult: check?.result || null,
-    lastCheckSource: check?.source || null,
-    lastError: check?.error || null,
-  };
-}
-
 
 function decodeHtmlEntities(value = "") {
   return String(value)
@@ -189,7 +96,6 @@ function decodeHtmlEntities(value = "") {
     .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)));
 }
 
-
 function stripTags(value = "") {
   return decodeHtmlEntities(
     String(value)
@@ -201,14 +107,12 @@ function stripTags(value = "") {
   );
 }
 
-
 function getTagAttribute(tag, name) {
   const match = String(tag).match(
     new RegExp(`\\b${name}\\s*=\\s*(["'])([\\s\\S]*?)\\1`, "i")
   );
   return match ? decodeHtmlEntities(match[2]) : "";
 }
-
 
 function getMeta(html, key) {
   const tags = String(html).match(/<meta\b[^>]*>/gi) || [];
@@ -225,20 +129,18 @@ function getMeta(html, key) {
   return "";
 }
 
-
 function getCanonical(html, fallbackUrl) {
   const tags = String(html).match(/<link\b[^>]*>/gi) || [];
 
   for (const tag of tags) {
     const rel = getTagAttribute(tag, "rel").toLowerCase();
     if (rel === "canonical") {
-      return getTagAttribute(tag, "href") || fallbackUrl;
+      return canonicalPostUrl(getTagAttribute(tag, "href")) || fallbackUrl;
     }
   }
 
   return fallbackUrl;
 }
-
 
 function getPublishedDate(html) {
   const metaDate =
@@ -257,6 +159,234 @@ function getPublishedDate(html) {
   return "";
 }
 
+function canonicalPostUrl(rawUrl) {
+  try {
+    const parsed = new URL(rawUrl, SUBSTACK_HOME);
+
+    if (parsed.hostname !== "nataliegwinters.substack.com") return "";
+    if (!parsed.pathname.startsWith("/p/")) return "";
+
+    const pieces = parsed.pathname.split("/").filter(Boolean);
+    if (pieces.length < 2) return "";
+
+    parsed.pathname = `/p/${pieces[1]}`;
+    parsed.search = "";
+    parsed.hash = "";
+
+    return parsed.toString();
+  } catch {
+    return "";
+  }
+}
+
+function stablePostId(url = "") {
+  try {
+    const parsed = new URL(url);
+    const slug = parsed.pathname.split("/").filter(Boolean).pop() || "post";
+    return `web-${slug.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+  } catch {
+    return "web-post";
+  }
+}
+
+function unwrapSubstackImageUrl(rawUrl = "") {
+  const value = decodeHtmlEntities(String(rawUrl).trim());
+  if (!value) return "";
+
+  try {
+    const parsed = new URL(value);
+    if (parsed.hostname !== "substackcdn.com") return value;
+
+    const encodedTarget = parsed.pathname.match(/\/(https?%3A%2F%2F.+)$/i);
+    if (encodedTarget?.[1]) {
+      try {
+        return decodeURIComponent(encodedTarget[1]);
+      } catch {
+        return value;
+      }
+    }
+  } catch {
+    return "";
+  }
+
+  return value;
+}
+
+function isAllowedArticleImageHost(url = "") {
+  try {
+    const parsed = new URL(url);
+    return (
+      parsed.protocol === "https:" &&
+      (
+        parsed.hostname === "substackcdn.com" ||
+        parsed.hostname === "substack-post-media.s3.amazonaws.com"
+      )
+    );
+  } catch {
+    return false;
+  }
+}
+
+function isLikelyArticleImage(rawUrl = "") {
+  const original = decodeHtmlEntities(String(rawUrl).trim());
+  if (!original) return false;
+
+  const unwrapped = unwrapSubstackImageUrl(original) || original;
+  if (!isAllowedArticleImageHost(unwrapped) && !isAllowedArticleImageHost(original)) {
+    return false;
+  }
+
+  let haystack = `${original} ${unwrapped}`.toLowerCase();
+  try {
+    haystack = decodeURIComponent(haystack);
+  } catch {
+    // Keep the undecoded string if a malformed percent escape appears.
+  }
+
+  if (
+    /(?:avatar|favicon|profile[-_ ]?(?:photo|image|picture)?|author[-_ ]?(?:photo|avatar)|publication[-_ ]?logo|site[-_ ]?logo|\/logos?\/|\/icons?\/)/i.test(haystack)
+  ) {
+    return false;
+  }
+
+  if (/(?:^|[,/])w_(?:16|24|32|40|48|64|80|96|100|120|128)(?:[,/]|$)/i.test(haystack)) {
+    return false;
+  }
+
+  return true;
+}
+
+function chooseArticleImage(...candidates) {
+  const flattened = candidates.flat(Infinity);
+
+  for (const candidate of flattened) {
+    const value = decodeHtmlEntities(String(candidate || "").trim());
+    if (isLikelyArticleImage(value)) return value;
+  }
+
+  return "";
+}
+
+function imageVersion(url = "") {
+  const source = unwrapSubstackImageUrl(url) || url;
+  if (!source) return "";
+
+  try {
+    const parsed = new URL(source);
+    const last = parsed.pathname.split("/").filter(Boolean).pop() || "image";
+    return last.replace(/[^a-zA-Z0-9._-]/g, "").slice(0, 180) || "image";
+  } catch {
+    return "image";
+  }
+}
+
+function normalisePost(post = {}) {
+  const rawUrl = post.canonical_url || post.url || (
+    post.slug ? `${SITE.substackHome}p/${post.slug}` : ""
+  );
+  const url = canonicalPostUrl(rawUrl);
+  const image = chooseArticleImage(post.cover_image, post.social_image, post.image);
+
+  return {
+    id: String(post.id || stablePostId(url || rawUrl)),
+    title: stripTags(post.title || "") || "Natalie Winters reporting",
+    url,
+    image,
+    imageVersion: image ? imageVersion(image) : "",
+    subtitle: stripTags(post.subtitle || post.description || ""),
+    date: post.post_date || post.published_at || post.date || "",
+  };
+}
+
+function isGenericTitle(value = "") {
+  return !value || value === "Natalie Winters reporting";
+}
+
+function mergePostMetadata(primary, fallback) {
+  const preferred = normalisePost(primary || {});
+  const backup = normalisePost(fallback || {});
+  const image = chooseArticleImage(preferred.image, backup.image);
+
+  const title = isGenericTitle(preferred.title) && !isGenericTitle(backup.title)
+    ? backup.title
+    : preferred.title || backup.title;
+
+  const subtitle = preferred.subtitle || backup.subtitle || "";
+  const preferredDate = Date.parse(preferred.date || "");
+  const backupDate = Date.parse(backup.date || "");
+  const date = Number.isFinite(preferredDate)
+    ? preferred.date
+    : Number.isFinite(backupDate)
+      ? backup.date
+      : preferred.date || backup.date || "";
+
+  return {
+    id: preferred.id || backup.id || stablePostId(preferred.url || backup.url),
+    title,
+    url: preferred.url || backup.url,
+    image,
+    imageVersion: image ? imageVersion(image) : "",
+    subtitle,
+    date,
+  };
+}
+
+function postListsEqual(a = [], b = []) {
+  if (a.length !== b.length) return false;
+
+  const fields = ["id", "title", "url", "image", "imageVersion", "subtitle", "date"];
+  return a.every((post, index) => {
+    const other = b[index] || {};
+    return fields.every((field) => String(post?.[field] || "") === String(other?.[field] || ""));
+  });
+}
+
+async function readKey(env, key) {
+  if (!env?.NATALIE_KV) return null;
+
+  try {
+    return await env.NATALIE_KV.get(key, "json");
+  } catch (error) {
+    console.error(`KV read error for ${key}:`, error);
+    return null;
+  }
+}
+
+async function writeKey(env, key, value) {
+  if (!env?.NATALIE_KV) return;
+
+  try {
+    await env.NATALIE_KV.put(key, JSON.stringify(value));
+  } catch (error) {
+    console.error(`KV write error for ${key}:`, error);
+  }
+}
+
+async function saveArticleState(env, state) {
+  return writeKey(env, ARTICLE_CACHE_KEY, state);
+}
+
+async function saveCheckState(env, state) {
+  return writeKey(env, CHECK_STATE_KEY, state);
+}
+
+export async function getUpdaterStatus(env) {
+  const articles = await getStoredArticleState(env);
+  const check = await readKey(env, CHECK_STATE_KEY);
+
+  return {
+    articleCount: Array.isArray(articles?.posts) ? articles.posts.length : 0,
+    newestTitle: articles?.posts?.[0]?.title || null,
+    newestUrl: articles?.posts?.[0]?.url || null,
+    articlesUpdatedAt: articles?.updatedAt || null,
+    lastCheckedAt: check?.lastCheckedAt || null,
+    lastSuccessfulAt: check?.lastSuccessfulAt || null,
+    lastCheckResult: check?.result || null,
+    lastCheckSource: check?.source || null,
+    sourceFailures: check?.failures || [],
+    lastError: check?.error || null,
+  };
+}
 
 async function fetchTextFresh(baseUrl, accept = "text/html,application/xhtml+xml") {
   const url = new URL(baseUrl);
@@ -265,7 +395,7 @@ async function fetchTextFresh(baseUrl, accept = "text/html,application/xhtml+xml
   const response = await fetch(url.toString(), {
     headers: {
       "User-Agent":
-        "Mozilla/5.0 (compatible; NatalieGWintersSite/4.0; +https://nataliegwinters.com/)",
+        "Mozilla/5.0 (compatible; NatalieGWintersSite/6.0; +https://nataliegwinters.com/)",
       "Accept": accept,
       "Cache-Control": "no-cache, no-store, max-age=0",
       "Pragma": "no-cache",
@@ -288,7 +418,7 @@ async function fetchJinaText(pathname) {
     headers: {
       "Accept": "text/plain",
       "X-No-Cache": "true",
-      "User-Agent": "NatalieGWintersSite/5.0 (+https://nataliegwinters.com/)",
+      "User-Agent": "NatalieGWintersSite/6.0 (+https://nataliegwinters.com/)",
     },
     cf: { cacheTtl: 0, cacheEverything: false },
   });
@@ -317,16 +447,37 @@ function extractJinaSitemapEntries(markdown) {
   return entries;
 }
 
+function extractJinaCoverImage(content = "") {
+  const candidates = [];
+  const text = String(content);
+
+  const markdownImages = /!\[[^\]]*\]\((https:\/\/(?:substackcdn\.com|substack-post-media\.s3\.amazonaws\.com)\/[^\s)]+)(?:\s+["'][^"']*["'])?\)/gi;
+  let match;
+  while ((match = markdownImages.exec(text)) !== null) {
+    candidates.push(match[1]);
+  }
+
+  const htmlImages = text.match(/<img\b[^>]*>/gi) || [];
+  for (const tag of htmlImages) {
+    candidates.push(getTagAttribute(tag, "src"));
+  }
+
+  const rawUrls = text.match(/https:\/\/(?:substackcdn\.com\/image\/fetch\/|substack-post-media\.s3\.amazonaws\.com\/)[^\s)\]>"']+/gi) || [];
+  candidates.push(...rawUrls);
+
+  return chooseArticleImage(candidates);
+}
+
 function extractJinaPost(markdown, entry) {
   const text = String(markdown);
   const title = text.match(/^Title:\s*(.+)$/mi)?.[1]?.trim() || entry.title;
   const date = text.match(/^Published Time:\s*(.+)$/mi)?.[1]?.trim() || "";
-  const image = text.match(/https:\/\/substackcdn\.com\/image\/fetch\/[^)\s]+/i)?.[0] || "";
   const content = text.split(/^Markdown Content:\s*$/mi)[1] || "";
+  const image = extractJinaCoverImage(content);
   const firstParagraph = content
     .split(/\n\s*\n/)
     .map((part) => part.trim())
-    .find((part) => part && !part.startsWith("[") && !part.startsWith("#")) || "";
+    .find((part) => part && !part.startsWith("[") && !part.startsWith("#") && !part.startsWith("!")) || "";
   const subtitle = stripTags(firstParagraph.replace(/^_+|_+$/g, "").replace(/\*\*/g, "")).slice(0, 500);
 
   return normalisePost({
@@ -363,14 +514,11 @@ async function fetchJinaSitemapPosts() {
   return { posts, source: "substack-reader-fallback" };
 }
 
-
-
-
-function extractFirstImage(html = "") {
-  const match = String(html).match(/<img\b[^>]*\bsrc\s*=\s*(["'])(.*?)\1/i);
-  return match ? decodeHtmlEntities(match[2]) : "";
+function extractFirstArticleImage(html = "") {
+  const tags = String(html).match(/<img\b[^>]*>/gi) || [];
+  const candidates = tags.map((tag) => getTagAttribute(tag, "src"));
+  return chooseArticleImage(candidates);
 }
-
 
 function extractXmlTag(block, tagName) {
   const escaped = tagName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -385,7 +533,6 @@ function extractXmlTag(block, tagName) {
   );
 }
 
-
 function extractRssPosts(xml) {
   const items = String(xml).match(/<item\b[\s\S]*?<\/item>/gi) || [];
   const posts = [];
@@ -396,13 +543,20 @@ function extractRssPosts(xml) {
 
     const description = extractXmlTag(item, "description");
     const encoded = extractXmlTag(item, "content:encoded");
-    const mediaMatch = item.match(/<media:content\b[^>]*\burl\s*=\s*(["'])(.*?)\1/i);
+    const mediaTag = item.match(/<media:content\b[^>]*>/i)?.[0] || "";
+    const enclosureTag = item.match(/<enclosure\b[^>]*>/i)?.[0] || "";
+    const image = chooseArticleImage(
+      getTagAttribute(mediaTag, "url"),
+      getTagAttribute(enclosureTag, "url"),
+      extractFirstArticleImage(encoded),
+      extractFirstArticleImage(description)
+    );
 
     posts.push(normalisePost({
       id: stablePostId(link),
       title: stripTags(extractXmlTag(item, "title")) || "Natalie Winters reporting",
       url: link,
-      image: mediaMatch ? decodeHtmlEntities(mediaMatch[2]) : extractFirstImage(encoded || description),
+      image,
       subtitle: stripTags(description).slice(0, 500),
       date: extractXmlTag(item, "pubDate"),
     }));
@@ -410,7 +564,6 @@ function extractRssPosts(xml) {
 
   return posts;
 }
-
 
 async function fetchArchiveApiPosts() {
   const text = await fetchTextFresh(
@@ -430,7 +583,6 @@ async function fetchArchiveApiPosts() {
   return { posts, source: "substack-archive-api" };
 }
 
-
 async function fetchRssPosts() {
   const xml = await fetchTextFresh(
     SUBSTACK_FEED,
@@ -442,29 +594,6 @@ async function fetchRssPosts() {
 
   return { posts, source: "substack-rss" };
 }
-
-
-function canonicalPostUrl(rawUrl) {
-  try {
-    const parsed = new URL(rawUrl, SUBSTACK_HOME);
-
-    if (parsed.hostname !== "nataliegwinters.substack.com") return "";
-    if (!parsed.pathname.startsWith("/p/")) return "";
-
-    const pieces = parsed.pathname.split("/").filter(Boolean);
-    if (pieces.length < 2) return "";
-
-    /* Strip /comments and any other suffix after the slug. */
-    parsed.pathname = `/p/${pieces[1]}`;
-    parsed.search = "";
-    parsed.hash = "";
-
-    return parsed.toString();
-  } catch {
-    return "";
-  }
-}
-
 
 function extractPostEntries(html) {
   const ordered = [];
@@ -493,7 +622,6 @@ function extractPostEntries(html) {
   return ordered;
 }
 
-
 async function fetchHomepageEntries() {
   const homeHtml = await fetchTextFresh(SUBSTACK_HOME);
   let entries = extractPostEntries(homeHtml);
@@ -518,11 +646,14 @@ async function fetchHomepageEntries() {
   return entries.slice(0, DISCOVERY_COUNT);
 }
 
-
 async function fetchPostMetadata(entry) {
   try {
     const html = await fetchTextFresh(entry.url);
     const canonical = getCanonical(html, entry.url);
+    const image = chooseArticleImage(
+      getMeta(html, "og:image"),
+      getMeta(html, "twitter:image")
+    );
 
     return normalisePost({
       id: stablePostId(canonical),
@@ -532,10 +663,7 @@ async function fetchPostMetadata(entry) {
         entry.title ||
         "Natalie Winters reporting",
       url: canonical,
-      image:
-        getMeta(html, "og:image") ||
-        getMeta(html, "twitter:image") ||
-        "",
+      image,
       subtitle:
         getMeta(html, "og:description") ||
         getMeta(html, "description") ||
@@ -545,62 +673,166 @@ async function fetchPostMetadata(entry) {
   } catch (error) {
     console.error(`Could not hydrate Substack post ${entry.url}:`, error);
 
-    /*
-      Keep the URL even if one article detail page momentarily fails.
-      The next scheduled check will repair its metadata.
-    */
-    return normalisePost({
-      id: stablePostId(entry.url),
-      title: entry.title || "Natalie Winters reporting",
-      url: entry.url,
-      image: "",
-      subtitle: "",
-      date: "",
-    });
+    try {
+      return extractJinaPost(
+        await fetchJinaText(new URL(entry.url).pathname),
+        entry
+      );
+    } catch (readerError) {
+      console.warn(`Reader fallback could not hydrate ${entry.url}:`, readerError);
+      return normalisePost({
+        id: stablePostId(entry.url),
+        title: entry.title || "Natalie Winters reporting",
+        url: entry.url,
+      });
+    }
   }
 }
-
 
 async function fetchHomepagePosts() {
   const entries = await fetchHomepageEntries();
   const posts = [];
 
-  /* Sequential fetching is intentional: it is gentle on Substack. */
   for (const entry of entries.slice(0, FRESH_POST_COUNT)) {
     posts.push(await fetchPostMetadata(entry));
   }
 
-  posts.sort((a, b) => {
-    const aTime = Date.parse(a.date || "") || 0;
-    const bTime = Date.parse(b.date || "") || 0;
-    return bTime - aTime;
-  });
-
   return { posts, source: "substack-homepage" };
 }
 
+async function fetchHomepageGapPosts(existingUrls) {
+  const entries = await fetchHomepageEntries();
+  const missing = entries
+    .slice(0, FRESH_POST_COUNT)
+    .filter((entry) => !existingUrls.has(entry.url));
+
+  if (!missing.length) {
+    return { posts: [], source: "substack-homepage-gap-fill", authoritativeOrder: true };
+  }
+
+  const posts = [];
+  for (const entry of missing) {
+    posts.push(await fetchPostMetadata(entry));
+  }
+
+  return {
+    posts,
+    source: "substack-homepage-gap-fill",
+    authoritativeOrder: true,
+  };
+}
+
+function mergeSourceResults(results) {
+  const records = new Map();
+  let sequence = 0;
+
+  results.forEach((result, sourceIndex) => {
+    (result.posts || []).forEach((post, postIndex) => {
+      const normalised = normalisePost(post);
+      if (!normalised.url) return;
+
+      const existing = records.get(normalised.url);
+      const authoritativeRank = result.authoritativeOrder ? postIndex : Number.POSITIVE_INFINITY;
+
+      if (!existing) {
+        records.set(normalised.url, {
+          post: normalised,
+          bestRank: postIndex,
+          authoritativeRank,
+          firstSeen: sequence++,
+          sourceIndex,
+        });
+        return;
+      }
+
+      existing.post = mergePostMetadata(existing.post, normalised);
+      existing.bestRank = Math.min(existing.bestRank, postIndex);
+      existing.authoritativeRank = Math.min(existing.authoritativeRank, authoritativeRank);
+    });
+  });
+
+  return [...records.values()]
+    .sort((a, b) => {
+      const aAuthoritative = Number.isFinite(a.authoritativeRank);
+      const bAuthoritative = Number.isFinite(b.authoritativeRank);
+
+      if (aAuthoritative !== bAuthoritative) return aAuthoritative ? -1 : 1;
+      if (aAuthoritative && bAuthoritative && a.authoritativeRank !== b.authoritativeRank) {
+        return a.authoritativeRank - b.authoritativeRank;
+      }
+
+      const aTime = Date.parse(a.post.date || "");
+      const bTime = Date.parse(b.post.date || "");
+      const aValid = Number.isFinite(aTime);
+      const bValid = Number.isFinite(bTime);
+
+      if (aValid && bValid && aTime !== bTime) return bTime - aTime;
+      if (aValid !== bValid) return aValid ? -1 : 1;
+      if (a.bestRank !== b.bestRank) return a.bestRank - b.bestRank;
+      if (a.sourceIndex !== b.sourceIndex) return a.sourceIndex - b.sourceIndex;
+      return a.firstSeen - b.firstSeen;
+    })
+    .map((record) => record.post)
+    .slice(0, DISCOVERY_COUNT);
+}
 
 async function fetchLatestPostsFromSubstack() {
+  const results = [];
   const failures = [];
+  const primarySources = [fetchArchiveApiPosts, fetchRssPosts, fetchJinaSitemapPosts];
 
-  for (const source of [fetchArchiveApiPosts, fetchRssPosts, fetchJinaSitemapPosts, fetchHomepagePosts]) {
+  for (const source of primarySources) {
     try {
       const result = await source();
-      const posts = result.posts
-        .map(normalisePost)
-        .filter((post) => post.title && post.url)
-        .sort((a, b) => (Date.parse(b.date || "") || 0) - (Date.parse(a.date || "") || 0));
-
-      if (posts.length) return { ...result, posts: posts.slice(0, DISCOVERY_COUNT) };
+      if (result.posts?.length) results.push(result);
     } catch (error) {
-      failures.push(`${source.name}: ${String(error?.message || error)}`);
+      const message = `${source.name}: ${String(error?.message || error)}`;
+      failures.push(message);
       console.warn(`Substack source failed (${source.name}):`, error);
     }
   }
 
-  throw new Error(`All Substack discovery sources failed: ${failures.join(" | ")}`);
-}
+  const existingUrls = new Set(
+    results.flatMap((result) => result.posts || []).map((post) => normalisePost(post).url).filter(Boolean)
+  );
 
+  try {
+    const gapResult = await fetchHomepageGapPosts(existingUrls);
+    if (gapResult.posts.length) results.push(gapResult);
+  } catch (error) {
+    const message = `fetchHomepageGapPosts: ${String(error?.message || error)}`;
+    failures.push(message);
+    console.warn("Substack homepage gap check failed:", error);
+  }
+
+  if (!results.length) {
+    try {
+      results.push(await fetchHomepagePosts());
+    } catch (error) {
+      const message = `fetchHomepagePosts: ${String(error?.message || error)}`;
+      failures.push(message);
+      console.warn("Substack homepage fallback failed:", error);
+    }
+  }
+
+  if (!results.length) {
+    throw new Error(`All Substack discovery sources failed: ${failures.join(" | ")}`);
+  }
+
+  const posts = mergeSourceResults(results)
+    .map(normalisePost)
+    .filter((post) => post.title && post.url);
+
+  if (!posts.length) {
+    throw new Error(`Substack sources returned no usable posts: ${failures.join(" | ")}`);
+  }
+
+  return {
+    posts: posts.slice(0, DISCOVERY_COUNT),
+    source: results.map((result) => result.source).join("+"),
+    failures,
+  };
+}
 
 async function migrateLegacyCache(env) {
   const legacy = await readKey(env, LEGACY_CACHE_KEY);
@@ -609,11 +841,7 @@ async function migrateLegacyCache(env) {
     return null;
   }
 
-  const posts = legacy.posts
-    .slice(0, MAX_STORED_POSTS)
-    .map(normalisePost)
-    .filter((post) => post.title && post.url);
-
+  const posts = mergeFreshWithHistory([], legacy.posts);
   if (!posts.length) return null;
 
   const migrated = {
@@ -629,102 +857,86 @@ async function migrateLegacyCache(env) {
   return migrated;
 }
 
+function mergeFreshWithHistory(freshPosts, storedPosts = []) {
+  const records = new Map();
+  let sequence = 0;
 
-function mergeManualWithHistory(manualPosts, storedPosts = []) {
-  const storedByUrl = new Map(
-    storedPosts.map((post) => [normalisePost(post).url, normalisePost(post)])
-  );
+  const add = (post, freshRank = Number.POSITIVE_INFINITY) => {
+    const normalised = normalisePost(post);
+    const key = normalised.url || normalised.id;
+    if (!key || !normalised.url) return;
 
-  const enrichedManual = manualPosts.map((post) => {
-    const manual = normalisePost(post);
-    const stored = storedByUrl.get(manual.url);
-
-    /*
-      If automated discovery eventually recovers a real Substack cover image,
-      keep it instead of replacing it with the local emergency fallback.
-    */
-    if (stored?.image && /^https?:\/\//i.test(stored.image)) {
-      return { ...manual, image: stored.image, imageVersion: stored.imageVersion || imageVersion(stored.image) };
+    const existing = records.get(key);
+    if (!existing) {
+      records.set(key, {
+        post: normalised,
+        freshRank,
+        firstSeen: sequence++,
+      });
+      return;
     }
 
-    return manual;
-  });
+    if (Number.isFinite(freshRank)) {
+      existing.post = mergePostMetadata(normalised, existing.post);
+      existing.freshRank = Math.min(existing.freshRank, freshRank);
+    } else {
+      existing.post = mergePostMetadata(existing.post, normalised);
+    }
+  };
 
-  return mergeFreshWithHistory(enrichedManual, storedPosts).sort((a, b) => {
-    return (Date.parse(b.date || "") || 0) - (Date.parse(a.date || "") || 0);
-  });
+  freshPosts.forEach((post, index) => add(post, index));
+  storedPosts.forEach((post) => add(post));
+
+  return [...records.values()]
+    .sort((a, b) => {
+      const aTime = Date.parse(a.post.date || "");
+      const bTime = Date.parse(b.post.date || "");
+      const aValid = Number.isFinite(aTime);
+      const bValid = Number.isFinite(bTime);
+
+      if (aValid && bValid && aTime !== bTime) return bTime - aTime;
+      if (aValid !== bValid) {
+        if (Number.isFinite(a.freshRank) !== Number.isFinite(b.freshRank)) {
+          return Number.isFinite(a.freshRank) ? -1 : 1;
+        }
+        return aValid ? -1 : 1;
+      }
+      if (a.freshRank !== b.freshRank) return a.freshRank - b.freshRank;
+      return a.firstSeen - b.firstSeen;
+    })
+    .map((record) => record.post)
+    .slice(0, MAX_STORED_POSTS);
 }
-
 
 export async function getStoredArticleState(env) {
   const current = await readKey(env, ARTICLE_CACHE_KEY);
 
   if (current && Array.isArray(current.posts) && current.posts.length) {
-    const repairedPosts = current.posts.map(normalisePost);
-    const seededPosts = mergeManualWithHistory(MANUAL_POSTS, repairedPosts);
-
-    const needsRepair =
-      seededPosts.length !== current.posts.length ||
-      seededPosts.some(
-        (post, index) =>
-          post.id !== current.posts[index]?.id ||
-          post.url !== current.posts[index]?.url ||
-          post.image !== current.posts[index]?.image ||
-          post.imageVersion !== current.posts[index]?.imageVersion
-      );
+    const repairedPosts = mergeFreshWithHistory([], current.posts);
+    const needsRepair = !postListsEqual(current.posts.map(normalisePost), repairedPosts);
 
     if (needsRepair) {
       const repaired = {
         ...current,
-        posts: seededPosts,
+        posts: repairedPosts,
         updatedAt: Date.now(),
-        newestId: seededPosts[0]?.id || current.newestId || "",
-        newestUrl: seededPosts[0]?.url || current.newestUrl || "",
-        manualSeedAppliedAt: Date.now(),
+        newestId: repairedPosts[0]?.id || current.newestId || "",
+        newestUrl: repairedPosts[0]?.url || current.newestUrl || "",
+        repairedAt: Date.now(),
       };
 
       await saveArticleState(env, repaired);
       return repaired;
     }
 
-    return current;
+    return {
+      ...current,
+      posts: current.posts.map(normalisePost),
+    };
   }
 
   return migrateLegacyCache(env);
 }
-
-
-function sameNewestPost(stored, fresh) {
-  const oldPost = stored?.posts?.[0];
-  const newPost = fresh?.[0];
-
-  if (!oldPost || !newPost) return false;
-
-  return Boolean(
-    (oldPost.url && newPost.url && oldPost.url === newPost.url) ||
-    (oldPost.id && newPost.id && String(oldPost.id) === String(newPost.id))
-  );
-}
-
-
-function mergeFreshWithHistory(freshPosts, storedPosts = []) {
-  const result = [];
-  const seen = new Set();
-
-  for (const post of [...freshPosts, ...storedPosts]) {
-    const normalised = normalisePost(post);
-    const key = normalised.url || normalised.id;
-    if (!key || seen.has(key)) continue;
-
-    seen.add(key);
-    result.push(normalised);
-
-    if (result.length >= MAX_STORED_POSTS) break;
-  }
-
-  return result;
-}
-
 
 export async function refreshArticlesIfChanged(env) {
   const startedAt = Date.now();
@@ -732,14 +944,14 @@ export async function refreshArticlesIfChanged(env) {
 
   try {
     const fresh = await fetchLatestPostsFromSubstack();
-    const unchanged = sameNewestPost(stored, fresh.posts);
+    const mergedPosts = mergeFreshWithHistory(
+      fresh.posts,
+      Array.isArray(stored?.posts) ? stored.posts : []
+    );
+    const storedPosts = Array.isArray(stored?.posts) ? stored.posts.map(normalisePost) : [];
+    const changed = !postListsEqual(storedPosts, mergedPosts);
 
-    if (!unchanged) {
-      const mergedPosts = mergeFreshWithHistory(
-        fresh.posts,
-        Array.isArray(stored?.posts) ? stored.posts : []
-      );
-
+    if (changed) {
       await saveArticleState(env, {
         posts: mergedPosts,
         updatedAt: Date.now(),
@@ -750,24 +962,27 @@ export async function refreshArticlesIfChanged(env) {
 
     await saveCheckState(env, {
       lastCheckedAt: Date.now(),
-      result: unchanged ? "no-change" : "updated",
+      lastSuccessfulAt: Date.now(),
+      result: changed ? "updated" : "no-change",
       source: fresh.source,
-      newestUrl: fresh.posts[0]?.url || "",
-      newestTitle: fresh.posts[0]?.title || "",
+      failures: fresh.failures,
+      newestUrl: mergedPosts[0]?.url || "",
+      newestTitle: mergedPosts[0]?.title || "",
       durationMs: Date.now() - startedAt,
     });
 
     console.log(
-      unchanged
-        ? `Substack check: no change via ${fresh.source} (${fresh.posts[0]?.url || "unknown"})`
-        : `Substack updated via ${fresh.source}: ${fresh.posts[0]?.url || "unknown"}`
+      changed
+        ? `Substack updated via ${fresh.source}: ${mergedPosts[0]?.url || "unknown"}`
+        : `Substack check: no change via ${fresh.source} (${mergedPosts[0]?.url || "unknown"})`
     );
 
     return {
-      changed: !unchanged,
-      newestId: fresh.posts[0]?.id || "",
-      newestUrl: fresh.posts[0]?.url || "",
+      changed,
+      newestId: mergedPosts[0]?.id || "",
+      newestUrl: mergedPosts[0]?.url || "",
       source: fresh.source,
+      failures: fresh.failures,
     };
   } catch (error) {
     console.error("Substack refresh failed:", error);
@@ -780,7 +995,6 @@ export async function refreshArticlesIfChanged(env) {
       durationMs: Date.now() - startedAt,
     });
 
-    /* Never wipe the known-good article list on a failed check. */
     return {
       changed: false,
       error: String(error?.message || error),
@@ -788,41 +1002,60 @@ export async function refreshArticlesIfChanged(env) {
   }
 }
 
-
 export async function getLatestPosts(env, ctx = null) {
   let stored = await getStoredArticleState(env);
 
   if (!stored || !Array.isArray(stored.posts) || !stored.posts.length) {
     try {
       const fresh = await fetchLatestPostsFromSubstack();
+      const posts = mergeFreshWithHistory(fresh.posts, []);
 
       stored = {
-        posts: fresh.posts,
+        posts,
         updatedAt: Date.now(),
-        newestId: fresh.posts[0]?.id || "",
-        newestUrl: fresh.posts[0]?.url || "",
+        newestId: posts[0]?.id || "",
+        newestUrl: posts[0]?.url || "",
       };
 
       await saveArticleState(env, stored);
       await saveCheckState(env, {
         lastCheckedAt: Date.now(),
+        lastSuccessfulAt: Date.now(),
         result: "bootstrap",
         source: fresh.source,
-        newestUrl: fresh.posts[0]?.url || "",
-        newestTitle: fresh.posts[0]?.title || "",
+        failures: fresh.failures,
+        newestUrl: posts[0]?.url || "",
+        newestTitle: posts[0]?.title || "",
       });
     } catch (error) {
       console.error("Initial Substack bootstrap failed:", error);
-      return [];
+
+      const posts = mergeFreshWithHistory(EMERGENCY_FALLBACK_POSTS, []);
+      if (!posts.length) return [];
+
+      stored = {
+        posts,
+        updatedAt: Date.now(),
+        newestId: posts[0]?.id || "",
+        newestUrl: posts[0]?.url || "",
+        emergencyFallback: true,
+      };
+
+      await saveArticleState(env, stored);
+      await saveCheckState(env, {
+        lastCheckedAt: Date.now(),
+        result: "fallback-bootstrap",
+        source: "emergency-fallback",
+        error: String(error?.message || error),
+        newestUrl: posts[0]?.url || "",
+        newestTitle: posts[0]?.title || "",
+      });
     }
   }
 
   const checkState = await readKey(env, CHECK_STATE_KEY);
   const lastCheckedAt = Number(checkState?.lastCheckedAt || 0);
-
-  const overdue =
-    !lastCheckedAt ||
-    Date.now() - lastCheckedAt > CHECK_INTERVAL_MS;
+  const overdue = !lastCheckedAt || Date.now() - lastCheckedAt > CHECK_INTERVAL_MS;
 
   if (overdue && ctx?.waitUntil) {
     ctx.waitUntil(refreshArticlesIfChanged(env));
@@ -831,18 +1064,19 @@ export async function getLatestPosts(env, ctx = null) {
   return stored.posts;
 }
 
-
 export function findStoredPostById(state, id) {
   if (!state || !Array.isArray(state.posts)) return null;
 
-  return (
-    state.posts.find((post) => String(post.id) === String(id)) ||
-    null
-  );
+  return state.posts.find((post) => String(post.id) === String(id)) || null;
 }
 
 export const __testing = {
+  chooseArticleImage,
+  extractJinaCoverImage,
   extractJinaPost,
   extractJinaSitemapEntries,
-  mergeManualWithHistory,
+  mergeFreshWithHistory,
+  mergeSourceResults,
+  normalisePost,
+  postListsEqual,
 };

@@ -44,7 +44,7 @@ export function renderAboutPage(posts) {
 
         <section class="section-block">
           <div class="section-title-row"><h2>Explore Natalie Winters in depth</h2><p>Biography is the map. The rest is where America's paper trail starts misbehaving.</p></div>
-          <div class="editorial-grid">
+          <div class="editorial-grid four-up-grid">
             <a class="editorial-card" href="/war-room"><span class="card-index">WAR ROOM</span><h3>Co-host & executive editor</h3><p>The programme most closely associated with Natalie Winters' broadcasting and political media work.</p><span class="card-link">EXPLORE WAR ROOM →</span></a>
             <a class="editorial-card" href="/china"><span class="card-index">REPORTING</span><h3>China & CCP investigations</h3><p>The long-running reporting beat covering influence networks, institutions, Taiwan and national security.</p><span class="card-link">EXPLORE CHINA FILES →</span></a>
             <a class="editorial-card" href="/videos"><span class="card-index">50+ VIDEOS</span><h3>Natalie Winters video archive</h3><p>Dozens of dedicated Rumble and media pages connecting her name to actual subjects, interviews and reporting.</p><span class="card-link">BROWSE VIDEOS →</span></a>

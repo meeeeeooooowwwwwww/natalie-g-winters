@@ -65,6 +65,11 @@
   color:#8a8a8a;
 }
 
+/* Four-card sections should fill the row instead of leaving two empty slots. */
+.editorial-grid.four-up-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
 /* VIDEO DETAIL PAGES */
 .video-detail-feature{
   grid-template-columns:minmax(0,1.62fr) minmax(300px,.58fr);
@@ -219,6 +224,7 @@
 
   .hero-copy-inner{max-width:none}
   .hero-quick-card{min-height:108px;padding:14px}
+  .editorial-grid.four-up-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 
   .video-detail-feature{
     grid-template-columns:minmax(0,1.5fr) minmax(280px,.6fr);
@@ -268,6 +274,7 @@
 @media (max-width:760px){
   .hero-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hero-quick-card{min-height:104px}
+  .editorial-grid.four-up-grid{grid-template-columns:1fr}
 
   .video-detail-feature .video-copy{
     grid-template-columns:1fr;

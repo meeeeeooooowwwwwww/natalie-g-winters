@@ -1,51 +1,91 @@
 # nataliegwinters.com
 
-Cloudflare Worker site for nataliegwinters.com.
+Cloudflare Worker site for **nataliegwinters.com**.
 
-## Current structure
+## Public routes
 
-- `/` - featured Rumble video
-- `/about` - concise overview
+- `/` - profile overview and featured video
+- `/about` - biography
 - `/career` - career timeline and roles
 - `/reporting` - investigative reporting focus
-- `/white-house` - White House / broadcast role
+- `/white-house` - White House reporting role
+- `/war-room` - War Room role and archive context
+- `/videos` - 50+ video archive
+- `/videos/:slug` - dedicated video/context pages
+- `/interviews` - interviews and external appearances
+- `/articles` - rolling Substack archive
+- `/china` - China / CCP reporting hub
 - `/verdict` - deliberately excessive fan assessment
-- `/api/status` - non-indexed operational article-cache status JSON
+- `/sitemap.xml` - Worker-generated sitemap including video pages
+- `/api/status` - non-indexed operational status for the article updater
 
-All public pages share:
+All normal public pages share the global header, latest Substack reporting and footer. The `/articles` archive suppresses the duplicate five-card latest-reporting strip because those posts are already displayed there.
 
-- global header
-- latest five Substack articles
-- global footer
+## Substack article updater
 
-## Article updater
+The Worker stores up to 25 recent Natalie Winters Substack posts in `NATALIE_KV`.
 
-A Cloudflare Cron Trigger runs every two hours:
+A Cloudflare Cron Trigger runs hourly at minute 17:
 
-`0 */2 * * *`
+```text
+17 * * * *
+```
 
-The updater tries Substack's archive API and RSS feed first. If Substack rate-limits Cloudflare, it discovers the current post order through a reader-backed copy of Substack's yearly sitemap, then hydrates the newest five post pages for their titles, dates, summaries and real cover images. The homepage parser remains a final fallback. If the newest URL has not changed, the existing KV article list is preserved.
+A normal page request also starts a background refresh when the last check is more than one hour old.
 
-When a new URL is detected, the Worker merges the newest five posts into the rolling archive and updates KV. Emergency seeds are date-sorted with fetched content, so they cannot pin an older post above a new one.
+The updater cross-checks several sources instead of trusting the first endpoint that answers:
 
-The last good article list is never intentionally cleared if Substack fails.
+1. Substack archive API
+2. Substack RSS
+3. Reader-backed yearly sitemap/post pages
+4. The live Substack homepage as a freshness gap check and final fallback
 
-## Deployment
+Results are merged by canonical post URL. Good stored metadata is retained when a fresh source is incomplete, while corrected titles, dates, subtitles and cover images can still repair the cache even when the newest article URL has not changed.
+
+Article images are restricted to Substack media hosts. Profile/avatar/logo-sized images are rejected so an author photo cannot silently become an unrelated article cover. If no trustworthy cover is available, the site shows its normal article placeholder rather than inventing one.
+
+An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
+
+## Static assets and Worker routing
+
+Cloudflare static assets normally run before Worker code. `wrangler.jsonc` therefore explicitly routes `/sitemap.xml`, `/api/*` and `/media/*` through the Worker first. There is no static `public/sitemap.xml`; the Worker is the single source of truth for the sitemap.
+
+## Local development
 
 From WSL:
 
 ```bash
-cd /mnt/c/nataliegwinters.com/site
+cd /mnt/c/nataliegwinters.com/ngw
+git pull --ff-only origin main
 npm install
+npm run check
+npm test
+npx wrangler dev
+```
+
+Wrangler normally serves the preview at `http://localhost:8787`.
+
+## Deployment
+
+After checking the local preview:
+
+```bash
+cd /mnt/c/nataliegwinters.com/ngw
+git pull --ff-only origin main
+npm install
+npm run check
+npm test
 npx wrangler deploy
 ```
 
-Cron changes can take up to approximately 15 minutes to propagate through Cloudflare.
+Cron configuration changes can take several minutes to propagate through Cloudflare.
 
-## Status check
+## Updater status
 
 After deployment, visit:
 
-`https://nataliegwinters.com/api/status`
+```text
+https://nataliegwinters.com/api/status
+```
 
-This shows the last article URL, last successful update/check timestamps and last check result.
+The JSON shows the newest cached article, article-cache update time, latest check, last successful check, source combination, partial source failures and any final error.

@@ -40,6 +40,14 @@ const PRIMARY_PATHS = [
   "/china",
 ];
 
+function safeDecode(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return null;
+  }
+}
+
 function render404(posts) {
   return renderLayout({
     title: "Page Not Found | Natalie Winters",
@@ -92,11 +100,37 @@ function isAllowedSubstackImage(url) {
   }
 }
 
+function unwrapSubstackCdnSource(source) {
+  try {
+    const parsed = new URL(source);
+    if (parsed.hostname !== "substackcdn.com") return source;
+
+    const match = parsed.pathname.match(/\/(https?%3A%2F%2F.+)$/i);
+    if (!match?.[1]) return source;
+
+    const decoded = decodeURIComponent(match[1]);
+    return isAllowedSubstackImage(decoded) ? decoded : source;
+  } catch {
+    return source;
+  }
+}
+
 function substackOptimisedImageUrl(source) {
+  const original = unwrapSubstackCdnSource(source);
+
+  if (original === source) {
+    try {
+      const parsed = new URL(source);
+      if (parsed.hostname === "substackcdn.com") return source;
+    } catch {
+      // Fall through to the normal optimiser URL.
+    }
+  }
+
   return (
     "https://substackcdn.com/image/fetch/" +
     "w_700,c_limit,f_auto,q_auto:good,fl_progressive:steep/" +
-    encodeURIComponent(source)
+    encodeURIComponent(original)
   );
 }
 
@@ -131,7 +165,7 @@ async function serveSubstackImage(request, env, ctx, id, version) {
   const upstream = await fetch(substackOptimisedImageUrl(post.image), {
     headers: {
       Accept: request.headers.get("Accept") || "image/avif,image/webp,image/*,*/*",
-      "User-Agent": "Mozilla/5.0 (compatible; NatalieWintersSite/4.0; +https://nataliegwinters.com/)",
+      "User-Agent": "Mozilla/5.0 (compatible; NatalieWintersSite/6.0; +https://nataliegwinters.com/)",
     },
     cf: { cacheEverything: true, cacheTtl: IMAGE_CACHE_SECONDS },
   });
@@ -264,7 +298,9 @@ function routePage(pathname, posts) {
   const clean = pathname.replace(/\/$/, "") || "/";
 
   if (clean.startsWith("/videos/")) {
-    const slug = decodeURIComponent(clean.slice("/videos/".length));
+    const rawSlug = clean.slice("/videos/".length);
+    const slug = safeDecode(rawSlug);
+    if (slug === null) return null;
     const video = getVideoBySlug(slug);
     return video ? renderVideoDetailPage(video, posts) : null;
   }
@@ -288,7 +324,9 @@ function routePage(pathname, posts) {
 function isCanonicalContentPath(pathname) {
   if (PRIMARY_PATHS.includes(pathname)) return true;
   if (!pathname.startsWith("/videos/")) return false;
-  return Boolean(getVideoBySlug(decodeURIComponent(pathname.slice("/videos/".length))));
+
+  const slug = safeDecode(pathname.slice("/videos/".length));
+  return slug !== null && Boolean(getVideoBySlug(slug));
 }
 
 export default {
@@ -337,18 +375,21 @@ export default {
 
     const imageMatch = url.pathname.match(/^\/media\/substack\/([^/]+)\/([^/]+)$/);
     if (imageMatch) {
-      return serveSubstackImage(
-        request,
-        env,
-        ctx,
-        decodeURIComponent(imageMatch[1]),
-        decodeURIComponent(imageMatch[2])
-      );
+      const id = safeDecode(imageMatch[1]);
+      const version = safeDecode(imageMatch[2]);
+      if (id === null || version === null) {
+        return new Response("Invalid image path", { status: 400 });
+      }
+      return serveSubstackImage(request, env, ctx, id, version);
     }
 
     const rumbleMatch = url.pathname.match(/^\/media\/rumble\/([^/]+)$/);
     if (rumbleMatch) {
-      const video = getVideoBySlug(decodeURIComponent(rumbleMatch[1]));
+      const slug = safeDecode(rumbleMatch[1]);
+      if (slug === null) {
+        return new Response("Invalid video path", { status: 400 });
+      }
+      const video = getVideoBySlug(slug);
       return serveRumbleEmbed(request, video, ctx);
     }
 
@@ -358,6 +399,8 @@ export default {
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
           "Cache-Control": "no-store",
+          "X-Robots-Tag": "noindex, nofollow",
+          "X-Content-Type-Options": "nosniff",
         },
       });
     }
