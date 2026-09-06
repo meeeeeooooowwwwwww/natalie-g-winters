@@ -1,5 +1,6 @@
 export const SITE = {
-  name: "Natalie G. Winters",
+  name: "Natalie Winters",
+  fullName: "Natalie G. Winters",
   domain: "https://nataliegwinters.com",
   substackHome: "https://nataliegwinters.substack.com/",
   rumbleEmbed: "https://rumble.com/embed/v7cvxv6/?pub=4kxtac",
