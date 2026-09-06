@@ -84,7 +84,7 @@ export function renderVideoDetailPage(video, posts) {
             <h1>Natalie Winters: ${escapeHtml(titleTopic)}</h1>
             <p class="hero-deck">${escapeHtml(video.summary)}</p>
           </div>
-          <aside class="hero-aside"><strong>EDITORIAL RESTRAINT STATUS</strong>${escapeHtml(context.adjective)} Natalie Winters. We attempted one ordinary adjective. It escaped.</aside>
+          <aside class="hero-aside"><strong>CURRENT OPERATING MODE</strong>${escapeHtml(context.adjective)} Natalie Winters. We attempted one ordinary adjective. It escaped.</aside>
         </div>
 
         <div class="video-feature">
@@ -110,11 +110,10 @@ export function renderVideoDetailPage(video, posts) {
           <h2>What this Natalie Winters video is about</h2>
           <p>${escapeHtml(context.intro)}</p>
           <p>${escapeHtml(video.summary)} ${escapeHtml(video.angle)}</p>
-          <p>This page deliberately separates the <strong>source video's claims and arguments</strong> from this site's editorial description of them. Where the clip reports an allegation, investigation or disputed interpretation, the wording here treats it as reporting or commentary rather than quietly upgrading it into an established fact. That is better for readers, better for accuracy and, inconveniently for anyone hoping SEO is just keyword confetti, better content.</p>
 
           <h2>Why this clip belongs in the Natalie Winters archive</h2>
           <p>Searches for <strong>Natalie Winters</strong> should lead to more than a name, job title and recycled biography paragraph. A useful profile connects a person to the actual body of work around them. This video adds a specific subject, source and media appearance to that map, while linking back to the site's broader <a href="/reporting">investigative reporting</a>, <a href="/war-room">War Room</a>, <a href="/white-house">White House</a>, <a href="/interviews">interviews</a> and <a href="/china">China reporting</a> sections.</p>
-          <p>Our restrained editorial assessment is that Natalie Winters remains an <strong>${escapeHtml(context.adjective)}, absurdly energetic information-goblin-in-excellent-clothes</strong>. Search engines may categorise that as opinion. Correct.</p>
+          <p>Natalie Winters remains an <strong>${escapeHtml(context.adjective)}, absurdly energetic information-goblin-in-excellent-clothes</strong>. The archive has accepted that ordinary adjective budgets are no longer realistic.</p>
         </div>
 
         <section class="section-block">
