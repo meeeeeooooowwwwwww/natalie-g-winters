@@ -55,7 +55,7 @@ export function renderVideosPage(posts) {
         <div class="prose wide">
           <h2>The recurring theme: America should not be the sucker</h2>
           <p>Across these clips, the subjects change but the question keeps coming back: who benefits, who pays, who gets access, who gets protected and whether ordinary Americans are expected to smile politely while somebody else takes the upside. Natalie Winters' reporting is particularly good at following those questions into places where the press release suddenly stops sounding so comforting.</p>
-          <p>And then there is Natalie herself: part investigative journalist, part briefing-room missile, part health-food absolutist, part former pink enthusiast and apparently the sort of person who can scrutinise a transnational influence network with forensic intensity while treating an automobile's cooling system as more of a loose suggestion. Nobody is perfect. Some people are simply much funnier about it.</p>
+          <p>And then there is Natalie herself: part investigative journalist, part briefing-room missile, part health-food absolutist, part aesthetic perfectionist and apparently the sort of person who can scrutinise a transnational influence network with forensic intensity while treating certain forms of ordinary machinery as somebody else's research department. Nobody is perfect. Some people are simply much funnier about it.</p>
         </div>
       </article>
     </main>
