@@ -125,13 +125,37 @@ export function renderFooter() {
           `).join("")}
         </nav>
 
-        <div class="footer-bottom">
-          <div class="footer-links">
-            <a href="${SITE.substackHome}" target="_blank" rel="noopener noreferrer">Natalie Winters on Substack</a>
-            <span class="footer-separator">•</span>
-            <a href="https://x.com/nataliegwinters" target="_blank" rel="noopener noreferrer">Natalie Winters on X</a>
+        <div class="footer-bottom footer-bottom-icons">
+          <div class="footer-social-cluster" aria-label="Natalie Winters social links">
+            <span class="footer-bottom-label">FOLLOW NATALIE</span>
+            <a class="footer-icon-link" href="${SITE.substackHome}" target="_blank" rel="noopener noreferrer" aria-label="Natalie Winters on Substack" title="Natalie Winters on Substack">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 4h16v2H4V4Zm0 4h16v2H4V8Zm0 4h16v2H4v-2Zm1 4h14v2.2L12 22l-7-3.8V16Z"/>
+              </svg>
+            </a>
+            <a class="footer-icon-link" href="https://x.com/nataliegwinters" target="_blank" rel="noopener noreferrer" aria-label="Natalie Winters on X" title="Natalie Winters on X">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/>
+              </svg>
+            </a>
           </div>
-          <a class="footer-credit" href="https://davidaruck.com/" target="_blank" rel="noopener noreferrer">SITE BY: DAVIUS RUCKIUS</a>
+
+          <div class="footer-site-cluster">
+            <span class="footer-bottom-label">BUILT BY</span>
+            <a class="footer-icon-link footer-david" href="https://davidaruck.com/" target="_blank" rel="noopener noreferrer" aria-label="Site by David Ruck" title="davidaruck.com">
+              <img src="https://davidaruck.com/favicon.ico" alt="" width="19" height="19" loading="lazy" decoding="async">
+            </a>
+            <span class="footer-mini-divider" aria-hidden="true"></span>
+            <a class="footer-grid-link" href="https://grideater.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Grid Eater" title="grideater.com">
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <rect x="2.5" y="2.5" width="5" height="5"/>
+                <rect x="12.5" y="2.5" width="5" height="5"/>
+                <rect x="2.5" y="12.5" width="5" height="5"/>
+                <path d="M12.5 12.5h5v5h-2.2v-2.2h-2.8v-2.8Z"/>
+              </svg>
+              <span>GRID EATER</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
@@ -269,6 +293,7 @@ export function renderLayout({
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/theme-magenta.css">
   <link rel="stylesheet" href="/assets/layout-v2.css">
+  <link rel="stylesheet" href="/assets/footer-icons.css">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
