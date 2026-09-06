@@ -45,6 +45,19 @@
   fill:currentColor;
 }
 
+/* Keep Substack recognisably Substack instead of monochrome. */
+.footer-social-cluster .footer-icon-link:first-of-type{
+  color:#ff6719!important;
+  border-color:rgba(255,103,25,.34);
+  background:rgba(255,103,25,.05);
+}
+
+.footer-social-cluster .footer-icon-link:first-of-type:hover{
+  color:#ff7d3a!important;
+  border-color:#ff6719;
+  background:rgba(255,103,25,.10);
+}
+
 .footer-icon-link:hover,
 .footer-grid-link:hover{
   border-color:#555;
@@ -59,12 +72,17 @@
   outline-offset:3px;
 }
 
+/* Use the bundled David Ruck favicon instead of relying on cross-site favicon loading. */
 .footer-david img{
-  width:19px;
-  height:19px;
+  display:none;
+}
+
+.footer-david::before{
+  content:"";
+  width:16px;
+  height:16px;
   display:block;
-  object-fit:contain;
-  border-radius:3px;
+  background:url("/assets/davidaruck-favicon.ico") center/contain no-repeat;
 }
 
 .footer-mini-divider{
