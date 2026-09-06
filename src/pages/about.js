@@ -21,7 +21,7 @@ export function renderAboutPage(posts) {
             <p>In January 2025, Natalie Winters began reporting from the <strong>White House</strong> for <em>War Room</em>, adding briefing-room and on-location reporting to her regular broadcasting and political commentary.</p>
             <p>She also publishes independent investigations through <strong>Substack</strong> and founded the USA-made lifestyle brand <strong>She's So Right!</strong>. Because apparently journalist, broadcaster, correspondent and entrepreneur was not enough tabs to keep open simultaneously.</p>
             <p>In 2024, the <strong>Claremont Institute</strong> selected Natalie Winters as a Lincoln Fellow. Its official biography highlights her China-focused reporting, University of Chicago education, National Pulse career and business work.</p>
-            <p>The result is an unusually broad public profile: <strong>investigative, confrontational, rapid-fire, institution-poking, gloriously over-prepared and suspiciously well-dressed</strong>. Those last several descriptions are editorial opinion. We stand by the adjective budget.</p>
+            <p>The result is an unusually broad public profile: <strong>investigative, confrontational, rapid-fire, institution-poking, gloriously over-prepared and suspiciously well-dressed</strong>. We stand by the adjective budget.</p>
           </div>
           <figure>
             ${externalImage(SITE.images.portrait, "Natalie Winters, also known as Natalie G. Winters", "feature-photo", 1272, 1274)}
