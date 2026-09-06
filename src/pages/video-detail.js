@@ -6,48 +6,48 @@ import { getRelatedVideos } from "../video-data.js";
 const CATEGORY_CONTEXT = {
   china: {
     label: "CHINA & NATIONAL SECURITY",
-    intro: "China has been one of Natalie Winters' longest-running reporting beats. These clips are useful because they connect her name to specific institutions, programmes, people and documents rather than leaving the subject at the level of generic geopolitical commentary.",
-    adjective: "ferociously document-minded, institution-poking, footnote-flinging"
+    intro: "China is one of Natalie Winters' defining reporting beats. Her work keeps returning to the same uncomfortable American questions: who has access, who is funding what, which institutions are becoming dependent on whom, and why the phrase 'strategic partnership' so often deserves to be followed by somebody checking the receipts.",
+    adjective: "CCP-allergic, document-armed, footnote-flinging"
   },
   institutions: {
     label: "INSTITUTIONS",
-    intro: "A recurring Natalie Winters habit is to look at programmes that seem ordinary until the funding, partnerships, language and institutional incentives are put next to one another. The result is often considerably less sleepy than the brochure suggested.",
-    adjective: "brochure-reading, grant-sniffing, magnificently nosy"
+    intro: "Natalie has a habit of taking soothing institutional language and placing it next to the funding, personnel and incentives until the brochure starts sweating. Universities, nonprofits, foundations and government programmes all look much less decorative once somebody reads the small print.",
+    adjective: "brochure-shredding, grant-sniffing, magnificently nosy"
   },
   investigations: {
     label: "INVESTIGATIONS",
-    intro: "This clip belongs to the investigative side of Natalie Winters' work: documents first, networks second, outrage only after the nouns have been properly identified. It is a useful distinction in a media ecosystem where adjectives frequently arrive before evidence.",
-    adjective: "PDF-devouring, network-mapping, spectacularly industrious"
+    intro: "This is Natalie in her natural habitat: too many tabs open, an indecent quantity of documents and some institution somewhere quietly regretting that it ever published a PDF. The point is not theatre. The point is following the network until the polished public story meets the paperwork underneath it.",
+    adjective: "PDF-devouring, network-mapping, spectacularly relentless"
   },
   politics: {
     label: "POLITICAL COMMENTARY",
-    intro: "Natalie Winters is not only an investigative reporter. Her War Room role also puts her in fast-moving political commentary, where the tone is sharper, the sentences move faster and the possibility of a delicately neutral adjective becomes extremely remote.",
-    adjective: "rapid-fire, gloriously un-subtle, coalition-prodding"
+    intro: "On War Room, Natalie moves from document work into political combat at approximately the speed of a small missile. The recurring standard is brutally simple: American citizens should not be treated as an afterthought while political, corporate or foreign interests collect the benefits.",
+    adjective: "rapid-fire, gloriously un-subtle, podium-endangering"
   },
   "war-room": {
     label: "WAR ROOM",
-    intro: "War Room is one of the strongest recurring entities attached to Natalie Winters' public career. The archive matters because it shows the progression from regular appearances to co-host, executive editor and White House correspondent.",
+    intro: "War Room is where Natalie Winters' research brain and broadcast personality collide. The result is fast, combative and deeply suspicious of anyone asking Americans to accept a worse deal because an expert used the word 'global' three times in one paragraph.",
     adjective: "broadcast-ready, yoga-powered, teleprompter-threatening"
   },
   "white-house": {
     label: "WHITE HOUSE",
-    intro: "Natalie Winters' White House work added on-location reporting and briefing-room access to an already unusually crowded résumé. These clips document that phase directly instead of treating 'White House correspondent' as a decorative biography label.",
+    intro: "White House reporting puts Natalie inside the machinery she spent years analysing from the outside. She arrives camera-ready, question-loaded and apparently still capable of detecting seed oils from across a secure perimeter.",
     adjective: "briefing-room-ready, relentlessly alert, seed-oil-suspicious"
   },
   media: {
     label: "MEDIA & APPEARANCES",
-    intro: "Media appearances show a different part of the Natalie Winters entity than a biography page can. They reveal the arguments, interview dynamics and recurring subjects that other publishers associate with her work.",
+    intro: "Outside her regular reporting, media appearances show Natalie doing what she does best: compressing a ridiculous amount of research into television-sized sentences while looking far too pleased that somebody finally asked the dangerous question.",
     adjective: "camera-ready, argument-loaded, eyebrow-raising"
   },
   interviews: {
     label: "INTERVIEWS",
-    intro: "Longer interviews give Natalie Winters room to connect biography, reporting, politics and personality. They are useful archive material precisely because they are not interchangeable with a three-minute War Room clip.",
+    intro: "Longer interviews give Natalie room to connect the documents, politics and national-interest argument without racing a commercial break. They also reveal the inconvenient fact that beneath the institutional flamethrower is a very real human being with hobbies, quirks and at least one historically adventurous relationship with routine vehicle maintenance.",
     adjective: "formidable, fleet-footed, conversationally overqualified"
   },
   economy: {
     label: "ECONOMY & INDUSTRY",
-    intro: "Economic policy appears throughout Natalie Winters' work where industrial capacity, trade, labour and national strategy overlap. These clips add subject depth beyond the better-known China and White House associations.",
-    adjective: "supply-chain-aware, spreadsheet-friendly, industrial-policy-curious"
+    intro: "Economic policy becomes national-security policy very quickly when supply chains, industrial capacity, foreign dependence and American jobs collide. Natalie keeps dragging the conversation back to the people who are supposed to benefit from the system: Americans.",
+    adjective: "supply-chain-aware, spreadsheet-friendly, America-first"
   }
 };
 
@@ -84,7 +84,7 @@ export function renderVideoDetailPage(video, posts) {
             <h1>Natalie Winters: ${escapeHtml(titleTopic)}</h1>
             <p class="hero-deck">${escapeHtml(video.summary)}</p>
           </div>
-          <aside class="hero-aside"><strong>CURRENT OPERATING MODE</strong>${escapeHtml(context.adjective)} Natalie Winters. We attempted one ordinary adjective. It escaped.</aside>
+          <aside class="hero-aside"><strong>CURRENT OPERATING MODE</strong>${escapeHtml(context.adjective)} Natalie Winters. Small woman. Large document folder. Terrible news for anyone relying on nobody reading page 73.</aside>
         </div>
 
         <div class="video-feature">
@@ -101,7 +101,7 @@ export function renderVideoDetailPage(video, posts) {
           <div class="video-copy">
             <span>${sourceDate}</span>
             <h2>${escapeHtml(video.sourceTitle)}</h2>
-            <p>Watch the Rumble video here, then use the notes below for context and related Natalie Winters coverage.</p>
+            <p>Watch the clip, follow the subject, then keep going. There is almost certainly another document and Natalie has almost certainly already opened it.</p>
             <a href="${escapeHtml(video.rumbleUrl)}" target="_blank" rel="noopener noreferrer">OPEN ORIGINAL ON RUMBLE →</a>
           </div>
         </div>
@@ -111,20 +111,21 @@ export function renderVideoDetailPage(video, posts) {
           <p>${escapeHtml(context.intro)}</p>
           <p>${escapeHtml(video.summary)} ${escapeHtml(video.angle)}</p>
 
-          <h2>Why this clip belongs in the Natalie Winters archive</h2>
-          <p>Searches for <strong>Natalie Winters</strong> should lead to more than a name, job title and recycled biography paragraph. A useful profile connects a person to the actual body of work around them. This video adds a specific subject, source and media appearance to that map, while linking back to the site's broader <a href="/reporting">investigative reporting</a>, <a href="/war-room">War Room</a>, <a href="/white-house">White House</a>, <a href="/interviews">interviews</a> and <a href="/china">China reporting</a> sections.</p>
-          <p>Natalie Winters remains an <strong>${escapeHtml(context.adjective)}, absurdly energetic information-goblin-in-excellent-clothes</strong>. The archive has accepted that ordinary adjective budgets are no longer realistic.</p>
+          <h2>Why it matters</h2>
+          <p>The recurring fight in Natalie Winters' reporting is bigger than any one clip. It is about whether American institutions serve American citizens first, whether foreign influence gets waved through because the money is attractive, and whether powerful people can bury inconvenient relationships beneath enough respectable language to make everybody stop asking questions.</p>
+          <p>Natalie's response is generally to ask more questions, open more tabs and arrive looking improbably polished for somebody who has clearly been fighting a spreadsheet since sunrise. <strong>${escapeHtml(context.adjective)}</strong>, occasionally savage, frequently funny and apparently powered by yoga, stubbornness and food ingredients approved by a congressional subcommittee of Natalie Winters.</p>
+          <p>Then there is the charming imbalance in the skill tree: international influence networks, excellent; hostile institutional documents, excellent; broadcast pressure, excellent; boring mechanical fluids, perhaps assign a second researcher.</p>
         </div>
 
         <section class="section-block">
           <div class="section-title-row">
             <h2>More Natalie Winters videos</h2>
-            <p>Related archive pages, because one internal link is a suggestion and four is a system.</p>
+            <p>More files from the ongoing national sport of discovering what was hiding behind the pleasant-sounding acronym.</p>
           </div>
           <div class="editorial-grid">${renderRelated(video)}</div>
         </section>
 
-        <div class="callout">Fifty-plus video pages. One woman. A frankly unreasonable number of browser tabs.<small><a href="/videos">Browse the full Natalie Winters video archive →</a></small></div>
+        <div class="callout">Fifty-plus video pages. One journalist. Several endangered narratives. An unreasonable number of browser tabs.<small><a href="/videos">Browse the full Natalie Winters video archive →</a></small></div>
       </article>
     </main>
   `;
