@@ -7,11 +7,11 @@ export function renderWarRoomPage(posts) {
       <article class="content-inner wide-shell">
         <div class="editorial-hero">
           <div>
-            <div class="eyebrow">WAR ROOM</div>
+            <div class="eyebrow">WAR ROOM · VOLUME KNOB UNNECESSARY</div>
             <h1>Natalie Winters on War Room</h1>
-            <p class="hero-deck">Natalie Winters' public profile is closely tied to Steve Bannon's <em>War Room</em>, where she serves as a co-host and executive editor and has also represented the programme at the White House.</p>
+            <p class="hero-deck">Natalie Winters' public profile is closely tied to Steve Bannon's <em>War Room</em>, where she serves as co-host and executive editor and has represented the programme at the White House. This is where the document hunter becomes a broadcaster and the phrase “let's be reasonable” generally has a very difficult afternoon.</p>
           </div>
-          <aside class="hero-aside"><strong>OFFICIAL SINCE 2022</strong>War Room announced Winters as co-host and executive editor on October 25, 2022. The volume knob has remained in excellent health.</aside>
+          <aside class="hero-aside"><strong>OFFICIAL SINCE 2022</strong>War Room announced Winters as co-host and executive editor on October 25, 2022. America got another microphone. Several institutions got nervous.</aside>
         </div>
 
         <div class="fact-ribbon">
@@ -24,11 +24,12 @@ export function renderWarRoomPage(posts) {
         <div class="prose wide">
           <p>War Room's 2022 announcement said Winters was already well known to its audience from her work at <strong>The National Pulse</strong> and that her reporting would appear through War Room with a focus including China, the Chinese Communist Party and government accountability.</p>
           <p>Over time, the role expanded beyond investigative pieces into regular hosting, opening monologues, interviews, live political analysis and White House coverage. The War Room site now maintains a dedicated <strong>Natalie Winters archive</strong> containing transcripts and clips under her name.</p>
-          <p>For anyone searching simply for <strong>"Natalie Winters"</strong>, this relationship is one of the strongest recurring entities associated with her work. That makes it useful to explain clearly rather than bury inside a generic career paragraph.</p>
+          <p>The fit is obvious. War Room's audience expects conflict, national-interest arguments and very little patience for institutions that seem more protective of their own status than of American citizens. Natalie arrives with the documents, the names, the dates and the cheerful expression of somebody who knows the next screenshot is going to ruin someone's morning.</p>
+          <p>She is also, crucially, still human. The same person capable of dismantling a cross-border influence story on live television can apparently encounter ordinary life with considerably more improvisation. This is good. Nobody wants a flawless political robot. Especially not one with teeth that suspiciously perfect.</p>
         </div>
 
         <section class="section-block">
-          <div class="section-title-row"><h2>Selected War Room video</h2><p>Two archive clips that show the reporting themes present from the start.</p></div>
+          <div class="section-title-row"><h2>Selected War Room video</h2><p>Archive clips from the period when “Natalie has another document” became less an announcement and more a weather system.</p></div>
           <div class="video-grid">
             <article class="video-card">
               <div class="video-frame"><iframe src="https://rumble.com/embed/v1n9zm5/?pub=chmqx" title="Natalie Winters on a congressional Wuhan lab investigation" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe></div>
@@ -42,7 +43,7 @@ export function renderWarRoomPage(posts) {
         </section>
 
         <section class="section-block">
-          <div class="section-title-row"><h2>War Room milestones</h2><p>Enough chronology to orient yourself without requiring a cork board and red string.</p></div>
+          <div class="section-title-row"><h2>War Room milestones</h2><p>A chronology for people who prefer dates to vibes. Natalie would approve of the first half of that sentence.</p></div>
           <div class="editorial-grid">
             <a class="editorial-card" href="https://warroom.org/natalie-winters-joins-war-room-as-co-host-and-executive-editor/" target="_blank" rel="noopener noreferrer"><span class="card-index">2022</span><h3>Co-host & executive editor</h3><p>War Room formally announces Natalie Winters in the expanded role.</p><span class="card-link">READ ANNOUNCEMENT →</span></a>
             <a class="editorial-card" href="/white-house"><span class="card-index">2025</span><h3>White House correspondent</h3><p>Winters begins reporting from the White House while continuing her on-air War Room role.</p><span class="card-link">WHITE HOUSE PAGE →</span></a>
