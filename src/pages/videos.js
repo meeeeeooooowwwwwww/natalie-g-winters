@@ -40,7 +40,7 @@ export function renderVideosPage(posts) {
         </div>
 
         <div class="video-feature">
-          <div class="video-frame"><iframe src="${SITE.rumbleEmbed}" title="Featured Natalie Winters video" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe></div>
+          <div class="video-frame"><iframe src="https://rumble.com/embed/v7czn5i/?pub=4kxtac" title="Featured Natalie Winters video" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe></div>
           <div class="video-copy"><span>FEATURED NATALIE WINTERS VIDEO</span><h2>Start here</h2><p>One clip gets the spotlight. Then things escalate into China, foreign influence, Washington institutions, War Room, White House reporting and Natalie treating another perfectly innocent-looking PDF like it personally insulted the United States.</p><a href="/war-room">EXPLORE NATALIE WINTERS ON WAR ROOM →</a></div>
         </div>
 
