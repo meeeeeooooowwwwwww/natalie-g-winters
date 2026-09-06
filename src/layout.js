@@ -11,8 +11,8 @@ const NAV = [
 ];
 
 const FOOTER_EXPLORE = [
-  ["/war-room", "WAR ROOM", "Co-host, executive editor and the clips that built the association."],
-  ["/videos", "50 VIDEOS", "Rumble, War Room, White House reports and dedicated video pages."],
+  ["/war-room", "WAR ROOM", "Co-host, executive editor and enough clips to frighten a communications department."],
+  ["/videos", "50+ VIDEOS", "Rumble, War Room, White House reports and dedicated video pages."],
   ["/interviews", "INTERVIEWS", "Long-form appearances, debates and conversations beyond War Room."],
   ["/articles", "ARTICLES", "A rolling archive of Natalie Winters' Substack investigations."],
   ["/china", "CHINA FILES", "CCP influence, United Front networks, Taiwan and national-security reporting."],
@@ -112,7 +112,7 @@ export function renderFooter() {
             <span class="footer-kicker">MORE NATALIE WINTERS</span>
             <h2>The magnificently excessive section.</h2>
           </div>
-          <p>For curious humans, ambitious search engines and anyone who thought one page could contain the ferociously productive, document-hoarding, institution-poking Natalie Winters. Adorable.</p>
+          <p>For people who think America should remain owned, governed and defended in the interests of Americans, and for anyone who enjoys watching the ferociously productive, document-hoarding Natalie Winters turn respectable-looking paperwork into somebody else's very bad day. Yoga may be involved. Seed oils will not be.</p>
         </div>
 
         <nav class="footer-explore" aria-label="Explore more Natalie Winters coverage">
