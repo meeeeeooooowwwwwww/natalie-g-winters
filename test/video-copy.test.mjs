@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { VIDEOS } from "../src/video-data.js";
 import { VIDEO_COPY, getVideoCopy } from "../src/video-copy.js";
+import { renderVideoDetailPage } from "../src/pages/video-detail.js";
 
 const videoSlugs = new Set(VIDEOS.map((video) => video.slug));
 const copySlugs = Object.keys(VIDEO_COPY);
@@ -28,7 +29,7 @@ for (const video of VIDEOS) {
   const namedSummary = /^Winters\b/.test(video.summary)
     ? video.summary.replace(/^Winters\b/, "Natalie Winters")
     : `Natalie Winters: ${video.summary}`;
-  const renderedMainCopy = `${namedSummary} ${video.angle} ${copy.why} ${copy.natalie}`;
+  const renderedMainCopy = `${namedSummary} Natalie Winters' angle: ${video.angle} ${copy.why} ${copy.natalie}`;
   const nameMentions = renderedMainCopy.match(/Natalie Winters/g) || [];
   if (nameMentions.length < 3) failures.push(`${video.slug}: only ${nameMentions.length} Natalie Winters mentions in rendered main copy`);
 
@@ -39,6 +40,16 @@ for (const video of VIDEOS) {
     failures.push(`${video.slug}: old skill-tree boilerplate survived`);
   }
 
+  try {
+    const html = renderVideoDetailPage(video, []);
+    if (!html.includes(video.embedUrl)) failures.push(`${video.slug}: rendered page lost direct Rumble embed URL`);
+    if (!html.includes("Why this story matters")) failures.push(`${video.slug}: rendered page missing why-it-matters section`);
+    if (!html.includes("Natalie Winters in this clip")) failures.push(`${video.slug}: rendered page missing Natalie-specific section`);
+    if (html.includes("The recurring fight in Natalie Winters' reporting is bigger than any one clip")) failures.push(`${video.slug}: old boilerplate appears in rendered HTML`);
+  } catch (error) {
+    failures.push(`${video.slug}: rendering failed: ${error.message}`);
+  }
+
   whyBlocks.push(copy.why);
   natalieBlocks.push(copy.natalie);
 }
@@ -47,4 +58,4 @@ if (new Set(whyBlocks).size !== VIDEOS.length) failures.push("why-it-matters par
 if (new Set(natalieBlocks).size !== VIDEOS.length) failures.push("Natalie-specific paragraphs are not all unique");
 
 assert.equal(failures.length, 0, `Video copy SEO checks failed:\n- ${failures.join("\n- ")}`);
-console.log(`video-copy tests passed (${VIDEOS.length} unique video-page copy sets)`);
+console.log(`video-copy tests passed (${VIDEOS.length} unique rendered video-page copy sets)`);
