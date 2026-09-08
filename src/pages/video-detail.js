@@ -2,57 +2,61 @@ import { SITE } from "../config.js";
 import { renderLayout } from "../layout.js";
 import { escapeHtml, formatDate } from "../utils.js";
 import { getRelatedVideos } from "../video-data.js";
+import { getVideoCopy } from "../video-copy.js";
 
 const CATEGORY_CONTEXT = {
   china: {
     label: "CHINA & NATIONAL SECURITY",
-    intro: "China is one of Natalie Winters' defining reporting beats. Her work keeps returning to the same uncomfortable American questions: who has access, who is funding what, which institutions are becoming dependent on whom, and why the phrase 'strategic partnership' so often deserves to be followed by somebody checking the receipts.",
     adjective: "CCP-allergic, document-armed, footnote-flinging"
   },
   institutions: {
     label: "INSTITUTIONS",
-    intro: "Natalie has a habit of taking soothing institutional language and placing it next to the funding, personnel and incentives until the brochure starts sweating. Universities, nonprofits, foundations and government programmes all look much less decorative once somebody reads the small print.",
     adjective: "brochure-shredding, grant-sniffing, magnificently nosy"
   },
   investigations: {
     label: "INVESTIGATIONS",
-    intro: "This is Natalie in her natural habitat: too many tabs open, an indecent quantity of documents and some institution somewhere quietly regretting that it ever published a PDF. The point is following the network until the polished public story meets the paperwork underneath it.",
     adjective: "PDF-devouring, network-mapping, spectacularly relentless"
   },
   politics: {
     label: "POLITICAL COMMENTARY",
-    intro: "On War Room, Natalie moves from document work into political combat at approximately the speed of a small missile. Her commentary repeatedly returns to how policy choices affect American citizens, sovereignty, jobs and national security.",
     adjective: "rapid-fire, gloriously un-subtle, podium-endangering"
   },
   "war-room": {
     label: "WAR ROOM",
-    intro: "War Room is where Natalie Winters' research brain and broadcast personality collide. The result is fast, combative and deeply suspicious of anyone asking Americans to accept a worse deal because an expert used the word 'global' three times in one paragraph.",
     adjective: "broadcast-ready, yoga-powered, teleprompter-threatening"
   },
   "white-house": {
     label: "WHITE HOUSE",
-    intro: "White House reporting puts Natalie inside the machinery she spent years analysing from the outside. She arrives camera-ready, question-loaded and apparently still capable of detecting seed oils from across a secure perimeter.",
     adjective: "briefing-room-ready, relentlessly alert, seed-oil-suspicious"
   },
   media: {
     label: "MEDIA & APPEARANCES",
-    intro: "Outside her regular reporting, media appearances show Natalie doing what she does best: compressing a ridiculous amount of research into television-sized sentences while looking far too pleased that somebody finally asked the dangerous question.",
     adjective: "camera-ready, argument-loaded, eyebrow-raising"
   },
   interviews: {
     label: "INTERVIEWS",
-    intro: "Longer interviews give Natalie room to connect the documents, politics and national-interest argument without racing a commercial break. They also reveal the inconvenient fact that beneath the institutional flamethrower is a very real human being with hobbies, quirks and at least one historically adventurous relationship with routine vehicle maintenance.",
     adjective: "formidable, fleet-footed, conversationally overqualified"
   },
   economy: {
     label: "ECONOMY & INDUSTRY",
-    intro: "Economic policy becomes national-security policy very quickly when supply chains, industrial capacity, foreign dependence and American jobs collide. Natalie keeps dragging the conversation back to the people who are supposed to benefit from the system: Americans.",
     adjective: "supply-chain-aware, spreadsheet-friendly, America-first"
   }
 };
 
 function cleanTitle(title) {
   return title.replace(/^Natalie Winters[:\s-]*/i, "").trim();
+}
+
+function nameNatalie(summary) {
+  if (/^Winters\b/.test(summary)) {
+    return summary.replace(/^Winters\b/, "Natalie Winters");
+  }
+
+  if (/^A\s/.test(summary)) {
+    return `Natalie Winters appears in ${summary.charAt(0).toLowerCase()}${summary.slice(1)}`;
+  }
+
+  return `Natalie Winters: ${summary}`;
 }
 
 function renderRelated(video) {
@@ -68,6 +72,9 @@ function renderRelated(video) {
 
 export function renderVideoDetailPage(video, posts) {
   const context = CATEGORY_CONTEXT[video.category] || CATEGORY_CONTEXT.media;
+  const copy = getVideoCopy(video.slug);
+  if (!copy) throw new Error(`Missing unique video copy for ${video.slug}`);
+
   const canonical = `${SITE.domain}/videos/${video.slug}`;
   const embedUrl = video.embedUrl;
   const titleTopic = cleanTitle(video.title);
@@ -118,13 +125,14 @@ export function renderVideoDetailPage(video, posts) {
         <div class="detail-copy-grid">
           <div class="prose detail-main-copy">
             <h2>What this Natalie Winters video is about</h2>
-            <p>${escapeHtml(context.intro)}</p>
-            <p>${escapeHtml(video.summary)}</p>
+            <p>${escapeHtml(nameNatalie(video.summary))}</p>
+            <p><strong>Natalie Winters' angle:</strong> ${escapeHtml(video.angle)}</p>
 
-            <h2>Why it matters</h2>
-            <p>The recurring fight in Natalie Winters' reporting is bigger than any one clip. It is about power, access, influence and whether important relationships survive scrutiny once somebody actually follows the names, money, institutions and documents.</p>
-            <p>Natalie's response is generally to ask more questions, open more tabs and arrive looking improbably polished for somebody who has clearly been fighting a spreadsheet since sunrise. <strong>${escapeHtml(context.adjective)}</strong>, occasionally savage, frequently funny and apparently powered by yoga, stubbornness and food ingredients approved by a congressional subcommittee of Natalie Winters.</p>
-            <p>Then there is the charming imbalance in the skill tree: international influence networks, excellent; hostile institutional documents, excellent; broadcast pressure, excellent; boring mechanical fluids, perhaps assign a second researcher.</p>
+            <h2>Why this story matters</h2>
+            <p>${escapeHtml(copy.why)}</p>
+
+            <h2>Natalie Winters in this clip</h2>
+            <p>${escapeHtml(copy.natalie)}</p>
           </div>
 
           <aside class="detail-rail" aria-label="More Natalie Winters coverage">
