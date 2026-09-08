@@ -69,7 +69,7 @@ function renderRelated(video) {
 export function renderVideoDetailPage(video, posts) {
   const context = CATEGORY_CONTEXT[video.category] || CATEGORY_CONTEXT.media;
   const canonical = `${SITE.domain}/videos/${video.slug}`;
-  const embedUrl = video.embedUrl || `/media/rumble/${encodeURIComponent(video.slug)}`;
+  const embedUrl = video.embedUrl;
   const titleTopic = cleanTitle(video.title);
   const sourceDate = video.date
     ? `<time datetime="${escapeHtml(video.date)}">${escapeHtml(formatDate(video.date) || video.date)}</time>`

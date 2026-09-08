@@ -15,9 +15,7 @@ for (const video of VIDEOS) {
   assert.ok(video.angle?.length >= 70, `Editorial angle is too thin: ${video.slug}`);
   assert.equal(getVideoBySlug(video.slug), video, `Slug lookup failed: ${video.slug}`);
 
-  if (video.embedUrl) {
-    assert.match(video.embedUrl, /^https:\/\/rumble\.com\/embed\//, `Invalid Rumble embed URL: ${video.slug}`);
-  }
+  assert.match(video.embedUrl, /^https:\/\/rumble\.com\/embed\//, `Missing or invalid direct Rumble embed URL: ${video.slug}`);
 
   const related = getRelatedVideos(video, 4);
   assert.equal(related.length, 4, `Expected four related videos for ${video.slug}`);
