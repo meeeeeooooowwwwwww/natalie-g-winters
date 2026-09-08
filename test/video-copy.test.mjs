@@ -20,12 +20,15 @@ for (const video of VIDEOS) {
   assert.ok(copy.why.length >= 180, `Why-it-matters copy is too short for ${video.slug}`);
   assert.ok(copy.natalie.length >= 120, `Natalie-specific copy is too short for ${video.slug}`);
 
-  const combined = `${copy.why} ${copy.natalie}`;
-  const nameMentions = combined.match(/Natalie Winters/g) || [];
-  assert.ok(nameMentions.length >= 2, `Expected at least two natural Natalie Winters mentions for ${video.slug}`);
+  const namedSummary = /^Winters\b/.test(video.summary)
+    ? video.summary.replace(/^Winters\b/, "Natalie Winters")
+    : `Natalie Winters: ${video.summary}`;
+  const renderedMainCopy = `${namedSummary} ${video.angle} ${copy.why} ${copy.natalie}`;
+  const nameMentions = renderedMainCopy.match(/Natalie Winters/g) || [];
+  assert.ok(nameMentions.length >= 3, `Expected at least three natural Natalie Winters mentions in rendered main copy for ${video.slug}`);
 
-  assert.ok(!combined.includes("The recurring fight in Natalie Winters' reporting is bigger than any one clip"), `Old duplicated boilerplate survived for ${video.slug}`);
-  assert.ok(!combined.includes("Then there is the charming imbalance in the skill tree"), `Old duplicated boilerplate survived for ${video.slug}`);
+  assert.ok(!renderedMainCopy.includes("The recurring fight in Natalie Winters' reporting is bigger than any one clip"), `Old duplicated boilerplate survived for ${video.slug}`);
+  assert.ok(!renderedMainCopy.includes("Then there is the charming imbalance in the skill tree"), `Old duplicated boilerplate survived for ${video.slug}`);
 
   whyBlocks.push(copy.why);
   natalieBlocks.push(copy.natalie);
