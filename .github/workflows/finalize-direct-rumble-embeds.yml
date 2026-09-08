@@ -1,0 +1,114 @@
+name: Finalize Direct Rumble Embeds
+
+on:
+  push:
+    branches:
+      - fix/rumble-detail-embeds-2026-09-08
+    paths:
+      - .github/workflows/finalize-direct-rumble-embeds.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: fix/rumble-detail-embeds-2026-09-08
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Remove visitor-time Rumble resolution and require direct embeds
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+
+          function replaceRequired(source, before, after, label) {
+            if (!source.includes(before)) throw new Error(`Expected ${label} block was not found`);
+            return source.replace(before, after);
+          }
+
+          let detail = fs.readFileSync('src/pages/video-detail.js', 'utf8');
+          detail = replaceRequired(
+            detail,
+            '  const embedUrl = video.embedUrl || `/media/rumble/${encodeURIComponent(video.slug)}`;',
+            '  const embedUrl = video.embedUrl;',
+            'video-detail fallback'
+          );
+          fs.writeFileSync('src/pages/video-detail.js', detail);
+
+          let test = fs.readFileSync('test/video-data.test.mjs', 'utf8');
+          test = replaceRequired(
+            test,
+            `  if (video.embedUrl) {\n    assert.match(video.embedUrl, /^https:\\\/\\\/rumble\\.com\\/embed\\//, \`Invalid Rumble embed URL: \${video.slug}\`);\n  }`,
+            `  assert.match(video.embedUrl, /^https:\\\/\\\/rumble\\.com\\/embed\\//, \`Missing or invalid direct Rumble embed URL: \${video.slug}\`);`,
+            'optional embed assertion'
+          );
+          fs.writeFileSync('test/video-data.test.mjs', test);
+
+          let worker = fs.readFileSync('src/worker.js', 'utf8');
+          worker = replaceRequired(
+            worker,
+            'const RUMBLE_CACHE_SECONDS = 30 * 24 * 60 * 60;\n',
+            '',
+            'Rumble cache constant'
+          );
+
+          const resolverStart = worker.indexOf('function normaliseRumbleHtml(html) {');
+          const resolverEnd = worker.indexOf('function xmlEscape(value) {');
+          if (resolverStart < 0 || resolverEnd < 0 || resolverEnd <= resolverStart) {
+            throw new Error('Rumble runtime resolver block boundaries were not found');
+          }
+          worker = worker.slice(0, resolverStart) + worker.slice(resolverEnd);
+
+          const routeStart = worker.indexOf('    const rumbleMatch = url.pathname.match(/^\\/media\\/rumble\\/([^/]+)$/);');
+          const statusStart = worker.indexOf('    if (url.pathname === "/api/status") {');
+          if (routeStart < 0 || statusStart < 0 || statusStart <= routeStart) {
+            throw new Error('Rumble runtime route block boundaries were not found');
+          }
+          worker = worker.slice(0, routeStart) + worker.slice(statusStart);
+          fs.writeFileSync('src/worker.js', worker);
+          NODE
+
+      - name: Prove every archive page has a direct Rumble embed
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { VIDEOS } from './src/video-data.js';
+          const missing = VIDEOS.filter((video) => !/^https:\/\/rumble\.com\/embed\//.test(video.embedUrl || ''));
+          console.log(`RUMBLE_VIDEO_TOTAL=${VIDEOS.length}`);
+          console.log(`RUMBLE_DIRECT_EMBEDS=${VIDEOS.length - missing.length}`);
+          console.log(`RUMBLE_MISSING_EMBEDS=${missing.length}`);
+          if (missing.length) {
+            console.error(missing.map((video) => video.slug).join('\n'));
+            process.exit(1);
+          }
+          NODE
+
+      - name: Run repository checks
+        run: |
+          npm run check
+          npm test
+          npx wrangler deploy --dry-run
+
+      - name: Commit final direct-embed architecture
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/worker.js src/pages/video-detail.js test/video-data.test.mjs
+          git commit -m "Use direct Rumble embeds for video archive"
+          git push origin HEAD:fix/rumble-detail-embeds-2026-09-08
