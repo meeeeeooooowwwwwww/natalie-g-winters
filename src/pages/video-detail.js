@@ -126,7 +126,7 @@ export function renderVideoDetailPage(video, posts) {
           <div class="prose detail-main-copy">
             <h2>What this Natalie Winters video is about</h2>
             <p>${escapeHtml(nameNatalie(video.summary))}</p>
-            <p>${escapeHtml(video.angle)}</p>
+            <p><strong>Natalie Winters' angle:</strong> ${escapeHtml(video.angle)}</p>
 
             <h2>Why this story matters</h2>
             <p>${escapeHtml(copy.why)}</p>
