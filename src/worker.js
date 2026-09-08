@@ -23,7 +23,6 @@ import { renderChinaPage } from "./pages/china.js";
 import { VIDEOS, getVideoBySlug } from "./video-data.js";
 
 const IMAGE_CACHE_SECONDS = 30 * 24 * 60 * 60;
-const RUMBLE_CACHE_SECONDS = 30 * 24 * 60 * 60;
 const SITEMAP_LASTMOD = "2026-09-07";
 
 const PRIMARY_PATHS = [
@@ -187,75 +186,6 @@ async function serveSubstackImage(request, env, ctx, id, version) {
   return response;
 }
 
-function normaliseRumbleHtml(html) {
-  return String(html || "")
-    .replace(/\\u002F/gi, "/")
-    .replace(/\\\//g, "/")
-    .replace(/&amp;/g, "&");
-}
-
-function findRumbleEmbedUrl(html) {
-  const source = normaliseRumbleHtml(html);
-  const direct = source.match(/https:\/\/rumble\.com\/embed\/(?:ucfsd\.)?[a-z0-9._-]+\/?(?:\?[^\"'<>\s]*)?/i);
-  if (direct) return direct[0];
-
-  const json = source.match(/[\"'](?:embedUrl|embed_url)[\"']\s*:\s*[\"']([^\"']+)[\"']/i);
-  if (json?.[1]?.startsWith("https://rumble.com/embed/")) return json[1];
-
-  return null;
-}
-
-async function serveRumbleEmbed(request, video, ctx) {
-  if (!video) {
-    return new Response("Video not found", { status: 404 });
-  }
-
-  if (video.embedUrl) {
-    return Response.redirect(video.embedUrl, 302);
-  }
-
-  const cache = caches.default;
-  const cacheKey = new Request(request.url, { method: "GET" });
-  const cached = await cache.match(cacheKey);
-  if (cached) return cached;
-
-  try {
-    const upstream = await fetch(video.rumbleUrl, {
-      headers: {
-        Accept: "text/html,application/xhtml+xml",
-        "User-Agent": "Mozilla/5.0 (compatible; NatalieWintersVideoArchive/1.0; +https://nataliegwinters.com/videos)",
-      },
-      cf: { cacheEverything: true, cacheTtl: RUMBLE_CACHE_SECONDS },
-    });
-
-    if (upstream.ok) {
-      const embedUrl = findRumbleEmbedUrl(await upstream.text());
-      if (embedUrl) {
-        const response = new Response(null, {
-          status: 302,
-          headers: {
-            Location: embedUrl,
-            "Cache-Control": `public, max-age=${RUMBLE_CACHE_SECONDS}`,
-          },
-        });
-        ctx.waitUntil(cache.put(cacheKey, response.clone()));
-        return response;
-      }
-    }
-  } catch (error) {
-    console.error("Rumble embed lookup failed:", video.slug, error);
-  }
-
-  return new Response(`<!doctype html><html><body style="margin:0;background:#090208;color:#fff;font-family:system-ui;display:grid;place-items:center;min-height:100vh;text-align:center"><div><strong>Natalie Winters video</strong><p>The embedded player could not be resolved automatically.</p><a style="color:#fff" href="${video.rumbleUrl}" target="_blank" rel="noopener noreferrer">Watch this video on Rumble →</a></div></body></html>`, {
-    status: 200,
-    headers: {
-      "Content-Type": "text/html; charset=UTF-8",
-      "Cache-Control": "public, max-age=300",
-      "X-Robots-Tag": "noindex",
-    },
-  });
-}
-
 function xmlEscape(value) {
   return String(value)
     .replace(/&/g, "&amp;")
@@ -381,16 +311,6 @@ export default {
         return new Response("Invalid image path", { status: 400 });
       }
       return serveSubstackImage(request, env, ctx, id, version);
-    }
-
-    const rumbleMatch = url.pathname.match(/^\/media\/rumble\/([^/]+)$/);
-    if (rumbleMatch) {
-      const slug = safeDecode(rumbleMatch[1]);
-      if (slug === null) {
-        return new Response("Invalid video path", { status: 400 });
-      }
-      const video = getVideoBySlug(slug);
-      return serveRumbleEmbed(request, video, ctx);
     }
 
     if (url.pathname === "/api/status") {
