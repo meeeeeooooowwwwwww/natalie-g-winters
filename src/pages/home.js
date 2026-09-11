@@ -8,17 +8,31 @@ export function renderHomePage(posts) {
         <div class="home-hero-inner">
           <div class="hero-copy">
             <div class="hero-copy-inner">
-              <p class="eyebrow">JOURNALIST · BROADCASTER · WHITE HOUSE CORRESPONDENT · CCP PAPERWORK PREDATOR</p>
+              <p class="eyebrow">WHITE HOUSE · WAR ROOM · INVESTIGATIONS</p>
               <h1 id="home-title">Natalie Winters</h1>
-              <p class="hero-intro"><strong>Natalie Winters</strong>, also known professionally as <strong>Natalie G. Winters</strong>, is an American investigative journalist, political commentator, broadcaster and White House correspondent. She is a co-host and executive editor of Steve Bannon's <em>War Room</em>, previously served as a senior investigative reporter at <em>The National Pulse</em>, and founded the USA-made lifestyle brand <em>She's So Right!</em>.</p>
-              <p class="hero-intro">Her work has focused heavily on Chinese Communist Party influence, political institutions, academia, science, government and national security. This archive has a very simple editorial instinct: <strong>America is not a clearance rack</strong>. If an arrangement enriches foreign interests, connected insiders or fashionable institutions while American citizens absorb the risk, cost or humiliation, it deserves a flashlight pointed directly at it. Preferably the industrial kind.</p>
-              <p class="hero-intro">That makes Natalie a particularly useful person to archive: <strong>ferociously curious, PDF-devouring, yoga-powered, seed-oil-suspicious, suspiciously well-dressed and apparently incapable of seeing a 94-page institutional report without wondering what everybody hoped was buried on page 73.</strong> She can untangle an influence network before lunch. Basic vehicle maintenance has, historically, offered a more competitive contest.</p>
-              <p class="hero-intro">Explore her <a href="/about">Natalie Winters biography</a>, <a href="/career">career</a>, <a href="/reporting">investigative reporting</a>, <a href="/white-house">White House work</a>, <a href="/war-room">War Room role</a> and the <a href="/videos">50+ page Natalie Winters video archive</a>.</p>
-              <span class="hero-note">AMERICA FIRST. FOOTNOTES FIRST. CHECK THE COOLANT EVENTUALLY.</span>
+              <p class="hero-headline">Power, politics and the paper trail behind both.</p>
+              <p class="hero-summary"><strong>Natalie Winters</strong> is a White House correspondent, investigative journalist and <em>War Room</em> co-host known for reporting on foreign influence, national security and the institutions shaping American politics.</p>
+
+              <nav class="hero-actions" aria-label="Explore Natalie Winters">
+                <a href="/about">BIOGRAPHY <span aria-hidden="true">→</span></a>
+                <a href="/articles">LATEST REPORTING <span aria-hidden="true">→</span></a>
+                <a href="/videos">VIDEO ARCHIVE <span aria-hidden="true">→</span></a>
+              </nav>
+
+              <div class="hero-proof" aria-label="Natalie Winters archive highlights">
+                <span><b>WHITE HOUSE</b> correspondent</span>
+                <span><b>WAR ROOM</b> co-host &amp; executive editor</span>
+                <span><b>50+</b> dedicated video pages</span>
+              </div>
             </div>
           </div>
 
           <div class="hero-media">
+            <div class="hero-media-header">
+              <span>FEATURED VIDEO</span>
+              <a href="/videos">VIEW ARCHIVE →</a>
+            </div>
+
             <div class="hero-video" aria-label="Natalie Winters featured video">
               <iframe
                 src="${SITE.rumbleEmbed}"
@@ -33,17 +47,17 @@ export function renderHomePage(posts) {
             <nav class="hero-quick-grid" aria-label="Explore Natalie Winters coverage">
               <a class="hero-quick-card" href="/china">
                 <span>CHINA FILES</span>
-                <strong>CCP influence, networks, access and the paperwork behind the polite language.</strong>
+                <strong>Foreign influence, United Front networks and the documents connecting them.</strong>
                 <small>OPEN FILES →</small>
               </a>
               <a class="hero-quick-card" href="/war-room">
                 <span>WAR ROOM</span>
-                <strong>Broadcasts, investigations and the clips where the document pile becomes television.</strong>
+                <strong>Investigations, broadcasts and the paper trail brought onto air.</strong>
                 <small>ENTER WAR ROOM →</small>
               </a>
               <a class="hero-quick-card" href="/white-house">
                 <span>WHITE HOUSE</span>
-                <strong>Briefing-room reporting, political pressure and considerably better wardrobe discipline than the average press scrum.</strong>
+                <strong>Briefing-room reporting and political coverage from Washington.</strong>
                 <small>VIEW COVERAGE →</small>
               </a>
             </nav>
@@ -54,9 +68,9 @@ export function renderHomePage(posts) {
   `;
 
   return renderLayout({
-    title: "Natalie Winters | Biography, War Room, White House & Videos",
+    title: "Natalie Winters | White House Correspondent & Investigative Journalist",
     description:
-      "Natalie Winters, also known as Natalie G. Winters, is an investigative journalist, War Room co-host and White House correspondent. Biography, reporting, 50+ video pages, interviews and latest work.",
+      "Natalie Winters is a White House correspondent, investigative journalist and War Room co-host. Biography, reporting, White House coverage, interviews and 50+ video pages.",
     canonical: `${SITE.domain}/`,
     pageContent,
     posts,
