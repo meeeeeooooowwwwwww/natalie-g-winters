@@ -5,7 +5,7 @@ export const SITE = {
   substackHome: "https://nataliegwinters.substack.com/",
   rumbleEmbed: "https://rumble.com/embed/v7d85se/?pub=4kxtac",
   heroVideoEmbed: "https://www.youtube.com/embed/CP-Wzou3NzI?rel=0",
-  heroVideoSource: "https://www.youtube.com/watch?v=CP-Wzou3NzI",
+  heroVideoSource: "https://www.oann.com/video/the-matt-gaetz-show-video/natalie-winters-joins-the-matt-gaetz-show-with-a-message/",
 
   images: {
     portrait:
