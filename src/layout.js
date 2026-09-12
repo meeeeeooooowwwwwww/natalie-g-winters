@@ -19,6 +19,10 @@ const FOOTER_EXPLORE = [
 ];
 
 export function renderHeader(active = "") {
+  const navLinks = NAV.map(([key, href, label]) => `
+    <a href="${href}" ${active === key ? 'aria-current="page"' : ""}>${label}</a>
+  `).join("");
+
   return `
     <header class="site-header">
       <a class="brand" href="/" aria-label="Natalie Winters home">
@@ -26,10 +30,20 @@ export function renderHeader(active = "") {
       </a>
 
       <nav class="site-nav" aria-label="Main navigation">
-        ${NAV.map(([key, href, label]) => `
-          <a href="${href}" ${active === key ? 'aria-current="page"' : ""}>${label}</a>
-        `).join("")}
+        ${navLinks}
       </nav>
+
+      <details class="mobile-nav">
+        <summary aria-label="Open navigation menu">
+          <span class="mobile-nav-icon" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </span>
+          <span class="mobile-nav-label">MENU</span>
+        </summary>
+        <nav class="mobile-nav-panel" aria-label="Mobile navigation">
+          ${navLinks}
+        </nav>
+      </details>
     </header>
   `;
 }
