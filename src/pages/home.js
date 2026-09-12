@@ -7,8 +7,10 @@ export function renderHomePage(posts) {
       .authority-stage{position:relative;overflow:hidden;padding:0 22px 62px;background:linear-gradient(180deg,rgba(8,7,10,.98),rgba(2,2,4,.98));border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
       .authority-stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 12% 18%,rgba(200,166,92,.10),transparent 25%),radial-gradient(circle at 88% 68%,rgba(255,26,168,.07),transparent 28%);pointer-events:none}
       .authority-inner{position:relative;max-width:var(--page-max);margin:0 auto}
+      .authority-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:34px;align-items:start}
+      .authority-main{min-width:0}
       .authority-intro{display:grid;grid-template-columns:minmax(0,.8fr) minmax(300px,.55fr);gap:50px;align-items:end;padding:54px 0 30px}
-      .authority-kicker,.media-kicker{display:block;margin-bottom:12px;font-size:8px;font-weight:800;letter-spacing:.2em;color:#c8a65c}
+      .authority-kicker,.media-kicker,.rail-kicker{display:block;margin-bottom:12px;font-size:8px;font-weight:800;letter-spacing:.2em;color:#c8a65c}
       .authority-intro h2{margin:0;max-width:760px;font-size:clamp(30px,4vw,56px);line-height:.96;letter-spacing:-.045em;color:#f5f1ed;text-wrap:balance}
       .authority-intro p{margin:0;font-size:13px;line-height:1.7;color:#8f888d}
       .credential-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.018)}
@@ -39,8 +41,20 @@ export function renderHomePage(posts) {
       .media-brand[data-brand="human-events"] b{font-family:Georgia,"Times New Roman",serif;font-size:16px;letter-spacing:-.02em}
       .media-brand[data-brand="first"] b{font-size:21px;letter-spacing:-.06em}
       .authority-note{margin:14px 0 0;font-size:9px;line-height:1.55;color:#5d575b}
-      @media(max-width:980px){.authority-intro{grid-template-columns:1fr;gap:18px}.credential-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.credential-card:nth-child(2){border-right:0}.credential-card:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.085)}.media-brand-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.media-brand:nth-child(3){border-right:0}.media-brand:nth-child(-n+3){border-bottom:1px solid rgba(255,255,255,.07)}}
-      @media(max-width:620px){.authority-stage{padding:0 14px 42px}.authority-intro{padding-top:38px}.credential-grid{grid-template-columns:1fr}.credential-card{min-height:132px;border-right:0;border-bottom:1px solid rgba(255,255,255,.085)}.credential-card:last-child{border-bottom:0}.media-authority-head{display:block}.media-authority-head p{margin-top:10px;text-align:left}.media-brand-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.media-brand:nth-child(odd){border-right:1px solid rgba(255,255,255,.07)}.media-brand:nth-child(even){border-right:0}.media-brand:nth-child(-n+4){border-bottom:1px solid rgba(255,255,255,.07)}}
+      .authority-rail{position:sticky;top:76px;margin-top:54px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));box-shadow:0 24px 70px rgba(0,0,0,.24)}
+      .rail-header{padding:20px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+      .rail-header h3{margin:0;font-size:24px;line-height:.95;letter-spacing:-.04em;color:#f3efeb}
+      .rail-list{display:grid}
+      .rail-item{display:block;padding:16px 20px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.065);transition:background .18s ease,padding-left .18s ease}
+      .rail-item:hover{background:rgba(200,166,92,.055);padding-left:24px}
+      .rail-item span{display:block;margin-bottom:4px;font-size:8px;font-weight:800;letter-spacing:.14em;color:#c8a65c}
+      .rail-item strong{display:block;font-size:12px;line-height:1.35;color:#e6e0e3}
+      .rail-item small{display:block;margin-top:3px;font-size:9px;line-height:1.4;color:#716a6f}
+      .rail-cta{display:block;padding:18px 20px;text-decoration:none;font-size:9px;font-weight:800;letter-spacing:.14em;color:#fff;background:linear-gradient(90deg,rgba(255,26,168,.12),rgba(200,166,92,.08))}
+      .rail-cta:hover{background:linear-gradient(90deg,rgba(255,26,168,.18),rgba(200,166,92,.12))}
+      @media(max-width:1180px){.authority-layout{grid-template-columns:1fr}.authority-rail{position:static;margin-top:0;display:grid;grid-template-columns:220px repeat(3,minmax(0,1fr))}.rail-header{border-bottom:0;border-right:1px solid rgba(255,255,255,.08)}.rail-list{display:contents}.rail-item{border-bottom:0;border-right:1px solid rgba(255,255,255,.065)}.rail-cta{grid-column:1/-1;text-align:center}}
+      @media(max-width:980px){.authority-intro{grid-template-columns:1fr;gap:18px}.credential-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.credential-card:nth-child(2){border-right:0}.credential-card:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.085)}.media-brand-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.media-brand:nth-child(3){border-right:0}.media-brand:nth-child(-n+3){border-bottom:1px solid rgba(255,255,255,.07)}.authority-rail{grid-template-columns:1fr 1fr}.rail-header{grid-column:1/-1;border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.rail-item{border-right:1px solid rgba(255,255,255,.065);border-bottom:1px solid rgba(255,255,255,.065)}.rail-item:nth-of-type(even){border-right:0}.rail-cta{grid-column:1/-1}}
+      @media(max-width:620px){.authority-stage{padding:0 14px 42px}.authority-intro{padding-top:38px}.credential-grid{grid-template-columns:1fr}.credential-card{min-height:132px;border-right:0;border-bottom:1px solid rgba(255,255,255,.085)}.credential-card:last-child{border-bottom:0}.media-authority-head{display:block}.media-authority-head p{margin-top:10px;text-align:left}.media-brand-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.media-brand:nth-child(odd){border-right:1px solid rgba(255,255,255,.07)}.media-brand:nth-child(even){border-right:0}.media-brand:nth-child(-n+4){border-bottom:1px solid rgba(255,255,255,.07)}.authority-rail{grid-template-columns:1fr}.rail-item{border-right:0}.rail-cta{grid-column:auto}}
     </style>
 
     <main>
@@ -107,55 +121,73 @@ export function renderHomePage(posts) {
 
       <section class="authority-stage" aria-labelledby="authority-title">
         <div class="authority-inner">
-          <div class="authority-intro">
-            <div>
-              <span class="authority-kicker">CAREER · CREDENTIALS · INSTITUTIONS</span>
-              <h2 id="authority-title">The record speaks before the biography does.</h2>
-            </div>
-            <p>Selected institutions and roles from Natalie G. Winters' career, presented as direct paths into the work rather than decorative name-dropping.</p>
-          </div>
-
-          <div class="credential-grid" aria-label="Natalie G. Winters credentials and institutions">
-            <a class="credential-card" data-brand="white-house" href="/white-house">
-              <small>WASHINGTON · D.C.</small>
-              <span class="credential-mark">THE WHITE HOUSE</span>
-              <span class="credential-role"><strong>CORRESPONDENT</strong>White House press coverage</span>
-            </a>
-            <a class="credential-card" data-brand="war-room" href="https://warroom.org/tag/natalie-winters/" target="_blank" rel="noopener noreferrer">
-              <small>BROADCAST · EDITORIAL</small>
-              <span class="credential-mark">WAR ROOM</span>
-              <span class="credential-role"><strong>CO-HOST &amp; EXECUTIVE EDITOR</strong>Broadcasts, investigations and interviews</span>
-            </a>
-            <a class="credential-card" data-brand="uchicago" href="/career">
-              <small>EDUCATION</small>
-              <span class="credential-mark">University of Chicago</span>
-              <span class="credential-role"><strong>GRADUATE</strong>Career timeline and background</span>
-            </a>
-            <a class="credential-card" data-brand="claremont" href="https://www.claremont.org/2024-lincoln-fellows/" target="_blank" rel="noopener noreferrer">
-              <small>FELLOWSHIP · 2024</small>
-              <span class="credential-mark">Claremont Institute</span>
-              <span class="credential-role"><strong>LINCOLN FELLOW</strong>Jack Roth Charitable Foundation Lincoln Fellowship</span>
-            </a>
-          </div>
-
-          <div class="media-authority">
-            <div class="media-authority-head">
-              <div>
-                <span class="media-kicker">MEDIA &amp; MOVEMENT</span>
-                <h3>FEATURED &amp; WELCOMED ACROSS</h3>
+          <div class="authority-layout">
+            <div class="authority-main">
+              <div class="authority-intro">
+                <div>
+                  <span class="authority-kicker">CAREER · CREDENTIALS · INSTITUTIONS</span>
+                  <h2 id="authority-title">The record speaks before the biography does.</h2>
+                </div>
+                <p>Selected institutions and roles from Natalie G. Winters' career, presented as direct paths into the work rather than decorative name-dropping.</p>
               </div>
-              <p>Selected networks and shows that have hosted, featured or amplified Natalie G. Winters. Every mark links directly to an appearance.</p>
+
+              <div class="credential-grid" aria-label="Natalie G. Winters credentials and institutions">
+                <a class="credential-card" data-brand="white-house" href="/white-house">
+                  <small>WASHINGTON · D.C.</small>
+                  <span class="credential-mark">THE WHITE HOUSE</span>
+                  <span class="credential-role"><strong>CORRESPONDENT</strong>White House press coverage</span>
+                </a>
+                <a class="credential-card" data-brand="war-room" href="https://warroom.org/tag/natalie-winters/" target="_blank" rel="noopener noreferrer">
+                  <small>BROADCAST · EDITORIAL</small>
+                  <span class="credential-mark">WAR ROOM</span>
+                  <span class="credential-role"><strong>CO-HOST &amp; EXECUTIVE EDITOR</strong>Broadcasts, investigations and interviews</span>
+                </a>
+                <a class="credential-card" data-brand="uchicago" href="/career">
+                  <small>EDUCATION</small>
+                  <span class="credential-mark">University of Chicago</span>
+                  <span class="credential-role"><strong>GRADUATE</strong>Career timeline and background</span>
+                </a>
+                <a class="credential-card" data-brand="claremont" href="https://www.claremont.org/2024-lincoln-fellows/" target="_blank" rel="noopener noreferrer">
+                  <small>FELLOWSHIP · 2024</small>
+                  <span class="credential-mark">Claremont Institute</span>
+                  <span class="credential-role"><strong>LINCOLN FELLOW</strong>Jack Roth Charitable Foundation Lincoln Fellowship</span>
+                </a>
+              </div>
+
+              <div class="media-authority">
+                <div class="media-authority-head">
+                  <div>
+                    <span class="media-kicker">MEDIA &amp; MOVEMENT</span>
+                    <h3>FEATURED &amp; WELCOMED ACROSS</h3>
+                  </div>
+                  <p>Selected networks and shows that have hosted, featured or amplified Natalie G. Winters. Every mark links directly to an appearance.</p>
+                </div>
+
+                <div class="media-brand-grid" aria-label="Selected Natalie G. Winters media appearances">
+                  <a class="media-brand" data-brand="oan" href="https://www.youtube.com/watch?v=CP-Wzou3NzI" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The Matt Gaetz Show, One America News"><b>OAN</b></a>
+                  <a class="media-brand" data-brand="rav" href="https://americasvoice.news/i-think-we-have-our-country-back/" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Real America's Voice"><b>REAL AMERICA'S VOICE</b></a>
+                  <a class="media-brand" data-brand="beck" href="https://www.theblaze.com/shows/the-glenn-beck-program/george-soros-protests" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The Glenn Beck Program"><b>GLENN BECK</b></a>
+                  <a class="media-brand" data-brand="timcast" href="https://www.youtube.com/watch?v=06KBLBphdV0" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Timcast IRL"><b>TIMCAST IRL</b></a>
+                  <a class="media-brand" data-brand="human-events" href="https://humanevents.com/2024/12/11/natalie-winters-chris-wray-stepping-down-will-not-make-our-appetite-for-justice-dissipate" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Human Events Daily"><b>HUMAN EVENTS</b></a>
+                  <a class="media-brand" data-brand="first" href="https://www.thefirsttv.com/watch/americas-institutions-have-been-seized-by-communists/" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The First"><b>THE FIRST</b></a>
+                </div>
+                <p class="authority-note">Appearance links document the relationship shown. Institutional marks identify education, fellowship or professional roles and do not imply organisational endorsement unless explicitly stated by the source.</p>
+              </div>
             </div>
 
-            <div class="media-brand-grid" aria-label="Selected Natalie G. Winters media appearances">
-              <a class="media-brand" data-brand="oan" href="https://www.youtube.com/watch?v=CP-Wzou3NzI" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The Matt Gaetz Show, One America News"><b>OAN</b></a>
-              <a class="media-brand" data-brand="rav" href="https://americasvoice.news/i-think-we-have-our-country-back/" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Real America's Voice"><b>REAL AMERICA'S VOICE</b></a>
-              <a class="media-brand" data-brand="beck" href="https://www.theblaze.com/shows/the-glenn-beck-program/george-soros-protests" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The Glenn Beck Program"><b>GLENN BECK</b></a>
-              <a class="media-brand" data-brand="timcast" href="https://www.youtube.com/watch?v=06KBLBphdV0" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Timcast IRL"><b>TIMCAST IRL</b></a>
-              <a class="media-brand" data-brand="human-events" href="https://humanevents.com/2024/12/11/natalie-winters-chris-wray-stepping-down-will-not-make-our-appetite-for-justice-dissipate" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Human Events Daily"><b>HUMAN EVENTS</b></a>
-              <a class="media-brand" data-brand="first" href="https://www.thefirsttv.com/watch/americas-institutions-have-been-seized-by-communists/" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The First"><b>THE FIRST</b></a>
-            </div>
-            <p class="authority-note">Appearance links document the relationship shown. Institutional marks identify education, fellowship or professional roles and do not imply organisational endorsement unless explicitly stated by the source.</p>
+            <aside class="authority-rail" aria-label="Natalie G. Winters at a glance">
+              <div class="rail-header">
+                <span class="rail-kicker">AT A GLANCE</span>
+                <h3>Natalie G. Winters</h3>
+              </div>
+              <div class="rail-list">
+                <a class="rail-item" href="/white-house"><span>WHITE HOUSE</span><strong>Correspondent</strong><small>Press-room and Washington coverage</small></a>
+                <a class="rail-item" href="/war-room"><span>WAR ROOM</span><strong>Co-host &amp; Executive Editor</strong><small>Broadcasting, editorial and investigations</small></a>
+                <a class="rail-item" href="/career"><span>BACKGROUND</span><strong>University of Chicago · Claremont</strong><small>Education, fellowship and career timeline</small></a>
+                <a class="rail-item" href="/interviews"><span>MEDIA</span><strong>Interviews &amp; appearances</strong><small>Networks, podcasts, debates and panels</small></a>
+              </div>
+              <a class="rail-cta" href="/about">VIEW FULL BIOGRAPHY →</a>
+            </aside>
           </div>
         </div>
       </section>
