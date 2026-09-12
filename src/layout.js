@@ -14,7 +14,7 @@ const FOOTER_EXPLORE = [
   ["/war-room", "WAR ROOM", "Co-host, executive editor and enough clips to frighten a communications department."],
   ["/videos", "50+ VIDEOS", "Rumble, War Room, White House reports and dedicated video pages."],
   ["/interviews", "INTERVIEWS", "Long-form appearances, debates and conversations beyond War Room."],
-  ["/articles", "ARTICLES", "A rolling archive of Natalie Winters' Substack investigations."],
+  ["/articles", "ARTICLES", "A rolling archive of Natalie G. Winters' Substack investigations."],
   ["/china", "CHINA FILES", "CCP influence, United Front networks, Taiwan and national-security reporting."],
 ];
 
@@ -25,8 +25,8 @@ export function renderHeader(active = "") {
 
   return `
     <header class="site-header">
-      <a class="brand" href="/" aria-label="Natalie Winters home">
-        NATALIE WINTERS
+      <a class="brand" href="/" aria-label="Natalie G. Winters home">
+        NATALIE G. WINTERS
       </a>
 
       <nav class="site-nav" aria-label="Main navigation">
@@ -74,8 +74,8 @@ export function renderArticleCards(posts, limit = null, className = "article-gri
   const cards = visiblePosts.map((post) => {
     const proxyImage = localImageUrl(post);
     const image = proxyImage
-      ? `<div class="article-image"><img src="${escapeHtml(proxyImage)}" alt="Cover image for ${escapeHtml(post.title)} by Natalie Winters" width="700" height="394" loading="lazy" decoding="async"></div>`
-      : `<div class="article-image article-placeholder"><span>NATALIE WINTERS</span></div>`;
+      ? `<div class="article-image"><img src="${escapeHtml(proxyImage)}" alt="Cover image for ${escapeHtml(post.title)} by Natalie G. Winters" width="700" height="394" loading="lazy" decoding="async"></div>`
+      : `<div class="article-image article-placeholder"><span>NATALIE G. WINTERS</span></div>`;
 
     const subtitle = post.subtitle
       ? `<p class="article-subtitle">${escapeHtml(post.subtitle)}</p>`
@@ -107,7 +107,7 @@ export function renderLatestReporting(posts) {
         <div class="section-header">
           <div>
             <span class="section-kicker">AUTOMATICALLY UPDATED</span>
-            <h2 id="latest-reporting-title">LATEST NATALIE WINTERS REPORTING</h2>
+            <h2 id="latest-reporting-title">LATEST NATALIE G. WINTERS REPORTING</h2>
           </div>
           <a href="/articles">BROWSE ARCHIVE →</a>
         </div>
@@ -123,13 +123,13 @@ export function renderFooter() {
       <div class="footer-inner">
         <div class="footer-intro">
           <div>
-            <span class="footer-kicker">MORE NATALIE WINTERS</span>
+            <span class="footer-kicker">MORE NATALIE G. WINTERS</span>
             <h2>The magnificently excessive section.</h2>
           </div>
-          <p>For people who think America should remain owned, governed and defended in the interests of Americans, and for anyone who enjoys watching the ferociously productive, document-hoarding Natalie Winters turn respectable-looking paperwork into somebody else's very bad day. Yoga may be involved. Seed oils will not be.</p>
+          <p>For people who think America should remain owned, governed and defended in the interests of Americans, and for anyone who enjoys watching the ferociously productive, document-hoarding Natalie G. Winters turn respectable-looking paperwork into somebody else's very bad day. Yoga may be involved. Seed oils will not be.</p>
         </div>
 
-        <nav class="footer-explore" aria-label="Explore more Natalie Winters coverage">
+        <nav class="footer-explore" aria-label="Explore more Natalie G. Winters coverage">
           ${FOOTER_EXPLORE.map(([href, label, description]) => `
             <a class="footer-explore-card" href="${href}">
               <span>${label}</span>
@@ -140,14 +140,14 @@ export function renderFooter() {
         </nav>
 
         <div class="footer-bottom footer-bottom-icons">
-          <div class="footer-social-cluster" aria-label="Natalie Winters social links">
+          <div class="footer-social-cluster" aria-label="Natalie G. Winters social links">
             <span class="footer-bottom-label">FOLLOW NATALIE</span>
-            <a class="footer-icon-link" href="${SITE.substackHome}" target="_blank" rel="noopener noreferrer" aria-label="Natalie Winters on Substack" title="Natalie Winters on Substack">
+            <a class="footer-icon-link" href="${SITE.substackHome}" target="_blank" rel="noopener noreferrer" aria-label="Natalie G. Winters on Substack" title="Natalie G. Winters on Substack">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M4 4h16v2H4V4Zm0 4h16v2H4V8Zm0 4h16v2H4v-2Zm1 4h14v2.2L12 22l-7-3.8V16Z"/>
               </svg>
             </a>
-            <a class="footer-icon-link" href="https://x.com/nataliegwinters" target="_blank" rel="noopener noreferrer" aria-label="Natalie Winters on X" title="Natalie Winters on X">
+            <a class="footer-icon-link" href="https://x.com/nataliegwinters" target="_blank" rel="noopener noreferrer" aria-label="Natalie G. Winters on X" title="Natalie G. Winters on X">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/>
               </svg>
@@ -190,10 +190,10 @@ function renderStructuredData({ canonical, description, title, pageType = "WebPa
   const person = {
     "@type": "Person",
     "@id": personId,
-    name: "Natalie Winters",
-    alternateName: ["Natalie G. Winters", "Natalie G Winters", "Miss Winters", "Ms Winters"],
+    name: "Natalie G. Winters",
+    alternateName: ["Natalie Winters", "Natalie G Winters", "Miss Winters", "Ms Winters"],
     url: `${SITE.domain}/`,
-    description: "Natalie Winters, also known as Natalie G. Winters, is an investigative journalist, War Room co-host and White House correspondent.",
+    description: "Natalie G. Winters, also known as Natalie Winters, is an investigative journalist, War Room co-host and White House correspondent.",
     image: [
       SITE.images.profile1x1,
       SITE.images.profile4x3,
@@ -243,9 +243,9 @@ function renderStructuredData({ canonical, description, title, pageType = "WebPa
       "@type": "WebSite",
       "@id": websiteId,
       url: `${SITE.domain}/`,
-      name: "Natalie Winters",
-      alternateName: "Natalie G. Winters",
-      description: "Independent information and video archive about journalist and White House correspondent Natalie Winters, also known as Natalie G. Winters.",
+      name: "Natalie G. Winters",
+      alternateName: "Natalie Winters",
+      description: "Independent information and video archive about journalist and White House correspondent Natalie G. Winters, also known as Natalie Winters.",
       inLanguage: "en-US",
       about: { "@id": personId },
     },
@@ -256,7 +256,7 @@ function renderStructuredData({ canonical, description, title, pageType = "WebPa
       contentUrl: SITE.images.profile1x1,
       width: 1200,
       height: 1200,
-      caption: "Natalie Winters (Natalie G. Winters)",
+      caption: "Natalie G. Winters (Natalie Winters)",
     },
     page,
   ];
@@ -303,7 +303,7 @@ export function renderLayout({
   <meta name="robots" content="${escapeHtml(robots)}">
   <meta name="googlebot" content="${escapeHtml(robots)}">
   <link rel="canonical" href="${safeCanonical}">
-  <link rel="alternate" type="application/rss+xml" title="Natalie Winters on Substack" href="${escapeHtml(SITE.substackHome)}feed">
+  <link rel="alternate" type="application/rss+xml" title="Natalie G. Winters on Substack" href="${escapeHtml(SITE.substackHome)}feed">
   <link rel="stylesheet" href="/assets/styles.css">
   <link rel="stylesheet" href="/assets/theme-magenta.css">
   <link rel="stylesheet" href="/assets/layout-v2.css">
@@ -311,19 +311,19 @@ export function renderLayout({
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <meta property="og:site_name" content="Natalie Winters">
+  <meta property="og:site_name" content="Natalie G. Winters">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="${safeTitle}">
   <meta property="og:description" content="${safeDescription}">
   <meta property="og:type" content="${ogType}">
   <meta property="og:url" content="${safeCanonical}">
   <meta property="og:image" content="${ogImage}">
-  <meta property="og:image:alt" content="Natalie Winters, also known as Natalie G. Winters">
+  <meta property="og:image:alt" content="Natalie G. Winters, also known as Natalie Winters">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${safeTitle}">
   <meta name="twitter:description" content="${safeDescription}">
   <meta name="twitter:image" content="${ogImage}">
-  <meta name="twitter:image:alt" content="Natalie Winters, also known as Natalie G. Winters">
+  <meta name="twitter:image:alt" content="Natalie G. Winters, also known as Natalie Winters">
   <script type="application/ld+json">${renderStructuredData({ canonical, description, title, pageType })}</script>
 </head>
 <body>
