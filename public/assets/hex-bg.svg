@@ -23,7 +23,7 @@
       <stop offset="1" stop-color="#9e35ff" stop-opacity="0"/>
     </radialGradient>
     <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feGaussianBlur stdDeviation="4" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
     <pattern id="hex" width="96" height="83.138" patternUnits="userSpaceOnUse">
@@ -40,15 +40,15 @@
   <rect width="1920" height="1080" fill="url(#hex)" opacity=".92"/>
 
   <g fill="none" stroke-linejoin="round" filter="url(#softGlow)">
-    <path d="M370 208 H418 L442 250 L418 292 H370 L346 250 Z" stroke="#dfe4ff" stroke-width="2.6" opacity=".58"/>
-    <path d="M370 292 H418 L442 334 L418 376 H370 L346 334 Z" stroke="#ff5ee7" stroke-width="2.2" opacity=".43"/>
-    <path d="M790 410 H838 L862 452 L838 494 H790 L766 452 Z" stroke="#eef1ff" stroke-width="2.7" opacity=".6"/>
-    <path d="M742 494 H790 L814 536 L790 578 H742 L718 536 Z" stroke="#dfe4ff" stroke-width="2.5" opacity=".5"/>
-    <path d="M1168 210 H1216 L1240 252 L1216 294 H1168 L1144 252 Z" stroke="#f4e9ff" stroke-width="2.6" opacity=".5"/>
-    <path d="M1264 544 H1312 L1336 586 L1312 628 H1264 L1240 586 Z" stroke="#ff5ddb" stroke-width="2.2" opacity=".42"/>
-    <path d="M1216 628 H1264 L1288 670 L1264 712 H1216 L1192 670 Z" stroke="#eff2ff" stroke-width="2.5" opacity=".48"/>
-    <path d="M1264 712 H1312 L1336 754 L1312 796 H1264 L1240 754 Z" stroke="#263bff" stroke-width="2.2" opacity=".4"/>
-    <path d="M514 628 H562 L586 670 L562 712 H514 L490 670 Z" stroke="#ff6ee5" stroke-width="2.1" opacity=".38"/>
+    <path d="M370 208 H418 L442 250 L418 292 H370 L346 250 Z" stroke="#7a285f" stroke-width="2" opacity=".20"/>
+    <path d="M370 292 H418 L442 334 L418 376 H370 L346 334 Z" stroke="#9c2c80" stroke-width="2" opacity=".24"/>
+    <path d="M790 410 H838 L862 452 L838 494 H790 L766 452 Z" stroke="#5d2a75" stroke-width="2" opacity=".18"/>
+    <path d="M742 494 H790 L814 536 L790 578 H742 L718 536 Z" stroke="#44245f" stroke-width="2" opacity=".17"/>
+    <path d="M1168 210 H1216 L1240 252 L1216 294 H1168 L1144 252 Z" stroke="#7c2b70" stroke-width="2" opacity=".18"/>
+    <path d="M1264 544 H1312 L1336 586 L1312 628 H1264 L1240 586 Z" stroke="#aa307f" stroke-width="2" opacity=".24"/>
+    <path d="M1216 628 H1264 L1288 670 L1264 712 H1216 L1192 670 Z" stroke="#65295e" stroke-width="2" opacity=".17"/>
+    <path d="M1264 712 H1312 L1336 754 L1312 796 H1264 L1240 754 Z" stroke="#30327c" stroke-width="2" opacity=".18"/>
+    <path d="M514 628 H562 L586 670 L562 712 H514 L490 670 Z" stroke="#a53683" stroke-width="2" opacity=".22"/>
   </g>
 
   <rect width="1920" height="1080" fill="none" stroke="#000" stroke-width="180" opacity=".35"/>
