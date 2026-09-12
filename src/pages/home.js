@@ -214,14 +214,14 @@ export function renderHomePage(posts) {
 
       .media-brand-grid{
         display:grid;
-        grid-template-columns:repeat(3,minmax(0,1fr));
+        grid-template-columns:repeat(2,minmax(0,1fr));
         gap:9px;
       }
 
       .media-brand{
         position:relative;
-        min-height:112px;
-        padding:20px 18px;
+        min-height:124px;
+        padding:22px 18px 34px;
         display:flex;
         align-items:center;
         justify-content:center;
@@ -244,11 +244,11 @@ export function renderHomePage(posts) {
         display:block;
         width:auto;
         height:auto;
-        max-width:72%;
-        max-height:52px;
+        max-width:70%;
+        max-height:58px;
         object-fit:contain;
         filter:grayscale(1) brightness(0) invert(1);
-        opacity:.76;
+        opacity:.8;
         transition:opacity .18s ease,transform .18s ease,filter .18s ease;
       }
 
@@ -257,36 +257,38 @@ export function renderHomePage(posts) {
         transform:scale(1.035);
       }
 
+      .media-brand-date{
+        position:absolute;
+        left:14px;
+        bottom:11px;
+        font-size:7px;
+        font-weight:800;
+        letter-spacing:.14em;
+        color:#6f696d;
+      }
+
       .media-brand[data-brand="oan"] img{
-        max-height:58px;
-        max-width:52%;
+        max-height:62px;
+        max-width:44%;
       }
 
       .media-brand[data-brand="rav"] img{
-        max-height:62px;
-        max-width:64%;
+        max-height:66px;
+        max-width:58%;
       }
 
       .media-brand[data-brand="beck"] img{
-        max-height:62px;
-        max-width:72%;
+        max-height:64px;
+        max-width:68%;
         filter:grayscale(1) invert(1) contrast(1.12);
-        opacity:.86;
+        opacity:.9;
       }
 
-      .media-brand[data-brand="timcast"] img{
-        max-height:48px;
-        max-width:58%;
-      }
-
-      .media-brand[data-brand="human-events"] img{
-        max-height:44px;
-        max-width:66%;
-      }
-
-      .media-brand[data-brand="first"] img{
-        max-height:68px;
-        max-width:58%;
+      .media-brand[data-brand="war-room"] img{
+        max-height:72px;
+        max-width:76%;
+        filter:grayscale(1) contrast(1.12) brightness(.94);
+        opacity:.96;
       }
 
       .authority-note{
@@ -395,7 +397,7 @@ export function renderHomePage(posts) {
         .credential-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
         .media-authority-head{grid-template-columns:1fr;gap:12px}
         .media-authority-head p{max-width:700px;margin:0;text-align:left}
-        .media-brand-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+        .media-brand-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
         .authority-rail{grid-template-columns:repeat(2,minmax(0,1fr))}
         .rail-header{grid-column:1/-1}
         .rail-item:nth-child(2n){border-right:0}
@@ -407,9 +409,9 @@ export function renderHomePage(posts) {
         .authority-intro{padding-top:40px}
         .credential-grid{grid-template-columns:1fr;gap:8px}
         .credential-card{min-height:166px}
-        .media-brand-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-        .media-brand{min-height:96px;padding:15px 12px}
-        .media-brand img{max-width:76%;max-height:46px}
+        .media-brand-grid{grid-template-columns:1fr;gap:8px}
+        .media-brand{min-height:106px;padding:16px 12px 32px}
+        .media-brand img{max-width:70%;max-height:50px}
         .authority-rail{grid-template-columns:1fr}
         .rail-item{border-right:0}
         .rail-cta{grid-column:auto}
@@ -496,7 +498,7 @@ export function renderHomePage(posts) {
                   <span class="credential-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Wh-gov-workmark-logo.svg" alt="The White House" loading="lazy" decoding="async"></span>
                   <span class="credential-role"><strong>CORRESPONDENT</strong>White House press coverage</span>
                 </a>
-                <a class="credential-card" data-brand="war-room" href="https://warroom.org/tag/natalie-winters/" target="_blank" rel="noopener noreferrer">
+                <a class="credential-card" data-brand="war-room" href="/war-room">
                   <small>BROADCAST · EDITORIAL</small>
                   <span class="credential-logo"><img src="https://storage.warroom.org/images/AVN_YT_Banner_Pandemic_Live_-_smaller.png" alt="Bannon's War Room" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
                   <span class="credential-role"><strong>CO-HOST &amp; EXECUTIVE EDITOR</strong>Broadcasts, investigations and interviews</span>
@@ -516,21 +518,19 @@ export function renderHomePage(posts) {
               <div class="media-authority">
                 <div class="media-authority-head">
                   <div>
-                    <span class="media-kicker">MEDIA &amp; MOVEMENT</span>
-                    <h3>FEATURED &amp; WELCOMED ACROSS</h3>
+                    <span class="media-kicker">CURRENT CONSERVATIVE MEDIA · 2026</span>
+                    <h3>RECENTLY FEATURED &amp; WELCOMED</h3>
                   </div>
-                  <p>Selected networks and shows that have hosted, featured or amplified Natalie G. Winters. Every mark links directly to an appearance.</p>
+                  <p>Recent appearances only. Each promoted destination has been checked before being placed here; older appearances remain in the media archive rather than the homepage.</p>
                 </div>
 
-                <div class="media-brand-grid" aria-label="Selected Natalie G. Winters media appearances">
-                  <a class="media-brand" data-brand="oan" href="https://www.youtube.com/watch?v=CP-Wzou3NzI" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The Matt Gaetz Show, One America News"><img src="https://www.oann.com/images/logos/OAN-only-logo.svg" alt="OAN" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
-                  <a class="media-brand" data-brand="rav" href="https://americasvoice.news/i-think-we-have-our-country-back/" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Real America's Voice"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Logo_Real_America%27s_Voice.svg" alt="Real America's Voice" loading="lazy" decoding="async"></a>
-                  <a class="media-brand" data-brand="beck" href="https://www.theblaze.com/shows/the-glenn-beck-program/george-soros-protests" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The Glenn Beck Program"><img src="https://premierenetworks.s3.amazonaws.com/logo/2021-06/GlennBeckLogo.png" alt="The Glenn Beck Program" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
-                  <a class="media-brand" data-brand="timcast" href="https://www.youtube.com/watch?v=06KBLBphdV0" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Timcast IRL"><img src="https://timcast.com/_next/static/media/timcast-logo.0~vh38qkdscg_.png" alt="Timcast" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
-                  <a class="media-brand" data-brand="human-events" href="https://humanevents.com/2024/12/11/natalie-winters-chris-wray-stepping-down-will-not-make-our-appetite-for-justice-dissipate" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Human Events Daily"><img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Human_Events_logo.svg" alt="Human Events" loading="lazy" decoding="async"></a>
-                  <a class="media-brand" data-brand="first" href="https://www.thefirsttv.com/watch/americas-institutions-have-been-seized-by-communists/" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The First"><img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/The_First_TV_logo.png" alt="The First" loading="lazy" decoding="async"></a>
+                <div class="media-brand-grid" aria-label="Recent Natalie G. Winters media appearances">
+                  <a class="media-brand" data-brand="oan" href="https://www.oann.com/video/the-matt-gaetz-show-video/natalie-winters-joins-the-matt-gaetz-show-with-a-message/" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The Matt Gaetz Show, One America News, August 24 2026"><img src="https://www.oann.com/images/logos/OAN-only-logo.svg" alt="OAN" loading="lazy" decoding="async" referrerpolicy="no-referrer"><span class="media-brand-date">AUG 24 · 2026</span></a>
+                  <a class="media-brand" data-brand="rav" href="https://rumble.com/v7e4his-war-room-with-steve-bannon-pm-edition.html" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on Real America's Voice, August 13 2026"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Logo_Real_America%27s_Voice.svg" alt="Real America's Voice" loading="lazy" decoding="async"><span class="media-brand-date">AUG 13 · 2026</span></a>
+                  <a class="media-brand" data-brand="beck" href="https://newsradio1410.iheart.com/featured/glenn-beck/content/2026-07-28-175-the-glenn-beck-program-best-of-the-program-guest-natalie-winters-72826/" target="_blank" rel="noopener noreferrer" title="Natalie G. Winters on The Glenn Beck Program, July 28 2026"><img src="https://premierenetworks.s3.amazonaws.com/logo/2021-06/GlennBeckLogo.png" alt="The Glenn Beck Program" loading="lazy" decoding="async" referrerpolicy="no-referrer"><span class="media-brand-date">JUL 28 · 2026</span></a>
+                  <a class="media-brand" data-brand="war-room" href="/war-room" title="Current Natalie G. Winters War Room archive"><img src="https://storage.warroom.org/images/AVN_YT_Banner_Pandemic_Live_-_smaller.png" alt="Bannon's War Room" loading="lazy" decoding="async" referrerpolicy="no-referrer"><span class="media-brand-date">CURRENT · 2026</span></a>
                 </div>
-                <p class="authority-note">Appearance links document the relationship shown. Institutional marks identify education, fellowship or professional roles and do not imply organisational endorsement unless explicitly stated by the source.</p>
+                <p class="authority-note">Homepage links prioritise current, working destinations. Historical appearances are kept in the media archive instead of being promoted here as if they were recent.</p>
               </div>
             </div>
 
