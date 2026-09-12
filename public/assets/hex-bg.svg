@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="gridStroke" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#121219"/>
+      <stop offset=".12" stop-color="#19132a"/>
+      <stop offset=".25" stop-color="#282071"/>
+      <stop offset=".43" stop-color="#1f2e87"/>
+      <stop offset=".56" stop-color="#22257d"/>
+      <stop offset=".7" stop-color="#482172"/>
+      <stop offset=".82" stop-color="#6e267f"/>
+      <stop offset="1" stop-color="#17131d"/>
+    </linearGradient>
+    <radialGradient id="blueGlow">
+      <stop offset="0" stop-color="#243cff" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#243cff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pinkGlow">
+      <stop offset="0" stop-color="#ff35dc" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#ff35dc" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="violetGlow">
+      <stop offset="0" stop-color="#9e35ff" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#9e35ff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="hex" width="96" height="83.138" patternUnits="userSpaceOnUse">
+      <path d="M24 1 H72 L95 41.569 L72 82.138 H24 L1 41.569 Z" fill="#050506" stroke="url(#gridStroke)" stroke-width="2"/>
+      <path d="M72 41.569 H120 L143 83.138 L120 124.707 H72 L49 83.138 Z" fill="#050506" stroke="url(#gridStroke)" stroke-width="2" transform="translate(-48 -41.569)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#020203"/>
+  <ellipse cx="480" cy="480" rx="360" ry="500" fill="url(#blueGlow)"/>
+  <ellipse cx="965" cy="480" rx="280" ry="420" fill="url(#blueGlow)" opacity=".7"/>
+  <ellipse cx="1375" cy="410" rx="340" ry="520" fill="url(#pinkGlow)"/>
+  <ellipse cx="1290" cy="770" rx="300" ry="360" fill="url(#violetGlow)"/>
+  <rect width="1920" height="1080" fill="url(#hex)" opacity=".92"/>
+
+  <g fill="none" stroke-linejoin="round" filter="url(#softGlow)">
+    <path d="M370 208 H418 L442 250 L418 292 H370 L346 250 Z" stroke="#dfe4ff" stroke-width="2.6" opacity=".58"/>
+    <path d="M370 292 H418 L442 334 L418 376 H370 L346 334 Z" stroke="#ff5ee7" stroke-width="2.2" opacity=".43"/>
+    <path d="M790 410 H838 L862 452 L838 494 H790 L766 452 Z" stroke="#eef1ff" stroke-width="2.7" opacity=".6"/>
+    <path d="M742 494 H790 L814 536 L790 578 H742 L718 536 Z" stroke="#dfe4ff" stroke-width="2.5" opacity=".5"/>
+    <path d="M1168 210 H1216 L1240 252 L1216 294 H1168 L1144 252 Z" stroke="#f4e9ff" stroke-width="2.6" opacity=".5"/>
+    <path d="M1264 544 H1312 L1336 586 L1312 628 H1264 L1240 586 Z" stroke="#ff5ddb" stroke-width="2.2" opacity=".42"/>
+    <path d="M1216 628 H1264 L1288 670 L1264 712 H1216 L1192 670 Z" stroke="#eff2ff" stroke-width="2.5" opacity=".48"/>
+    <path d="M1264 712 H1312 L1336 754 L1312 796 H1264 L1240 754 Z" stroke="#263bff" stroke-width="2.2" opacity=".4"/>
+    <path d="M514 628 H562 L586 670 L562 712 H514 L490 670 Z" stroke="#ff6ee5" stroke-width="2.1" opacity=".38"/>
+  </g>
+
+  <rect width="1920" height="1080" fill="none" stroke="#000" stroke-width="180" opacity=".35"/>
+  <rect width="1920" height="1080" fill="#000" opacity=".12"/>
+</svg>
