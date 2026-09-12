@@ -1,9 +1,11 @@
 export const SITE = {
-  name: "Natalie Winters",
+  name: "Natalie G. Winters",
   fullName: "Natalie G. Winters",
   domain: "https://nataliegwinters.com",
   substackHome: "https://nataliegwinters.substack.com/",
   rumbleEmbed: "https://rumble.com/embed/v7d85se/?pub=4kxtac",
+  heroVideoEmbed: "https://www.youtube.com/embed/CP-Wzou3NzI?rel=0",
+  heroVideoSource: "https://www.youtube.com/watch?v=CP-Wzou3NzI",
 
   images: {
     portrait:
