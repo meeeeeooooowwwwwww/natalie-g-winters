@@ -129,3 +129,11 @@
     flex-wrap:wrap;
   }
 }
+
+/* Subtle full-site honeycomb background test. */
+.site-bg{
+  background:
+    linear-gradient(rgba(0,0,0,.46),rgba(0,0,0,.58)),
+    url("/assets/hex-bg.svg") center center / cover no-repeat;
+  background-color:#020203;
+}
