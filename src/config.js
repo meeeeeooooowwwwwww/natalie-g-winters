@@ -1,11 +1,59 @@
+function toVideoEmbedUrl(value = "") {
+  const raw = String(value).trim();
+  if (!raw) return "";
+
+  try {
+    const url = new URL(raw);
+    const host = url.hostname.replace(/^www\./, "").toLowerCase();
+
+    if (host === "youtu.be") {
+      const id = url.pathname.split("/").filter(Boolean)[0];
+      return id ? `https://www.youtube.com/embed/${id}?rel=0` : raw;
+    }
+
+    if (host === "youtube.com" || host === "m.youtube.com") {
+      if (url.pathname.startsWith("/embed/")) {
+        return raw;
+      }
+
+      if (url.pathname === "/watch") {
+        const id = url.searchParams.get("v");
+        return id ? `https://www.youtube.com/embed/${id}?rel=0` : raw;
+      }
+
+      if (url.pathname.startsWith("/shorts/")) {
+        const id = url.pathname.split("/").filter(Boolean)[1];
+        return id ? `https://www.youtube.com/embed/${id}?rel=0` : raw;
+      }
+    }
+
+    if (host === "rumble.com") {
+      if (url.pathname.startsWith("/embed/")) {
+        return raw;
+      }
+
+      const match = url.pathname.match(/^\/v([a-z0-9]+)-/i);
+      if (match?.[1]) {
+        return `https://rumble.com/embed/v${match[1]}/`;
+      }
+    }
+  } catch {
+    return raw;
+  }
+
+  return raw;
+}
+
+const heroVideo = "https://rumble.com/embed/v7dckek/?pub=4kxtac";
+
 export const SITE = {
   name: "Natalie G. Winters",
   fullName: "Natalie G. Winters",
   domain: "https://nataliegwinters.com",
   substackHome: "https://nataliegwinters.substack.com/",
   rumbleEmbed: "https://rumble.com/embed/v7d85se/?pub=4kxtac",
-  heroVideoEmbed: "https://www.youtube.com/embed/CP-Wzou3NzI?rel=0",
-  heroVideoSource: "https://www.oann.com/video/the-matt-gaetz-show-video/natalie-winters-joins-the-matt-gaetz-show-with-a-message/",
+  heroVideoEmbed: toVideoEmbedUrl(heroVideo),
+  heroVideoSource: heroVideo,
 
   images: {
     portrait:
