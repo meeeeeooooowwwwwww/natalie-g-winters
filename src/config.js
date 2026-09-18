@@ -44,7 +44,7 @@ function toVideoEmbedUrl(value = "") {
   return raw;
 }
 
-const heroVideo = "https://rumble.com/embed/v7d34cw/?pub=4kxtac";
+const heroVideo = "https://www.youtube.com/watch?v=fEwDx8YJndU";
 
 export const SITE = {
   name: "Natalie G. Winters",
