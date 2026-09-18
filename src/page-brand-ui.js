@@ -2,7 +2,7 @@ export const PAGE_BRAND_STYLES = `
 <style>
   .prestige-page{padding-top:0;background:linear-gradient(180deg,rgba(4,2,5,.96),rgba(0,0,0,.94))}
   .prestige-shell{max-width:1380px}
-  .prestige-hero{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:54px;align-items:end;padding:58px 0 42px;border-bottom:1px solid rgba(255,255,255,.09)}
+  .prestige-hero{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:54px;align-items:start;padding:58px 0 42px;border-bottom:1px solid rgba(255,255,255,.09)}
   .prestige-kicker{display:block;margin-bottom:14px;font-size:8px;font-weight:800;letter-spacing:.2em;color:#c8a65c}
   .prestige-hero h1{margin:0;max-width:980px;font-size:clamp(46px,5.2vw,76px);line-height:.92;letter-spacing:-.055em;color:#f7f4f1;text-wrap:balance}
   .prestige-deck{max-width:930px;margin:22px 0 0;font-size:clamp(17px,1.45vw,21px);line-height:1.58;color:#aaa2a7}
