@@ -30,7 +30,8 @@ function renderVideoArchiveCards() {
 export function renderVideosPage(posts) {
   const pageContent = `
     ${PAGE_BRAND_STYLES}
-    <main class="content-page prestige-page">
+    <style>.videos-page .prestige-hero{align-items:start}</style>
+    <main class="content-page prestige-page videos-page">
       <article class="content-inner prestige-shell">
         <section class="prestige-hero">
           <div>
