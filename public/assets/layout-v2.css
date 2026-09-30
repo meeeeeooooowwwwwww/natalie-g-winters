@@ -88,17 +88,19 @@ iframe:focus-visible{
   max-width:var(--page-max);
   margin:0 auto;
   display:grid;
-  grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);
-  gap:clamp(40px,5vw,84px);
-  align-items:center;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(34px,3.6vw,58px);
+  align-items:start;
 }
 
 .hero-copy{
   min-width:0;
+  padding-top:34px;
 }
 
 .hero-copy-inner{
-  max-width:690px;
+  width:100%;
+  max-width:660px;
 }
 
 .hero-copy .eyebrow{
@@ -117,11 +119,11 @@ iframe:focus-visible{
 }
 
 .hero-headline{
-  max-width:610px;
-  margin:28px 0 0;
-  font-size:clamp(24px,2.45vw,38px);
-  line-height:1.06;
-  letter-spacing:-.038em;
+  max-width:570px;
+  margin:26px 0 0;
+  font-size:clamp(23px,2.15vw,34px);
+  line-height:1.08;
+  letter-spacing:-.034em;
   font-weight:700;
   color:#f2eef1;
   text-wrap:balance;
