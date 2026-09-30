@@ -474,8 +474,8 @@ iframe:focus-visible{
 
 @media (max-width:1180px){
   .home-hero-inner{
-    grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
-    gap:34px;
+    grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);
+    gap:32px;
   }
 
   .hero-copy-inner{max-width:none}
@@ -505,6 +505,7 @@ iframe:focus-visible{
     gap:36px;
   }
 
+  .hero-copy{padding-top:0}
   .hero-copy-inner{max-width:820px}
   .hero-summary{max-width:760px}
   .hero-media{width:100%}
