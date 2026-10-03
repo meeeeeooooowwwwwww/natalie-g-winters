@@ -31,10 +31,6 @@
     {
       "pattern": "nataliegwinters.com",
       "custom_domain": true
-    },
-    {
-      "pattern": "www.nataliegwinters.com",
-      "custom_domain": true
     }
   ]
 }
