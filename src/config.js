@@ -44,7 +44,7 @@ function toVideoEmbedUrl(value = "") {
   return raw;
 }
 
-const heroVideo = "https://www.youtube.com/shorts/xHCTuvRUZT4";
+const heroVideo = "https://www.youtube.com/watch?v=ElPxSbnP2Kw";
 
 export const SITE = {
   name: "Natalie G. Winters",
