@@ -3,7 +3,6 @@
   "name": "nataliegwinters-site",
   "main": "src/worker.js",
   "compatibility_date": "2026-08-18",
-
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
@@ -13,7 +12,6 @@
       "/media/*"
     ]
   },
-
   "kv_namespaces": [
     {
       "binding": "NATALIE_KV",
@@ -21,14 +19,22 @@
       "remote": true
     }
   ],
-
   "triggers": {
     "crons": [
       "17 * * * *"
     ]
   },
-
   "observability": {
     "enabled": true
-  }
+  },
+  "routes": [
+    {
+      "pattern": "nataliegwinters.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.nataliegwinters.com",
+      "custom_domain": true
+    }
+  ]
 }
