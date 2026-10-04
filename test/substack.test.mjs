@@ -79,6 +79,32 @@ const rankedSourceMerge = __testing.mergeSourceResults([
 assert.equal(rankedSourceMerge[0].image, coverImage);
 assert.equal(rankedSourceMerge[0].imageQuality, 300);
 
+const legacyRenderedImage = "https://substackcdn.com/image/fetch/w_1456,c_limit/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Flegacy-rendered-image.jpeg";
+const oct3ImagePreference = __testing.mergeSourceResults([
+  {
+    source: "substack-archive-api",
+    posts: [{
+      title: "Oct 3 image preference",
+      url: "https://nataliegwinters.substack.com/p/oct-3-image-preference",
+      image: coverImage,
+      imageQuality: 300,
+      date: "2026-10-04T10:00:00.000Z",
+    }],
+  },
+  {
+    source: "substack-reader-fallback",
+    posts: [{
+      title: "Oct 3 image preference",
+      url: "https://nataliegwinters.substack.com/p/oct-3-image-preference",
+      image: legacyRenderedImage,
+      imageQuality: 400,
+      date: "2026-10-04T10:00:00.000Z",
+    }],
+  },
+]);
+assert.equal(oct3ImagePreference[0].image, legacyRenderedImage);
+assert.equal(oct3ImagePreference[0].imageQuality, 400);
+
 const stored = {
   id: "stored",
   title: "Old title",
