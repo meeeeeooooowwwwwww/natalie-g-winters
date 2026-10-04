@@ -6,14 +6,6 @@ on:
       - main
       - seo/**
   pull_request:
-  workflow_dispatch:
-
-permissions:
-  contents: read
-
-concurrency:
-  group: natalie-g-winters-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   test:
@@ -34,37 +26,3 @@ jobs:
         run: npm test
       - name: Dry-run Cloudflare Worker bundle
         run: npx wrangler deploy --dry-run --outdir /tmp/wrangler-dry-run
-
-  deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: test
-    runs-on: ubuntu-latest
-    env:
-      CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_GLOBAL }}
-      CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Deploy to Cloudflare
-        run: npx wrangler deploy --message "Deploy nataliegwinters.com from GitHub main"
-      - name: Verify live homepage
-        shell: bash
-        run: |
-          set -euo pipefail
-          for attempt in 1 2 3 4 5 6; do
-            curl -fsSL "https://nataliegwinters.com/?deploy_check=${GITHUB_SHA}" > "$RUNNER_TEMP/home.html"
-            if grep -Fq 'WATCH ON RUMBLE' "$RUNNER_TEMP/home.html" && grep -Fq 'https://rumble.com/embed/v7ge3f8/' "$RUNNER_TEMP/home.html"; then
-              echo "NATALIE_LIVE_DEPLOY=PASS"
-              exit 0
-            fi
-            sleep 5
-          done
-          echo "::error::Live homepage did not reflect the expected Rumble featured video."
-          exit 1
