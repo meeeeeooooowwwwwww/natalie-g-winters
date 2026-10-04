@@ -1,29 +1,108 @@
 import { SITE } from "../config.js";
-import { renderArticleCards, renderLayout } from "../layout.js";
+import { articleImageUrl, renderLayout } from "../layout.js";
+import { escapeHtml, formatDate } from "../utils.js";
+
+function imageMarkup(post, className, width = 1200, height = 675) {
+  const src = articleImageUrl(post);
+  if (!src) return `<div class="${className}"><div class="archive-no-image">NATALIE G. WINTERS</div></div>`;
+
+  return `
+    <div class="${className}">
+      <img src="${escapeHtml(src)}" alt="Article image for ${escapeHtml(post.title)}" width="${width}" height="${height}" loading="lazy" decoding="async">
+    </div>
+  `;
+}
+
+function meta(post) {
+  const date = formatDate(post?.date);
+  return date
+    ? `<div class="archive-meta"><span>NATALIE G. WINTERS</span><span>·</span><time datetime="${escapeHtml(post.date)}">${escapeHtml(date)}</time></div>`
+    : `<div class="archive-meta"><span>NATALIE G. WINTERS</span></div>`;
+}
+
+function sideCard(post) {
+  if (!post) return "";
+  return `
+    <a class="archive-side-card" href="${escapeHtml(post.url)}" target="_blank" rel="noopener noreferrer">
+      ${imageMarkup(post, "archive-side-image", 600, 450)}
+      <div>
+        <h3>${escapeHtml(post.title)}</h3>
+        ${post.subtitle ? `<p>${escapeHtml(post.subtitle)}</p>` : ""}
+        ${meta(post)}
+      </div>
+    </a>
+  `;
+}
+
+function archiveRow(post) {
+  return `
+    <a class="archive-row" href="${escapeHtml(post.url)}" target="_blank" rel="noopener noreferrer">
+      <div>
+        <h3>${escapeHtml(post.title)}</h3>
+        ${post.subtitle ? `<p>${escapeHtml(post.subtitle)}</p>` : ""}
+        ${meta(post)}
+      </div>
+      ${imageMarkup(post, "archive-row-image", 900, 560)}
+    </a>
+  `;
+}
 
 export function renderArticlesPage(posts) {
-  const count = Array.isArray(posts) ? posts.length : 0;
+  const visible = Array.isArray(posts) ? posts.filter((post) => post?.url && post?.title) : [];
+  const lead = visible[0];
+  const side = visible.slice(1, 5);
+  const archive = visible.slice(5);
+
+  const leadMarkup = lead ? `
+    <section class="archive-lead" aria-label="Latest Natalie G. Winters reporting">
+      <a class="archive-lead-main" href="${escapeHtml(lead.url)}" target="_blank" rel="noopener noreferrer">
+        ${imageMarkup(lead, "archive-lead-image", 1400, 788)}
+        <h2>${escapeHtml(lead.title)}</h2>
+        ${lead.subtitle ? `<p>${escapeHtml(lead.subtitle)}</p>` : ""}
+        ${meta(lead)}
+      </a>
+      <div class="archive-side">
+        ${side.map(sideCard).join("")}
+      </div>
+    </section>
+  ` : `
+    <div class="articles-unavailable">
+      Latest reporting is currently available on
+      <a href="${escapeHtml(SITE.substackHome)}" target="_blank" rel="noopener noreferrer">Substack</a>.
+    </div>
+  `;
+
   const pageContent = `
-    <main class="content-page">
-      <article class="content-inner wide-shell">
-        <div class="editorial-hero">
-          <div>
-            <div class="eyebrow">SUBSTACK ARCHIVE</div>
-            <h1>Natalie Winters Articles</h1>
-            <p class="hero-deck">A larger rolling window into Natalie Winters' latest independent investigations, automatically refreshed from her Substack publication.</p>
-          </div>
-          <aside class="hero-aside"><strong>LIVE ARCHIVE</strong>The site stores up to 25 recent posts in Cloudflare KV and checks for updates every hour using multiple Substack sources. The developer has finally accepted that “refresh and hope” is not an architecture.</aside>
-        </div>
+    <main>
+      <div class="publication-shell">
+        <header class="publication-masthead">
+          <span class="pub-kicker">NATALIE G. WINTERS · SUBSTACK</span>
+          <h1>Latest Reporting</h1>
+          <p>Investigations, documents and political reporting from Natalie G. Winters. Headlines link directly to the original publication on Substack.</p>
+        </header>
 
-        <div class="article-archive-intro">
-          <p>Recent reporting has concentrated heavily on China-linked influence networks, U.S. media and institutions, election infrastructure, political organising, scientific collaboration and national security. This archive links directly to Winters' original publication rather than reproducing her articles.</p>
-          <span class="archive-count">${count ? `${count} RECENT POSTS CURRENTLY CACHED` : "LIVE POSTS LOAD FROM SUBSTACK"}</span>
-        </div>
+        <nav class="publication-tabs" aria-label="Publication navigation">
+          <a href="/" >HOME</a>
+          <a href="/articles" aria-current="page">LATEST</a>
+          <a href="/videos">VIDEOS</a>
+          <a href="/china">CHINA FILES</a>
+          <a href="${escapeHtml(SITE.substackHome)}" target="_blank" rel="noopener noreferrer">SUBSTACK ↗</a>
+        </nav>
 
-        ${renderArticleCards(posts, null, "article-archive-grid")}
+        ${leadMarkup}
 
-        <div class="callout">The archive updates itself from Substack with fallback sources if one route misbehaves. Somewhere, a spreadsheet has been denied employment and a brittle regex has been placed under supervision.<small>FULL PUBLICATION REMAINS ON SUBSTACK</small></div>
-      </article>
+        ${archive.length ? `
+          <section>
+            <div class="archive-list-head">
+              <h2>More from the archive</h2>
+              <a href="${escapeHtml(SITE.substackHome)}" target="_blank" rel="noopener noreferrer">VIEW FULL SUBSTACK →</a>
+            </div>
+            <div class="archive-list">
+              ${archive.map(archiveRow).join("")}
+            </div>
+          </section>
+        ` : ""}
+      </div>
     </main>
   `;
 
@@ -33,6 +112,7 @@ export function renderArticlesPage(posts) {
     canonical: `${SITE.domain}/articles`,
     pageContent,
     posts,
+    active: "articles",
     pageType: "CollectionPage",
     showLatestReporting: false,
   });
