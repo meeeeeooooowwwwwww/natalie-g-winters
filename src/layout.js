@@ -2,12 +2,12 @@ import { SITE } from "./config.js";
 import { escapeHtml, formatDate } from "./utils.js";
 
 const NAV = [
+  ["articles", "/articles", "ARTICLES"],
+  ["videos", "/videos", "VIDEOS"],
   ["about", "/about", "ABOUT"],
   ["career", "/career", "CAREER"],
-  ["reporting", "/reporting", "REPORTING"],
   ["white-house", "/white-house", "WHITE HOUSE"],
-  ["videos", "/videos", "VIDEOS"],
-  ["verdict", "/verdict", "THE VERDICT"],
+  ["war-room", "/war-room", "WAR ROOM"],
 ];
 
 const FOOTER_EXPLORE = [
@@ -48,7 +48,7 @@ export function renderHeader(active = "") {
   `;
 }
 
-function localImageUrl(post) {
+export function articleImageUrl(post) {
   if (!post?.image) return "";
 
   if (String(post.image).startsWith("/images/")) return String(post.image);
@@ -72,7 +72,7 @@ export function renderArticleCards(posts, limit = null, className = "article-gri
   }
 
   const cards = visiblePosts.map((post) => {
-    const proxyImage = localImageUrl(post);
+    const proxyImage = articleImageUrl(post);
     const image = proxyImage
       ? `<div class="article-image"><img src="${escapeHtml(proxyImage)}" alt="Cover image for ${escapeHtml(post.title)} by Natalie G. Winters" width="700" height="394" loading="lazy" decoding="async"></div>`
       : `<div class="article-image article-placeholder"><span>NATALIE G. WINTERS</span></div>`;
@@ -297,7 +297,7 @@ export function renderLayout({
   </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#090208">
+  <meta name="theme-color" content="#f4e8ec">
   <title>${safeTitle}</title>
   <meta name="description" content="${safeDescription}">
   <meta name="robots" content="${escapeHtml(robots)}">
@@ -308,6 +308,7 @@ export function renderLayout({
   <link rel="stylesheet" href="/assets/theme-magenta.css">
   <link rel="stylesheet" href="/assets/layout-v2.css">
   <link rel="stylesheet" href="/assets/footer-icons.css">
+  <link rel="stylesheet" href="/assets/editorial-substack.css">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
