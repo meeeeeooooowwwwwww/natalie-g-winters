@@ -7,7 +7,7 @@ const LEGACY_CACHE_KEY = "natalie_latest_articles_v3";
   Bump the check-state key when updater behaviour changes materially.
   The article cache itself stays on v4 so a deploy never blanks the site.
 */
-const CHECK_STATE_KEY = "natalie_article_check_v7";
+const CHECK_STATE_KEY = "natalie_article_check_v8";
 
 const CHECK_INTERVAL_MS = 60 * 60 * 1000;
 const MAX_STORED_POSTS = 25;
@@ -312,8 +312,8 @@ function normalisePost(post = {}) {
   );
   const url = canonicalPostUrl(rawUrl);
   const rankedImage = chooseRankedArticleImage(
-    { image: post.cover_image, imageQuality: 300 },
-    { image: post.social_image, imageQuality: 300 },
+    { image: post.cover_image, imageQuality: 500 },
+    { image: post.social_image, imageQuality: 450 },
     {
       image: post.image,
       imageQuality: post.imageQuality,
@@ -526,13 +526,11 @@ function extractJinaPost(markdown, entry) {
     url: entry.url,
     image,
     /*
-      Preserve the image-selection behaviour that was live on Oct 3:
-      the first real image on the rendered Substack article page is the
-      preferred card thumbnail. This intentionally outranks archive
-      cover_image/social metadata, which can be a document/screenshot that
-      is less suitable for the nataliegwinters.com reporting cards.
+      The rendered article's first image is useful only as a fallback.
+      Substack's archive cover_image is the publication preview artwork
+      shown on the Substack homepage and therefore outranks body imagery.
     */
-    imageQuality: image ? 400 : 0,
+    imageQuality: image ? 100 : 0,
     subtitle,
     date,
   });
