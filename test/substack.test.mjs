@@ -43,6 +43,16 @@ assert.match(post.subtitle, /^Beijing recruited a Penn State professor/);
 assert.equal(__testing.chooseArticleImage(profileImage, coverImage), coverImage);
 assert.equal(__testing.chooseArticleImage("/images/natalie-g-winters-profile-16x9.jpg"), "");
 
+const jinaArchive = `Title:
+
+URL Source: http://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=1
+
+Markdown Content:
+[{"id":123,"title":"Archive cover test","slug":"archive-cover-test","canonical_url":"https://nataliegwinters.substack.com/p/archive-cover-test","cover_image":"${coverImage}","post_date":"2026-10-04T13:34:42.943Z"}]`;
+const jinaRows = __testing.parseJinaArchiveApi(jinaArchive);
+assert.equal(jinaRows.length, 1);
+assert.equal(jinaRows[0].cover_image, coverImage);
+
 const bodyImage = "https://substack-post-media.s3.amazonaws.com/public/images/body-evidence_1200x800.jpeg";
 const rankedSourceMerge = __testing.mergeSourceResults([
   {
