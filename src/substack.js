@@ -1158,11 +1158,8 @@ export async function getLatestPosts(env, ctx = null) {
   }
 
   let checkState = await readKey(env, CHECK_STATE_KEY);
-  const latestPostsNeedImageUpgrade = stored.posts
-    .slice(0, FRESH_POST_COUNT)
-    .some((post) => post?.image && Number(post.imageQuality || 0) <= 1);
 
-  if (!checkState && latestPostsNeedImageUpgrade) {
+  if (!checkState) {
     const upgrade = await refreshArticlesIfChanged(env);
 
     if (!upgrade?.error) {
