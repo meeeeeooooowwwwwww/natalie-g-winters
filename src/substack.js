@@ -7,7 +7,7 @@ const LEGACY_CACHE_KEY = "natalie_latest_articles_v3";
   Bump the check-state key when updater behaviour changes materially.
   The article cache itself stays on v4 so a deploy never blanks the site.
 */
-const CHECK_STATE_KEY = "natalie_article_check_v4";
+const CHECK_STATE_KEY = "natalie_article_check_v5";
 
 const CHECK_INTERVAL_MS = 60 * 60 * 1000;
 const MAX_STORED_POSTS = 25;
@@ -267,6 +267,32 @@ function chooseArticleImage(...candidates) {
   return "";
 }
 
+function chooseRankedArticleImage(...candidates) {
+  const flattened = candidates.flat(Infinity);
+  let best = { image: "", imageQuality: 0 };
+
+  for (const candidate of flattened) {
+    const descriptor =
+      candidate && typeof candidate === "object" && !Array.isArray(candidate)
+        ? candidate
+        : { image: candidate, imageQuality: 1 };
+
+    const value = decodeHtmlEntities(String(descriptor.image || "").trim());
+    if (!isLikelyArticleImage(value)) continue;
+
+    const parsedQuality = Number(descriptor.imageQuality);
+    const imageQuality = Number.isFinite(parsedQuality) && parsedQuality > 0
+      ? parsedQuality
+      : 1;
+
+    if (!best.image || imageQuality > best.imageQuality) {
+      best = { image: value, imageQuality };
+    }
+  }
+
+  return best;
+}
+
 function imageVersion(url = "") {
   const source = unwrapSubstackImageUrl(url) || url;
   if (!source) return "";
@@ -285,13 +311,22 @@ function normalisePost(post = {}) {
     post.slug ? `${SITE.substackHome}p/${post.slug}` : ""
   );
   const url = canonicalPostUrl(rawUrl);
-  const image = chooseArticleImage(post.cover_image, post.social_image, post.image);
+  const rankedImage = chooseRankedArticleImage(
+    { image: post.cover_image, imageQuality: 300 },
+    { image: post.social_image, imageQuality: 300 },
+    {
+      image: post.image,
+      imageQuality: post.imageQuality,
+    }
+  );
+  const image = rankedImage.image;
 
   return {
     id: String(post.id || stablePostId(url || rawUrl)),
     title: stripTags(post.title || "") || "Natalie Winters reporting",
     url,
     image,
+    imageQuality: rankedImage.imageQuality,
     imageVersion: image ? imageVersion(image) : "",
     subtitle: stripTags(post.subtitle || post.description || ""),
     date: post.post_date || post.published_at || post.date || "",
@@ -305,7 +340,11 @@ function isGenericTitle(value = "") {
 function mergePostMetadata(primary, fallback) {
   const preferred = normalisePost(primary || {});
   const backup = normalisePost(fallback || {});
-  const image = chooseArticleImage(preferred.image, backup.image);
+  const rankedImage = chooseRankedArticleImage(
+    { image: preferred.image, imageQuality: preferred.imageQuality },
+    { image: backup.image, imageQuality: backup.imageQuality }
+  );
+  const image = rankedImage.image;
 
   const title = isGenericTitle(preferred.title) && !isGenericTitle(backup.title)
     ? backup.title
@@ -325,6 +364,7 @@ function mergePostMetadata(primary, fallback) {
     title,
     url: preferred.url || backup.url,
     image,
+    imageQuality: rankedImage.imageQuality,
     imageVersion: image ? imageVersion(image) : "",
     subtitle,
     date,
@@ -334,7 +374,7 @@ function mergePostMetadata(primary, fallback) {
 function postListsEqual(a = [], b = []) {
   if (a.length !== b.length) return false;
 
-  const fields = ["id", "title", "url", "image", "imageVersion", "subtitle", "date"];
+  const fields = ["id", "title", "url", "image", "imageQuality", "imageVersion", "subtitle", "date"];
   return a.every((post, index) => {
     const other = b[index] || {};
     return fields.every((field) => String(post?.[field] || "") === String(other?.[field] || ""));
@@ -485,6 +525,7 @@ function extractJinaPost(markdown, entry) {
     title,
     url: entry.url,
     image,
+    imageQuality: image ? 50 : 0,
     subtitle,
     date,
   });
@@ -545,18 +586,23 @@ function extractRssPosts(xml) {
     const encoded = extractXmlTag(item, "content:encoded");
     const mediaTag = item.match(/<media:content\b[^>]*>/i)?.[0] || "";
     const enclosureTag = item.match(/<enclosure\b[^>]*>/i)?.[0] || "";
-    const image = chooseArticleImage(
+    const mediaImage = chooseArticleImage(
       getTagAttribute(mediaTag, "url"),
-      getTagAttribute(enclosureTag, "url"),
+      getTagAttribute(enclosureTag, "url")
+    );
+    const bodyImage = chooseArticleImage(
       extractFirstArticleImage(encoded),
       extractFirstArticleImage(description)
     );
+    const image = mediaImage || bodyImage;
+    const imageQuality = mediaImage ? 200 : bodyImage ? 50 : 0;
 
     posts.push(normalisePost({
       id: stablePostId(link),
       title: stripTags(extractXmlTag(item, "title")) || "Natalie Winters reporting",
       url: link,
       image,
+      imageQuality,
       subtitle: stripTags(description).slice(0, 500),
       date: extractXmlTag(item, "pubDate"),
     }));
@@ -664,6 +710,7 @@ async function fetchPostMetadata(entry) {
         "Natalie Winters reporting",
       url: canonical,
       image,
+      imageQuality: image ? 300 : 0,
       subtitle:
         getMeta(html, "og:description") ||
         getMeta(html, "description") ||
@@ -817,6 +864,25 @@ async function fetchLatestPostsFromSubstack() {
 
   if (!results.length) {
     throw new Error(`All Substack discovery sources failed: ${failures.join(" | ")}`);
+  }
+
+  const discovered = mergeSourceResults(results)
+    .map(normalisePost)
+    .filter((post) => post.title && post.url);
+
+  const metadataPosts = [];
+  for (const post of discovered.slice(0, FRESH_POST_COUNT)) {
+    metadataPosts.push(await fetchPostMetadata({
+      url: post.url,
+      title: post.title,
+    }));
+  }
+
+  if (metadataPosts.length) {
+    results.push({
+      posts: metadataPosts,
+      source: "substack-post-metadata",
+    });
   }
 
   const posts = mergeSourceResults(results)
