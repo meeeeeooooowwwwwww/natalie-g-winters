@@ -43,6 +43,32 @@ assert.match(post.subtitle, /^Beijing recruited a Penn State professor/);
 assert.equal(__testing.chooseArticleImage(profileImage, coverImage), coverImage);
 assert.equal(__testing.chooseArticleImage("/images/natalie-g-winters-profile-16x9.jpg"), "");
 
+const bodyImage = "https://substack-post-media.s3.amazonaws.com/public/images/body-evidence_1200x800.jpeg";
+const rankedSourceMerge = __testing.mergeSourceResults([
+  {
+    source: "substack-reader-fallback",
+    posts: [{
+      title: "Image priority test",
+      url: "https://nataliegwinters.substack.com/p/image-priority-test",
+      image: bodyImage,
+      imageQuality: 50,
+      date: "2026-09-07T10:00:00.000Z",
+    }],
+  },
+  {
+    source: "substack-post-metadata",
+    posts: [{
+      title: "Image priority test",
+      url: "https://nataliegwinters.substack.com/p/image-priority-test",
+      image: coverImage,
+      imageQuality: 300,
+      date: "2026-09-07T10:00:00.000Z",
+    }],
+  },
+]);
+assert.equal(rankedSourceMerge[0].image, coverImage);
+assert.equal(rankedSourceMerge[0].imageQuality, 300);
+
 const stored = {
   id: "stored",
   title: "Old title",
@@ -63,6 +89,20 @@ const historyMerge = __testing.mergeFreshWithHistory([freshWithoutImage], [store
 assert.equal(historyMerge[0].image, coverImage);
 assert.equal(historyMerge[0].title, "Updated title");
 assert.equal(historyMerge[0].subtitle, "Updated subtitle");
+
+const staleBodyHistory = {
+  ...stored,
+  image: bodyImage,
+  imageQuality: 50,
+};
+const freshCanonical = {
+  ...freshWithoutImage,
+  image: coverImage,
+  imageQuality: 300,
+};
+const upgradedHistory = __testing.mergeFreshWithHistory([freshCanonical], [staleBodyHistory]);
+assert.equal(upgradedHistory[0].image, coverImage);
+assert.equal(upgradedHistory[0].imageQuality, 300);
 
 const staleApi = {
   source: "substack-archive-api",
