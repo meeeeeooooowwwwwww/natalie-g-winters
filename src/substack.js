@@ -1119,7 +1119,20 @@ export async function getLatestPosts(env, ctx = null) {
     }
   }
 
-  const checkState = await readKey(env, CHECK_STATE_KEY);
+  let checkState = await readKey(env, CHECK_STATE_KEY);
+  const latestPostsNeedImageUpgrade = stored.posts
+    .slice(0, FRESH_POST_COUNT)
+    .some((post) => post?.image && Number(post.imageQuality || 0) <= 1);
+
+  if (!checkState && latestPostsNeedImageUpgrade) {
+    const upgrade = await refreshArticlesIfChanged(env);
+
+    if (!upgrade?.error) {
+      stored = await getStoredArticleState(env) || stored;
+      checkState = await readKey(env, CHECK_STATE_KEY);
+    }
+  }
+
   const lastCheckedAt = Number(checkState?.lastCheckedAt || 0);
   const overdue = !lastCheckedAt || Date.now() - lastCheckedAt > CHECK_INTERVAL_MS;
 
