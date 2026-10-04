@@ -32,12 +32,6 @@ function toVideoEmbedUrl(value = "") {
         return raw;
       }
 
-      const shortMatch = url.pathname.match(/^\/shorts\/(v?[a-z0-9]+)\/?$/i);
-      if (shortMatch?.[1]) {
-        const id = shortMatch[1].startsWith("v") ? shortMatch[1] : `v${shortMatch[1]}`;
-        return `https://rumble.com/embed/${id}/`;
-      }
-
       const match = url.pathname.match(/^\/v([a-z0-9]+)-/i);
       if (match?.[1]) {
         return `https://rumble.com/embed/v${match[1]}/`;
@@ -51,6 +45,7 @@ function toVideoEmbedUrl(value = "") {
 }
 
 const heroVideo = "https://rumble.com/shorts/v7ge3f8";
+const heroVideoEmbed = "https://rumble.com/embed/v7e7qhq/";
 
 export const SITE = {
   name: "Natalie G. Winters",
@@ -58,7 +53,7 @@ export const SITE = {
   domain: "https://nataliegwinters.com",
   substackHome: "https://nataliegwinters.substack.com/",
   rumbleEmbed: "https://rumble.com/embed/v7d85se/?pub=4kxtac",
-  heroVideoEmbed: toVideoEmbedUrl(heroVideo),
+  heroVideoEmbed,
   heroVideoSource: heroVideo,
 
   images: {
