@@ -1,8 +1,8 @@
 import { SITE } from "../config.js";
 import { renderLayout } from "../layout.js";
-import { escapeHtml } from "../utils.js";
+import { escapeHtml, formatDate } from "../utils.js";
 import { VIDEOS } from "../video-data.js";
-import { PAGE_BRAND_STYLES } from "../page-brand-ui.js";
+import { getVideoBrand, getVideoThumbnail } from "../video-thumbnails.js";
 
 const CATEGORY_LABELS = {
   china: "CHINA",
@@ -13,78 +13,108 @@ const CATEGORY_LABELS = {
   "white-house": "WHITE HOUSE",
   media: "MEDIA",
   interviews: "INTERVIEWS",
-  economy: "ECONOMY"
+  economy: "ECONOMY",
 };
 
-function renderVideoArchiveCards() {
-  return VIDEOS.map((video, index) => `
-    <a class="editorial-card" href="/videos/${escapeHtml(video.slug)}">
-      <span class="card-index">${String(index + 1).padStart(2, "0")} · ${escapeHtml(CATEGORY_LABELS[video.category] || "VIDEO")}</span>
-      <h3>${escapeHtml(video.title)}</h3>
-      <p>${escapeHtml(video.summary)}</p>
-      <span class="card-link">WATCH VIDEO + READ CONTEXT →</span>
+function displayBrand(video) {
+  const raw = getVideoBrand(video.slug, "RUMBLE");
+
+  if (/bannon/i.test(raw)) return "WAR ROOM";
+  if (/real.?america/i.test(raw)) return "REAL AMERICA'S VOICE";
+  if (/one america/i.test(raw)) return "OAN";
+  if (/piers morgan/i.test(video.sourceTitle || "")) return "PIERS MORGAN";
+  if (/glenn beck/i.test(video.sourceTitle || "")) return "GLENN BECK";
+  if (/white house/i.test(video.title || "") || video.category === "white-house") return "WHITE HOUSE";
+
+  return String(raw || CATEGORY_LABELS[video.category] || "RUMBLE").toUpperCase();
+}
+
+function renderVideoCard(video) {
+  const thumbnail = getVideoThumbnail(video.slug);
+  const brand = displayBrand(video);
+  const category = CATEGORY_LABELS[video.category] || "VIDEO";
+  const date = formatDate(video.date);
+
+  return `
+    <a class="video-thumb-card" href="/videos/${escapeHtml(video.slug)}">
+      <div class="video-thumb">
+        ${thumbnail
+          ? `<img src="${escapeHtml(thumbnail)}" alt="Video thumbnail for ${escapeHtml(video.title)}" width="1280" height="720" loading="lazy" decoding="async" referrerpolicy="no-referrer">`
+          : `<div class="archive-no-image">NATALIE G. WINTERS</div>`}
+      </div>
+      <div class="video-card-copy">
+        <div class="video-card-brand">
+          <span>${escapeHtml(brand)}</span>
+          <span>${escapeHtml(category)}${date ? ` · ${escapeHtml(date)}` : ""}</span>
+        </div>
+        <h3>${escapeHtml(video.title)}</h3>
+        <p>${escapeHtml(video.summary)}</p>
+      </div>
     </a>
-  `).join("");
+  `;
 }
 
 export function renderVideosPage(posts) {
+  const featured =
+    VIDEOS.find((video) => video.slug === "china-ai-models-american-voters") ||
+    VIDEOS[0];
+
+  const archive = VIDEOS.filter((video) => video.slug !== featured?.slug);
+
   const pageContent = `
-    ${PAGE_BRAND_STYLES}
-    <main class="content-page prestige-page">
-      <article class="content-inner prestige-shell">
-        <section class="prestige-hero">
+    <main>
+      <div class="video-publication-page">
+        <header class="video-publication-header">
           <div>
-            <span class="prestige-kicker">VIDEO ARCHIVE · WAR ROOM · WHITE HOUSE · INTERVIEWS</span>
+            <span>WATCH · WAR ROOM · WHITE HOUSE · INTERVIEWS</span>
             <h1>Natalie G. Winters Videos</h1>
-            <p class="prestige-deck">A growing archive of Natalie G. Winters clips, War Room broadcasts, White House reports, interviews and investigations covering foreign influence, institutions, political power and national security.</p>
           </div>
-          <aside class="prestige-summary">
-            <div class="prestige-summary-head"><span>ARCHIVE</span><strong>50+ dedicated video pages</strong></div>
-            <div class="prestige-summary-row"><span>CORE CATEGORIES</span><strong>China · War Room · White House</strong></div>
-            <div class="prestige-summary-row"><span>FORMAT</span><strong>Video + written context</strong></div>
-            <div class="prestige-summary-row"><span>ONGOING</span><strong>New clips continue to be added</strong></div>
-          </aside>
-        </section>
+          <p>A visual archive built from the real Rumble thumbnails and publisher metadata, with dedicated pages for context and search.</p>
+        </header>
 
-        <section class="prestige-section" style="margin-top:34px;padding-top:0;border-top:0">
-          <div class="prestige-section-head"><h2>Featured video</h2><p>Start with one substantial clip, then move into the full archive by subject.</p></div>
-          <div class="video-feature">
-            <div class="video-frame"><iframe src="https://rumble.com/embed/v7czn5i/?pub=4kxtac" title="Featured Natalie G. Winters video" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe></div>
-            <div class="video-copy"><span>FEATURED NATALIE G. WINTERS VIDEO</span><h2>Start here</h2><p>The archive moves across China, foreign influence, Washington institutions, War Room, White House reporting, interviews and political commentary.</p><a href="/war-room">EXPLORE NATALIE G. WINTERS ON WAR ROOM →</a></div>
-          </div>
-        </section>
-
-        <section class="prestige-section">
-          <div class="prestige-section-head"><h2>Browse the archive</h2><p>Each video has its own page so the clip, subject and context remain searchable rather than disappearing into a generic embed wall.</p></div>
-          <div class="editorial-grid">${renderVideoArchiveCards()}</div>
-        </section>
-
-        <section class="prestige-section">
-          <div class="prestige-content-grid" style="margin-top:0">
-            <div class="prestige-main prestige-prose">
-              <h2 style="margin-top:0">The recurring question</h2>
-              <p>Across the archive, the subjects change but the reporting keeps returning to the same basic problem: who benefits, who pays, who gets access, who gets protected and what the underlying documents actually show.</p>
-              <p>Natalie G. Winters' strongest video work is often where reporting and broadcasting meet: the document becomes the segment, the network becomes visible, and an obscure institutional relationship gets translated into something an audience can actually follow.</p>
+        ${featured ? `
+          <section class="video-lead" aria-label="Featured Natalie G. Winters video">
+            <div class="video-frame">
+              <iframe
+                src="${escapeHtml(featured.embedUrl)}"
+                title="${escapeHtml(featured.title)}"
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
             </div>
-            <aside class="prestige-rail" aria-label="Video archive shortcuts">
-              <div class="prestige-rail-head"><span>JUMP INTO THE ARCHIVE</span><strong>Start with the strongest recurring beats</strong></div>
-              <a href="/china"><b>CHINA FILES</b><span>Foreign influence and CCP networks</span></a>
-              <a href="/war-room"><b>WAR ROOM</b><span>Broadcast and investigative clips</span></a>
-              <a href="/white-house"><b>WHITE HOUSE</b><span>Washington reporting</span></a>
-              <a href="/interviews"><b>MEDIA</b><span>External interviews and debates</span></a>
-            </aside>
+            <div class="video-lead-copy">
+              <span>${escapeHtml(displayBrand(featured))} · ${escapeHtml(CATEGORY_LABELS[featured.category] || "VIDEO")}</span>
+              <h2>${escapeHtml(featured.title)}</h2>
+              <p>${escapeHtml(featured.summary)}</p>
+              <div class="archive-meta">
+                ${formatDate(featured.date) ? `<time datetime="${escapeHtml(featured.date)}">${escapeHtml(formatDate(featured.date))}</time><span>·</span>` : ""}
+                <a href="${escapeHtml(featured.rumbleUrl)}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none">WATCH ON RUMBLE ↗</a>
+              </div>
+            </div>
+          </section>
+        ` : ""}
+
+        <section>
+          <div class="video-library-head">
+            <h2>Video library</h2>
+            <p>${VIDEOS.length} clips and appearances currently indexed</p>
+          </div>
+          <div class="video-library-grid">
+            ${archive.map(renderVideoCard).join("")}
           </div>
         </section>
-      </article>
+      </div>
     </main>
   `;
 
   return renderLayout({
-    title: "Natalie G. Winters Videos | 50+ Rumble, War Room & Interview Clips",
-    description: "Watch more than 50 Natalie G. Winters videos covering War Room, White House reporting, China investigations, foreign influence, interviews and political commentary.",
+    title: "Natalie G. Winters Videos | War Room, White House & Interviews",
+    description: "Watch Natalie G. Winters videos, War Room clips, White House reporting, interviews and investigations with a visual Rumble archive.",
     canonical: `${SITE.domain}/videos`,
     pageContent,
     posts,
     active: "videos",
+    pageType: "CollectionPage",
   });
 }
