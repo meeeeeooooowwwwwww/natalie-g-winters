@@ -32,6 +32,12 @@ function toVideoEmbedUrl(value = "") {
         return raw;
       }
 
+      const shortMatch = url.pathname.match(/^\/shorts\/(v?[a-z0-9]+)\/?$/i);
+      if (shortMatch?.[1]) {
+        const id = shortMatch[1].startsWith("v") ? shortMatch[1] : `v${shortMatch[1]}`;
+        return `https://rumble.com/embed/${id}/`;
+      }
+
       const match = url.pathname.match(/^\/v([a-z0-9]+)-/i);
       if (match?.[1]) {
         return `https://rumble.com/embed/v${match[1]}/`;
@@ -44,7 +50,7 @@ function toVideoEmbedUrl(value = "") {
   return raw;
 }
 
-const heroVideo = "https://www.youtube.com/watch?v=ElPxSbnP2Kw";
+const heroVideo = "https://rumble.com/shorts/v7ge3f8";
 
 export const SITE = {
   name: "Natalie G. Winters",
