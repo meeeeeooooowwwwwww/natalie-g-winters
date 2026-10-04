@@ -445,7 +445,7 @@ export function renderHomePage(posts) {
           <div class="hero-media">
             <div class="hero-media-header">
               <span>FEATURED VIDEO</span>
-              <a href="${SITE.heroVideoSource}" target="_blank" rel="noopener noreferrer">WATCH ON YOUTUBE →</a>
+              <a href="${SITE.heroVideoSource}" target="_blank" rel="noopener noreferrer">WATCH ON RUMBLE →</a>
             </div>
 
             <div class="hero-video" aria-label="Natalie G. Winters featured video">
