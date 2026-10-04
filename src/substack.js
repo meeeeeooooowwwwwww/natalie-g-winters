@@ -7,7 +7,7 @@ const LEGACY_CACHE_KEY = "natalie_latest_articles_v3";
   Bump the check-state key when updater behaviour changes materially.
   The article cache itself stays on v4 so a deploy never blanks the site.
 */
-const CHECK_STATE_KEY = "natalie_article_check_v5";
+const CHECK_STATE_KEY = "natalie_article_check_v6";
 
 const CHECK_INTERVAL_MS = 60 * 60 * 1000;
 const MAX_STORED_POSTS = 25;
@@ -629,6 +629,39 @@ async function fetchArchiveApiPosts() {
   return { posts, source: "substack-archive-api" };
 }
 
+function parseJinaArchiveApi(text = "") {
+  const source = String(text);
+  const marker = /^Markdown Content:\s*$/mi;
+  const match = marker.exec(source);
+  const payload = match
+    ? source.slice(match.index + match[0].length).trim()
+    : source.trim();
+
+  const data = JSON.parse(payload);
+  return Array.isArray(data) ? data : Array.isArray(data?.posts) ? data.posts : [];
+}
+
+async function fetchJinaArchiveApiPosts() {
+  const text = await fetchJinaText(
+    `/api/v1/archive?sort=new&search=&offset=0&limit=${DISCOVERY_COUNT}`
+  );
+  const rows = parseJinaArchiveApi(text);
+
+  const posts = rows
+    .slice(0, DISCOVERY_COUNT)
+    .map(normalisePost)
+    .filter((post) => post.url && post.title);
+
+  if (!posts.length) {
+    throw new Error("Reader archive API fallback returned no usable posts");
+  }
+
+  return {
+    posts,
+    source: "substack-reader-archive-api",
+  };
+}
+
 async function fetchRssPosts() {
   const xml = await fetchTextFresh(
     SUBSTACK_FEED,
@@ -826,7 +859,12 @@ function mergeSourceResults(results) {
 async function fetchLatestPostsFromSubstack() {
   const results = [];
   const failures = [];
-  const primarySources = [fetchArchiveApiPosts, fetchRssPosts, fetchJinaSitemapPosts];
+  const primarySources = [
+    fetchArchiveApiPosts,
+    fetchJinaArchiveApiPosts,
+    fetchRssPosts,
+    fetchJinaSitemapPosts,
+  ];
 
   for (const source of primarySources) {
     try {
@@ -1157,5 +1195,6 @@ export const __testing = {
   mergeFreshWithHistory,
   mergeSourceResults,
   normalisePost,
+  parseJinaArchiveApi,
   postListsEqual,
 };
