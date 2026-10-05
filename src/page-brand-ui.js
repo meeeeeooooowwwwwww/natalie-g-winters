@@ -20,7 +20,7 @@ export const PAGE_BRAND_STYLES = `
     grid-template-columns:minmax(0,1fr) 330px;
     gap:54px;
     align-items:start;
-    padding:58px 0 42px;
+    padding:52px 0 36px;
     border-bottom:1px solid var(--prestige-line);
   }
   .prestige-kicker{
@@ -94,7 +94,7 @@ export const PAGE_BRAND_STYLES = `
   .brand-ribbon{
     display:grid;
     grid-template-columns:repeat(4,minmax(0,1fr));
-    margin-top:34px;
+    margin-top:28px;
     border:1px solid var(--prestige-line);
     background:rgba(255,255,255,.42);
     box-shadow:0 10px 28px rgba(76,39,54,.035);
@@ -177,7 +177,7 @@ export const PAGE_BRAND_STYLES = `
     grid-template-columns:minmax(0,1fr) 300px;
     gap:54px;
     align-items:start;
-    margin-top:52px;
+    margin-top:44px;
   }
   .prestige-main{min-width:0}
   .prestige-prose{
@@ -239,7 +239,7 @@ export const PAGE_BRAND_STYLES = `
   }
 
   .prestige-section{
-    margin-top:66px;
+    margin-top:56px;
     padding-top:32px;
     border-top:1px solid var(--prestige-line);
   }
@@ -302,7 +302,7 @@ export const PAGE_BRAND_STYLES = `
     grid-template-columns:minmax(300px,.78fr) minmax(0,1.22fr);
     gap:34px;
     align-items:stretch;
-    margin-top:38px;
+    margin-top:32px;
   }
   .visual-feature figure{
     margin:0;
