@@ -939,3 +939,97 @@ body{
   .archive-side-card{grid-template-columns:110px minmax(0,1fr)}
   .archive-side-card h3{font-size:18px}
 }
+
+
+/* --------------------------------------------------------------------------
+   Publication light-theme contrast safety
+   Keep legacy dark-theme component rules from leaking pale text/surfaces into
+   the current Substack-inspired presentation.
+   -------------------------------------------------------------------------- */
+.hero-copy h1,
+.hero-headline,
+.hero-intro strong,
+.hero-summary strong,
+.prose strong,
+.editorial-hero .hero-aside strong,
+.timeline-item strong,
+.fact-ribbon strong,
+.hero-quick-card strong,
+.video-detail-feature .video-copy h2,
+.video-copy-middle strong,
+.detail-rail-card strong,
+.praise-list,
+.shrine{
+  color:var(--pub-ink)!important;
+}
+
+.hero-intro a,
+.prose a,
+.video-copy a,
+.video-card-copy a,
+.appearance-card a,
+.video-copy-footer a,
+.detail-rail-link b{
+  color:var(--pub-pink-dark)!important;
+}
+
+.hero-actions a{
+  border-color:var(--pub-line-strong)!important;
+  background:rgba(255,255,255,.78)!important;
+  color:var(--pub-ink)!important;
+}
+.hero-actions a:hover{
+  border-color:var(--pub-pink)!important;
+  background:#fff!important;
+  color:var(--pub-pink-dark)!important;
+}
+
+.hero-proof{
+  border-top-color:var(--pub-line)!important;
+  border-bottom-color:var(--pub-line)!important;
+}
+.hero-proof span{color:var(--pub-muted)!important}
+.hero-proof span+span{border-left-color:var(--pub-line)!important}
+.hero-proof b{color:#755f68!important}
+
+.hero-quick-card,
+.detail-rail-card,
+.video-card{
+  background:rgba(255,255,255,.72)!important;
+  border-color:var(--pub-line)!important;
+  color:var(--pub-ink)!important;
+  box-shadow:none!important;
+}
+.hero-quick-card:hover,
+.detail-rail-link:hover{
+  border-color:var(--pub-pink)!important;
+  background:#fff!important;
+  box-shadow:0 12px 28px rgba(76,39,54,.055)!important;
+}
+.hero-quick-card span,
+.hero-quick-card small,
+.detail-rail-card span,
+.detail-rail-card p,
+.video-copy-top span,
+.video-copy-middle span,
+.video-copy-top p,
+.video-copy-middle p{
+  color:var(--pub-muted)!important;
+}
+
+.video-copy-middle{
+  border-top-color:var(--pub-line)!important;
+  border-bottom-color:var(--pub-line)!important;
+  border-left-color:var(--pub-line)!important;
+}
+
+.appearance-card span{color:#806b74!important}
+.appearance-card h3{color:var(--pub-ink)!important}
+
+.praise-list{color:#493b41!important}
+.shrine{
+  border-top-color:var(--pub-line)!important;
+  color:var(--pub-ink)!important;
+}
+
+figcaption{color:#6d5d64!important}
