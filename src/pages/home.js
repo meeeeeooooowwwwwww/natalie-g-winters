@@ -63,7 +63,7 @@ export function renderHomePage(posts) {
           <div class="home-video-panel">
             <div class="home-video-head">
               <span>FEATURED VIDEO</span>
-              <a href="${escapeHtml(SITE.heroVideoSource)}" target="_blank" rel="noopener noreferrer">WATCH ON RUMBLE →</a>
+              <a href="${escapeHtml(SITE.heroVideoSource)}" target="_blank" rel="noopener noreferrer">WATCH ON YOUTUBE →</a>
             </div>
             <div class="home-video-frame">
               <iframe
