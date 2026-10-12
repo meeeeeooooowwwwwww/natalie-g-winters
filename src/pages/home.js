@@ -68,7 +68,7 @@ export function renderHomePage(posts) {
             <div class="home-video-frame">
               <iframe
                 src="${escapeHtml(SITE.heroVideoEmbed)}"
-                title="Natalie G. Winters featured video"
+                title="Featured video: The Entire History of Islam and Muhammad"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen
