@@ -1161,7 +1161,12 @@ export async function upsertEmailArticle(env, incoming) {
     throw new Error("Email article metadata is incomplete");
   }
 
-  const stored = await getStoredArticleState(env);
+  // Fail closed on a KV read error instead of treating an outage as an
+  // empty archive and accidentally replacing 25 posts with just one.
+  const stored = await env.NATALIE_KV.get(ARTICLE_CACHE_KEY, "json");
+  if (stored && !Array.isArray(stored.posts)) {
+    throw new Error("Malformed article cache; refusing email overwrite");
+  }
   const history = Array.isArray(stored?.posts) ? stored.posts : [];
   const merged = mergeFreshWithHistory([post], history);
   const changed = !postListsEqual(history.map(normalisePost), merged);
