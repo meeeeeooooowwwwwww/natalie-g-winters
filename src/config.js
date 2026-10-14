@@ -44,7 +44,7 @@ function toVideoEmbedUrl(value = "") {
   return raw;
 }
 
-const heroVideo = "https://www.youtube.com/watch?v=gBIjURJmk6s";
+const heroVideo = "https://www.youtube.com/watch?v=VjjfO1FKFNY";
 const heroVideoEmbed = toVideoEmbedUrl(heroVideo);
 
 export const SITE = {
