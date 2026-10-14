@@ -100,4 +100,12 @@ state = await getStoredArticleState(env);
 assert.equal(state.posts[0].image, oldImage);
 assert.equal(state.posts[0].imageQuality, 500);
 
+// A transient KV read failure must never allow an email to replace the
+// existing rolling archive with a single article.
+const originalGet = env.NATALIE_KV.get;
+env.NATALIE_KV.get = async () => { throw new Error("temporary KV outage"); };
+await assert.rejects(() => receiveSubstackEmail(message(), env), /temporary KV outage/);
+env.NATALIE_KV.get = originalGet;
+assert.equal(entries.get("natalie_latest_articles_v4").posts.length, 1);
+
 console.log("Substack email intake, routing and image-priority tests: PASS");
