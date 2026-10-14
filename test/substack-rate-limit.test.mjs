@@ -42,7 +42,7 @@ try {
   assert.match(failed.error, /429/);
   assert.equal(calls.length, 2, "a 429 should stop further requests to each blocked host");
   assert.equal(calls.some((url) => url.includes("_ngw_check")), false, "do not bust caches");
-  assert.equal(calls.filter((url) => url.includes("nataliegwinters.substack.com")).length, 1);
+  assert.equal(calls.filter((url) => new URL(url).hostname === "nataliegwinters.substack.com").length, 1);
   assert.equal(calls.filter((url) => url.includes("r.jina.ai")).length, 1);
 
   const status = await getUpdaterStatus(env);
