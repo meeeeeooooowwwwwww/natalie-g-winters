@@ -7,6 +7,7 @@ import {
   refreshArticlesIfChanged,
 } from "./substack.js";
 import { htmlResponse } from "./utils.js";
+import { receiveSubstackEmail } from "./email-feed.js";
 import { renderLayout } from "./layout.js";
 import { renderHomePage } from "./pages/home.js";
 import { renderAboutPage } from "./pages/about.js";
@@ -332,6 +333,10 @@ export default {
       : htmlResponse(render404(posts), 404, 60);
 
     return withSeoHostProtection(response, request);
+  },
+
+  async email(message, env, ctx) {
+    await receiveSubstackEmail(message, env);
   },
 
   async scheduled(controller, env, ctx) {

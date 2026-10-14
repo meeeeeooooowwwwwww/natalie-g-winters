@@ -417,6 +417,7 @@ async function saveCheckState(env, state) {
 export async function getUpdaterStatus(env) {
   const articles = await getStoredArticleState(env);
   const check = await readKey(env, CHECK_STATE_KEY);
+  const email = await readKey(env, "natalie_article_email_status_v1");
 
   return {
     articleCount: Array.isArray(articles?.posts) ? articles.posts.length : 0,
@@ -432,6 +433,11 @@ export async function getUpdaterStatus(env) {
     nextRetryAt: check?.nextRetryAt || null,
     consecutiveFailures: check?.consecutiveFailures || 0,
     rateLimited: check?.rateLimited || false,
+    emailLastReceivedAt: email?.lastReceivedAt || null,
+    emailLastResult: email?.lastResult || null,
+    emailNewestTitle: email?.newestEmailTitle || null,
+    emailNewestUrl: email?.newestEmailUrl || null,
+    emailImageProvisional: email?.imageProvisional || false,
   };
 }
 
@@ -1140,6 +1146,49 @@ export async function refreshArticlesIfChanged(env) {
       error: String(error?.message || error),
     };
   }
+}
+
+/*
+  Email notifications are a separate ingestion path from scheduled polling.
+  They update the SAME rolling archive, but never call a remote source.
+  Incoming email top-image metadata has quality 80, deliberately lower than
+  Substack's canonical cover_image (quality 500).
+*/
+export async function upsertEmailArticle(env, incoming) {
+  if (!env?.NATALIE_KV) throw new Error("NATALIE_KV is required for email ingestion");
+  const post = normalisePost(incoming);
+  if (!post.url || !post.title || !Number.isFinite(Date.parse(post.date))) {
+    throw new Error("Email article metadata is incomplete");
+  }
+
+  // Fail closed on a KV read error instead of treating an outage as an
+  // empty archive and accidentally replacing 25 posts with just one.
+  const stored = await env.NATALIE_KV.get(ARTICLE_CACHE_KEY, "json");
+  if (stored && !Array.isArray(stored.posts)) {
+    throw new Error("Malformed article cache; refusing email overwrite");
+  }
+  const history = Array.isArray(stored?.posts) ? stored.posts : [];
+  const merged = mergeFreshWithHistory([post], history);
+  const changed = !postListsEqual(history.map(normalisePost), merged);
+  const now = Date.now();
+  if (changed) {
+    // Do not clear source-check state or the old article cache on failures.
+    // KV writes must propagate errors to the Email Routing handler.
+    await env.NATALIE_KV.put(ARTICLE_CACHE_KEY, JSON.stringify({
+      posts: merged,
+      updatedAt: now,
+      newestId: merged[0]?.id || "",
+      newestUrl: merged[0]?.url || "",
+    }));
+  }
+  await env.NATALIE_KV.put("natalie_article_email_status_v1", JSON.stringify({
+    lastReceivedAt: now,
+    lastResult: changed ? "updated" : "duplicate",
+    newestEmailTitle: post.title,
+    newestEmailUrl: post.url,
+    imageProvisional: Boolean(post.image && post.imageQuality < 500),
+  }));
+  return { changed, newestUrl: merged[0]?.url || "", source: "substack-email" };
 }
 
 export async function getLatestPosts(env, ctx = null) {
