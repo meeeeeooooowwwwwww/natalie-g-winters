@@ -34,5 +34,8 @@
     }
   ],
   "workers_dev": true,
-  "preview_urls": true
+  "preview_urls": true,
+  "vars": {
+    "NATALIE_EMAIL_RECIPIENT": "articles@feeds.nataliegwinters.com"
+  }
 }
