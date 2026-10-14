@@ -1,0 +1,192 @@
+// Cloudflare Email Routing intake for Natalie Substack publication notices.
+// This module never trusts arbitrary mail images: the verified Substack
+// topImage is only a provisional fallback below the official cover_image.
+import { upsertEmailArticle } from "./substack.js";
+
+const FROM = "nataliegwinters@substack.com";
+const LIST_ID = "nataliegwinters.substack.com";
+const POST_ROOT = "https://nataliegwinters.substack.com/p/";
+const MAX_EMAIL_BYTES = 1024 * 1024;
+
+function unfold(headers) {
+  return headers.replace(/\r?\n[ \t]+/g, " ");
+}
+
+function getHeader(raw, name) {
+  const headerBlock = unfold(String(raw).split(/\r?\n\r?\n/, 1)[0]);
+  const match = headerBlock.match(new RegExp("^" + name.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&") + ":[ \\t]*(.*)$", "im"));
+  return match ? match[1].trim() : "";
+}
+
+function bytesFromBase64(value) {
+  const binary = atob(String(value).replace(/\s+/g, ""));
+  return Uint8Array.from(binary, (char) => char.charCodeAt(0));
+}
+
+function quotedPrintableBytes(value) {
+  const source = String(value).replace(/=\r?\n/g, "");
+  const bytes = [];
+  for (let i = 0; i < source.length; i++) {
+    if (source[i] === "=" && /^[0-9a-f]{2}$/i.test(source.slice(i + 1, i + 3))) {
+      bytes.push(parseInt(source.slice(i + 1, i + 3), 16));
+      i += 2;
+    } else {
+      const cp = source.codePointAt(i);
+      if (cp > 127) {
+        bytes.push(...new TextEncoder().encode(String.fromCodePoint(cp)));
+        if (cp > 0xffff) i++;
+      } else bytes.push(cp);
+    }
+  }
+  return Uint8Array.from(bytes);
+}
+
+function decodeWord(encoded, type, payload) {
+  try {
+    const bytes = type.toUpperCase() === "B"
+      ? bytesFromBase64(payload)
+      : quotedPrintableBytes(payload.replace(/_/g, " "));
+    return new TextDecoder(encoded, { fatal: false }).decode(bytes);
+  } catch {
+    return "";
+  }
+}
+
+function decodeMimeHeader(value) {
+  return String(value)
+    .replace(/\?=\s+(?==\?)/g, "?=")
+    .replace(/=\?([^?]+)\?([BQ])\?([^?]+)\?=/gi, (_, charset, type, data) => decodeWord(charset, type, data));
+}
+
+function decodePart(payload, encoding) {
+  if (/base64/i.test(encoding)) {
+    try { return new TextDecoder().decode(bytesFromBase64(payload)); }
+    catch { return ""; }
+  }
+  if (/quoted-printable/i.test(encoding)) {
+    return new TextDecoder().decode(quotedPrintableBytes(payload));
+  }
+  return payload;
+}
+
+function parsePart(raw) {
+  const [head, ...bodyParts] = String(raw).split(/\r?\n\r?\n/);
+  const body = bodyParts.join("\n\n");
+  return {
+    contentType: getHeader(head + "\n\n", "Content-Type").toLowerCase(),
+    body: decodePart(body, getHeader(head + "\n\n", "Content-Transfer-Encoding")),
+  };
+}
+
+function getMailParts(raw) {
+  const type = getHeader(raw, "Content-Type");
+  const boundary = type.match(/boundary=["']?([^;"'\s]+)/i)?.[1];
+  if (!boundary) return [parsePart(raw)];
+  const chunks = raw.split("--" + boundary).slice(1);
+  return chunks.filter((s) => s.trim() && !s.startsWith("--")).map(parsePart);
+}
+
+function decodeEntities(input) {
+  return String(input).replace(/&quot;/gi, '"').replace(/&apos;|&#39;/gi, "'")
+    .replace(/&amp;/gi, "&").replace(/&lt;/gi, "<").replace(/&gt;/gi, ">")
+    .replace(/&nbsp;/gi, " ").replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&#x([a-f0-9]+);/gi, (_, d) => String.fromCodePoint(parseInt(d, 16)));
+}
+
+function stripHtml(input) {
+  return decodeEntities(String(input).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim());
+}
+
+function postUrl(value) {
+  try {
+    const url = new URL(decodeEntities(String(value).replace(/^<|>$/g, "").trim()));
+    if (url.protocol !== "https:") return "";
+    if (url.hostname === "nataliegwinters.substack.com" && /^\/p\/[^/]+\/?$/.test(url.pathname)) {
+      return POST_ROOT + url.pathname.split("/")[2];
+    }
+    if (url.hostname === "open.substack.com" && /^\/pub\/nataliegwinters\/p\/[^/]+\/?$/.test(url.pathname)) {
+      return POST_ROOT + url.pathname.split("/")[4];
+    }
+  } catch {}
+  return "";
+}
+
+function selectedArticleImage(html) {
+  for (const match of String(html).matchAll(/<img\b[^>]*\bdata-attrs="([^"]+)"/gi)) {
+    try {
+      const attrs = JSON.parse(decodeEntities(match[1]));
+      if (attrs.topImage !== true) continue;
+      const image = new URL(attrs.src);
+      if (image.protocol !== "https:" || image.hostname !== "substack-post-media.s3.amazonaws.com") continue;
+      if (!image.pathname.startsWith("/public/images/")) continue;
+      if (/(avatar|profile|logo|favicon)/i.test(image.pathname)) continue;
+      return image.toString();
+    } catch {}
+  }
+  return "";
+}
+
+export function extractSubstackNotice(raw) {
+  if (typeof raw !== "string" || !raw || raw.length > MAX_EMAIL_BYTES) return null;
+  const sender = getHeader(raw, "From").match(/<([^<>]+)>/)?.[1] || getHeader(raw, "From");
+  const list = getHeader(raw, "List-Id").replace(/^<|>$/g, "").toLowerCase();
+  // List-Id plus From and List-Post limit this parser to a single publication.
+  // The Cloudflare routing rule must be restricted to a dedicated recipient.
+  if (sender.trim().toLowerCase() !== FROM || list !== LIST_ID) return null;
+  const article = postUrl(getHeader(raw, "List-Post"));
+  if (!article) return null;
+  if (getHeader(raw, "X-Mailgun-Tag") && getHeader(raw, "X-Mailgun-Tag") !== "post") return null;
+  const title = stripHtml(decodeMimeHeader(getHeader(raw, "Subject"))).slice(0, 250);
+  if (!title || /^(re|fwd?):/i.test(title)) return null;
+  const dateString = getHeader(raw, "Date");
+  const timestamp = Date.parse(dateString);
+  if (!Number.isFinite(timestamp)) return null;
+  const now = Date.now();
+  if (timestamp > now + 10 * 60 * 1000 || timestamp < now - 35 * 24 * 60 * 60 * 1000) return null;
+
+  const parts = getMailParts(raw);
+  const html = parts.find((p) => p.contentType.startsWith("text/html"))?.body || "";
+  const preview = html.match(/<div\b[^>]*\bclass=["'][^"']*\bpreview\b[^"']*["'][^>]*>([\s\S]*?)<\/div>/i)?.[1] || "";
+  const image = selectedArticleImage(html);
+  return {
+    title,
+    url: article,
+    date: new Date(timestamp).toISOString(),
+    subtitle: stripHtml(preview).slice(0, 400),
+    image,
+    imageQuality: image ? 80 : 0,
+  };
+}
+
+export async function receiveSubstackEmail(message, env) {
+  const expected = String(env?.NATALIE_EMAIL_RECIPIENT || "").trim().toLowerCase();
+  if (!expected || message.to?.toLowerCase() !== expected) {
+    message.setReject?.("Unexpected recipient");
+    return { result: "rejected-recipient" };
+  }
+  if (String(message.from || "").toLowerCase() !== FROM) {
+    // Gmail forwarding may rewrite the SMTP envelope via SRS. We only allow
+    // the original envelope or Google's forwarding envelope; the RFC From
+    // and List-Id are checked independently below.
+    const envelope = String(message.from || "").toLowerCase();
+    if (!envelope.endsWith("@gmail.com") && !/@[^@]+\.google\.com$/.test(envelope)) {
+      message.setReject?.("Unexpected sender");
+      return { result: "rejected-envelope" };
+    }
+  }
+  if (Number(message.rawSize) > MAX_EMAIL_BYTES) {
+    message.setReject?.("Message too large");
+    return { result: "rejected-size" };
+  }
+  const raw = await new Response(message.raw).text();
+  const post = extractSubstackNotice(raw);
+  if (!post) {
+    // No recipient body, message or sender data is ever written to storage.
+    return { result: "ignored-unrecognised-notice" };
+  }
+  const saved = await upsertEmailArticle(env, post);
+  console.log("Substack email article intake:", saved.changed ? "updated" : "duplicate", saved.newestUrl);
+  return saved;
+}
+
+export const __testing = { decodeMimeHeader, postUrl, selectedArticleImage, getMailParts };
