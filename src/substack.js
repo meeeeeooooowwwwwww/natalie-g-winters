@@ -10,6 +10,10 @@ const LEGACY_CACHE_KEY = "natalie_latest_articles_v3";
 const CHECK_STATE_KEY = "natalie_article_check_v8";
 
 const CHECK_INTERVAL_MS = 60 * 60 * 1000;
+const RATE_LIMIT_BACKOFF_MS = 3 * 60 * 60 * 1000;
+const OTHER_ERROR_BACKOFF_MS = 60 * 60 * 1000;
+const MAX_BACKOFF_MS = 24 * 60 * 60 * 1000;
+const MAX_METADATA_LOOKUPS = 2;
 const MAX_STORED_POSTS = 25;
 const FRESH_POST_COUNT = 5;
 const DISCOVERY_COUNT = 10;
@@ -425,48 +429,60 @@ export async function getUpdaterStatus(env) {
     lastCheckSource: check?.source || null,
     sourceFailures: check?.failures || [],
     lastError: check?.error || null,
+    nextRetryAt: check?.nextRetryAt || null,
+    consecutiveFailures: check?.consecutiveFailures || 0,
+    rateLimited: check?.rateLimited || false,
   };
 }
 
-async function fetchTextFresh(baseUrl, accept = "text/html,application/xhtml+xml") {
-  const url = new URL(baseUrl);
-  url.searchParams.set("_ngw_check", String(Date.now()));
+function retryAfterMs(header, now = Date.now()) {
+  if (!header) return 0;
+  const seconds = Number(header);
+  const delay = Number.isFinite(seconds) && seconds >= 0
+    ? seconds * 1000
+    : Date.parse(header) - now;
+  return Number.isFinite(delay) ? Math.min(Math.max(delay, 0), MAX_BACKOFF_MS) : 0;
+}
 
-  const response = await fetch(url.toString(), {
+function upstreamError(response, source) {
+  const error = new Error(source + " returned " + response.status);
+  error.status = response.status;
+  error.rateLimited = response.status === 429;
+  error.retryAfterMs = retryAfterMs(response.headers.get("Retry-After"));
+  return error;
+}
+
+async function fetchTextFresh(baseUrl, accept = "text/html,application/xhtml+xml") {
+  // Stable URLs permit upstream/edge caching. A timestamp query and no-cache
+  // headers previously bypassed caches for every single refresh.
+  const response = await fetch(baseUrl, {
     headers: {
-      "User-Agent":
-        "Mozilla/5.0 (compatible; NatalieGWintersSite/6.0; +https://nataliegwinters.com/)",
+      "User-Agent": "Mozilla/5.0 (compatible; NatalieGWintersSite/6.0; +https://nataliegwinters.com/)",
       "Accept": accept,
-      "Cache-Control": "no-cache, no-store, max-age=0",
-      "Pragma": "no-cache",
     },
     cf: {
-      cacheTtl: 0,
-      cacheEverything: false,
+      cacheEverything: true,
+      cacheTtlByStatus: { "200-299": 300, "400-599": 0 },
     },
   });
 
-  if (!response.ok) {
-    throw new Error(`Substack returned ${response.status} for ${baseUrl}`);
-  }
-
+  if (!response.ok) throw upstreamError(response, "Substack " + baseUrl);
   return response.text();
 }
 
 async function fetchJinaText(pathname) {
-  const response = await fetch(`${JINA_READER}${pathname}`, {
+  const response = await fetch(JINA_READER + pathname, {
     headers: {
       "Accept": "text/plain",
-      "X-No-Cache": "true",
       "User-Agent": "NatalieGWintersSite/6.0 (+https://nataliegwinters.com/)",
     },
-    cf: { cacheTtl: 0, cacheEverything: false },
+    cf: {
+      cacheEverything: true,
+      cacheTtlByStatus: { "200-299": 300, "400-599": 0 },
+    },
   });
 
-  if (!response.ok) {
-    throw new Error(`Reader fallback returned ${response.status} for ${pathname}`);
-  }
-
+  if (!response.ok) throw upstreamError(response, "Reader fallback " + pathname);
   return response.text();
 }
 
@@ -861,80 +877,73 @@ function mergeSourceResults(results) {
     .slice(0, DISCOVERY_COUNT);
 }
 
-async function fetchLatestPostsFromSubstack() {
-  const results = [];
+async function fetchLatestPostsFromSubstack(storedPosts = []) {
   const failures = [];
-  const primarySources = [
-    fetchArchiveApiPosts,
-    fetchJinaArchiveApiPosts,
-    fetchRssPosts,
-    fetchJinaSitemapPosts,
+  const blockedHosts = new Set();
+  let retryDelayMs = 0;
+  let sawRateLimit = false;
+  let selected = null;
+
+  // One usable discovery result is enough for an hourly update. Previously
+  // every cycle called every source and the homepage plus five article pages.
+  const sources = [
+    { host: "substack", fetcher: fetchArchiveApiPosts },
+    { host: "substack", fetcher: fetchRssPosts },
+    { host: "substack", fetcher: fetchHomepagePosts },
+    { host: "reader", fetcher: fetchJinaArchiveApiPosts },
+    { host: "reader", fetcher: fetchJinaSitemapPosts },
   ];
 
-  for (const source of primarySources) {
+  for (const source of sources) {
+    if (blockedHosts.has(source.host)) continue;
     try {
-      const result = await source();
-      if (result.posts?.length) results.push(result);
+      const result = await source.fetcher();
+      if (result.posts?.length) {
+        selected = result;
+        break;
+      }
+      failures.push(source.fetcher.name + ": no posts");
     } catch (error) {
-      const message = `${source.name}: ${String(error?.message || error)}`;
-      failures.push(message);
-      console.warn(`Substack source failed (${source.name}):`, error);
+      failures.push(source.fetcher.name + ": " + String(error?.message || error));
+      console.warn("Substack discovery source failed (" + source.fetcher.name + "):", error);
+      if (error?.rateLimited) {
+        sawRateLimit = true;
+        retryDelayMs = Math.max(retryDelayMs, Number(error.retryAfterMs) || 0);
+        // A 429 from one host should not cause another request to that host.
+        blockedHosts.add(source.host);
+      }
     }
   }
 
-  const existingUrls = new Set(
-    results.flatMap((result) => result.posts || []).map((post) => normalisePost(post).url).filter(Boolean)
-  );
-
-  try {
-    const gapResult = await fetchHomepageGapPosts(existingUrls);
-    if (gapResult.posts.length) results.push(gapResult);
-  } catch (error) {
-    const message = `fetchHomepageGapPosts: ${String(error?.message || error)}`;
-    failures.push(message);
-    console.warn("Substack homepage gap check failed:", error);
+  if (!selected) {
+    const failure = new Error("All Substack discovery sources failed: " + failures.join(" | "));
+    failure.rateLimited = sawRateLimit;
+    failure.retryAfterMs = retryDelayMs;
+    failure.sourceFailures = failures;
+    throw failure;
   }
 
-  if (!results.length) {
-    try {
-      results.push(await fetchHomepagePosts());
-    } catch (error) {
-      const message = `fetchHomepagePosts: ${String(error?.message || error)}`;
-      failures.push(message);
-      console.warn("Substack homepage fallback failed:", error);
-    }
+  const discovered = selected.posts.map(normalisePost)
+    .filter((post) => post.title && post.url);
+  const storedUrls = new Set(storedPosts.map(normalisePost).map((post) => post.url));
+  const extraMetadata = [];
+
+  // Only enrich newly discovered posts with missing metadata, never reread
+  // five established article pages on every successful hourly check.
+  for (const post of discovered) {
+    if (extraMetadata.length >= MAX_METADATA_LOOKUPS) break;
+    if (storedUrls.has(post.url) || (post.image && post.subtitle && post.date)) continue;
+    extraMetadata.push(await fetchPostMetadata({ url: post.url, title: post.title }));
   }
 
-  if (!results.length) {
-    throw new Error(`All Substack discovery sources failed: ${failures.join(" | ")}`);
+  const results = [selected];
+  if (extraMetadata.length) {
+    results.push({ posts: extraMetadata, source: "substack-post-metadata" });
   }
-
-  const discovered = mergeSourceResults(results)
-    .map(normalisePost)
+  const posts = mergeSourceResults(results).map(normalisePost)
     .filter((post) => post.title && post.url);
 
-  const metadataPosts = [];
-  for (const post of discovered.slice(0, FRESH_POST_COUNT)) {
-    metadataPosts.push(await fetchPostMetadata({
-      url: post.url,
-      title: post.title,
-    }));
-  }
-
-  if (metadataPosts.length) {
-    results.push({
-      posts: metadataPosts,
-      source: "substack-post-metadata",
-    });
-  }
-
-  const posts = mergeSourceResults(results)
-    .map(normalisePost)
-    .filter((post) => post.title && post.url);
-
-  if (!posts.length) {
-    throw new Error(`Substack sources returned no usable posts: ${failures.join(" | ")}`);
-  }
+  if (!posts.length) throw new Error("Substack sources returned no usable posts");
 
   return {
     posts: posts.slice(0, DISCOVERY_COUNT),
@@ -1050,9 +1059,15 @@ export async function getStoredArticleState(env) {
 export async function refreshArticlesIfChanged(env) {
   const startedAt = Date.now();
   const stored = await getStoredArticleState(env);
+  const previousCheck = await readKey(env, CHECK_STATE_KEY);
+  const nextRetryAt = Number(previousCheck?.nextRetryAt || 0);
+
+  if (nextRetryAt > startedAt) {
+    return { changed: false, skipped: "cooldown", nextRetryAt };
+  }
 
   try {
-    const fresh = await fetchLatestPostsFromSubstack();
+    const fresh = await fetchLatestPostsFromSubstack(stored?.posts || []);
     const mergedPosts = mergeFreshWithHistory(
       fresh.posts,
       Array.isArray(stored?.posts) ? stored.posts : []
@@ -1072,6 +1087,10 @@ export async function refreshArticlesIfChanged(env) {
     await saveCheckState(env, {
       lastCheckedAt: Date.now(),
       lastSuccessfulAt: Date.now(),
+      nextRetryAt: null,
+      consecutiveFailures: 0,
+      rateLimited: false,
+      error: null,
       result: changed ? "updated" : "no-change",
       source: fresh.source,
       failures: fresh.failures,
@@ -1096,12 +1115,24 @@ export async function refreshArticlesIfChanged(env) {
   } catch (error) {
     console.error("Substack refresh failed:", error);
 
+    const now = Date.now();
+    const consecutiveFailures = (Number(previousCheck?.consecutiveFailures) || 0) + 1;
+    const rateLimited = Boolean(error?.rateLimited);
+    const base = rateLimited ? RATE_LIMIT_BACKOFF_MS : OTHER_ERROR_BACKOFF_MS;
+    const exponential = Math.min(MAX_BACKOFF_MS, base * 2 ** Math.min(consecutiveFailures - 1, 5));
+    const delay = Math.min(MAX_BACKOFF_MS, Math.max(exponential, Number(error?.retryAfterMs) || 0));
+
     await saveCheckState(env, {
-      lastCheckedAt: Date.now(),
+      lastCheckedAt: now,
+      lastSuccessfulAt: previousCheck?.lastSuccessfulAt || null,
       result: "error",
       source: "all-sources",
+      failures: error?.sourceFailures || [],
       error: String(error?.message || error),
-      durationMs: Date.now() - startedAt,
+      consecutiveFailures,
+      rateLimited,
+      nextRetryAt: now + delay,
+      durationMs: now - startedAt,
     });
 
     return {
@@ -1175,8 +1206,9 @@ export async function getLatestPosts(env, ctx = null) {
 
   const lastCheckedAt = Number(checkState?.lastCheckedAt || 0);
   const overdue = !lastCheckedAt || Date.now() - lastCheckedAt > CHECK_INTERVAL_MS;
+  const retryAllowed = Date.now() >= Number(checkState?.nextRetryAt || 0);
 
-  if (overdue && ctx?.waitUntil) {
+  if (overdue && retryAllowed && ctx?.waitUntil) {
     ctx.waitUntil(refreshArticlesIfChanged(env));
   }
 
