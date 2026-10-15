@@ -1,4 +1,54 @@
 export const VIDEO_COPY = {
+
+  "war-room-v7gjhws": {
+    "why": "The central accountability questions are who administers the assistance, which funding streams support it, and how eligibility and payments are documented. Those questions should be answered from the underlying grant records, rather than inferred from the existence of a housing programme alone.",
+    "natalie": "This appearance connects Natalie Winters’ coverage of immigration with her interest in public spending. Watch the original segment for her argument and the evidence she presents; the available listing does not establish the full scope of the programme."
+  },
+  "war-room-v7gjioc": {
+    "why": "A research project, a policy recommendation and an implemented government programme are different things. Understanding the story requires identifying what was funded, what the researchers proposed and whether any public authority acted on those proposals.",
+    "natalie": "The segment belongs to Natalie Winters’ wider reporting on institutions shaping immigration policy. The publisher links it to her accompanying Substack investigation, offering readers a route from the broadcast to the written reporting."
+  },
+  "war-room-v7gjj38": {
+    "why": "The important distinctions are the programme’s actual eligibility rules, the source of the payments and the work participants perform. A headline cannot establish an individual’s immigration status or whether a particular payment breached any rule.",
+    "natalie": "This appearance brings Natalie Winters’ institutional reporting to a municipal setting. The original video and linked written report are the places to examine her evidence and the exact claims she makes about the programme."
+  },
+  "war-room-v7gjjfg": {
+    "why": "Legal representation, professional training and the outcome of a removal case are separate issues. The useful questions concern what the training actually recommends, who provides it and which legal provisions it discusses.",
+    "natalie": "Natalie Winters’ segment places immigration procedure under scrutiny. Its claims should be evaluated against the training materials and case context; this listing alone does not show that anyone evaded a lawful order or acted improperly."
+  },
+  "war-room-v7gjjv6": {
+    "why": "The separate durations and player identifiers distinguish these uploads, although the extent of overlapping footage has not been established. This page preserves the longer upload as its own archive entry rather than treating a repeated title as proof of an identical video.",
+    "natalie": "Natalie Winters’ topic connects immigration research with the institutions funding it. The accompanying written report is linked by the publisher. Viewers can compare the two clips and consult that report for the documents behind her argument."
+  },
+  "war-room-v7gjkc4": {
+    "why": "A careful account should separate the publicity campaign from the relocation programme it promotes. Who funded each, how the campaign described its intended audience and what the programme delivered are distinct questions.",
+    "natalie": "This clip illustrates Natalie Winters’ interest in the language institutions use to promote policy. The full segment is needed to understand which documents she cites and how she connects the publicity effort to the spending behind it."
+  },
+  "war-room-v7gjkrq": {
+    "why": "The funding relationship, the research question and any conclusions need to be assessed separately. Financial support does not, by itself, establish that a funder directed the findings or that a proposed policy was implemented.",
+    "natalie": "For readers following Natalie Winters’ immigration reporting, this appearance offers a specific regional research example. Consult the full broadcast and the grant documentation before drawing conclusions about the project’s purpose or practical effects."
+  },
+  "war-room-v7gjlem": {
+    "why": "Religious activity, issue advocacy and election campaigning should not be treated as interchangeable. The substance lies in which organisations are involved, what their materials propose and what actions participants are asked to take.",
+    "natalie": "This appearance places the relationship between faith organisations and political advocacy within Natalie Winters’ institutional reporting. Her linked Substack report provides a further source to examine alongside the original broadcast."
+  },
+  "war-room-v7gjlws": {
+    "why": "Contacts, institutional affiliations and financial relationships require precise documentation. They should not automatically be equated with espionage, unlawful activity or proof that an official acted for a foreign power.",
+    "natalie": "The appearance fits Natalie Winters’ focus on access and influence around national-security institutions. Readers should examine the specific relationships identified in the full video and written investigation, keeping documented connections distinct from her interpretation of them."
+  },
+  "war-room-v7gjm76": {
+    "why": "Assessing a conference appearance requires the date, organiser, speaker’s role and actual remarks. Those details matter more than assuming that speaking at an event establishes agreement with every position of its organisers.",
+    "natalie": "This segment extends Natalie Winters’ examination of political relationships involving China. The allegation about the appearance and its significance should remain attributed to the reporting until the underlying event record has been reviewed."
+  },
+  "war-room-v7gjmi6": {
+    "why": "The important questions are what the proposal recommends, whether it is research or an implemented programme, and how any funding relationship connects to the activity discussed. Those distinctions prevent a policy proposal from being mistaken for a compulsory school rule.",
+    "natalie": "The appearance connects education, philanthropy and attempts to influence behaviour in Natalie Winters’ reporting. Her linked written investigation and the original clip should be consulted for the specific materials on which she bases her criticism."
+  },
+  "war-room-v7gad2m": {
+    "why": "A lobbying campaign is evidence of an effort to influence policy, not proof that a new visa category has become law. The relevant records would identify the organisations funding the effort, the clients represented and the particular proposals being promoted.",
+    "natalie": "This appearance links Natalie Winters’ immigration coverage with her attention to the organisations advocating policy change. Watch the full broadcast for her account of the lobbying effort and the documentation she cites."
+  }
+,
   "obama-energy-secretary-ccp-plant": {
     why: "The real question here is not whether one dramatic label wins the argument, but whether senior U.S. officials and the institutions around them had relationships with Chinese entities that deserved more scrutiny. Natalie Winters treats those affiliations as a national-security question, not a footnote, and that is a useful standard whenever public power, research networks and foreign influence overlap.",
     natalie: "This is classic Natalie Winters: take a respectable résumé, ignore the reassuring typography and start following the affiliations. She has an almost comical inability to let an impressive job title act as its own character reference, which is inconvenient for institutions and very handy for viewers."

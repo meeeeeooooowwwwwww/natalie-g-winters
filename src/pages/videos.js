@@ -55,9 +55,7 @@ function renderVideoCard(video) {
 }
 
 export function renderVideosPage(posts) {
-  const featured =
-    VIDEOS.find((video) => video.slug === "china-ai-models-american-voters") ||
-    VIDEOS[0];
+  const featured = VIDEOS[0];
 
   const archive = VIDEOS.filter((video) => video.slug !== featured?.slug);
 

@@ -2,7 +2,12 @@ import { SITE } from "../config.js";
 import { renderLayout } from "../layout.js";
 import { PAGE_BRAND_STYLES } from "../page-brand-ui.js";
 
+import { VIDEOS } from "../video-data.js";
+import { getVideoBrand } from "../video-thumbnails.js";
+import { escapeHtml, formatDate } from "../utils.js";
+
 export function renderWarRoomPage(posts) {
+  const latestVideos = VIDEOS.filter(video => /bannon|war room/i.test(getVideoBrand(video.slug))).slice(0, 6);
   const pageContent = `
     ${PAGE_BRAND_STYLES}
     <main class="content-page prestige-page">
@@ -58,6 +63,14 @@ export function renderWarRoomPage(posts) {
             <a href="https://warroom.org/tag/natalie-winters/" target="_blank" rel="noopener noreferrer"><b>ARCHIVE</b><span>Open War Room's Natalie G. Winters tag →</span></a>
           </aside>
         </div>
+
+        <section class="prestige-section" aria-label="Latest War Room appearances">
+          <div class="prestige-section-head"><h2>Latest Natalie G. Winters appearances</h2><p>Newest dated War Room clips first. Earlier appearances remain in the archive.</p></div>
+          <div class="editorial-grid">
+            ${latestVideos.map(video => `<a class="editorial-card" href="/videos/${escapeHtml(video.slug)}"><span>${escapeHtml(formatDate(video.date) || "Archive video")}</span><h3>${escapeHtml(video.title)}</h3><p>${escapeHtml(video.summary)}</p><span>WATCH & READ →</span></a>`).join("")}
+          </div>
+          <p><a href="/videos">Browse all Natalie G. Winters videos →</a></p>
+        </section>
 
         <section class="prestige-section">
           <div class="prestige-section-head"><h2>Selected War Room video</h2><p>Early clips that show the China and national-security reporting which became central to her on-air role.</p></div>
