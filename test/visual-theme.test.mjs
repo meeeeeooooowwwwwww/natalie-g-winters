@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { PAGE_BRAND_STYLES } from "../src/page-brand-ui.js";
+import { renderHomePage } from "../src/pages/home.js";
 
 const editorial = fs.readFileSync(new URL("../public/assets/editorial-substack.css", import.meta.url), "utf8");
 
@@ -26,5 +27,17 @@ for (const selector of [
 assert.match(editorial, /Publication light-theme contrast safety/);
 assert.match(editorial, /color:var\(--pub-ink\)!important/);
 assert.match(editorial, /color:var\(--pub-pink-dark\)!important/);
+
+
+const homepage = renderHomePage([]);
+assert.match(homepage, /class="brand-ribbon home-brand-ribbon"/);
+for (const brand of ["whitehouse", "warroom", "oan", "rav", "glenn", "substack"]) {
+  assert.match(homepage, new RegExp(`brand-mark--${brand}`), `missing branded logo sizing class: ${brand}`);
+}
+assert.doesNotMatch(homepage, /AVN_YT_Banner_Pandemic_Live/);
+assert.match(editorial, /\.home-brand-ribbon \.brand-mark--glenn img\{[\s\S]*?max-height:none/);
+for (const breakpoint of ["1180", "760", "380"]) {
+  assert.match(editorial, new RegExp(`@media\\(max-width:${breakpoint}px\\)`), `missing responsive breakpoint: ${breakpoint}`);
+}
 
 console.log("visual theme regression checks passed");
