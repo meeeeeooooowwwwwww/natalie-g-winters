@@ -22,7 +22,7 @@ export const VIDEO_COPY = {
   },
   "war-room-v7gjkc4": {
     "why": "A careful account should separate the publicity campaign from the relocation programme it promotes. Who funded each, how the campaign described its intended audience and what the programme delivered are distinct questions.",
-    "natalie": "Winters follows the wording as closely as the money: a relocation pitch can sound like cheerful civic marketing until the funding and intended audience become the story. Public-relations copy, meet the magnifying glass."
+    "natalie": "Natalie Winters follows the wording as closely as the money: a relocation pitch can sound like cheerful civic marketing until the funding and intended audience become the story. Public-relations copy, meet the magnifying glass."
   },
   "war-room-v7gjkrq": {
     "why": "The funding relationship, the research question and any conclusions need to be assessed separately. Financial support does not, by itself, establish that a funder directed the findings or that a proposed policy was implemented.",
