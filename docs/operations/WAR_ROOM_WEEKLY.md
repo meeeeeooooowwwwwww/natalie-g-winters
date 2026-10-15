@@ -8,7 +8,13 @@ Partial preparation, not a completed import. All 57 existing video records and U
 
 ## Weekly check
 
-A ChatGPT automation named Natalie War Room videos is enabled for Friday morning, approximately 08:00 Pacific/Auckland, starting 23 October 2026. It checks title matches, compares canonical Rumble IDs, verifies metadata and source content, writes original articles, preserves old URLs, tests and uses the established exact-SHA deployment path. It reports source/access failures explicitly. This is an agent-assisted scheduled check, not a running server-side scraper.
+The mistakenly created ChatGPT task has been disabled at the owner's request. No GPT reminder is part of this design.
+
+`scripts/mine-war-room.py` scans the exact `/c/BannonsWarRoom/videos` list newest-first. It matches Natalie Winters case-insensitively and stops at `lastKnownVideoId`. Metadata comes from Rumble's public oEmbed API, as used by the previous archive import. All new metadata and the checkpoint are saved atomically in `data/war-room-miner.json`; errors leave the old file intact. The initial boundary is the latest dated existing War Room video, v7ew94o (31 August 2026).
+
+`.github/workflows/war-room-miner.yml` runs the script weekly at Thursday 19:00 UTC (Friday 08:00 NZDT / 07:00 NZST) once merged to main. A branch push also runs the first catch-up. It stops on verification challenges, missing/changed markup, repeated pages or an unreached checkpoint. No proxy rotation, challenge bypass or video downloading. Discoveries are saved as awaiting-article records; publication is a separate step and is not yet automatic.
+
+Local tests cover title filtering, pagination stop, preservation of old records and unchanged checkpoint after metadata or pagination failure. Live channel parsing still needs a successful executor run.
 
 Do not treat a failed fetch or empty search index as proof there are no new videos. Use overlapping discovery windows and compare against the complete stored archive. Keep article claims attributed; do not invent quotations, transcripts, dates or embed IDs. Never delete older pages to make room for new ones.
 
