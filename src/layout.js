@@ -169,6 +169,9 @@ export function renderFooter() {
               </svg>
               <span>GRID EATER</span>
             </a>
+            <a class="footer-grid-link" href="https://americafirst.nz/" target="_blank" rel="noopener noreferrer" aria-label="Visit America First NZ" title="americafirst.nz">
+              <span>AMERICA FIRST NZ</span>
+            </a>
           </div>
         </div>
       </div>
