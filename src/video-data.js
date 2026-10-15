@@ -606,6 +606,9 @@ export const VIDEOS = [
   }
 ];
 
+// Sort once at module load. Undated archive entries remain available at the end.
+VIDEOS.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
 export function getVideoBySlug(slug) {
   return VIDEOS.find((video) => video.slug === slug) || null;
 }
