@@ -320,7 +320,9 @@ function normalisePost(post = {}) {
     { image: post.cover_image, imageQuality: 500 },
     { image: post.social_image, imageQuality: 450 },
     {
-      image: post.image,
+      // Retire images known to come from body/reader heuristics, including
+      // already-cached email topImage entries. Preserve legacy unranked data.
+      image: [50, 80, 100].includes(Number(post.imageQuality)) ? "" : post.image,
       imageQuality: post.imageQuality,
     }
   );
@@ -422,7 +424,8 @@ export async function getUpdaterStatus(env) {
   const email = await readKey(env, "natalie_article_email_status_v1");
 
   return {
-    updaterVersion: "bounded-feed-v1",
+    updaterVersion: "canonical-cover-v2",
+    pendingCoverCount: articles?.posts?.filter(post => !post.image).length || 0,
     pollingHealth: check?.result === "error" ? "error"
       : !check?.lastSuccessfulAt ? "unverified"
       : check?.failures?.length ? "degraded"
@@ -627,12 +630,8 @@ function extractRssPosts(xml) {
       getTagAttribute(mediaTag, "url"),
       getTagAttribute(enclosureTag, "url")
     );
-    const bodyImage = chooseArticleImage(
-      extractFirstArticleImage(encoded),
-      extractFirstArticleImage(description)
-    );
-    const image = mediaImage || bodyImage;
-    const imageQuality = mediaImage ? 200 : bodyImage ? 50 : 0;
+    const image = mediaImage;
+    const imageQuality = mediaImage ? 200 : 0;
 
     posts.push(normalisePost({
       id: stablePostId(link),
@@ -1148,8 +1147,7 @@ async function refreshArticles(env) {
 /*
   Email notifications are a separate ingestion path from scheduled polling.
   They update the SAME rolling archive, but never call a remote source.
-  Incoming email top-image metadata has quality 80, deliberately lower than
-  Substack's canonical cover_image (quality 500).
+  Email bodies never establish preview covers; canonical source images are retained.
 */
 export async function upsertEmailArticle(env, incoming) {
   if (!env?.NATALIE_KV) throw new Error("NATALIE_KV is required for email ingestion");

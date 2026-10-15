@@ -47,13 +47,13 @@ contents, or Gmail tokens are stored by this Worker.
 
 ## Cover images
 
-The official Substack archive `cover_image` retains quality 500.
-`social_image` retains quality 450. An email-supplied image is only used
-if its HTML metadata explicitly marks it `topImage: true` and the image
-origin is the allowlisted Substack article-media host. It has provisional
-quality 80, so the official cover always supersedes it later. Author
-avatars, logos, unmarked article images, and arbitrary URLs are rejected.
-If no eligible image is present, use the existing placeholder.
+Only canonical archive cover/social metadata, post Open Graph metadata, and
+explicit RSS media fields establish a preview image. Email body `topImage`
+means an inline article image, not the publication cover. Email ingestion
+therefore leaves the image empty until a canonical source supplies it; existing
+verified covers are preserved. Cached body/reader heuristic image ranks 50, 80
+and 100 are suppressed on read. Never manually promote an inline image to a
+canonical cover rank.
 
 ## Failures and rollback
 

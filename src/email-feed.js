@@ -1,6 +1,5 @@
 // Cloudflare Email Routing intake for Natalie Substack publication notices.
-// This module never trusts arbitrary mail images: the verified Substack
-// topImage is only a provisional fallback below the official cover_image.
+// Email bodies do not establish the publication preview cover.
 import { upsertEmailArticle } from "./substack.js";
 
 const FROM = "nataliegwinters@substack.com";
@@ -111,20 +110,6 @@ function postUrl(value) {
   return "";
 }
 
-function selectedArticleImage(html) {
-  for (const match of String(html).matchAll(/<img\b[^>]*\bdata-attrs="([^"]+)"/gi)) {
-    try {
-      const attrs = JSON.parse(decodeEntities(match[1]));
-      if (attrs.topImage !== true) continue;
-      const image = new URL(attrs.src);
-      if (image.protocol !== "https:" || image.hostname !== "substack-post-media.s3.amazonaws.com") continue;
-      if (!image.pathname.startsWith("/public/images/")) continue;
-      if (/(avatar|profile|logo|favicon)/i.test(image.pathname)) continue;
-      return image.toString();
-    } catch {}
-  }
-  return "";
-}
 
 export function extractSubstackNotice(raw) {
   if (typeof raw !== "string" || !raw || raw.length > MAX_EMAIL_BYTES) return null;
@@ -147,7 +132,8 @@ export function extractSubstackNotice(raw) {
   const parts = getMailParts(raw);
   const html = parts.find((p) => p.contentType.startsWith("text/html"))?.body || "";
   const preview = html.match(/<div\b[^>]*\bclass=["'][^"']*\bpreview\b[^"']*["'][^>]*>([\s\S]*?)<\/div>/i)?.[1] || "";
-  const image = selectedArticleImage(html);
+  // Inline topImage is not the publication preview cover.
+  const image = "";
   return {
     title,
     url: article,
@@ -189,4 +175,4 @@ export async function receiveSubstackEmail(message, env) {
   return saved;
 }
 
-export const __testing = { decodeMimeHeader, postUrl, selectedArticleImage, getMailParts };
+export const __testing = { decodeMimeHeader, postUrl, getMailParts };
