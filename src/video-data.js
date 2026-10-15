@@ -10,7 +10,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters examines refugee rent assistance in a War Room appearance listed for 7 October 2026. The publisher frames the segment around a taxpayer-backed network helping pay housing costs.",
     "angle": "The central accountability questions are who administers the assistance, which funding streams support it, and how eligibility and payments are documented. Those questions should be answered from the underlying grant records, rather than inferred from the existence of a housing programme alone.",
     "duration": 201,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": "https://nataliegwinters.substack.com/p/revealed-inside-the-taxpayer-backed"
   },
   {
@@ -24,7 +23,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters discusses government-backed research into immigration and demographic change in rural America. War Room lists this appearance as aired on 7 October 2026.",
     "angle": "A research project, a policy recommendation and an implemented government programme are different things. Understanding the story requires identifying what was funded, what the researchers proposed and whether any public authority acted on those proposals.",
     "duration": 77,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": "https://nataliegwinters.substack.com/p/the-government-researched-how-to"
   },
   {
@@ -38,7 +36,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters turns to Boston in a War Room segment listed for 7 October 2026. The publisher presents her report as an investigation into payments for community organising involving people it describes as unlawfully present immigrants.",
     "angle": "The important distinctions are the programme’s actual eligibility rules, the source of the payments and the work participants perform. A headline cannot establish an individual’s immigration status or whether a particular payment breached any rule.",
     "duration": 124,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": "https://nataliegwinters.substack.com/p/boston-is-paying-illegal-aliens-to"
   },
   {
@@ -52,7 +49,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters discusses training provided by former immigration judges in a War Room appearance dated 7 October 2026. The publisher describes the subject as legal strategies for clients with criminal records who face deportation.",
     "angle": "Legal representation, professional training and the outcome of a removal case are separate issues. The useful questions concern what the training actually recommends, who provides it and which legal provisions it discusses.",
     "duration": 87,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": "https://nataliegwinters.substack.com/p/revealed-former-immigration-judges"
   },
   {
@@ -64,9 +60,8 @@ export const VIDEOS = [
     "date": "2026-10-07",
     "category": "war-room",
     "summary": "Natalie G. Winters returns to government research into rural immigration in this two-minute War Room upload, listed for 7 October 2026. The publisher also released a shorter, 77-second clip under the same topic.",
-    "angle": "The separate durations and player identifiers distinguish these uploads, although the extent of overlapping footage has not been established. This page preserves the longer upload as its own archive entry rather than treating a repeated title as proof of an identical video.",
+    "angle": "Two War Room uploads cover this rural-immigration research story, one 77 seconds long and the other two minutes long. Together, they bring a government-funded research question into a wider debate about demographic change, public policy and rural communities.",
     "duration": 120,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": "https://nataliegwinters.substack.com/p/the-government-researched-how-to"
   },
   {
@@ -80,7 +75,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters focuses on a Topeka relocation publicity campaign in a War Room appearance listed for 7 October 2026. The publisher’s description connects the campaign with public funding.",
     "angle": "A careful account should separate the publicity campaign from the relocation programme it promotes. Who funded each, how the campaign described its intended audience and what the programme delivered are distinct questions.",
     "duration": 91,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": null
   },
   {
@@ -94,7 +88,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters discusses a research grant concerning migration in rural western Massachusetts in this War Room listing dated 7 October 2026. The publisher identifies a Gates foundation connection in its description.",
     "angle": "The funding relationship, the research question and any conclusions need to be assessed separately. Financial support does not, by itself, establish that a funder directed the findings or that a proposed policy was implemented.",
     "duration": 51,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": null
   },
   {
@@ -108,7 +101,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters examines political organising involving churches in a War Room segment listed for 7 October 2026. The publisher frames the report around efforts by Trump’s opponents to mobilise religious communities.",
     "angle": "Religious activity, issue advocacy and election campaigning should not be treated as interchangeable. The substance lies in which organisations are involved, what their materials propose and what actions participants are asked to take.",
     "duration": 340,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": "https://nataliegwinters.substack.com/p/revealed-inside-the-lefts-plan-to"
   },
   {
@@ -122,7 +114,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters discusses allegations concerning an Obama-era Director of National Intelligence and China-related connections in a War Room appearance dated 7 October 2026. The publisher uses strongly critical language to frame the report.",
     "angle": "Contacts, institutional affiliations and financial relationships require precise documentation. They should not automatically be equated with espionage, unlawful activity or proof that an official acted for a foreign power.",
     "duration": 230,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": "https://nataliegwinters.substack.com/p/exc-how-obamas-dni-became-a-ccp-sellout"
   },
   {
@@ -136,7 +127,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters addresses a claim involving a Democratic National Committee chair and a Chinese Communist Party conference in this War Room listing dated 7 October 2026. The publisher links the segment to her written investigation.",
     "angle": "Assessing a conference appearance requires the date, organiser, speaker’s role and actual remarks. Those details matter more than assuming that speaking at an event establishes agreement with every position of its organisers.",
     "duration": 50,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": "https://nataliegwinters.substack.com/p/dnc-chair-secretly-addressed-chinese"
   },
   {
@@ -150,7 +140,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters discusses a school-related initiative concerning teenage boys and meat consumption in a War Room appearance listed for 7 October 2026. The publisher describes the institution as Gates-backed.",
     "angle": "The important questions are what the proposal recommends, whether it is research or an implemented programme, and how any funding relationship connects to the activity discussed. Those distinctions prevent a policy proposal from being mistaken for a compulsory school rule.",
     "duration": 55,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": "https://nataliegwinters.substack.com/p/gates-backed-school-promotes-plan"
   },
   {
@@ -164,7 +153,6 @@ export const VIDEOS = [
     "summary": "Natalie G. Winters discusses lobbying for a proposed Heartland Visa in a War Room appearance listed for 2 October 2026. The publisher presents the segment as scrutiny of the spending behind the proposal.",
     "angle": "A lobbying campaign is evidence of an effort to influence policy, not proof that a new visa category has become law. The relevant records would identify the organisations funding the effort, the clients represented and the particular proposals being promoted.",
     "duration": 960,
-    "sourceNote": "Context based on the publisher’s title and listing; this page is not a transcript. Playback availability is controlled by Rumble.",
     "relatedReporting": null
   },
   {

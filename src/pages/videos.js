@@ -67,7 +67,7 @@ export function renderVideosPage(posts) {
             <span>WATCH · WAR ROOM · WHITE HOUSE · INTERVIEWS</span>
             <h1>Natalie G. Winters Videos</h1>
           </div>
-          <p>A visual archive built from the real Rumble thumbnails and publisher metadata, with dedicated pages for context and search.</p>
+          <p>Watch Natalie G. Winters on War Room, in White House coverage, interviews and investigations—from the biggest headlines to the stories behind them.</p>
         </header>
 
         ${featured ? `
@@ -96,7 +96,7 @@ export function renderVideosPage(posts) {
         <section>
           <div class="video-library-head">
             <h2>Video library</h2>
-            <p>${VIDEOS.length} clips and appearances currently indexed</p>
+            <p>${VIDEOS.length} clips and appearances</p>
           </div>
           <div class="video-library-grid">
             ${archive.map(renderVideoCard).join("")}

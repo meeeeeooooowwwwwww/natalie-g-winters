@@ -45,6 +45,7 @@ for (const video of VIDEOS) {
     if (!html.includes(video.embedUrl)) failures.push(`${video.slug}: rendered page lost direct Rumble embed URL`);
     if (!html.includes("Why this story matters")) failures.push(`${video.slug}: rendered page missing why-it-matters section`);
     if (!html.includes("Natalie Winters in this clip")) failures.push(`${video.slug}: rendered page missing Natalie-specific section`);
+    if (/context based on the publisher|not a transcript|playback availability is controlled/i.test(html)) failures.push(`${video.slug}: visitor-facing video disclaimer reappeared`);
     if (html.includes("The recurring fight in Natalie Winters' reporting is bigger than any one clip")) failures.push(`${video.slug}: old boilerplate appears in rendered HTML`);
   } catch (error) {
     failures.push(`${video.slug}: rendering failed: ${error.message}`);
