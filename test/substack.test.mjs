@@ -37,7 +37,7 @@ const post = __testing.extractJinaPost(postMarkdown, entries[0]);
 
 assert.equal(post.title, "EXCLUSIVE: The CCP Infiltrated EPA’s Drinking-Water Committee");
 assert.equal(post.date, "2026-09-01T11:45:44+00:00");
-assert.equal(post.image, coverImage);
+assert.equal(post.image, "", "reader body image is not a canonical cover");
 assert.match(post.subtitle, /^Beijing recruited a Penn State professor/);
 
 assert.equal(__testing.chooseArticleImage(profileImage, coverImage), coverImage);
