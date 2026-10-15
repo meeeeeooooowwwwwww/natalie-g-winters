@@ -28,11 +28,17 @@ jobs:
           test "$CONFIRM" = "DEPLOY"
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.sha }}
           persist-credentials: false
+      - name: Verify exact checked-out commit
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
+      - name: Guard own Cloudflare script and production domain
+        run: |
+          node -e "const c=require('./wrangler.jsonc'); if(c.name!=='nataliegwinters-site') throw Error('Wrong Worker'); if(!Array.isArray(c.routes)||c.routes.length!==1||c.routes[0].pattern!=='nataliegwinters.com') throw Error('Unexpected route target');"
       - name: Validate and dry-run exact source
         run: |
           npm ci --no-audit --no-fund
