@@ -33,12 +33,15 @@ A Cloudflare Cron Trigger runs hourly at minute 17:
 
 A normal page request also starts a background refresh when the last check is more than one hour old.
 
-The updater cross-checks several sources instead of trusting the first endpoint that answers:
+The updater uses a bounded discovery pass:
 
-1. Substack archive API
-2. Substack RSS
-3. Reader-backed yearly sitemap/post pages
-4. The live Substack homepage as a freshness gap check and final fallback
+1. Substack RSS publication feed.
+2. Substack archive API, cross-checked even when RSS succeeds, for canonical covers and metadata.
+3. Reader-backed archive API only when neither direct source returns usable posts.
+
+There are at most three discovery requests per pass, each with an eight-second timeout. There is no homepage/sitemap crawling or per-post request fan-out. A 429 stops further calls to that host; Retry-After and backoff survive deployments, including partial success. Concurrent refreshes in the same Worker isolate share one promise (this is not a distributed lock).
+
+Email intake is an independent publication path, but requires the routing and forwarding setup in `docs/operations/SUBSTACK_EMAIL_INGEST.md`. Deploying the handler does not activate email delivery.
 
 Results are merged by canonical post URL. Good stored metadata is retained when a fresh source is incomplete, while corrected titles, dates, subtitles and cover images can still repair the cache even when the newest article URL has not changed.
 
@@ -89,3 +92,5 @@ https://nataliegwinters.com/api/status
 ```
 
 The JSON shows the newest cached article, article-cache update time, latest check, last successful check, source combination, partial source failures and any final error.
+
+`pollingHealth` distinguishes errors, unverified state, degraded source coverage and overdue checks. `emailHealth: no-email-received` means delivery is not yet proven, not that routing is necessarily absent. An `ok` polling result means sources answered; it cannot prove that Substack has exposed every new article.

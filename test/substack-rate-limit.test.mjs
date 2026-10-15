@@ -67,6 +67,7 @@ try {
   calls.length = 0;
   globalThis.fetch = async (url) => {
     calls.push(String(url));
+    if (String(url).endsWith("/feed")) return new Response("<rss><channel></channel></rss>");
     if (!String(url).includes("/api/v1/archive")) {
       throw new Error("Healthy archive must not trigger secondary probes: " + url);
     }
@@ -85,7 +86,7 @@ try {
 
   const recovery = await refreshArticlesIfChanged(env);
   assert.equal(recovery.changed, true);
-  assert.equal(calls.length, 1, "healthy hourly update should use one source request");
+  assert.equal(calls.length, 2, "RSS and archive use at most two requests on recovery");
   const newStatus = await getUpdaterStatus(env);
   assert.equal(newStatus.newestTitle, "Newly published reporting");
   assert.equal(newStatus.lastCheckResult, "updated");

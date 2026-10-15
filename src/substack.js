@@ -4,8 +4,8 @@ const ARTICLE_CACHE_KEY = "natalie_latest_articles_v4";
 const LEGACY_CACHE_KEY = "natalie_latest_articles_v3";
 
 /*
-  Bump the check-state key when updater behaviour changes materially.
-  The article cache itself stays on v4 so a deploy never blanks the site.
+  Preserve this key across deployments: active Retry-After windows must survive.
+  The article cache stays on v4 so a deploy never blanks the site.
 */
 const CHECK_STATE_KEY = "natalie_article_check_v8";
 
@@ -13,7 +13,8 @@ const CHECK_INTERVAL_MS = 60 * 60 * 1000;
 const RATE_LIMIT_BACKOFF_MS = 3 * 60 * 60 * 1000;
 const OTHER_ERROR_BACKOFF_MS = 60 * 60 * 1000;
 const MAX_BACKOFF_MS = 24 * 60 * 60 * 1000;
-const MAX_METADATA_LOOKUPS = 2;
+const REQUEST_TIMEOUT_MS = 8000;
+const activeRefreshes = new WeakMap();
 const MAX_STORED_POSTS = 25;
 const FRESH_POST_COUNT = 5;
 const DISCOVERY_COUNT = 10;
@@ -403,6 +404,7 @@ async function writeKey(env, key, value) {
     await env.NATALIE_KV.put(key, JSON.stringify(value));
   } catch (error) {
     console.error(`KV write error for ${key}:`, error);
+    throw error;
   }
 }
 
@@ -420,6 +422,12 @@ export async function getUpdaterStatus(env) {
   const email = await readKey(env, "natalie_article_email_status_v1");
 
   return {
+    updaterVersion: "bounded-feed-v1",
+    pollingHealth: check?.result === "error" ? "error"
+      : !check?.lastSuccessfulAt ? "unverified"
+      : check?.failures?.length ? "degraded"
+      : Date.now() - check.lastSuccessfulAt > 2 * CHECK_INTERVAL_MS ? "overdue" : "ok",
+    emailHealth: email?.lastReceivedAt ? "received" : "no-email-received",
     articleCount: Array.isArray(articles?.posts) ? articles.posts.length : 0,
     newestTitle: articles?.posts?.[0]?.title || null,
     newestUrl: articles?.posts?.[0]?.url || null,
@@ -462,6 +470,7 @@ async function fetchTextFresh(baseUrl, accept = "text/html,application/xhtml+xml
   // Stable URLs permit upstream/edge caching. A timestamp query and no-cache
   // headers previously bypassed caches for every single refresh.
   const response = await fetch(baseUrl, {
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; NatalieGWintersSite/6.0; +https://nataliegwinters.com/)",
       "Accept": accept,
@@ -478,6 +487,7 @@ async function fetchTextFresh(baseUrl, accept = "text/html,application/xhtml+xml
 
 async function fetchJinaText(pathname) {
   const response = await fetch(JINA_READER + pathname, {
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     headers: {
       "Accept": "text/plain",
       "User-Agent": "NatalieGWintersSite/6.0 (+https://nataliegwinters.com/)",
@@ -883,45 +893,39 @@ function mergeSourceResults(results) {
     .slice(0, DISCOVERY_COUNT);
 }
 
-async function fetchLatestPostsFromSubstack(storedPosts = []) {
+async function fetchLatestPostsFromSubstack() {
   const failures = [];
   const blockedHosts = new Set();
   let retryDelayMs = 0;
   let sawRateLimit = false;
-  let selected = null;
+  const results = [];
 
-  // One usable discovery result is enough for an hourly update. Previously
-  // every cycle called every source and the homepage plus five article pages.
+  // RSS is the publication feed. Cross-check the archive for corrections and
+  // canonical covers; a usable but stale response is not proof of freshness.
+  // Keep this bounded: no homepage/sitemap crawling or per-article fan-out.
   const sources = [
-    { host: "substack", fetcher: fetchArchiveApiPosts },
     { host: "substack", fetcher: fetchRssPosts },
-    { host: "substack", fetcher: fetchHomepagePosts },
-    { host: "reader", fetcher: fetchJinaArchiveApiPosts },
-    { host: "reader", fetcher: fetchJinaSitemapPosts },
+    { host: "substack", fetcher: fetchArchiveApiPosts },
+    { host: "reader", fetcher: fetchJinaArchiveApiPosts, fallback: true },
   ];
 
   for (const source of sources) {
-    if (blockedHosts.has(source.host)) continue;
+    if (blockedHosts.has(source.host) || (source.fallback && results.length)) continue;
     try {
       const result = await source.fetcher();
-      if (result.posts?.length) {
-        selected = result;
-        break;
-      }
-      failures.push(source.fetcher.name + ": no posts");
+      if (result.posts?.length) results.push(result);
+      else failures.push(source.fetcher.name + ": no posts");
     } catch (error) {
       failures.push(source.fetcher.name + ": " + String(error?.message || error));
-      console.warn("Substack discovery source failed (" + source.fetcher.name + "):", error);
       if (error?.rateLimited) {
         sawRateLimit = true;
         retryDelayMs = Math.max(retryDelayMs, Number(error.retryAfterMs) || 0);
-        // A 429 from one host should not cause another request to that host.
         blockedHosts.add(source.host);
       }
     }
   }
 
-  if (!selected) {
+  if (!results.length) {
     const failure = new Error("All Substack discovery sources failed: " + failures.join(" | "));
     failure.rateLimited = sawRateLimit;
     failure.retryAfterMs = retryDelayMs;
@@ -929,23 +933,6 @@ async function fetchLatestPostsFromSubstack(storedPosts = []) {
     throw failure;
   }
 
-  const discovered = selected.posts.map(normalisePost)
-    .filter((post) => post.title && post.url);
-  const storedUrls = new Set(storedPosts.map(normalisePost).map((post) => post.url));
-  const extraMetadata = [];
-
-  // Only enrich newly discovered posts with missing metadata, never reread
-  // five established article pages on every successful hourly check.
-  for (const post of discovered) {
-    if (extraMetadata.length >= MAX_METADATA_LOOKUPS) break;
-    if (storedUrls.has(post.url) || (post.image && post.subtitle && post.date)) continue;
-    extraMetadata.push(await fetchPostMetadata({ url: post.url, title: post.title }));
-  }
-
-  const results = [selected];
-  if (extraMetadata.length) {
-    results.push({ posts: extraMetadata, source: "substack-post-metadata" });
-  }
   const posts = mergeSourceResults(results).map(normalisePost)
     .filter((post) => post.title && post.url);
 
@@ -954,6 +941,8 @@ async function fetchLatestPostsFromSubstack(storedPosts = []) {
   return {
     posts: posts.slice(0, DISCOVERY_COUNT),
     source: results.map((result) => result.source).join("+"),
+    rateLimited: sawRateLimit,
+    retryAfterMs: retryDelayMs,
     failures,
   };
 }
@@ -1062,7 +1051,15 @@ export async function getStoredArticleState(env) {
   return migrateLegacyCache(env);
 }
 
-export async function refreshArticlesIfChanged(env) {
+export function refreshArticlesIfChanged(env) {
+  // Coalesce visitors and cron in the same isolate; KV is not a global lock.
+  if (activeRefreshes.has(env)) return activeRefreshes.get(env);
+  const pending = refreshArticles(env).finally(() => activeRefreshes.delete(env));
+  activeRefreshes.set(env, pending);
+  return pending;
+}
+
+async function refreshArticles(env) {
   const startedAt = Date.now();
   const stored = await getStoredArticleState(env);
   const previousCheck = await readKey(env, CHECK_STATE_KEY);
@@ -1073,7 +1070,7 @@ export async function refreshArticlesIfChanged(env) {
   }
 
   try {
-    const fresh = await fetchLatestPostsFromSubstack(stored?.posts || []);
+    const fresh = await fetchLatestPostsFromSubstack();
     const mergedPosts = mergeFreshWithHistory(
       fresh.posts,
       Array.isArray(stored?.posts) ? stored.posts : []
@@ -1093,9 +1090,9 @@ export async function refreshArticlesIfChanged(env) {
     await saveCheckState(env, {
       lastCheckedAt: Date.now(),
       lastSuccessfulAt: Date.now(),
-      nextRetryAt: null,
+      nextRetryAt: fresh.rateLimited ? Date.now() + Math.max(RATE_LIMIT_BACKOFF_MS, fresh.retryAfterMs) : null,
       consecutiveFailures: 0,
-      rateLimited: false,
+      rateLimited: fresh.rateLimited,
       error: null,
       result: changed ? "updated" : "no-change",
       source: fresh.source,
