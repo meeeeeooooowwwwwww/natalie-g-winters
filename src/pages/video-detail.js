@@ -88,7 +88,7 @@ export function renderVideoDetailPage(video, posts) {
         <div class="editorial-hero">
           <div>
             <div class="eyebrow">NATALIE WINTERS VIDEO · ${escapeHtml(context.label)}</div>
-            <h1>Natalie Winters: ${escapeHtml(titleTopic)}</h1>
+            <h1>Natalie G. Winters: ${escapeHtml(titleTopic)}</h1>
             <p class="hero-deck">${escapeHtml(video.summary)}</p>
           </div>
           <aside class="hero-aside"><strong>CURRENT OPERATING MODE</strong>${escapeHtml(context.adjective)} Natalie Winters. Small woman. Large document folder. Terrible news for anyone relying on nobody reading page 73.</aside>
@@ -124,6 +124,8 @@ export function renderVideoDetailPage(video, posts) {
 
         <div class="detail-copy-grid">
           <div class="prose detail-main-copy">
+            ${video.sourceNote ? `<p class="source-note">${escapeHtml(video.sourceNote)}</p>` : ""}
+            ${video.relatedReporting ? `<p><a href="${escapeHtml(video.relatedReporting)}" target="_blank" rel="noopener noreferrer">Read the publisher-linked investigation →</a></p>` : ""}
             <h2>What this Natalie Winters video is about</h2>
             <p>${escapeHtml(nameNatalie(video.summary))}</p>
             <p><strong>Natalie Winters' angle:</strong> ${escapeHtml(video.angle)}</p>
@@ -170,7 +172,7 @@ export function renderVideoDetailPage(video, posts) {
   `;
 
   return renderLayout({
-    title: `Natalie Winters: ${titleTopic} | Video & Context`,
+    title: `Natalie G. Winters: ${titleTopic} | Video & Context`,
     description: `${video.summary} Watch the Rumble clip and explore related Natalie Winters reporting, War Room coverage and interviews.`,
     canonical,
     pageContent,

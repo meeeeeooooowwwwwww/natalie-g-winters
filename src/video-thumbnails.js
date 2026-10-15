@@ -2,6 +2,56 @@
    Kept static so archive pages remain fast and do not fan out to upstream
    metadata requests at render time. */
 export const VIDEO_THUMBNAILS = {
+
+  "war-room-v7gjhws": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fww1/4e/s8/6/S/1/M/4/S1M4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjioc": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fww1/60/s8/6/m/f/N/4/mfN4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjj38": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fwe2/96/s8/6/K/n/N/4/KnN4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjjfg": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fwe2/e7/s8/6/C/u/N/4/CuN4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjjv6": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fwe2/29/s8/6/s/D/N/4/sDN4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjkc4": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fww1/f3/s8/6/0/M/N/4/0MN4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjkrq": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fww1/07/s8/6/M/V/N/4/MVN4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjlem": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fwe2/48/s8/6/E/8/N/4/E8N4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjlws": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fww1/13/s8/6/S/g/O/4/SgO4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjm76": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fwe2/31/s8/6/I/m/O/4/ImO4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gjmi6": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fwe2/8b/s8/6/U/s/O/4/UsO4A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  },
+  "war-room-v7gad2m": {
+    "thumbnail": "https://hugh.cdn.rumble.cloud/video/fww1/f7/s8/6/U/Y/-/2/UY-2A.qR4e.jpg",
+    "brand": "Bannons War Room"
+  }
+,
   "obama-energy-secretary-ccp-plant": {
     "thumbnail": "https://hugh.cdn.rumble.cloud/video/fwe2/33/s8/6/S/V/u/T/SVuTA.qR4e.jpg",
     "brand": "Bannons War Room"

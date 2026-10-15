@@ -4,17 +4,6 @@ import { escapeHtml, formatDate } from "../utils.js";
 import { VIDEOS } from "../video-data.js";
 import { getVideoBrand, getVideoThumbnail } from "../video-thumbnails.js";
 
-const FEATURED_VIDEO_SLUGS = [
-  "china-ai-models-american-voters",
-  "chinese-land-near-us-naval-air-base",
-  "white-house-correspondent-announcement",
-  "christopher-steele-piers-morgan",
-];
-
-function videoBySlug(slug) {
-  return VIDEOS.find((video) => video.slug === slug);
-}
-
 function renderVideoCard(video) {
   if (!video) return "";
 
@@ -42,7 +31,7 @@ function renderVideoCard(video) {
 }
 
 export function renderHomePage(posts) {
-  const featuredVideos = FEATURED_VIDEO_SLUGS.map(videoBySlug).filter(Boolean);
+  const featuredVideos = VIDEOS.slice(0, 4);
 
   const pageContent = `
     <main class="editorial-home">
@@ -119,7 +108,7 @@ export function renderHomePage(posts) {
           <div class="home-section-head">
             <div>
               <span>WATCH NATALIE</span>
-              <h2 id="home-video-title">Video archive</h2>
+              <h2 id="home-video-title">Latest video appearances</h2>
             </div>
             <p>Real Rumble thumbnails and publisher attribution make the archive feel like a media library, not a list of links.</p>
           </div>
