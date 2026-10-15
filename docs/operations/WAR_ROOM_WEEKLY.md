@@ -2,9 +2,11 @@
 
 ## Status
 
-Partial preparation, not a completed import. All 57 existing video records and URLs are preserved. Homepage cards and video archive now select newest dated entries; War Room page has a newest-first section. Main H1/title use Natalie G. Winters.
+Source contains 69 video pages: all 57 original records preserved plus 12 newly verified Rumble uploads. Each new upload has a real oEmbed player, thumbnail, publisher, duration and a unique short context article targeting Natalie G. Winters. Articles explicitly state they are publisher-listing context, not transcripts. Air dates come from indexed publisher listings. These source changes are not yet deployed.
 
-12 candidate uploads have original short article drafts in `war-room-candidates.json`. These are NOT imported by the site and are not published. Source discovery used indexed Rumble publisher listings. Direct channel/page access encountered Cloudflare human verification. Embeds, thumbnails, full content and completeness cannot currently be verified. The two rural-demographics uploads may be duplicates and need comparison. Indexed premium notices may be stale; verify current access without bypassing restrictions.
+The old oEmbed method works over ordinary curl requests. The channel listing does not currently work from this workspace or the GitHub Actions runner. Live miner run 38788506071 failed with HTTP 403 on the first list-page request, leaving the checkpoint unchanged. CI passed. Do not claim a complete channel inventory or a working scheduled scrape.
+
+The two rural-demographics uploads have distinct embed IDs and durations (77 and 120 seconds); both are preserved. Overlap in footage has not been assessed.
 
 ## Weekly check
 
@@ -20,7 +22,7 @@ Do not treat a failed fetch or empty search index as proof there are no new vide
 
 ## Remaining work
 
-Obtain accessible direct publisher/video metadata, resolve duplicate-topic uploads, complete the channel inventory, finalise each article against its source, add verified video/copy/thumbnail records and deploy. Candidate air dates are publisher-listed dates, not independently verified upload timestamps. Preserve that distinction when sorting.
+Resolve channel-list discovery access, verify parsing against a real successful response, complete the inventory, and deploy the verified article additions and ordering changes. Candidate air dates are publisher-listed dates, not independently verified upload timestamps. Preserve that distinction when sorting.
 
 ## Deployment
 

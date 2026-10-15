@@ -124,6 +124,8 @@ export function renderVideoDetailPage(video, posts) {
 
         <div class="detail-copy-grid">
           <div class="prose detail-main-copy">
+            ${video.sourceNote ? `<p class="source-note">${escapeHtml(video.sourceNote)}</p>` : ""}
+            ${video.relatedReporting ? `<p><a href="${escapeHtml(video.relatedReporting)}" target="_blank" rel="noopener noreferrer">Read the publisher-linked investigation →</a></p>` : ""}
             <h2>What this Natalie Winters video is about</h2>
             <p>${escapeHtml(nameNatalie(video.summary))}</p>
             <p><strong>Natalie Winters' angle:</strong> ${escapeHtml(video.angle)}</p>
