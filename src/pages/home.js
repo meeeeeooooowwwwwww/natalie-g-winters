@@ -69,24 +69,24 @@ export function renderHomePage(posts) {
       </section>
 
       <section class="brand-ribbon-wrap" aria-label="Natalie G. Winters associated media and institutions">
-        <div class="brand-ribbon">
+        <div class="brand-ribbon home-brand-ribbon">
           <span class="brand-ribbon-label">ASSOCIATED WITH</span>
-          <a class="brand-mark" href="/white-house" aria-label="The White House">
+          <a class="brand-mark brand-mark--whitehouse" href="/white-house" aria-label="The White House">
             <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Wh-gov-workmark-logo.svg" alt="The White House" loading="lazy" decoding="async">
           </a>
-          <a class="brand-mark" href="/war-room" aria-label="Bannon's War Room">
-            <img src="https://storage.warroom.org/images/AVN_YT_Banner_Pandemic_Live_-_smaller.png" alt="Bannon's War Room" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          <a class="brand-mark brand-mark--warroom" href="/war-room" aria-label="Bannon's War Room">
+            <img src="https://www.omnycontent.com/d/clips/e73c998e-6e60-432f-8610-ae210140c5b1/361b7027-9198-497d-8d04-b212011690dc/3e6b2165-0d3b-4e42-8c90-b42a00f7b5c7/image.jpg?size=Large&amp;t=1776009837" alt="Bannon's War Room" loading="lazy" decoding="async" referrerpolicy="no-referrer">
           </a>
-          <a class="brand-mark" href="https://www.oann.com/" target="_blank" rel="noopener noreferrer" aria-label="One America News">
+          <a class="brand-mark brand-mark--oan" href="https://www.oann.com/" target="_blank" rel="noopener noreferrer" aria-label="One America News">
             <img src="https://www.oann.com/images/logos/OAN-only-logo.svg" alt="OAN" loading="lazy" decoding="async" referrerpolicy="no-referrer">
           </a>
-          <a class="brand-mark" href="https://americasvoice.news/" target="_blank" rel="noopener noreferrer" aria-label="Real America's Voice">
+          <a class="brand-mark brand-mark--rav" href="https://americasvoice.news/" target="_blank" rel="noopener noreferrer" aria-label="Real America's Voice">
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Logo_Real_America%27s_Voice.svg" alt="Real America's Voice" loading="lazy" decoding="async">
           </a>
-          <a class="brand-mark" href="https://www.glennbeck.com/" target="_blank" rel="noopener noreferrer" aria-label="The Glenn Beck Program">
+          <a class="brand-mark brand-mark--glenn" href="https://www.glennbeck.com/" target="_blank" rel="noopener noreferrer" aria-label="The Glenn Beck Program">
             <img src="https://premierenetworks.s3.amazonaws.com/logo/2021-06/GlennBeckLogo.png" alt="The Glenn Beck Program" loading="lazy" decoding="async" referrerpolicy="no-referrer">
           </a>
-          <a class="brand-mark text-brand" href="${escapeHtml(SITE.substackHome)}" target="_blank" rel="noopener noreferrer">SUBSTACK</a>
+          <a class="brand-mark brand-mark--substack text-brand" href="${escapeHtml(SITE.substackHome)}" target="_blank" rel="noopener noreferrer">SUBSTACK</a>
         </div>
       </section>
 
