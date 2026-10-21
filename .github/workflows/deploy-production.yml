@@ -38,7 +38,7 @@ jobs:
           cache: npm
       - name: Guard own Cloudflare script and production domain
         run: |
-          node -e "const c=require('./wrangler.jsonc'); if(c.name!=='nataliegwinters-site') throw Error('Wrong Worker'); if(!Array.isArray(c.routes)||c.routes.length!==1||c.routes[0].pattern!=='nataliegwinters.com') throw Error('Unexpected route target');"
+          node -e "const c=JSON.parse(require('node:fs').readFileSync('./wrangler.jsonc','utf8')); if(c.name!=='nataliegwinters-site') throw Error('Wrong Worker'); if(!Array.isArray(c.routes)||c.routes.length!==1||c.routes[0].pattern!=='nataliegwinters.com') throw Error('Unexpected route target');"
       - name: Validate and dry-run exact source
         run: |
           npm ci --no-audit --no-fund
