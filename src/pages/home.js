@@ -52,12 +52,12 @@ export function renderHomePage(posts) {
           <div class="home-video-panel">
             <div class="home-video-head">
               <span>FEATURED VIDEO</span>
-              <a href="${escapeHtml(SITE.heroVideoSource)}" target="_blank" rel="noopener noreferrer">WATCH ON YOUTUBE →</a>
+              <a href="${escapeHtml(SITE.heroVideoSource)}" target="_blank" rel="noopener noreferrer">WATCH ON RUMBLE →</a>
             </div>
             <div class="home-video-frame">
               <iframe
                 src="${escapeHtml(SITE.heroVideoEmbed)}"
-                title="Featured video: The Entire History of Islam and Muhammad"
+                title="Featured video on Rumble"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen
