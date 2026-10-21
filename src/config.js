@@ -44,7 +44,7 @@ function toVideoEmbedUrl(value = "") {
   return raw;
 }
 
-const heroVideo = "https://www.youtube.com/watch?v=VjjfO1FKFNY";
+const heroVideo = "https://rumble.com/embed/v7eztbo/?pub=4kxtac";
 const heroVideoEmbed = toVideoEmbedUrl(heroVideo);
 
 export const SITE = {
