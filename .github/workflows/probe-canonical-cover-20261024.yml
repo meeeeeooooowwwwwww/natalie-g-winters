@@ -39,12 +39,21 @@ jobs:
                   for match in re.findall(r'"(?:cover_image|social_image)"\\s*:\\s*"(https?[^"]+)"',body)[:3]:
                     print('COVER-JSON',slug,match[:450])
               except Exception as e: print('ERROR',slug,url,type(e).__name__,str(e)[:190])
-          url="https://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=10"
-          try:
-            with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Accept':'application/json'}),timeout=10) as rsp:
-              data=json.load(rsp)
-              for entry in data if isinstance(data,list) else data.get("posts",[]):
-                if any(slug in entry.get("canonical_url","") for slug in sluglist):
-                  print('ARCHIVE',entry.get('canonical_url'),{k:entry.get(k) for k in ['id','cover_image','social_image','published_at']})
-          except Exception as e: print('ARCHIVE-ERROR',type(e).__name__,str(e)[:190])
+          urls=[
+           "https://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=10",
+           "https://r.jina.ai/http://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=10",
+           "https://r.jina.ai/https://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=10",
+          ]
+          for url in urls:
+            try:
+              with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Accept':'application/json,text/plain'}),timeout=12) as rsp:
+                payload=rsp.read(800000).decode('utf-8','replace')
+                print('ARCHIVE-RESULT',url,rsp.status,len(payload),'start:',payload[:150].replace('\\n',' '))
+                prefix='Markdown Content:'
+                parsed=payload.split(prefix,1)[-1].strip() if prefix in payload else payload
+                data=json.loads(parsed)
+                for entry in data if isinstance(data,list) else data.get("posts",[]):
+                  if any(slug in entry.get("canonical_url","") for slug in sluglist):
+                    print('ARCHIVE',entry.get('canonical_url'),{k:entry.get(k) for k in ['id','cover_image','social_image','published_at','post_date']})
+            except Exception as e: print('ARCHIVE-ERROR',url,type(e).__name__,str(e)[:190])
           PY
