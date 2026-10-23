@@ -74,7 +74,7 @@ jobs:
                 image_path="$(node - <<'NODE'
           const fs=require('node:fs');
           const html=fs.readFileSync('/tmp/natalie-article-page.html','utf8');
-          const match=html.match(/<img[^>]+src="(\\/media\\/substack\\/[^"]+)"[^>]+alt="(?:Cover image for|Article image for) Meet the American University Leaders With Chinese Military Connections/i);
+          const match=html.match(new RegExp('<img[^>]+src="(/media/substack/[^"]+)"[^>]+alt="(?:Cover image for|Article image for) Meet the American University Leaders With Chinese Military Connections','i'));
           if(!match) process.exit(2);
           console.log(match[1]);
           NODE
