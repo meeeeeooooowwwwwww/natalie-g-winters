@@ -1,0 +1,71 @@
+name: Natalie article recovery code-only deployment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/deploy-article-recovery-code-only-20261023.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: natalie-production-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Validate exact site and build code-only deployment config
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          node - <<'NODE'
+          const fs=require('fs');
+          const c=JSON.parse(fs.readFileSync('wrangler.jsonc','utf8'));
+          if(c.name!=='nataliegwinters-site'||c.routes?.length!==1||c.routes[0].pattern!=='nataliegwinters.com'||c.kv_namespaces?.length!==1||c.kv_namespaces[0].id!=='7751d2c212db4316b98316b280882892'||c.addresses?.length!==1||c.addresses[0]!=='articles@feeds.nataliegwinters.com') throw Error('Natalie site/routing/KV scope mismatch');
+          delete c.addresses;
+          fs.writeFileSync('.wrangler-natalie-recovery-code-only.jsonc',JSON.stringify(c,null,2));
+          console.log('Code-only config created. Existing Email Routing rule is manually managed and not modified.');
+          NODE
+      - name: Check site code and recovery tests
+        run: |
+          npm ci --no-audit --no-fund
+          npm run check
+          npm test
+          npx wrangler deploy --config .wrangler-natalie-recovery-code-only.jsonc --dry-run
+      - name: Deploy code only, retaining manual email route
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "${CLOUDFLARE_API_TOKEN:-}"
+          test -n "${CLOUDFLARE_ACCOUNT_ID:-}"
+          npx wrangler deploy --config .wrangler-natalie-recovery-code-only.jsonc --message "Natalie verified-article recovery $GITHUB_SHA"
+      - name: Trigger Worker status read and bounded recovery
+        run: |
+          set -euo pipefail
+          for domain in "https://nataliegwinters-site.generalflynn17.workers.dev/api/status" "https://nataliegwinters.com/api/status"; do
+            status=$(curl --silent --show-error --location --max-time 20 -o /tmp/natalie-status.json -w '%{http_code}' "$domain" || true)
+            if [ "$status" = 200 ]; then
+              node - <<'NODE'
+          const j=require('/tmp/natalie-status.json');
+          console.log('Live Worker status:',JSON.stringify({articleCount:j.articleCount,newestTitle:j.newestTitle,newestUrl:j.newestUrl,pollingHealth:j.pollingHealth,emailHealth:j.emailHealth}));
+          if (j.newestUrl !== 'https://nataliegwinters.substack.com/p/he-helped-run-immigration-under-biden') process.exitCode=2;
+          NODE
+              exit 0
+            fi
+            echo "Cannot read $domain from GitHub runner (HTTP ${status:-unavailable}); this does not indicate an application error."
+          done
+          echo 'Worker deployed. External edge denies automated verification; inspect live /api/status in browser.'
