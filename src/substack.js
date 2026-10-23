@@ -1,14 +1,13 @@
 import { SITE } from "./config.js";
 
-// URL-scoped provisional images for the October 21–23 newsletter posts.
-// Rank 10 stays below verified email topImage (120), RSS (200), Open Graph
-// (300), social (450), and canonical cover (500). These only repair existing
-// articles while upstream metadata is unavailable; they never insert posts
-// or alter Gmail routing.
-const RECOVERED_NEWSLETTER_IMAGES = {
-  "https://nataliegwinters.substack.com/p/he-helped-run-immigration-under-biden": "https://substack-post-media.s3.amazonaws.com/public/images/0ec738f3-c3a9-4b99-8785-9760627d2e4c_700x467.jpeg",
-  "https://nataliegwinters.substack.com/p/blockade-and-riot-how-soros-and-gates": "https://substack-post-media.s3.amazonaws.com/public/images/d6b0d1a9-896e-4983-a421-352849903e04_1260x1518.jpeg",
-  "https://nataliegwinters.substack.com/p/meet-the-american-university-leaders": "https://substack-post-media.s3.amazonaws.com/public/images/5426d5c9-6b7f-4033-be87-5cdddaf6a4ae_1363x936.jpeg",
+// Exact covers independently verified against Substack's public archive API.
+// Rank 400 beats stale body images, RSS and OG heuristics, but a fresh
+// authoritative cover_image (500) always wins. Do not use newsletter body
+// images as publication covers or overwrite these with unverified guesses.
+const VERIFIED_ARCHIVE_COVERS = {
+  "https://nataliegwinters.substack.com/p/he-helped-run-immigration-under-biden": "https://substack-post-media.s3.amazonaws.com/public/images/cd2d18ee-2ab8-461b-971f-ca39d16374ca_700x467.jpeg",
+  "https://nataliegwinters.substack.com/p/blockade-and-riot-how-soros-and-gates": "https://substack-post-media.s3.amazonaws.com/public/images/c098b97a-820a-4f7d-8173-2da9bebae208_1260x859.jpeg",
+  "https://nataliegwinters.substack.com/p/meet-the-american-university-leaders": "https://substack-post-media.s3.amazonaws.com/public/images/7e4aba5f-56b5-4c97-a8d9-9a69847a3955_1672x941.png",
 };
 
 const ARTICLE_CACHE_KEY = "natalie_latest_articles_v4";
@@ -333,10 +332,10 @@ function normalisePost(post = {}) {
     {
       // Retire images known to come from body/reader heuristics, including
       // already-cached email topImage entries. Preserve legacy unranked data.
-      image: [50, 80, 100].includes(Number(post.imageQuality)) ? "" : post.image,
+      image: [50, 80, 100, 120].includes(Number(post.imageQuality)) ? "" : post.image,
       imageQuality: post.imageQuality,
     },
-    { image: RECOVERED_NEWSLETTER_IMAGES[url], imageQuality: 10 }
+    { image: VERIFIED_ARCHIVE_COVERS[url], imageQuality: 400 }
   );
   const image = rankedImage.image;
 
@@ -921,7 +920,13 @@ async function fetchLatestPostsFromSubstack() {
   ];
 
   for (const source of sources) {
-    if (blockedHosts.has(source.host) || (source.fallback && results.length)) continue;
+    if (blockedHosts.has(source.host)) continue;
+    // Even if RSS succeeds, it may have no publication cover. Query the
+    // reader-backed archive when needed instead of treating article text
+    // availability as proof that canonical image metadata is present.
+    if (source.fallback && results.length &&
+        results.some(result => result.posts?.slice(0, FRESH_POST_COUNT)
+          .every(post => post.image && post.imageQuality >= 500))) continue;
     try {
       const result = await source.fetcher();
       if (result.posts?.length) results.push(result);
@@ -1153,6 +1158,22 @@ async function refreshArticles(env) {
       changed: false,
       error: String(error?.message || error),
     };
+  }
+}
+
+// Bounded authoritative cover lookup for a newly received, validated notice.
+// It cannot introduce an article or overwrite the title/date; publication
+// cover_image is the ONLY accepted image type. Failure never blocks email.
+export async function lookupPublicationCover(url) {
+  const canonical = canonicalPostUrl(url);
+  if (!canonical) return "";
+  try {
+    const { posts } = await fetchJinaArchiveApiPosts();
+    const matching = posts.find(post => post.url === canonical && post.imageQuality >= 500);
+    return matching?.image || "";
+  } catch (error) {
+    console.warn("Canonical cover lookup unavailable:", String(error?.message || error));
+    return "";
   }
 }
 
