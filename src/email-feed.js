@@ -115,9 +115,9 @@ function verifiedNewsletterTopImage(html) {
   // Read only Substack's author-published topImage asset, never the first
   // arbitrary <img> (which may be a tracker, avatar, icon or inline advert).
   // This is provisional article artwork, NOT an authoritative preview cover.
-  const tags = String(html).match(/<img\\b[^>]*>/gi) || [];
+  const tags = String(html).match(/<img\b[^>]*>/gi) || [];
   for (const tag of tags.slice(0, 80)) {
-    const attribute = tag.match(/\\bdata-attrs\\s*=\\s*(["'])(.*?)\\1/i)?.[2];
+    const attribute = tag.match(/\bdata-attrs\s*=\s*(["'])(.*?)\1/i)?.[2];
     if (!attribute) continue;
     let metadata;
     try { metadata = JSON.parse(decodeEntities(attribute)); }
@@ -127,7 +127,7 @@ function verifiedNewsletterTopImage(html) {
       const src = new URL(metadata.src);
       if (src.protocol !== "https:" || src.hostname !== "substack-post-media.s3.amazonaws.com") continue;
       if (src.search || src.hash || src.username || src.password) continue;
-      if (!/^\\/public\\/images\\/[a-z0-9_-]{8,180}\\.(?:jpe?g|png|webp)$/i.test(src.pathname)) continue;
+      if (!/^\/public\/images\/[a-z0-9_-]{8,180}\.(?:jpe?g|png|webp)$/i.test(src.pathname)) continue;
       if ((Number(metadata.width) > 0 && Number(metadata.width) < 400) ||
           (Number(metadata.height) > 0 && Number(metadata.height) < 250)) continue;
       return src.toString();
