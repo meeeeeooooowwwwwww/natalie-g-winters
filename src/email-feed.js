@@ -1,6 +1,6 @@
 // Cloudflare Email Routing intake for Natalie Substack publication notices.
-// Verified email topImage is provisional; archive/OG cover metadata outranks it.
-import { upsertEmailArticle } from "./substack.js";
+// Never use email body images as publication covers; query Substack archive metadata.
+import { lookupPublicationCover, upsertEmailArticle } from "./substack.js";
 
 const FROM = "nataliegwinters@substack.com";
 const LIST_ID = "nataliegwinters.substack.com";
@@ -111,33 +111,6 @@ function postUrl(value) {
 }
 
 
-function verifiedNewsletterTopImage(html) {
-  // Read only Substack's author-published topImage asset, never the first
-  // arbitrary <img> (which may be a tracker, avatar, icon or inline advert).
-  // This is provisional article artwork, NOT an authoritative preview cover.
-  const tags = String(html).match(/<img\b[^>]*>/gi) || [];
-  for (const tag of tags.slice(0, 80)) {
-    const attribute = tag.match(/\bdata-attrs\s*=\s*(["'])(.*?)\1/i)?.[2];
-    if (!attribute) continue;
-    let metadata;
-    try { metadata = JSON.parse(decodeEntities(attribute)); }
-    catch { continue; }
-    if (metadata?.topImage !== true || typeof metadata.src !== "string") continue;
-    try {
-      const src = new URL(metadata.src);
-      if (src.protocol !== "https:" || src.hostname !== "substack-post-media.s3.amazonaws.com") continue;
-      if (src.search || src.hash || src.username || src.password) continue;
-      if (!/^\/public\/images\/[a-z0-9_-]{8,180}\.(?:jpe?g|png|webp)$/i.test(src.pathname)) continue;
-      if ((Number(metadata.width) > 0 && Number(metadata.width) < 400) ||
-          (Number(metadata.height) > 0 && Number(metadata.height) < 250)) continue;
-      return src.toString();
-    } catch {
-      // Untrusted or malformed image URLs are ignored, not forwarded.
-    }
-  }
-  return "";
-}
-
 export function extractSubstackNotice(raw) {
   if (typeof raw !== "string" || !raw || raw.length > MAX_EMAIL_BYTES) return null;
   const sender = getHeader(raw, "From").match(/<([^<>]+)>/)?.[1] || getHeader(raw, "From");
@@ -159,16 +132,15 @@ export function extractSubstackNotice(raw) {
   const parts = getMailParts(raw);
   const html = parts.find((p) => p.contentType.startsWith("text/html"))?.body || "";
   const preview = html.match(/<div\b[^>]*\bclass=["'][^"']*\bpreview\b[^"']*["'][^>]*>([\s\S]*?)<\/div>/i)?.[1] || "";
-  // Substack marks the post-body top image. Use it only until its canonical
-  // publication cover appears from RSS, Open Graph, or the archive API.
-  const image = verifiedNewsletterTopImage(html);
+  // Newsletter body photos are not the publication archive cover.
+  const image = "";
   return {
     title,
     url: article,
     date: new Date(timestamp).toISOString(),
     subtitle: stripHtml(preview).slice(0, 400),
     image,
-    imageQuality: image ? 120 : 0,
+    imageQuality: 0,
   };
 }
 
@@ -198,7 +170,8 @@ export async function receiveSubstackEmail(message, env) {
     // No recipient body, message or sender data is ever written to storage.
     return { result: "ignored-unrecognised-notice" };
   }
-  const saved = await upsertEmailArticle(env, post);
+  const cover = await lookupPublicationCover(post.url);
+  const saved = await upsertEmailArticle(env, cover ? { ...post, cover_image: cover } : post);
   console.log("Substack email article intake:", saved.changed ? "updated" : "duplicate", saved.newestUrl);
   return saved;
 }
