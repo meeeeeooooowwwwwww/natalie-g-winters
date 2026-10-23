@@ -1,6 +1,16 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+
 import { extractSubstackNotice, receiveSubstackEmail } from "../src/email-feed.js";
 import { getStoredArticleState, upsertEmailArticle } from "../src/substack.js";
+
+
+// Deployments must maintain the literal, isolated email route. No apex MX,
+// wildcard forwarding, or other websites may become email destinations.
+const wrangler = JSON.parse(readFileSync(new URL("../wrangler.jsonc", import.meta.url), "utf8"));
+assert.equal(wrangler.name, "nataliegwinters-site");
+assert.deepEqual(wrangler.addresses, ["articles@feeds.nataliegwinters.com"]);
+assert.equal(wrangler.vars.NATALIE_EMAIL_RECIPIENT, wrangler.addresses[0]);
 
 const url = "https://nataliegwinters.substack.com/p/the-1-billion-plan-to-permanently";
 const image = "https://substack-post-media.s3.amazonaws.com/public/images/83c0c2b3-0d1f-49ec-a8b7-32c836a17e80_1260x1603.jpeg";
