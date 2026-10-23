@@ -33,6 +33,9 @@
       "custom_domain": true
     }
   ],
+  "addresses": [
+    "articles@feeds.nataliegwinters.com"
+  ],
   "workers_dev": true,
   "preview_urls": true,
   "vars": {
