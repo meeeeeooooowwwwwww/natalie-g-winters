@@ -66,5 +66,15 @@ jobs:
       - name: Check Natalie deployment
         run: |
           set -euo pipefail
-          curl --fail --silent --show-error --location --max-time 30 https://nataliegwinters.com/api/status -o "$RUNNER_TEMP/status.json"
-          node -e "const f=require('fs');const j=JSON.parse(f.readFileSync(process.argv[1],'utf8'));if(typeof j.articleCount!=='number')throw Error('Missing articleCount in live status');console.log('Natalie status verified')" "$RUNNER_TEMP/status.json"
+          primary_url="https://nataliegwinters.com/api/status"
+          worker_url="https://nataliegwinters-site.generalflynn17.workers.dev/api/status"
+          code="$(curl --silent --show-error --location --max-time 30 --output "$RUNNER_TEMP/status.json" --write-out '%{http_code}' "$primary_url")"
+          if [ "$code" = "403" ]; then
+            echo "::warning::Natalie custom-domain edge returned HTTP 403 to this GitHub runner; testing the same deployed Worker on workers.dev without weakening zone security."
+            code="$(curl --silent --show-error --location --max-time 30 --output "$RUNNER_TEMP/status.json" --write-out '%{http_code}' "$worker_url")"
+          fi
+          if [ "$code" != "200" ]; then
+            echo "::error::Natalie public Worker status check failed: HTTP $code"
+            exit 1
+          fi
+          node -e "const f=require('fs'); const j=JSON.parse(f.readFileSync(process.argv[1],'utf8')); if(typeof j.articleCount!=='number'||j.articleCount<1)throw Error('Missing articles in live status'); if(typeof j.pollingHealth!=='string'||typeof j.emailHealth!=='string')throw Error('Missing ingestion diagnostics'); console.log('Natalie runtime verified; articles='+j.articleCount+'; polling='+j.pollingHealth+'; email='+j.emailHealth); if(j.emailHealth!=='received')console.log('::warning::Natalie email ingestion has not yet been proven with a real notice');" "$RUNNER_TEMP/status.json"
