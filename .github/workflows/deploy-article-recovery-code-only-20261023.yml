@@ -61,9 +61,31 @@ jobs:
             if [ "$status" = 200 ]; then
               node - <<'NODE'
           const j=require('/tmp/natalie-status.json');
-          console.log('Live Worker status:',JSON.stringify({articleCount:j.articleCount,newestTitle:j.newestTitle,newestUrl:j.newestUrl,pollingHealth:j.pollingHealth,emailHealth:j.emailHealth}));
-          if (j.newestUrl !== 'https://nataliegwinters.substack.com/p/he-helped-run-immigration-under-biden') process.exitCode=2;
+          console.log('Live Worker status:',JSON.stringify({articleCount:j.articleCount,newestTitle:j.newestTitle,newestUrl:j.newestUrl,pollingHealth:j.pollingHealth,emailHealth:j.emailHealth,pendingCoverCount:j.pendingCoverCount}));
+          if (j.articleCount < 25 || !String(j.newestUrl||'').startsWith('https://nataliegwinters.substack.com/p/')) process.exitCode=2;
           NODE
+              base="${domain%/api/status}"
+              for page in / /articles; do
+                response_code="$(curl --silent --show-error --location --max-time 20 -o /tmp/natalie-article-page.html -w '%{http_code}' "${base}${page}" || true)"
+                if [ "$response_code" != 200 ]; then
+                  echo "::error::Natalie ${page} image verification failed: HTTP ${response_code}"
+                  exit 1
+                fi
+                image_path="$(node - <<'NODE'
+          const fs=require('node:fs');
+          const html=fs.readFileSync('/tmp/natalie-article-page.html','utf8');
+          const match=html.match(/<img[^>]+src="(\\/media\\/substack\\/[^"]+)"[^>]+alt="(?:Cover image for|Article image for) Meet the American University Leaders With Chinese Military Connections/i);
+          if(!match) process.exit(2);
+          console.log(match[1]);
+          NODE
+                )" || { echo "::error::October 23 card has no image on ${page}"; exit 1; }
+                image_code="$(curl --silent --show-error --location --max-time 20 -o /tmp/natalie-article-image -w '%{http_code}' "${base}${image_path}" || true)"
+                if [ "$image_code" != 200 ] || [ ! -s /tmp/natalie-article-image ]; then
+                  echo "::error::October 23 image unavailable on ${page}: HTTP ${image_code}"
+                  exit 1
+                fi
+                echo "Verified October 23 image on ${page} at ${image_path}"
+              done
               exit 0
             fi
             echo "Cannot read $domain from GitHub runner (HTTP ${status:-unavailable}); this does not indicate an application error."
