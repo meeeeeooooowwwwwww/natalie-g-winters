@@ -52,12 +52,19 @@ assert.ok(parsed, "accepted authentic publication notification");
 assert.equal(parsed.title, "The €1 Billion Plan to Permanently Fund Europe’s “Disinformation” Industry");
 assert.equal(parsed.url, url);
 assert.equal(parsed.subtitle, "Europe’s online speech watchdogs require funding.");
-assert.equal(parsed.image, "", "inline topImage is not a preview cover");
-assert.equal(parsed.imageQuality, 0);
+assert.equal(parsed.image, image, "verified email topImage supplies temporary artwork");
+assert.equal(parsed.imageQuality, 120, "canonical metadata remains higher priority");
 assert.equal(extractSubstackNotice(mime.replace('List-Id: <nataliegwinters.substack.com>', 'List-Id: <other.substack.com>')), null);
 assert.equal(extractSubstackNotice(mime.replace('From: "Natalie Winters" <nataliegwinters@substack.com>', 'From: "Someone Else" <evil@example.com>')), null);
 assert.equal(extractSubstackNotice(mime.replace('List-Post: <' + url + '>', 'List-Post: <https://evil.example.com/p/forged>')), null);
 assert.equal(extractSubstackNotice(mime.replace('X-Mailgun-Tag: post', 'X-Mailgun-Tag: promo')), null);
+const unsafeTopImage = mime.replace(image, "https://evil.example.org/malware.jpeg");
+assert.equal(extractSubstackNotice(unsafeTopImage)?.image, "", "reject non-Substack images");
+const noTopImage = mime.replace('&quot;topImage&quot;:true', '&quot;topImage&quot;:false');
+assert.equal(extractSubstackNotice(noTopImage)?.image, "", "reject non-top body images");
+const iconTopImage = mime.replace(image, "https://substackcdn.com/image/fetch/w_36/icon.png");
+assert.equal(extractSubstackNotice(iconTopImage)?.image, "", "reject decorative CDN assets");
+
 
 const entries = new Map();
 const env = {
@@ -87,8 +94,8 @@ const first = await receiveSubstackEmail(message(), env);
 assert.equal(first.changed, true);
 let state = await getStoredArticleState(env);
 assert.equal(state.posts[0].url, url);
-assert.equal(state.posts[0].image, "");
-assert.equal(state.posts[0].imageQuality, 0);
+assert.equal(state.posts[0].image, image);
+assert.equal(state.posts[0].imageQuality, 120);
 const repeat = await receiveSubstackEmail(message(), env);
 assert.equal(repeat.changed, false);
 assert.equal(entries.get("natalie_article_email_status_v1").lastResult, "duplicate");
@@ -124,3 +131,7 @@ const legacyEmail = { ...parsed, image, imageQuality: 80 };
 entries.set("natalie_latest_articles_v4", { posts: [legacyEmail], updatedAt: 1 });
 const repaired = await getStoredArticleState(env);
 assert.equal(repaired.posts[0].image, "", "cached inline images must stop rendering without fetching");
+
+const latest = await getStoredArticleState({ NATALIE_KV: { get: async (key) => key === "natalie_latest_articles_v4" ? { posts: [{ id: "web-meet-the-american-university-leaders", title: "Meet the American University Leaders With Chinese Military Connections", url: "https://nataliegwinters.substack.com/p/meet-the-american-university-leaders", image: "", date: "2026-10-23T11:10:34.000Z" }] } : null } });
+assert.equal(latest.posts[0].image, "https://substack-post-media.s3.amazonaws.com/public/images/5426d5c9-6b7f-4033-be87-5cdddaf6a4ae_1363x936.jpeg", "the latest stored email-only post receives its temporary top image on read");
+assert.equal(latest.posts[0].imageQuality, 10);
