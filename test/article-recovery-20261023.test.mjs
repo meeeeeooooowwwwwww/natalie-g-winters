@@ -33,7 +33,7 @@ assert.equal(rendered.posts.length,25);
 assert.equal(new Set(rendered.posts.map(p=>p.url)).size,25);
 for (const post of rendered.posts.slice(0,2)) {
   assert.match(post.image, /^https:\/\/substack-post-media\.s3\.amazonaws\.com\/public\/images\//);
-  assert.equal(post.imageQuality,10);
+  assert.equal(post.imageQuality,400, 'verified publisher archive cover outranks newsletter body photos');
   assert(post.imageVersion);
   const canonical = t.normalisePost({...post,cover_image:'https://substack-post-media.s3.amazonaws.com/public/images/canonical-cover.jpeg'});
   const upgraded = t.mergeFreshWithHistory([canonical],rendered.posts);
