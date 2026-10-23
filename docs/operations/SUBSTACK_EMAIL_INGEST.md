@@ -4,8 +4,9 @@
 
 The site already displays the latest 25 posts from Cloudflare KV. The new
 `email()` Worker handler only receives messages **after Cloudflare Email
-Routing is explicitly configured**. Deploying the code alone does not
-subscribe, forward, route, or replay any messages.
+Routing is configured and a real message arrives**. The configured
+literal Worker address does not create a Gmail filter, subscribe to
+Substack, or replay historic messages.
 
 - Cloudflare zone: `nataliegwinters.com`
 - Dedicated subdomain: `feeds.nataliegwinters.com`
@@ -21,29 +22,55 @@ contents, or Gmail tokens are stored by this Worker.
 
 ## Initial routing and Gmail forwarding verification
 
-1. In Cloudflare, open **nataliegwinters.com → Compute → Email Service →
-   Email Routing → Settings → Subdomains**. Enable routing only for `feeds`.
-   Check that Cloudflare supplies the subdomain MX/TXT records.
-2. Add `articles@feeds.nataliegwinters.com` as an exact custom address,
-   temporarily forwarding it to the verified Gmail destination
-   `generalflynn17@gmail.com`. This **temporary** forward is needed so
-   Gmail's new-address confirmation message is actually received.
-3. In the Gmail account `generalflynn17@gmail.com`, go to **Settings →
-   See all settings → Forwarding and POP/IMAP → Add a forwarding address**.
-   Enter `articles@feeds.nataliegwinters.com`. Verify from the confirmation
-   message that Cloudflare temporarily forwarded to the inbox.
-4. Change the Cloudflare routing action for the exact custom address to
-   **Send to Worker → nataliegwinters-site** (not `forward` to Gmail).
-5. Back in Gmail, leave global forwarding **disabled**. Create a filter using
-   sender `nataliegwinters@substack.com`, and select **Forward it to →
-   articles@feeds.nataliegwinters.com**. Preserve inbox copies. A filter
-   must apply to *new incoming* newsletter messages; previously received
-   messages are not backfilled.
-6. Verify on a genuinely new publication notification; inspect
-   `https://nataliegwinters.com/api/status` for `emailLastReceivedAt`,
-   `emailNewestTitle`, `emailNewestUrl`, and `emailImageProvisional`.
-   The actual archive must also display the post. Normal RSS updates
-   continue as fallback/enrichment, respecting rate limits.
+**Deployment ownership:** `wrangler.jsonc` declares exactly one
+`addresses` entry: `articles@feeds.nataliegwinters.com`. Cloudflare
+Wrangler 4.113+ can manage the exact Send-to-Worker rule on deployment.
+This rule belongs only to `nataliegwinters-site`. The first deployment
+requires the `feeds` subdomain to be enabled for Email Routing and a
+Cloudflare token permitted to change email rules. A dry run is not a
+live routing test. Never configure an apex catch-all or change apex MX.
+
+1. In Cloudflare, select `nataliegwinters.com` and open **Compute →
+   Email Service → Email Routing → Settings → Subdomains**. Enable just
+   `feeds`. Verify that Cloudflare supplied MX/TXT DNS records on
+   `feeds.nataliegwinters.com`, not the apex.
+2. **Only if Gmail has not verified this forwarding destination yet:**
+   temporarily create the exact address
+   `articles@feeds.nataliegwinters.com` with **Send to an email** to
+   the already verified destination `generalflynn17@gmail.com`.
+   In Gmail's **Settings → See all settings → Forwarding and POP/IMAP**,
+   add `articles@feeds.nataliegwinters.com` as a forwarding address.
+   Confirm Gmail's verification message arrived through Cloudflare.
+3. Once Gmail shows that forwarding address as verified, **remove only
+   the temporary exact email-forwarding rule**. Do not remove other
+   routes or any apex settings. Confirm no manually managed rule
+   conflicts with the declared address; a takeover conflict must be
+   investigated, not force-overridden.
+4. Deploy the current `main` commit using Natalie's own
+   **Deploy Natalie G. Winters (independent)** manual workflow with
+   confirmation `DEPLOY`. Wrangler creates/manages the literal
+   `articles@feeds.nataliegwinters.com` → `nataliegwinters-site`
+   routing rule. Verify in Cloudflare that the rule is **Active** and
+   the action is **Send to a Worker**, not Send to an email. If
+   deployment reports missing permissions or routing conflicts, leave
+   the existing rule unchanged and repair that specific blocker.
+5. In Gmail, **leave global forwarding disabled**. Create a filter with
+   `from:nataliegwinters@substack.com`, action **Forward it to →
+   articles@feeds.nataliegwinters.com**. Retain Gmail's inbox copies.
+   Filter forwarding applies to **new** publication notifications,
+   not historical mail already in the inbox.
+6. Wait for a genuinely new Natalie post notification, then inspect
+   `https://nataliegwinters.com/api/status` and verify
+   `emailLastReceivedAt`, `emailNewestTitle`, `emailNewestUrl` and
+   the public `/articles` page. Do not mistake GitHub CI success,
+   Wrangler deployment, or a successful RSS poll for proof of email
+   delivery. If edge access returns 403, inspect this Worker from an
+   authorized browser or in Cloudflare Worker logs without weakening
+   access protections.
+
+No existing article is auto-forwarded or backfilled by Gmail filter
+creation. Keep the scheduled RSS polling as a secondary,
+rate-limit-respecting metadata/cover-enrichment source.
 
 ## Cover images
 
@@ -62,9 +89,11 @@ canonical cover rank.
 - Unrecognised or malformed messages do not modify KV.
 - Gmail forwarding has to remain active for this path; Substack RSS remains
   independent. No ongoing Gmail API access is needed.
-- To stop email ingestion, disable the exact Cloudflare routing rule, then
-  remove the Gmail forwarding filter if desired. Existing cached articles
-  remain untouched. Do not disable the site's normal Worker routes.
+- To stop email ingestion, remove/disable Gmail's sender-specific forwarding
+  filter first. For a permanent stop, remove the exact address from Wrangler
+  in a reviewed change before deploying, since a Wrangler-managed rule may
+  be recreated on later deployments. Existing cached articles stay untouched.
+  Do not disable the site's normal Worker routes.
 - Forwarded email headers alone are not cryptographic proof of authorship.
   The receiving address must remain dedicated and unpublished outside the
   forwarding configuration. Consider direct Substack subscription to this
