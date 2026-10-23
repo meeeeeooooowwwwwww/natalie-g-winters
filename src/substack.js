@@ -925,8 +925,8 @@ async function fetchLatestPostsFromSubstack() {
     // reader-backed archive when needed instead of treating article text
     // availability as proof that canonical image metadata is present.
     if (source.fallback && results.length &&
-        results.some(result => result.posts?.slice(0, FRESH_POST_COUNT)
-          .every(post => post.image && post.imageQuality >= 500))) continue;
+        (sawRateLimit || results.some(result => result.posts?.slice(0, FRESH_POST_COUNT)
+          .every(post => post.image && post.imageQuality >= 500)))) continue;
     try {
       const result = await source.fetcher();
       if (result.posts?.length) results.push(result);
