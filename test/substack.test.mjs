@@ -115,6 +115,28 @@ const publicationCoverPreference = __testing.mergeSourceResults([
 assert.equal(publicationCoverPreference[0].image, coverImage);
 assert.equal(publicationCoverPreference[0].imageQuality, 500);
 
+// Three archived October covers must be the publisher's cover_image, never
+// first-body-image fallbacks. Fresh canonical metadata can override them.
+for (const [url, officialCover] of [
+  ["https://nataliegwinters.substack.com/p/meet-the-american-university-leaders", "https://substack-post-media.s3.amazonaws.com/public/images/7e4aba5f-56b5-4c97-a8d9-9a69847a3955_1672x941.png"],
+  ["https://nataliegwinters.substack.com/p/he-helped-run-immigration-under-biden", "https://substack-post-media.s3.amazonaws.com/public/images/cd2d18ee-2ab8-461b-971f-ca39d16374ca_700x467.jpeg"],
+  ["https://nataliegwinters.substack.com/p/blockade-and-riot-how-soros-and-gates", "https://substack-post-media.s3.amazonaws.com/public/images/c098b97a-820a-4f7d-8173-2da9bebae208_1260x859.jpeg"],
+]) {
+  const repaired = __testing.normalisePost({
+    title: "Covered article", url, image: bodyImage, imageQuality: 120,
+    date: "2026-10-23T11:10:34.000Z",
+  });
+  assert.equal(repaired.image, officialCover);
+  assert.equal(repaired.imageQuality, 400);
+  const changedCover = __testing.normalisePost({
+    title: "Covered article", url,
+    cover_image: coverImage,
+    date: "2026-10-23T11:10:34.000Z",
+  });
+  assert.equal(changedCover.image, coverImage);
+  assert.equal(changedCover.imageQuality, 500);
+}
+
 const stored = {
   id: "stored",
   title: "Old title",
