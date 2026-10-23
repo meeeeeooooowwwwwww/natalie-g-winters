@@ -96,7 +96,7 @@ assert.equal(notOurSender.result, "rejected-envelope");
 const originalFetch = globalThis.fetch;
 globalThis.fetch = async (url) => {
   assert.match(String(url), /^https:\/\/r\.jina\.ai\/http:\/\/nataliegwinters\.substack\.com\/api\/v1\/archive/);
-  return { ok: true, text: async () => 'Markdown Content:\\n' + JSON.stringify([{
+  return { ok: true, text: async () => 'Markdown Content:\n' + JSON.stringify([{
     canonical_url: urlForTest,
     title: 'Official publication metadata',
     cover_image: oldImage,
