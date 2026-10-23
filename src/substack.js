@@ -1,5 +1,14 @@
 import { SITE } from "./config.js";
 
+// User-approved provisional newsletter images for the two recovered posts only.
+// Rank 10 stays below RSS (200), Open Graph (300), social (450), and cover (500).
+// Keep this URL-scoped fallback while canonical metadata is unavailable; it never
+// inserts an article or changes the Gmail ingestion/routing configuration.
+const RECOVERED_NEWSLETTER_IMAGES = {
+  "https://nataliegwinters.substack.com/p/he-helped-run-immigration-under-biden": "https://substack-post-media.s3.amazonaws.com/public/images/0ec738f3-c3a9-4b99-8785-9760627d2e4c_700x467.jpeg",
+  "https://nataliegwinters.substack.com/p/blockade-and-riot-how-soros-and-gates": "https://substack-post-media.s3.amazonaws.com/public/images/d6b0d1a9-896e-4983-a421-352849903e04_1260x1518.jpeg",
+};
+
 const ARTICLE_CACHE_KEY = "natalie_latest_articles_v4";
 const LEGACY_CACHE_KEY = "natalie_latest_articles_v3";
 
@@ -324,7 +333,8 @@ function normalisePost(post = {}) {
       // already-cached email topImage entries. Preserve legacy unranked data.
       image: [50, 80, 100].includes(Number(post.imageQuality)) ? "" : post.image,
       imageQuality: post.imageQuality,
-    }
+    },
+    { image: RECOVERED_NEWSLETTER_IMAGES[url], imageQuality: 10 }
   );
   const image = rankedImage.image;
 

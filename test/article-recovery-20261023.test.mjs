@@ -25,3 +25,25 @@ assert.equal(await recoverVerifiedOctoberArticles(env),'updated');
 assert.equal(await recoverVerifiedOctoberArticles(env),'already-recovered');
 assert.equal(kv.get('natalie_latest_articles_v4').posts.length,25);
 console.log('Natalie Worker KV recovery holds and idempotency: PASS');
+
+const { __testing: t, getStoredArticleState, upsertEmailArticle } = await import('../src/substack.js');
+const before = structuredClone(p.state);
+const rendered = await getStoredArticleState({NATALIE_KV:{get:async()=>before}});
+assert.equal(rendered.posts.length,25);
+assert.equal(new Set(rendered.posts.map(p=>p.url)).size,25);
+for (const post of rendered.posts.slice(0,2)) {
+  assert.match(post.image, /^https:\/\/substack-post-media\.s3\.amazonaws\.com\/public\/images\//);
+  assert.equal(post.imageQuality,10);
+  assert(post.imageVersion);
+  const canonical = t.normalisePost({...post,cover_image:'https://substack-post-media.s3.amazonaws.com/public/images/canonical-cover.jpeg'});
+  const upgraded = t.mergeFreshWithHistory([canonical],rendered.posts);
+  assert.equal(upgraded.find(p=>p.url===post.url).imageQuality,500);
+  assert.equal(upgraded.find(p=>p.url===post.url).image,canonical.image);
+  assert.equal(t.mergeFreshWithHistory([{...post,image:'',imageQuality:0}],upgraded).find(p=>p.url===post.url).image,canonical.image);
+}
+assert.deepEqual(rendered.posts.slice(2).map(p=>p.url),before.posts.slice(2).map(p=>p.url));
+assert.deepEqual(before,p.state,'read overlay does not mutate stored archive');
+await upsertEmailArticle(env,{...rendered.posts[0],image:'',imageQuality:0});
+assert.equal(kv.get('natalie_latest_articles_v4').posts.length,25);
+assert((await getStoredArticleState(env)).posts[0].image);
+console.log('Recovered newsletter images, canonical upgrades, archive preservation and email replay: PASS');

@@ -1,4 +1,4 @@
-name: Natalie article recovery code-only deployment
+name: Natalie recovered article images code-only deployment
 
 on:
   push:
