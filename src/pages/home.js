@@ -1,4 +1,5 @@
 import { SITE } from "../config.js";
+import { renderGlennBeckCompactPlayer } from "../iheart-player.js";
 import { renderArticleCards, renderLayout } from "../layout.js";
 import { escapeHtml } from "../utils.js";
 import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards } from "../recent-rumble.js";
@@ -90,8 +91,9 @@ export function renderHomePage(posts) {
               <span>VERIFIED MEDIA APPEARANCE · OCTOBER 29, 2026</span>
               <h2 id="latest-interview-title">Natalie Winters on The Glenn Beck Program</h2>
             </div>
-            <p>Natalie discusses her reporting on midterm-election preparations in an appearance listed by the original broadcaster on 29 October. <a href="https://www.iheart.com/podcast/175-the-glenn-beck-program-23014384/episode/best-of-the-program-guest-348722739/" target="_blank" rel="noopener noreferrer">LISTEN TO THE EPISODE →</a> <a href="/interviews">ALL INTERVIEWS →</a></p>
+            <p>Natalie discusses her reporting on midterm-election preparations during Glenn Beck’s 29 October broadcast. <a href="/interviews">ALL INTERVIEWS →</a></p>
           </div>
+          ${renderGlennBeckCompactPlayer()}
         </div>
       </section>
 
