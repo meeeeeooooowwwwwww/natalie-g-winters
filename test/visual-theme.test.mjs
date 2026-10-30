@@ -36,6 +36,7 @@ for (const brand of ["whitehouse", "warroom", "oan", "rav", "glenn"]) {
 }
 assert.doesNotMatch(homepage, /AVN_YT_Banner_Pandemic_Live/);
 assert.doesNotMatch(homepage, /brand-mark--substack|>SUBSTACK<\//, "Substack must not appear in homepage logo strip");
+assert.doesNotMatch(editorial, /brand-mark--substack/, "Remove dead Substack logo styling");
 assert.match(homepage, /src="\/images\/white-house-mark\.svg"/, "Local White House symbol required");
 assert.match(homepage, /src="\/images\/oan-wordmark\.svg"/, "Local OAN mark required");
 assert.doesNotMatch(homepage, /www\.oann\.com\/images\/logos/, "Broken external OAN logo must not return");
