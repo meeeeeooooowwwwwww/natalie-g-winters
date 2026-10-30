@@ -76,5 +76,6 @@ export function renderVerdictPage(posts) {
     pageContent,
     posts,
     active: "verdict",
+    robots: "noindex,follow",
   });
 }

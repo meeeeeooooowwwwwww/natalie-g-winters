@@ -1,0 +1,47 @@
+name: Natalie quality and editorial integrity
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: natalie-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Check source and editorial tests
+        run: |
+          npm run check
+          npm test
+      - name: Validate Cloudflare build without account or email permissions
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const c = JSON.parse(fs.readFileSync('wrangler.jsonc', 'utf8'));
+          if (c.name !== 'nataliegwinters-site' ||
+              c.routes?.length !== 1 || c.routes[0].pattern !== 'nataliegwinters.com' ||
+              c.addresses?.length !== 1 || c.addresses[0] !== 'articles@feeds.nataliegwinters.com') {
+            throw new Error('Unexpected Natalie production ownership or email address');
+          }
+          delete c.addresses;
+          fs.writeFileSync('.wrangler-natalie-ci.jsonc', JSON.stringify(c, null, 2) + '\n');
+          NODE
+          npx wrangler deploy --config .wrangler-natalie-ci.jsonc --dry-run

@@ -1,5 +1,4 @@
 import { SITE } from "./config.js";
-import { recoverVerifiedOctoberArticles } from "./article-recovery-20261023.js";
 import {
   findStoredPostById,
   getLatestPosts,
@@ -25,7 +24,6 @@ import { renderChinaPage } from "./pages/china.js";
 import { VIDEOS, getVideoBySlug } from "./video-data.js";
 
 const IMAGE_CACHE_SECONDS = 30 * 24 * 60 * 60;
-const SITEMAP_LASTMOD = "2026-09-07";
 
 const PRIMARY_PATHS = [
   "/",
@@ -33,7 +31,6 @@ const PRIMARY_PATHS = [
   "/career",
   "/reporting",
   "/white-house",
-  "/verdict",
   "/war-room",
   "/videos",
   "/interviews",
@@ -202,15 +199,17 @@ function renderSitemap() {
     loc: `${SITE.domain}${path === "/" ? "/" : path}`,
     priority: path === "/" ? "1.0" : path === "/articles" ? "0.95" : "0.9",
     changefreq: path === "/" || path === "/articles" ? "daily" : "weekly",
+    lastmod: "",
   }));
 
   const videoPages = VIDEOS.map((video) => ({
     loc: `${SITE.domain}/videos/${video.slug}`,
     priority: "0.8",
     changefreq: "monthly",
+    lastmod: /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(video.date || "") ? video.date : "",
   }));
 
-  const urls = [...primary, ...videoPages].map((entry) => `  <url><loc>${xmlEscape(entry.loc)}</loc><lastmod>${SITEMAP_LASTMOD}</lastmod><changefreq>${entry.changefreq}</changefreq><priority>${entry.priority}</priority></url>`).join("\n");
+  const urls = [...primary, ...videoPages].map((entry) => `  <url><loc>${xmlEscape(entry.loc)}</loc>${entry.lastmod ? `<lastmod>${xmlEscape(entry.lastmod)}</lastmod>` : ""}<changefreq>${entry.changefreq}</changefreq><priority>${entry.priority}</priority></url>`).join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 }
@@ -316,9 +315,6 @@ export default {
     }
 
     if (url.pathname === "/api/status") {
-      // One-time bounded recovery. Fail independently of read-only diagnostics.
-      try { await recoverVerifiedOctoberArticles(env); }
-      catch (error) { console.error("Natalie article catch-up failed:", error); }
       const status = await getUpdaterStatus(env);
       return new Response(JSON.stringify(status, null, 2), {
         headers: {
@@ -345,7 +341,6 @@ export default {
   },
 
   async scheduled(controller, env, ctx) {
-    ctx.waitUntil(recoverVerifiedOctoberArticles(env).catch((error) => console.error("Natalie article catch-up failed:", error)));
     ctx.waitUntil(
       refreshArticlesIfChanged(env).catch((error) => {
         console.error("Scheduled Substack check failed:", error);

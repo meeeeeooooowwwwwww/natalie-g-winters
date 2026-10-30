@@ -10,12 +10,12 @@ Cloudflare Worker site for **nataliegwinters.com**.
 - `/reporting` - investigative reporting focus
 - `/white-house` - White House reporting role
 - `/war-room` - War Room role and archive context
-- `/videos` - 50+ video archive
+- `/videos` - source-linked Rumble video archive, with newer verified external interviews
 - `/videos/:slug` - dedicated video/context pages
 - `/interviews` - interviews and external appearances
 - `/articles` - rolling Substack archive
 - `/china` - China / CCP reporting hub
-- `/verdict` - deliberately excessive fan assessment
+- `/verdict` - legacy satirical personal page (not indexed; not included in sitemap)
 - `/sitemap.xml` - Worker-generated sitemap including video pages
 - `/api/status` - non-indexed operational status for the article updater
 
@@ -70,18 +70,40 @@ Wrangler normally serves the preview at `http://localhost:8787`.
 
 ## Deployment
 
-After checking the local preview:
+Website releases are intentionally independent of account-level Email Routing changes.
+**Do not run bare `npx wrangler deploy` with the regular restricted production token.**
+That command reads the managed `addresses` field and may attempt an Email Routing
+API operation for which ordinary Worker deploy tokens have no permission.
 
-```bash
-cd /mnt/c/nataliegwinters.com/ngw
-git pull --ff-only origin main
-npm install
-npm run check
-npm test
-npx wrangler deploy
-```
+Use the manually approved **Deploy Natalie G. Winters (independent)** workflow
+in GitHub Actions on `main`, set confirmation to `DEPLOY` and leave
+`manage_email_routing=false` for ordinary releases. The workflow runs the
+tests, generates a safe temporary Wrangler config without `addresses`,
+performs a dry run, deploys the same config and checks the public status.
+The existing Email Routing rule is *not* changed by this mode.
 
-Cron configuration changes can take several minutes to propagate through Cloudflare.
+Only use `manage_email_routing=true` for explicitly approved setup/changes
+with a token that has the relevant Email Routing permissions. See
+`docs/operations/SUBSTACK_EMAIL_INGEST.md`. Cron configuration changes
+can take several minutes to propagate through Cloudflare.
+
+## Editorial verification
+
+Articles are pulled from Natalie Winters' canonical Substack publication.
+Do not invent cover images, headlines or post dates to fill a gap.
+When a source is blocked or a video player ID cannot be verified, link the
+publisher's known original source rather than manufacturing an embed.
+
+Recent manual verification (31 October 2026 NZ time):
+the public `/articles` archive's newest headline matched Substack's
+30 October publication. War Room's Rumble playlist confirmed a 26 October
+Natalie Winters appearance. Glenn Beck's official podcast page confirmed
+an additional 29 October programme appearance. The newest directly verified
+Rumble *embed* in the structured archive was dated 7 October. These are
+different availability and publication dates and must not be conflated.
+
+The original source and verification limitations are recorded in
+`docs/operations/EDITORIAL_AUDIT_2026-10-31.md`.
 
 ## Updater status
 

@@ -45,7 +45,7 @@ function renderVideoCard(video) {
       <div class="video-card-copy">
         <div class="video-card-brand">
           <span>${escapeHtml(brand)}</span>
-          <span>${escapeHtml(category)}${date ? ` · ${escapeHtml(date)}` : ""}</span>
+          <span>${brand === category ? (date ? escapeHtml(date) : "") : `${escapeHtml(category)}${date ? ` · ${escapeHtml(date)}` : ""}`}</span>
         </div>
         <h3>${escapeHtml(video.title)}</h3>
         <p>${escapeHtml(video.summary)}</p>
@@ -67,7 +67,7 @@ export function renderVideosPage(posts) {
             <span>WATCH · WAR ROOM · WHITE HOUSE · INTERVIEWS</span>
             <h1>Natalie G. Winters Videos</h1>
           </div>
-          <p>Watch Natalie G. Winters on War Room, in White House coverage, interviews and investigations—from the biggest headlines to the stories behind them.</p>
+          <p>Source-linked Rumble broadcasts and interviews, arranged by verified date. The video library is a curated archive, not a live feed.</p>
         </header>
 
         ${featured ? `
@@ -82,7 +82,7 @@ export function renderVideosPage(posts) {
               ></iframe>
             </div>
             <div class="video-lead-copy">
-              <span>${escapeHtml(displayBrand(featured))} · ${escapeHtml(CATEGORY_LABELS[featured.category] || "VIDEO")}</span>
+              <span>${escapeHtml(displayBrand(featured))}${displayBrand(featured) === (CATEGORY_LABELS[featured.category] || "VIDEO") ? "" : ` · ${escapeHtml(CATEGORY_LABELS[featured.category] || "VIDEO")}`}</span>
               <h2>${escapeHtml(featured.title)}</h2>
               <p>${escapeHtml(featured.summary)}</p>
               <div class="archive-meta">
@@ -93,10 +93,26 @@ export function renderVideosPage(posts) {
           </section>
         ` : ""}
 
+        <section aria-label="Recent verified Rumble appearance">
+          <div class="video-library-head">
+            <h2>Recent War Room video · 26 October 2026</h2>
+            <p>War Room · 27 min 19 sec</p>
+          </div>
+          <p><strong>Natalie Winters on an Obama alumni organisation and election-related content moderation.</strong> War Room's Rumble playlist identifies the programme as aired on 26 October 2026. <a href="https://rumble.com/playlists/FtvHjVmJo7c" target="_blank" rel="noopener noreferrer">Find the original in the War Room playlist →</a> A direct video embed will be added only when its player ID has been confirmed.</p>
+        </section>
+
+        <section aria-label="Latest verified media appearance">
+          <div class="video-library-head">
+            <h2>Recent broadcast appearance</h2>
+            <p>29 October 2026 · The Glenn Beck Program</p>
+          </div>
+          <p>Natalie Winters discusses her reporting on the 2026 midterm election preparations. <a href="https://www.iheart.com/podcast/175-the-glenn-beck-program-23014384/episode/best-of-the-program-guest-348722739/" target="_blank" rel="noopener noreferrer">Listen to the original episode →</a> This is a recorded programme appearance, not a newly verified Rumble video.</p>
+        </section>
+
         <section>
           <div class="video-library-head">
             <h2>Video library</h2>
-            <p>${VIDEOS.length} clips and appearances</p>
+            <p>${VIDEOS.length} documented clips and appearances · newest verified clip: ${escapeHtml(formatDate(VIDEOS[0]?.date) || "archive")}</p>
           </div>
           <div class="video-library-grid">
             ${archive.map(renderVideoCard).join("")}
