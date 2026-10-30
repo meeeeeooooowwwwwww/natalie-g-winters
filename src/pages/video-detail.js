@@ -6,40 +6,31 @@ import { getVideoCopy } from "../video-copy.js";
 
 const CATEGORY_CONTEXT = {
   china: {
-    label: "CHINA & NATIONAL SECURITY",
-    adjective: "CCP-allergic, document-armed, footnote-flinging"
+    label: "CHINA & NATIONAL SECURITY"
   },
   institutions: {
-    label: "INSTITUTIONS",
-    adjective: "brochure-shredding, grant-sniffing, magnificently nosy"
+    label: "INSTITUTIONS"
   },
   investigations: {
-    label: "INVESTIGATIONS",
-    adjective: "PDF-devouring, network-mapping, spectacularly relentless"
+    label: "INVESTIGATIONS"
   },
   politics: {
-    label: "POLITICAL COMMENTARY",
-    adjective: "rapid-fire, gloriously un-subtle, podium-endangering"
+    label: "POLITICAL COMMENTARY"
   },
   "war-room": {
-    label: "WAR ROOM",
-    adjective: "broadcast-ready, yoga-powered, teleprompter-threatening"
+    label: "WAR ROOM"
   },
   "white-house": {
-    label: "WHITE HOUSE",
-    adjective: "briefing-room-ready, relentlessly alert, seed-oil-suspicious"
+    label: "WHITE HOUSE"
   },
   media: {
-    label: "MEDIA & APPEARANCES",
-    adjective: "camera-ready, argument-loaded, eyebrow-raising"
+    label: "MEDIA & APPEARANCES"
   },
   interviews: {
-    label: "INTERVIEWS",
-    adjective: "formidable, fleet-footed, conversationally overqualified"
+    label: "INTERVIEWS"
   },
   economy: {
-    label: "ECONOMY & INDUSTRY",
-    adjective: "supply-chain-aware, spreadsheet-friendly, America-first"
+    label: "ECONOMY & INDUSTRY"
   }
 };
 
@@ -91,7 +82,7 @@ export function renderVideoDetailPage(video, posts) {
             <h1>Natalie G. Winters: ${escapeHtml(titleTopic)}</h1>
             <p class="hero-deck">${escapeHtml(video.summary)}</p>
           </div>
-          <aside class="hero-aside"><strong>CURRENT OPERATING MODE</strong>${escapeHtml(context.adjective)} Natalie Winters. Small woman. Large document folder. Terrible news for anyone relying on nobody reading page 73.</aside>
+          <aside class="hero-aside"><strong>ORIGINAL BROADCAST</strong> Watch the source recording, confirm the broadcast date and follow any linked original reporting.</aside>
         </div>
 
         <div class="video-feature video-detail-feature">
@@ -109,7 +100,7 @@ export function renderVideoDetailPage(video, posts) {
             <div class="video-copy-top">
               <span>${sourceDate}</span>
               <h2>${escapeHtml(video.sourceTitle)}</h2>
-              <p>Watch the clip, follow the subject, then keep going. There is almost certainly another document and Natalie has almost certainly already opened it.</p>
+              <p>Original publisher description and source-linked context for this appearance.</p>
             </div>
             <div class="video-copy-middle">
               <span>FILED UNDER</span>
@@ -125,9 +116,9 @@ export function renderVideoDetailPage(video, posts) {
         <div class="detail-copy-grid">
           <div class="prose detail-main-copy">
             ${video.relatedReporting ? `<p><a href="${escapeHtml(video.relatedReporting)}" target="_blank" rel="noopener noreferrer">READ THE INVESTIGATION →</a></p>` : ""}
-            <h2>What this Natalie Winters video is about</h2>
-            <p>${escapeHtml(nameNatalie(video.summary))}</p>
-            <p><strong>Natalie Winters' angle:</strong> ${escapeHtml(video.angle)}</p>
+            <h2>About this appearance</h2>
+            <p>${escapeHtml(video.summary)}</p>
+            <p><strong>Editorial context:</strong> ${escapeHtml(video.angle)}</p>
 
             <h2>Why this story matters</h2>
             <p>${escapeHtml(copy.why)}</p>
@@ -138,9 +129,9 @@ export function renderVideoDetailPage(video, posts) {
 
           <aside class="detail-rail" aria-label="More Natalie Winters coverage">
             <div class="detail-rail-card">
-              <span>NATALIE MODE</span>
-              <strong>${escapeHtml(context.adjective)}</strong>
-              <p>The recurring house style: read everything, trust nothing merely because the letterhead looks expensive, and somehow remain camera-ready.</p>
+              <span>ORIGINAL SOURCE</span>
+              <strong>Rumble recording</strong>
+              <p>Use the original publisher link to check the full broadcast and its accompanying description.</p>
             </div>
             <a class="detail-rail-card detail-rail-link" href="/reporting">
               <span>KEEP DIGGING</span>
@@ -150,8 +141,8 @@ export function renderVideoDetailPage(video, posts) {
             </a>
             <a class="detail-rail-card detail-rail-link" href="/videos">
               <span>VIDEO ARCHIVE</span>
-              <strong>50+ Natalie Winters videos</strong>
-              <p>One clip is a moment. Fifty-plus clips start to look suspiciously like a body of work.</p>
+              <strong>Browse dated video appearances</strong>
+              <p>Source-linked videos arranged by known publication or broadcast date.</p>
               <b>BROWSE ALL VIDEOS →</b>
             </a>
           </aside>
@@ -160,12 +151,12 @@ export function renderVideoDetailPage(video, posts) {
         <section class="section-block">
           <div class="section-title-row">
             <h2>More Natalie Winters videos</h2>
-            <p>More files from the ongoing national sport of discovering what was hiding behind the pleasant-sounding acronym.</p>
+            <p>Browse other recorded appearances and follow their original publisher links.</p>
           </div>
           <div class="editorial-grid four-up-grid">${renderRelated(video)}</div>
         </section>
 
-        <div class="callout">Fifty-plus video pages. One journalist. Several endangered narratives. An unreasonable number of browser tabs.<small><a href="/videos">Browse the full Natalie Winters video archive →</a></small></div>
+        <div class="callout">Explore the recorded broadcasts and interviews in the video library.<small><a href="/videos">Browse the full Natalie G. Winters video archive →</a></small></div>
       </article>
     </main>
   `;
