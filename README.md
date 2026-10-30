@@ -50,8 +50,11 @@ Article images are restricted to Substack media hosts. Profile/avatar/logo-sized
 An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
 
 ## Current media
-The homepage and top of /videos show newly verified late-October 2026 Rumble
-source-page links (not guessed playback IDs or third-party stock thumbnails).
+The homepage featured-video hero can intentionally show a standalone YouTube music
+embed (currently Aqua's "Barbie Girl") with autoplay disabled; it is clearly
+labelled as a non-editorial feature. The homepage's separate appearance section
+and the top of /videos show verified late-October 2026 Rumble source-page
+links (not guessed playback IDs or third-party stock thumbnails).
 Older confirmed embedded clips remain in the historical archive. The 29 October
 Natalie Winters appearance on The Glenn Beck Program uses the owner's
 **episode-specific** iHeart iframe, displayed at a compact 120px height with
@@ -66,7 +69,7 @@ button; clicking loads an iframe *in the same card*, without leaving the site.
 The separate original Rumble source link is kept for attribution. Players
 do not load or autoplay before a visitor clicks, protecting mobile bandwidth.
 
-The homepage featured Rumble video uses the same verified player and thumbnail.
+The homepage Rumble appearance cards use the same verified player and thumbnails.
 On screens 760px wide or narrower, Substack article cards stack the full-width
 image above the title and description. Article archive side cards likewise
 stack vertically, avoiding the former 42% / 58% compressed column layout.
