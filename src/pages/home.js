@@ -116,6 +116,18 @@ export function renderHomePage(posts) {
         </div>
       </section>
 
+      <section class="home-section white" aria-labelledby="recent-rumble-title">
+        <div class="home-section-inner">
+          <div class="home-section-head">
+            <div>
+              <span>WAR ROOM · OCTOBER 26, 2026</span>
+              <h2 id="recent-rumble-title">Recent Rumble appearance</h2>
+            </div>
+            <p>Natalie Winters discusses an Obama alumni network and election-related content moderation in a 27-minute War Room segment. <a href="https://rumble.com/playlists/FtvHjVmJo7c" target="_blank" rel="noopener noreferrer">FIND THE VIDEO ON RUMBLE →</a></p>
+          </div>
+        </div>
+      </section>
+
       <section class="home-section white" aria-labelledby="latest-interview-title">
         <div class="home-section-inner">
           <div class="home-section-head">
