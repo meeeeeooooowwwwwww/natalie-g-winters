@@ -1,0 +1,88 @@
+name: Natalie verified mobile and embedded Rumble fix 2026-10-31
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/release-mobile-players-20261031.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: natalie-production-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Prove Natalie-only Worker identity and avoid Email Routing modifications
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const c=JSON.parse(fs.readFileSync('wrangler.jsonc','utf8'));
+          if(c.name!=='nataliegwinters-site'||c.routes?.length!==1||
+             c.routes[0].pattern!=='nataliegwinters.com'||c.routes[0].custom_domain!==true||
+             c.kv_namespaces?.length!==1||
+             c.kv_namespaces[0].id!=='7751d2c212db4316b98316b280882892'||
+             c.addresses?.length!==1||
+             c.addresses[0]!=='articles@feeds.nataliegwinters.com'||
+             c.vars?.NATALIE_EMAIL_RECIPIENT!==c.addresses[0]) throw Error('Unexpected Natalie deploy ownership');
+          delete c.addresses;
+          fs.writeFileSync('.wrangler-natalie-mobile-only.jsonc',JSON.stringify(c,null,2)+'\n');
+          NODE
+      - name: Run source and mobile media regression checks
+        run: |
+          npm ci --no-audit --no-fund
+          npm run check
+          npm test
+          npx wrangler deploy --config .wrangler-natalie-mobile-only.jsonc --dry-run
+      - name: Deploy Natalie only
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          test -n "${CLOUDFLARE_API_TOKEN:-}"
+          test -n "${CLOUDFLARE_ACCOUNT_ID:-}"
+          npx wrangler deploy --config .wrangler-natalie-mobile-only.jsonc --message "Natalie mobile media fixes $GITHUB_SHA"
+      - name: Verify publicly served interactive players and mobile assets
+        run: |
+          set -euo pipefail
+          origin=""
+          for base in https://nataliegwinters.com https://nataliegwinters-site.generalflynn17.workers.dev; do
+            code="$(curl -sSL --max-time 25 -o "$RUNNER_TEMP/home.html" -w '%{http_code}' "$base/" || true)"
+            if [ "$code" = "200" ] && grep -q 'data-rumble-embed="https://rumble.com/embed/v7f9934/"' "$RUNNER_TEMP/home.html"; then origin="$base"; break; fi
+          done
+          test -n "$origin" || { echo "::error::Homepage new playable embed not live"; exit 1; }
+          grep -q '2Ou-A.qR4e.jpg' "$RUNNER_TEMP/home.html"
+          test "$(grep -o 'class="recent-rumble-card"' "$RUNNER_TEMP/home.html" | wc -l)" -eq 4
+          code="$(curl -sSL --max-time 25 -o "$RUNNER_TEMP/videos.html" -w '%{http_code}' "$origin/videos")"
+          test "$code" = 200
+          grep -q 'data-rumble-embed="https://rumble.com/embed/v7f4cng/"' "$RUNNER_TEMP/videos.html"
+          grep -q '4p29A.qR4e.jpg' "$RUNNER_TEMP/videos.html"
+          code="$(curl -sSL --max-time 25 -o "$RUNNER_TEMP/player.js" -w '%{http_code}' "$origin/assets/rumble-player.js")"
+          test "$code" = 200
+          grep -q 'button.replaceWith(frame)' "$RUNNER_TEMP/player.js"
+          code="$(curl -sSL --max-time 25 -o "$RUNNER_TEMP/mobile.css" -w '%{http_code}' "$origin/assets/editorial-substack.css")"
+          test "$code" = 200
+          grep -q 'Mobile layout and verified click-to-play' "$RUNNER_TEMP/mobile.css"
+          code="$(curl -sSL --max-time 25 -o "$RUNNER_TEMP/articles.html" -w '%{http_code}' "$origin/articles")"
+          test "$code" = 200
+          grep -q 'archive-lead' "$RUNNER_TEMP/articles.html"
+          code="$(curl -sSL --max-time 25 -o "$RUNNER_TEMP/status.json" -w '%{http_code}' "$origin/api/status")"
+          test "$code" = 200
+          node -e "const s=require(process.argv[1]); if(!Number.isInteger(s.articleCount)||s.articleCount<1)throw Error('No article cache');console.log('PASS: '+s.articleCount+' published articles preserved')" "$RUNNER_TEMP/status.json"
+          echo "PASS: Natalie mobile article CSS, five authentic Rumble inline players and source thumbnails live at $origin"
