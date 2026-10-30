@@ -93,6 +93,14 @@ export function renderVideosPage(posts) {
           </section>
         ` : ""}
 
+        <section aria-label="Recent verified Rumble appearance">
+          <div class="video-library-head">
+            <h2>Recent War Room video · 26 October 2026</h2>
+            <p>War Room · 27 min 19 sec</p>
+          </div>
+          <p><strong>Natalie Winters on an Obama alumni organisation and election-related content moderation.</strong> War Room's Rumble playlist identifies the programme as aired on 26 October 2026. <a href="https://rumble.com/playlists/FtvHjVmJo7c" target="_blank" rel="noopener noreferrer">Find the original in the War Room playlist →</a> A direct video embed will be added only when its player ID has been confirmed.</p>
+        </section>
+
         <section aria-label="Latest verified media appearance">
           <div class="video-library-head">
             <h2>Recent broadcast appearance</h2>
