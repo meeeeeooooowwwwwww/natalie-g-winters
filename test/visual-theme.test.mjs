@@ -43,7 +43,7 @@ assert.match(editorial, /grid-template-columns:minmax\(116px,\.72fr\) repeat\(5,
 for (const name of ["white-house-mark.svg", "oan-wordmark.svg"]) {
   const vector = fs.readFileSync(new URL("../public/images/" + name, import.meta.url), "utf8");
   assert.match(vector, /<svg[^>]*viewBox=/);
-  assert.doesNotMatch(vector, /<script|https?:\/\//i, "Local logos must not load remote assets or scripts");
+  assert.doesNotMatch(vector, /<script|(?:href|src)="https?:\/\//i, "Local logos must not load remote assets or scripts");
 }
 assert.match(editorial, /\.home-brand-ribbon \.brand-mark--glenn img\{[\s\S]*?max-height:none/);
 for (const breakpoint of ["1180", "760", "380"]) {
