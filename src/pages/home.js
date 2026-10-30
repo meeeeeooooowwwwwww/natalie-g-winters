@@ -49,7 +49,7 @@ export function renderHomePage(posts) {
       <section class="brand-ribbon-wrap" aria-label="Reporting areas and media outlets">
         <div class="brand-ribbon home-brand-ribbon">
           <span class="brand-ribbon-label">REPORTING &amp; MEDIA</span>
-          <a class="brand-mark brand-mark--whitehouse" href="/white-house" aria-label="Read Natalie G. Winters White House reporting"><img src="/images/white-house-mark.svg" alt="The White House" width="320" height="170" loading="lazy" decoding="async"></a>
+          <a class="brand-mark brand-mark--whitehouse" href="/white-house" aria-label="Read Natalie G. Winters White House reporting"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Second_Trump_administration_White_House_logo.svg/330px-Second_Trump_administration_White_House_logo.svg.png" alt="The White House official wordmark" width="330" height="187" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
           <a class="brand-mark brand-mark--warroom" href="/war-room" aria-label="Bannon's War Room">
             <img src="https://www.omnycontent.com/d/clips/e73c998e-6e60-432f-8610-ae210140c5b1/361b7027-9198-497d-8d04-b212011690dc/3e6b2165-0d3b-4e42-8c90-b42a00f7b5c7/image.jpg?size=Large&amp;t=1776009837" alt="Bannon's War Room" loading="lazy" decoding="async" referrerpolicy="no-referrer">
           </a>
