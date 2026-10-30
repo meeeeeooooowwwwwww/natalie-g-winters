@@ -79,7 +79,7 @@ export function renderHomePage(posts) {
               <span>WATCH NATALIE</span>
               <h2 id="home-video-title">Recent video appearances</h2>
             </div>
-            <p>Newly published Rumble recordings from late October 2026, linked directly to their original broadcasters. Older clips remain available in the full video archive.</p>
+            <p>Newer Rumble broadcasts with original thumbnails. Tap Play to watch here without leaving the website; the original publisher link remains available below each video.</p>
           </div>
           ${renderRecentRumbleCards()}
         </div>
