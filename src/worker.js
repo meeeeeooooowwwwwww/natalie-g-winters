@@ -208,7 +208,7 @@ function renderSitemap() {
     loc: `${SITE.domain}/videos/${video.slug}`,
     priority: "0.8",
     changefreq: "monthly",
-    lastmod: /^\\d{4}-\\d{2}-\\d{2}$/.test(video.date || "") ? video.date : "",
+    lastmod: /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(video.date || "") ? video.date : "",
   }));
 
   const urls = [...primary, ...videoPages].map((entry) => `  <url><loc>${xmlEscape(entry.loc)}</loc>${entry.lastmod ? `<lastmod>${xmlEscape(entry.lastmod)}</lastmod>` : ""}<changefreq>${entry.changefreq}</changefreq><priority>${entry.priority}</priority></url>`).join("\n");
