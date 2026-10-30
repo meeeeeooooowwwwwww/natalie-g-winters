@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 170" role="img" aria-labelledby="title">
+<title id="title">The White House</title>
+<g fill="#273340" stroke="#273340" stroke-linejoin="round">
+  <path d="M47 77h226v4H47z"/>
+  <path d="M72 72l88-41 88 41z" fill="none" stroke-width="3"/>
+  <path d="M92 68h136v5H92z"/>
+  <path d="M111 54h98v8h-98z" fill="#273340"/>
+  <path d="M95 83h130v5H95z"/>
+  <path d="M75 88h170v8H75z" fill="none" stroke-width="2"/>
+  <path d="M70 113h180v4H70z"/>
+  <path d="M58 119h204v4H58z"/>
+  <path d="M45 126h230v4H45z"/>
+</g>
+<g fill="none" stroke="#273340" stroke-width="3">
+  <path d="M97 91v21m16-21v21m16-21v21m16-21v21m30-21v21m16-21v21m16-21v21m16-21v21"/>
+  <path d="M152 93h16v18h-16z" stroke-width="1.8"/>
+  <path d="M53 85v28m214-28v28" stroke-width="2"/>
+</g>
+<text x="160" y="153" fill="#273340" font-family="Georgia,'Times New Roman',serif" font-size="18" font-weight="bold" text-anchor="middle" letter-spacing="1.4">THE WHITE HOUSE</text>
+</svg>
