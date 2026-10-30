@@ -50,9 +50,10 @@ Article images are restricted to Substack media hosts. Profile/avatar/logo-sized
 An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
 
 ## Current media
-The homepage featured-video hero can intentionally show a standalone YouTube music
-embed (currently Aqua's "Barbie Girl") with autoplay disabled; it is clearly
-labelled as a non-editorial feature. The homepage's separate appearance section
+The homepage featured-video hero intentionally shows a standalone, playful YouTube
+embed (currently `1c7XccFwJrQ`) titled "Behind the scenes with Natalie Winters"
+with autoplay disabled; the caption explicitly marks it as unofficial and the
+feature remains separate from reporting. The homepage's separate appearance section
 and the top of /videos show verified late-October 2026 Rumble source-page
 links (not guessed playback IDs or third-party stock thumbnails).
 Older confirmed embedded clips remain in the historical archive. The 29 October
