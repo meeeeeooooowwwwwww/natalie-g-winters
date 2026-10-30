@@ -1,0 +1,56 @@
+name: Natalie read-only source metadata probe 2026-10-31
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/probe-article-video-sources-20261031.yml']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Check original publisher page metadata only
+        run: |
+          python3 - <<'PY'
+          import urllib.request,urllib.error,json,re,html
+          from html.parser import HTMLParser
+          class Meta(HTMLParser):
+            def __init__(self): super().__init__();self.meta=[];self.player=[]
+            def handle_starttag(self,tag,attrs):
+              a=dict(attrs)
+              if tag=='meta':
+                label=a.get('property') or a.get('name') or ''
+                if any(k in label.lower() for k in ['image','date','publish','title','description']): self.meta.append((label,a.get('content','')))
+              if tag in ('iframe','video','source'): self.player.append((tag,a.get('src','')))
+          urls=[
+          'https://nataliegwinters.substack.com/p/inside-the-lefts-election-backchanneland',
+          'https://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=10',
+          'https://rumble.com/v7hfm0m-winters.html',
+          'https://rumble.com/v7hcxyw-natalie-winters-inside-the-neocons-secret-plan-to-take-the-republican-party.html',
+          'https://rumble.com/v7hbz26-natalie-winters-the-political-warfare-of-democrats-vow-to-go-after-trump.html',
+          'https://rumble.com/v7hapky-natalie-winters-inside-the-neocons-secret-plan-to-take-the-republican-party.html',
+          'https://rumble.com/v7hape6-natalie.html']
+          for u in urls:
+            print('SOURCE:',u,flush=True)
+            try:
+              req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0','Accept':'text/html,application/json;q=0.9,*/*;q=0.8'})
+              with urllib.request.urlopen(req,timeout=13) as r:
+                body=r.read(1300000).decode('utf-8','replace')
+                print('HTTP',r.status,'LENGTH',len(body),flush=True)
+              if '/api/' in u:
+                try:
+                  j=json.loads(body)
+                  if isinstance(j,dict): j=j.get('posts',[])
+                  for p in j[:3]:
+                    print('POST',str({k:p.get(k) for k in ('canonical_url','title','cover_image','social_image','post_date')})[:1100],flush=True)
+                except Exception as e:print('JSON_ERROR',str(e)[:130])
+              else:
+                m=Meta();m.feed(body)
+                print('META',json.dumps(m.meta[:25],ensure_ascii=False)[:5500],flush=True)
+                print('PLAYER',json.dumps(m.player[:10],ensure_ascii=False),flush=True)
+                embed=re.findall(r'https?://rumble\\.com/embed/[a-z0-9]+/?',body,re.I)
+                print('EMBED',list(dict.fromkeys(embed))[:8],flush=True)
+                print('OG_IMAGE',re.findall(r'<meta[^>]+(?:og:image|twitter:image)[^>]+>',body,re.I)[:4],flush=True)
+            except Exception as e: print('SOURCE_ERROR',type(e).__name__,str(e)[:240],flush=True)
+          PY
