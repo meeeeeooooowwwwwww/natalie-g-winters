@@ -109,7 +109,7 @@ export function renderVideosPage(posts) {
             <h2>Recent broadcast appearance</h2>
             <p>29 October 2026 · The Glenn Beck Program</p>
           </div>
-          <p>Natalie Winters discusses her reporting on the 2026 midterm election preparations. The compact iHeart player below is the show feed; use the direct link for Natalie’s exact episode.</p>
+          <p>Natalie Winters discusses her reporting on the 2026 midterm election preparations. Listen to Natalie’s 29 October interview using the compact episode player below. Playback starts only when selected.</p>
           ${renderGlennBeckCompactPlayer()}
         </section>
 
