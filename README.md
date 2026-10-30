@@ -45,9 +45,17 @@ Email intake is an independent publication path, but requires the routing and fo
 
 Results are merged by canonical post URL. Good stored metadata is retained when a fresh source is incomplete, while corrected titles, dates, subtitles and cover images can still repair the cache even when the newest article URL has not changed.
 
-Article images are restricted to Substack media hosts. Profile/avatar/logo-sized images are rejected so an author photo cannot silently become an unrelated article cover. If no trustworthy cover is available, the site shows its normal article placeholder rather than inventing one.
+Article images are restricted to Substack media hosts. Profile/avatar/logo-sized images are rejected so an author photo cannot silently become an unrelated article cover. If no trustworthy cover is available, the site renders an explicitly editorial text-based cover using the article's canonical title and date, never a fabricated reporting photo or unrelated stock image.
 
 An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
+
+## Current media
+The homepage and top of /videos show newly verified late-October 2026 Rumble
+source-page links (not guessed playback IDs or third-party stock thumbnails).
+Older confirmed embedded clips remain in the historical archive. The 29 October
+Natalie Winters appearance on The Glenn Beck Program uses the owner's
+**episode-specific** iHeart iframe, displayed at a compact 120px height with
+no autoplay permission and a direct episode link beside the player.
 
 ## Static assets and Worker routing
 
