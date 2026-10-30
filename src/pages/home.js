@@ -68,12 +68,10 @@ export function renderHomePage(posts) {
         </div>
       </section>
 
-      <section class="brand-ribbon-wrap" aria-label="Natalie G. Winters associated media and institutions">
+      <section class="brand-ribbon-wrap" aria-label="Reporting areas and media outlets">
         <div class="brand-ribbon home-brand-ribbon">
-          <span class="brand-ribbon-label">ASSOCIATED WITH</span>
-          <a class="brand-mark brand-mark--whitehouse" href="/white-house" aria-label="The White House">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Wh-gov-workmark-logo.svg" alt="The White House" loading="lazy" decoding="async">
-          </a>
+          <span class="brand-ribbon-label">REPORTING &amp; MEDIA</span>
+          <a class="brand-mark brand-mark--whitehouse text-brand" href="/white-house" aria-label="Read Natalie G. Winters White House reporting">WHITE HOUSE COVERAGE</a>
           <a class="brand-mark brand-mark--warroom" href="/war-room" aria-label="Bannon's War Room">
             <img src="https://www.omnycontent.com/d/clips/e73c998e-6e60-432f-8610-ae210140c5b1/361b7027-9198-497d-8d04-b212011690dc/3e6b2165-0d3b-4e42-8c90-b42a00f7b5c7/image.jpg?size=Large&amp;t=1776009837" alt="Bannon's War Room" loading="lazy" decoding="async" referrerpolicy="no-referrer">
           </a>
@@ -97,7 +95,7 @@ export function renderHomePage(posts) {
               <span>FROM HER SUBSTACK</span>
               <h2 id="home-reporting-title">Latest reporting</h2>
             </div>
-            <p>The newest investigations are pulled from Natalie’s publication and use the article imagery from the rendered posts rather than generic placeholders.</p>
+            <p>Recent reporting from Natalie G. Winters’ Substack. Each headline links directly to her original article, preserving the publisher’s title and publication date.</p>
           </div>
           ${renderArticleCards(posts, 5)}
         </div>
@@ -108,12 +106,24 @@ export function renderHomePage(posts) {
           <div class="home-section-head">
             <div>
               <span>WATCH NATALIE</span>
-              <h2 id="home-video-title">Latest video appearances</h2>
+              <h2 id="home-video-title">Selected video appearances</h2>
             </div>
-            <p>Real Rumble thumbnails and publisher attribution make the archive feel like a media library, not a list of links.</p>
+            <p>Browse dated, source-linked Rumble appearances. The most recent verified video in this archive is dated 7 October 2026; newer broadcasts are added only after their source and playback details are confirmed.</p>
           </div>
           <div class="video-thumb-grid">
             ${featuredVideos.map(renderVideoCard).join("")}
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section white" aria-labelledby="latest-interview-title">
+        <div class="home-section-inner">
+          <div class="home-section-head">
+            <div>
+              <span>VERIFIED MEDIA APPEARANCE · OCTOBER 29, 2026</span>
+              <h2 id="latest-interview-title">Natalie Winters on The Glenn Beck Program</h2>
+            </div>
+            <p>Natalie discusses her reporting on midterm-election preparations in an appearance listed by the original broadcaster on 29 October. <a href="https://www.iheart.com/podcast/175-the-glenn-beck-program-23014384/episode/best-of-the-program-guest-348722739/" target="_blank" rel="noopener noreferrer">LISTEN TO THE EPISODE →</a> <a href="/interviews">ALL INTERVIEWS →</a></p>
           </div>
         </div>
       </section>
