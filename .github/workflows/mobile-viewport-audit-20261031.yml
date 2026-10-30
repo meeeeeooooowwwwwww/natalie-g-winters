@@ -18,6 +18,28 @@ jobs:
           npm ci --no-audit --no-fund
           npm install --no-save --no-audit --no-fund puppeteer-core@24.26.0
           command -v google-chrome || command -v chromium || command -v chromium-browser
+      - name: Download live site snapshot for browser-safe layout audit
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/natalie-audit"
+          mkdir -p "$root/assets" "$root/articles" "$root/videos"
+          origin="https://nataliegwinters-site.generalflynn17.workers.dev"
+          curl -fLsS --max-time 30 "$origin/" -o "$root/index.html"
+          curl -fLsS --max-time 30 "$origin/articles" -o "$root/articles/index.html"
+          curl -fLsS --max-time 30 "$origin/videos" -o "$root/videos/index.html"
+          for asset in styles.css theme-magenta.css layout-v2.css footer-icons.css editorial-substack.css rumble-player.js; do
+            curl -fLsS --max-time 30 "$origin/assets/$asset" -o "$root/assets/$asset"
+          done
+          curl -fLsS --max-time 30 "https://hugh.cdn.rumble.cloud/video/fwe2/3d/s8/6/2/O/u/-/2Ou-A.qR4e.jpg" -o "$root/assets/current-rumble.jpg"
+          node - "$root/index.html" <<'NODE'
+          const fs=require('node:fs');
+          const file=process.argv[2], html=fs.readFileSync(file,'utf8');
+          fs.writeFileSync(file,html.replaceAll('https://hugh.cdn.rumble.cloud/video/fwe2/3d/s8/6/2/O/u/-/2Ou-A.qR4e.jpg','/assets/current-rumble.jpg'));
+          NODE
+          echo "Downloaded live site CSS, source HTML and actual Rumble thumbnail"
+          (cd "$root" && python3 -m http.server 8765 --bind 127.0.0.1 >"$RUNNER_TEMP/natalie-http.log" 2>&1) &
+          sleep 2
+          curl -fLsS http://127.0.0.1:8765/ -o /dev/null
       - name: Audit phone widths, images and in-page video controls
         run: |
           node --input-type=module <<'NODE'
@@ -27,7 +49,7 @@ jobs:
           const chrome = execSync('command -v google-chrome || command -v chromium || command -v chromium-browser').toString().trim();
           const browser=await puppeteer.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
           try {
-            const origin='https://nataliegwinters.com';
+            const origin='http://127.0.0.1:8765';
             for(const width of [320,375,390,430,760,768]) {
               const page=await browser.newPage();
               await page.setViewport({width,height:850,isMobile:true,hasTouch:true,deviceScaleFactor:2});
