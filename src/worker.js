@@ -25,7 +25,6 @@ import { renderChinaPage } from "./pages/china.js";
 import { VIDEOS, getVideoBySlug } from "./video-data.js";
 
 const IMAGE_CACHE_SECONDS = 30 * 24 * 60 * 60;
-const SITEMAP_LASTMOD = "2026-09-07";
 
 const PRIMARY_PATHS = [
   "/",
@@ -202,15 +201,17 @@ function renderSitemap() {
     loc: `${SITE.domain}${path === "/" ? "/" : path}`,
     priority: path === "/" ? "1.0" : path === "/articles" ? "0.95" : "0.9",
     changefreq: path === "/" || path === "/articles" ? "daily" : "weekly",
+    lastmod: "",
   }));
 
   const videoPages = VIDEOS.map((video) => ({
     loc: `${SITE.domain}/videos/${video.slug}`,
     priority: "0.8",
     changefreq: "monthly",
+    lastmod: /^\\d{4}-\\d{2}-\\d{2}$/.test(video.date || "") ? video.date : "",
   }));
 
-  const urls = [...primary, ...videoPages].map((entry) => `  <url><loc>${xmlEscape(entry.loc)}</loc><lastmod>${SITEMAP_LASTMOD}</lastmod><changefreq>${entry.changefreq}</changefreq><priority>${entry.priority}</priority></url>`).join("\n");
+  const urls = [...primary, ...videoPages].map((entry) => `  <url><loc>${xmlEscape(entry.loc)}</loc>${entry.lastmod ? `<lastmod>${xmlEscape(entry.lastmod)}</lastmod>` : ""}<changefreq>${entry.changefreq}</changefreq><priority>${entry.priority}</priority></url>`).join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 }
