@@ -11,11 +11,11 @@ const NAV = [
 ];
 
 const FOOTER_EXPLORE = [
-  ["/war-room", "WAR ROOM", "Co-host, executive editor and enough clips to frighten a communications department."],
-  ["/videos", "50+ VIDEOS", "Rumble, War Room, White House reports and dedicated video pages."],
+  ["/war-room", "WAR ROOM", "Broadcast appearances, interviews and reporting from the War Room archive."],
+  ["/videos", "VIDEO ARCHIVE", "Source-linked clips, interviews and dedicated video pages."],
   ["/interviews", "INTERVIEWS", "Long-form appearances, debates and conversations beyond War Room."],
   ["/articles", "ARTICLES", "A rolling archive of Natalie G. Winters' Substack investigations."],
-  ["/china", "CHINA FILES", "CCP influence, United Front networks, Taiwan and national-security reporting."],
+  ["/china", "CHINA REPORTING", "Coverage and reporting involving China, foreign influence and national security."],
 ];
 
 export function renderHeader(active = "") {
@@ -106,7 +106,7 @@ export function renderLatestReporting(posts) {
       <div class="latest-inner">
         <div class="section-header">
           <div>
-            <span class="section-kicker">AUTOMATICALLY UPDATED</span>
+            <span class="section-kicker">FROM NATALIE’S SUBSTACK</span>
             <h2 id="latest-reporting-title">LATEST NATALIE G. WINTERS REPORTING</h2>
           </div>
           <a href="/articles">BROWSE ARCHIVE →</a>
@@ -124,9 +124,9 @@ export function renderFooter() {
         <div class="footer-intro">
           <div>
             <span class="footer-kicker">MORE NATALIE G. WINTERS</span>
-            <h2>The magnificently excessive section.</h2>
+            <h2>Explore the reporting and broadcasts</h2>
           </div>
-          <p>For people who think America should remain owned, governed and defended in the interests of Americans, and for anyone who enjoys watching the ferociously productive, document-hoarding Natalie G. Winters turn respectable-looking paperwork into somebody else's very bad day. Yoga may be involved. Seed oils will not be.</p>
+          <p>Read Natalie G. Winters’ reporting at its original publication, explore source-linked video appearances and follow her work across interviews, White House coverage and War Room broadcasts.</p>
         </div>
 
         <nav class="footer-explore" aria-label="Explore more Natalie G. Winters coverage">
@@ -138,6 +138,8 @@ export function renderFooter() {
             </a>
           `).join("")}
         </nav>
+
+        <p class="footer-disclosure"><small>Independent reporting and media archive. Not an official White House or United States government website. Original articles and programmes remain the work of their respective publishers.</small></p>
 
         <div class="footer-bottom footer-bottom-icons">
           <div class="footer-social-cluster" aria-label="Natalie G. Winters social links">
@@ -301,6 +303,7 @@ export function renderLayout({
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f4e8ec">
+  <meta name="color-scheme" content="light">
   <title>${safeTitle}</title>
   <meta name="description" content="${safeDescription}">
   <meta name="robots" content="${escapeHtml(robots)}">
