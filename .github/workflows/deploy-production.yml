@@ -7,6 +7,11 @@ on:
         description: "Type DEPLOY to release nataliegwinters.com from this repository"
         required: true
         type: string
+      manage_email_routing:
+        description: "Also reconcile the Natalie email-to-Worker rule (requires Email Routing Rules permission)"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -39,12 +44,35 @@ jobs:
       - name: Guard own Cloudflare script and production domain
         run: |
           node -e "const c=JSON.parse(require('node:fs').readFileSync('./wrangler.jsonc','utf8')); if(c.name!=='nataliegwinters-site') throw Error('Wrong Worker'); if(!Array.isArray(c.routes)||c.routes.length!==1||c.routes[0].pattern!=='nataliegwinters.com') throw Error('Unexpected route target'); if(!Array.isArray(c.addresses)||c.addresses.length!==1||c.addresses[0]!=='articles@feeds.nataliegwinters.com'||c.vars?.NATALIE_EMAIL_RECIPIENT!==c.addresses[0]) throw Error('Unexpected email route target');"
+      - name: Prepare a scoped deployment configuration
+        env:
+          MANAGE_EMAIL_ROUTING: ${{ inputs.manage_email_routing }}
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const source = JSON.parse(fs.readFileSync('wrangler.jsonc', 'utf8'));
+          if (source.name !== 'nataliegwinters-site' ||
+              source.addresses?.length !== 1 ||
+              source.addresses[0] !== 'articles@feeds.nataliegwinters.com') {
+            throw new Error('Natalie Worker or isolated email route mismatch');
+          }
+          let configPath = 'wrangler.jsonc';
+          if (process.env.MANAGE_EMAIL_ROUTING === 'true') {
+            console.log('Explicit Email Routing reconciliation requested; token must have Email Routing Rules permissions.');
+          } else {
+            delete source.addresses;
+            configPath = '.wrangler-natalie-code-only.jsonc';
+            fs.writeFileSync(configPath, JSON.stringify(source, null, 2) + '\n');
+            console.log('Worker-only deployment: existing Email Routing rules will not be modified.');
+          }
+          fs.appendFileSync(process.env.GITHUB_ENV, 'NATALIE_DEPLOY_CONFIG=' + configPath + '\n');
+          NODE
       - name: Validate and dry-run exact source
         run: |
           npm ci --no-audit --no-fund
           npm run check
           npm test
-          npx wrangler deploy --dry-run
+          npx wrangler deploy --config "$NATALIE_DEPLOY_CONFIG" --dry-run
       - name: Require Natalie-specific Cloudflare token
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -62,7 +90,7 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx wrangler deploy --message "Natalie independent release $GITHUB_SHA"
+        run: npx wrangler deploy --config "$NATALIE_DEPLOY_CONFIG" --message "Natalie independent release $GITHUB_SHA"
       - name: Check Natalie deployment
         run: |
           set -euo pipefail

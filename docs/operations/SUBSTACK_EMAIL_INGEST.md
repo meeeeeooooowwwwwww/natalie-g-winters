@@ -25,10 +25,22 @@ contents, or Gmail tokens are stored by this Worker.
 **Deployment ownership:** `wrangler.jsonc` declares exactly one
 `addresses` entry: `articles@feeds.nataliegwinters.com`. Cloudflare
 Wrangler 4.113+ can manage the exact Send-to-Worker rule on deployment.
-This rule belongs only to `nataliegwinters-site`. The first deployment
-requires the `feeds` subdomain to be enabled for Email Routing and a
-Cloudflare token permitted to change email rules. A dry run is not a
-live routing test. Never configure an apex catch-all or change apex MX.
+This rule belongs only to `nataliegwinters-site`.
+
+The standard **Deploy Natalie G. Winters (independent)** workflow defaults
+to **Worker-only deployment**: it validates the declared address, then builds
+a temporary Wrangler config without `addresses`. Omitting this field leaves
+existing Email Routing rules unchanged. This prevents normal code releases
+from failing when their narrowly scoped Cloudflare token cannot administer
+Email Routing. It does **not** create or verify a missing email rule.
+
+Select the workflow's **manage_email_routing** option only when explicitly
+provisioning or changing the exact email-to-Worker routing rule. That mode
+uses the original `wrangler.jsonc`, requires suitable **Email Routing Rules**
+API token permissions, and may flag a conflicting pre-existing rule rather
+than taking it over in non-interactive CI. First enable Email Routing for the
+`feeds` subdomain and inspect the intended change. A dry run is not a live
+routing test. Never configure an apex catch-all or change apex MX.
 
 1. In Cloudflare, select `nataliegwinters.com` and open **Compute →
    Email Service → Email Routing → Settings → Subdomains**. Enable just
@@ -48,12 +60,14 @@ live routing test. Never configure an apex catch-all or change apex MX.
    investigated, not force-overridden.
 4. Deploy the current `main` commit using Natalie's own
    **Deploy Natalie G. Winters (independent)** manual workflow with
-   confirmation `DEPLOY`. Wrangler creates/manages the literal
-   `articles@feeds.nataliegwinters.com` → `nataliegwinters-site`
-   routing rule. Verify in Cloudflare that the rule is **Active** and
-   the action is **Send to a Worker**, not Send to an email. If
-   deployment reports missing permissions or routing conflicts, leave
-   the existing rule unchanged and repair that specific blocker.
+   confirmation `DEPLOY`. For the first routing setup (or a deliberate
+   routing change), enable **manage_email_routing** and use a token with
+   appropriate **Email Routing Rules** permissions. For later website-only
+   releases, leave that option **off**. Verify in Cloudflare that the
+   literal `articles@feeds.nataliegwinters.com` → `nataliegwinters-site`
+   rule exists, is **Active**, and uses **Send to a Worker**, not **Send
+   to an email**. If route management reports missing permissions or a
+   conflict, leave existing rules unchanged and repair that blocker.
 5. In Gmail, **leave global forwarding disabled**. Create a filter with
    `from:nataliegwinters@substack.com`, action **Forward it to →
    articles@feeds.nataliegwinters.com**. Retain Gmail's inbox copies.
