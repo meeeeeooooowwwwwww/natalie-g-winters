@@ -33,7 +33,7 @@ assert.ok(!home.includes(featured.embedUrl), "An October 7 clip must not be feat
 assert.ok(videos.includes(featured.embedUrl), "Historic playable clips must remain on videos archive");
 assert.ok(!home.includes("v7eztbo"), "Unrelated Rumble video must never return");
 assert.ok(!JSON.stringify(SITE).includes("v7eztbo"), "Configuration must not restore unrelated video");
-assert.ok(home.includes('aria-label="Read Natalie G. Winters White House reporting"') && home.includes('alt="The White House"'), "White House graphic must remain accessible and link to reporting");
+assert.ok(home.includes('aria-label="Read Natalie G. Winters White House reporting"') && home.includes('alt="The White House official wordmark"'), "White House graphic must remain accessible and link to reporting");
 
 for (const page of [home, videos, interviews]) {
   assert.ok(page.includes(GLENN_BECK_EPISODE_URL), "The verified 29 October interview URL must be easy to find");
