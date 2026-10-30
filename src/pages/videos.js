@@ -69,7 +69,7 @@ export function renderVideosPage(posts) {
             <span>WATCH · WAR ROOM · WHITE HOUSE · INTERVIEWS</span>
             <h1>Natalie G. Winters Videos</h1>
           </div>
-          <p>Recent source-linked Rumble broadcasts, followed by the historical video library. New recordings are listed first, with publisher links rather than unverified player IDs.</p>
+          <p>Watch recent Rumble appearances directly on this page using verified embedded players and thumbnails. Earlier interviews and archive recordings follow below.</p>
         </header>
 
         <section class="recent-rumble-section" aria-label="Latest Natalie Winters Rumble video uploads">

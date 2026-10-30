@@ -57,6 +57,24 @@ Natalie Winters appearance on The Glenn Beck Program uses the owner's
 **episode-specific** iHeart iframe, displayed at a compact 120px height with
 no autoplay permission and a direct episode link beside the player.
 
+## Rumble in-page playback and mobile cards
+
+Recent videos now use the native Rumble oEmbed metadata (player IDs and
+`hugh.cdn.rumble.cloud` thumbnails), verified on 31 October 2026 against
+all five original source URLs. A video poster is an accessible **Play video**
+button; clicking loads an iframe *in the same card*, without leaving the site.
+The separate original Rumble source link is kept for attribution. Players
+do not load or autoplay before a visitor clicks, protecting mobile bandwidth.
+
+The homepage featured Rumble video uses the same verified player and thumbnail.
+On screens 760px wide or narrower, Substack article cards stack the full-width
+image above the title and description. Article archive side cards likewise
+stack vertically, avoiding the former 42% / 58% compressed column layout.
+
+Regression tests: `npm test` includes `test/rumble-inline.test.mjs` to
+guard mobile article stacking, real thumbnail URLs, embed ownership and
+click-to-load behaviour.
+
 ## Static assets and Worker routing
 
 Cloudflare static assets normally run before Worker code. `wrangler.jsonc` therefore explicitly routes `/sitemap.xml`, `/api/*` and `/media/*` through the Worker first. There is no static `public/sitemap.xml`; the Worker is the single source of truth for the sitemap.

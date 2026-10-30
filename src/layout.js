@@ -331,6 +331,7 @@ export function renderLayout({
   <link rel="stylesheet" href="/assets/layout-v2.css">
   <link rel="stylesheet" href="/assets/footer-icons.css">
   <link rel="stylesheet" href="/assets/editorial-substack.css">
+  <script src="/assets/rumble-player.js" defer></script>
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
