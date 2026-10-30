@@ -3,6 +3,7 @@ import { renderLayout } from "../layout.js";
 import { escapeHtml, formatDate } from "../utils.js";
 import { VIDEOS } from "../video-data.js";
 import { getVideoBrand, getVideoThumbnail } from "../video-thumbnails.js";
+import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards } from "../recent-rumble.js";
 
 const CATEGORY_LABELS = {
   china: "CHINA",
@@ -67,11 +68,19 @@ export function renderVideosPage(posts) {
             <span>WATCH · WAR ROOM · WHITE HOUSE · INTERVIEWS</span>
             <h1>Natalie G. Winters Videos</h1>
           </div>
-          <p>Source-linked Rumble broadcasts and interviews, arranged by verified date. The video library is a curated archive, not a live feed.</p>
+          <p>Recent source-linked Rumble broadcasts, followed by the historical video library. New recordings are listed first, with publisher links rather than unverified player IDs.</p>
         </header>
 
+        <section class="recent-rumble-section" aria-label="Latest Natalie Winters Rumble video uploads">
+          <div class="video-library-head">
+            <h2>Latest Rumble videos</h2>
+            <p>${RECENT_RUMBLE_VIDEOS.length} source-linked uploads · late October 2026</p>
+          </div>
+          ${renderRecentRumbleCards(RECENT_RUMBLE_VIDEOS)}
+        </section>
+
         ${featured ? `
-          <section class="video-lead" aria-label="Featured Natalie G. Winters video">
+          <section class="video-lead" aria-label="Earlier Natalie G. Winters video from the archive">
             <div class="video-frame">
               <iframe
                 src="${escapeHtml(featured.embedUrl)}"
@@ -79,27 +88,20 @@ export function renderVideosPage(posts) {
                 allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
                 allowfullscreen
                 loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
               ></iframe>
             </div>
             <div class="video-lead-copy">
-              <span>${escapeHtml(displayBrand(featured))}${displayBrand(featured) === (CATEGORY_LABELS[featured.category] || "VIDEO") ? "" : ` · ${escapeHtml(CATEGORY_LABELS[featured.category] || "VIDEO")}`}</span>
+              <span>FROM THE ARCHIVE · ${escapeHtml(displayBrand(featured))}</span>
               <h2>${escapeHtml(featured.title)}</h2>
               <p>${escapeHtml(featured.summary)}</p>
               <div class="archive-meta">
                 ${formatDate(featured.date) ? `<time datetime="${escapeHtml(featured.date)}">${escapeHtml(formatDate(featured.date))}</time><span>·</span>` : ""}
-                <a href="${escapeHtml(featured.rumbleUrl)}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none">WATCH ON RUMBLE ↗</a>
+                <a href="${escapeHtml(featured.rumbleUrl)}" target="_blank" rel="noopener noreferrer">WATCH ARCHIVE VIDEO ON RUMBLE ↗</a>
               </div>
             </div>
           </section>
         ` : ""}
-
-        <section aria-label="Recent verified Rumble appearance">
-          <div class="video-library-head">
-            <h2>Recent War Room video · 26 October 2026</h2>
-            <p>War Room · 27 min 19 sec</p>
-          </div>
-          <p><strong>Natalie Winters on an Obama alumni organisation and election-related content moderation.</strong> War Room's Rumble playlist identifies the programme as aired on 26 October 2026. <a href="https://rumble.com/playlists/FtvHjVmJo7c" target="_blank" rel="noopener noreferrer">Find the original in the War Room playlist →</a> A direct video embed will be added only when its player ID has been confirmed.</p>
-        </section>
 
         <section aria-label="Latest verified media appearance">
           <div class="video-library-head">
@@ -111,8 +113,8 @@ export function renderVideosPage(posts) {
 
         <section>
           <div class="video-library-head">
-            <h2>Video library</h2>
-            <p>${VIDEOS.length} documented clips and appearances · newest verified clip: ${escapeHtml(formatDate(VIDEOS[0]?.date) || "archive")}</p>
+            <h2>Earlier video archive</h2>
+            <p>${VIDEOS.length} documented clips and appearances · most recent embedded archive clip: ${escapeHtml(formatDate(VIDEOS[0]?.date) || "archive")}</p>
           </div>
           <div class="video-library-grid">
             ${archive.map(renderVideoCard).join("")}
