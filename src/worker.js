@@ -31,7 +31,6 @@ const PRIMARY_PATHS = [
   "/career",
   "/reporting",
   "/white-house",
-  "/verdict",
   "/war-room",
   "/videos",
   "/interviews",
