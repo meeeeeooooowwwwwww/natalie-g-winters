@@ -333,9 +333,10 @@ export default {
     const posts = await getLatestPosts(env, ctx);
     const page = routePage(url.pathname, posts);
     const response = page
-      ? htmlResponse(page, 200, 60)
+      ? htmlResponse(page, 200, 0)
       : htmlResponse(render404(posts), 404, 60);
 
+    if (page) response.headers.set("Cache-Control", "no-store");
     return withSeoHostProtection(response, request);
   },
 
