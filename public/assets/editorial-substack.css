@@ -972,7 +972,7 @@ body{
   .home-brand-ribbon .brand-mark{min-height:76px;padding:4px}
   .home-brand-ribbon .brand-mark--glenn img{width:min(100%,160px)}
   .home-brand-ribbon .brand-mark--warroom img{width:74px;max-height:74px}
-  .home-brand-ribbon .brand-mark--substack{border-left:0;font-size:14px}
+  .home-brand-ribbon .brand-mark--glenn{grid-column:1/-1}
   .home-publication-hero{padding-top:36px}
   .home-publication-copy h1{font-size:clamp(46px,14vw,68px)}
   .home-video-head{font-size:8px}
@@ -989,7 +989,6 @@ body{
   .home-brand-ribbon{gap:6px;padding:9px}
   .home-brand-ribbon .brand-mark{min-height:70px}
   .home-brand-ribbon .brand-mark--glenn img{width:min(100%,138px)}
-  .home-brand-ribbon .brand-mark--substack{font-size:12px;letter-spacing:.12em}
 }
 
 
