@@ -5,7 +5,7 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredYouTubeId = "ZyhrYis509A";
+  const featuredYouTubeId = "1c7XccFwJrQ";
 
   const pageContent = `
     <main class="editorial-home">
@@ -31,7 +31,7 @@ export function renderHomePage(posts) {
             <div class="home-video-frame">
               <iframe
                 src="https://www.youtube-nocookie.com/embed/${featuredYouTubeId}?rel=0"
-                title="Aqua - Barbie Girl (Official Music Video)"
+                title="Behind the scenes with Natalie Winters (just for fun)"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="encrypted-media; picture-in-picture; web-share"
@@ -39,8 +39,8 @@ export function renderHomePage(posts) {
               ></iframe>
             </div>
             <div class="home-video-feature-caption">
-              <strong>A brief interruption to the regular programming</strong>
-              <span>Aqua · Barbie Girl · YouTube</span>
+              <strong>Behind the scenes with Natalie Winters</strong>
+              <span>A completely unofficial look behind the curtain · YouTube</span>
             </div>
           </div>
         </div>
