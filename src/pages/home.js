@@ -2,7 +2,7 @@ import { SITE } from "../config.js";
 import { renderGlennBeckCompactPlayer } from "../iheart-player.js";
 import { renderArticleCards, renderLayout } from "../layout.js";
 import { escapeHtml } from "../utils.js";
-import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards } from "../recent-rumble.js";
+import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards, renderRumblePlayButton } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
   const newestVideo = RECENT_RUMBLE_VIDEOS[0];
@@ -28,12 +28,13 @@ export function renderHomePage(posts) {
               <span>RECENT RUMBLE BROADCAST · LATE OCTOBER 2026</span>
               <a href="${escapeHtml(newestVideo.url)}" target="_blank" rel="noopener noreferrer">WATCH ORIGINAL →</a>
             </div>
-            <a class="home-recent-video-feature" href="${escapeHtml(newestVideo.url)}" target="_blank" rel="noopener noreferrer">
-              <span class="home-recent-feature-kicker">${escapeHtml(newestVideo.publisher)}</span>
+            <div class="home-recent-inline-player">
+              ${renderRumblePlayButton(newestVideo, "home-feature-poster")}
+            </div>
+            <div class="home-video-feature-caption">
               <strong>${escapeHtml(newestVideo.title)}</strong>
-              <span>${escapeHtml(newestVideo.summary)}</span>
-              <b>WATCH THE LATEST VERIFIED RUMBLE VIDEO ↗</b>
-            </a>
+              <span>${escapeHtml(newestVideo.publisher)} · Late October 2026</span>
+            </div>
           </div>
         </div>
       </section>
