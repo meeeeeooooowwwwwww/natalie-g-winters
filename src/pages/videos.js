@@ -1,4 +1,5 @@
 import { SITE } from "../config.js";
+import { renderGlennBeckCompactPlayer } from "../iheart-player.js";
 import { renderLayout } from "../layout.js";
 import { escapeHtml, formatDate } from "../utils.js";
 import { VIDEOS } from "../video-data.js";
@@ -108,7 +109,8 @@ export function renderVideosPage(posts) {
             <h2>Recent broadcast appearance</h2>
             <p>29 October 2026 · The Glenn Beck Program</p>
           </div>
-          <p>Natalie Winters discusses her reporting on the 2026 midterm election preparations. <a href="https://www.iheart.com/podcast/175-the-glenn-beck-program-23014384/episode/best-of-the-program-guest-348722739/" target="_blank" rel="noopener noreferrer">Listen to the original episode →</a> This is a recorded programme appearance, not a newly verified Rumble video.</p>
+          <p>Natalie Winters discusses her reporting on the 2026 midterm election preparations. The compact iHeart player below is the show feed; use the direct link for Natalie’s exact episode.</p>
+          ${renderGlennBeckCompactPlayer()}
         </section>
 
         <section>
