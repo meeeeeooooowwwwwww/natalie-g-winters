@@ -2,10 +2,10 @@ import { SITE } from "../config.js";
 import { renderGlennBeckCompactPlayer } from "../iheart-player.js";
 import { renderArticleCards, renderLayout } from "../layout.js";
 import { escapeHtml } from "../utils.js";
-import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards, renderRumblePlayButton } from "../recent-rumble.js";
+import { renderRecentRumbleCards } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const newestVideo = RECENT_RUMBLE_VIDEOS[0];
+  const featuredYouTubeId = "ZyhrYis509A";
 
   const pageContent = `
     <main class="editorial-home">
@@ -25,15 +25,22 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head">
-              <span>RECENT RUMBLE BROADCAST · LATE OCTOBER 2026</span>
-              <a href="${escapeHtml(newestVideo.url)}" target="_blank" rel="noopener noreferrer">WATCH ORIGINAL →</a>
+              <span>FEATURED VIDEO · JUST FOR FUN</span>
+              <a href="https://www.youtube.com/watch?v=${featuredYouTubeId}" target="_blank" rel="noopener noreferrer">WATCH ON YOUTUBE →</a>
             </div>
-            <div class="home-recent-inline-player">
-              ${renderRumblePlayButton(newestVideo, "home-feature-poster")}
+            <div class="home-video-frame">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/${featuredYouTubeId}?rel=0"
+                title="Aqua - Barbie Girl (Official Music Video)"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="encrypted-media; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
             </div>
             <div class="home-video-feature-caption">
-              <strong>${escapeHtml(newestVideo.title)}</strong>
-              <span>${escapeHtml(newestVideo.publisher)} · Late October 2026</span>
+              <strong>A brief interruption to the regular programming</strong>
+              <span>Aqua · Barbie Girl · YouTube</span>
             </div>
           </div>
         </div>
