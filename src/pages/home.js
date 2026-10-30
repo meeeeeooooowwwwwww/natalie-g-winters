@@ -51,13 +51,13 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head">
-              <span>FEATURED VIDEO</span>
-              <a href="${escapeHtml(SITE.heroVideoSource)}" target="_blank" rel="noopener noreferrer">WATCH ON RUMBLE →</a>
+              <span>FEATURED VERIFIED VIDEO · ${escapeHtml(formatDate(featuredVideos[0].date))}</span>
+              <a href="${escapeHtml(featuredVideos[0].rumbleUrl)}" target="_blank" rel="noopener noreferrer">WATCH ON RUMBLE →</a>
             </div>
             <div class="home-video-frame">
               <iframe
-                src="${escapeHtml(SITE.heroVideoEmbed)}"
-                title="Featured video on Rumble"
+                src="${escapeHtml(featuredVideos[0].embedUrl)}"
+                title="${escapeHtml(featuredVideos[0].sourceTitle)}"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen
