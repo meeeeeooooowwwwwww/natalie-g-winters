@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 130" role="img" aria-labelledby="title">
+<title id="title">One America News (OAN)</title>
+<g fill="#273340">
+  <path d="M19 48l6.5 11.5L39 62l-9.4 9.7L32 85l-13-6.4L6 85l2.5-13.3L0 62l13.5-2.5z" transform="translate(15 -13) scale(.75)"/>
+  <text x="173" y="88" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="84" letter-spacing="-7">OAN</text>
+  <text x="161" y="112" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="16" letter-spacing="2.8">ONE AMERICA NEWS</text>
+</g>
+</svg>

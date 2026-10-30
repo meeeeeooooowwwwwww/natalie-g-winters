@@ -595,7 +595,7 @@ body{
    The Glenn Beck source is a square canvas with a wide wordmark in the middle:
    crop its empty top/bottom space inside the centred link. */
 .home-brand-ribbon{
-  grid-template-columns:minmax(116px,.72fr) repeat(6,minmax(0,1fr));
+  grid-template-columns:minmax(116px,.72fr) repeat(5,minmax(0,1fr));
   gap:clamp(8px,1.15vw,18px);
   padding:15px clamp(12px,1.5vw,20px);
 }
@@ -612,13 +612,11 @@ body{
   opacity:.9;
 }
 .home-brand-ribbon .brand-mark--whitehouse{
-  font-size:clamp(10px,1.05vw,15px);
-  font-weight:800;
-  letter-spacing:.08em;
-  line-height:1.35;
-  text-align:center;
-  padding:8px;
-  overflow-wrap:anywhere;
+  border-left:1px solid var(--pub-line);
+}
+.home-brand-ribbon .brand-mark--whitehouse img{
+  width:min(100%,142px);
+  max-height:76px;
 }
 .home-brand-ribbon .brand-mark--warroom img{width:84px;max-height:84px}
 .home-brand-ribbon .brand-mark--oan img{width:168px;max-height:60px}
@@ -629,11 +627,6 @@ body{
   max-width:none;
   max-height:none;
   flex:none;
-}
-.home-brand-ribbon .brand-mark--substack{
-  font-size:clamp(12px,1.08vw,16px);
-  letter-spacing:.16em;
-  font-weight:900;
 }
 .home-section{
   padding:clamp(38px,4.6vw,64px) clamp(16px,3vw,42px);
@@ -979,7 +972,7 @@ body{
   .home-brand-ribbon .brand-mark{min-height:76px;padding:4px}
   .home-brand-ribbon .brand-mark--glenn img{width:min(100%,160px)}
   .home-brand-ribbon .brand-mark--warroom img{width:74px;max-height:74px}
-  .home-brand-ribbon .brand-mark--substack{border-left:0;font-size:14px}
+  .home-brand-ribbon .brand-mark--glenn{grid-column:1/-1}
   .home-publication-hero{padding-top:36px}
   .home-publication-copy h1{font-size:clamp(46px,14vw,68px)}
   .home-video-head{font-size:8px}
@@ -996,7 +989,6 @@ body{
   .home-brand-ribbon{gap:6px;padding:9px}
   .home-brand-ribbon .brand-mark{min-height:70px}
   .home-brand-ribbon .brand-mark--glenn img{width:min(100%,138px)}
-  .home-brand-ribbon .brand-mark--substack{font-size:12px;letter-spacing:.12em}
 }
 
 
