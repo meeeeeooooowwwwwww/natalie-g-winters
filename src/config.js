@@ -44,17 +44,12 @@ function toVideoEmbedUrl(value = "") {
   return raw;
 }
 
-const heroVideo = "https://rumble.com/embed/v7eztbo/?pub=4kxtac";
-const heroVideoEmbed = toVideoEmbedUrl(heroVideo);
-
 export const SITE = {
   name: "Natalie G. Winters",
   fullName: "Natalie G. Winters",
   domain: "https://nataliegwinters.com",
   substackHome: "https://nataliegwinters.substack.com/",
   rumbleEmbed: "https://rumble.com/embed/v7d85se/?pub=4kxtac",
-  heroVideoEmbed,
-  heroVideoSource: heroVideo,
 
   images: {
     portrait:
