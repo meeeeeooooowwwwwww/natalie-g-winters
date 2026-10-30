@@ -38,18 +38,6 @@ function cleanTitle(title) {
   return title.replace(/^Natalie Winters[:\s-]*/i, "").trim();
 }
 
-function nameNatalie(summary) {
-  if (/^Winters\b/.test(summary)) {
-    return summary.replace(/^Winters\b/, "Natalie Winters");
-  }
-
-  if (/^A\s/.test(summary)) {
-    return `Natalie Winters appears in ${summary.charAt(0).toLowerCase()}${summary.slice(1)}`;
-  }
-
-  return `Natalie Winters: ${summary}`;
-}
-
 function renderRelated(video) {
   return getRelatedVideos(video, 4).map((item) => `
     <a class="editorial-card" href="/videos/${escapeHtml(item.slug)}">
