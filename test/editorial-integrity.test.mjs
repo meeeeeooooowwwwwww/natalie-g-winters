@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { SITE } from "../src/config.js";
 import { VIDEOS } from "../src/video-data.js";
 import { RECENT_RUMBLE_VIDEOS } from "../src/recent-rumble.js";
+import { GLENN_BECK_EPISODE_URL, GLENN_BECK_EMBED_URL, renderGlennBeckCompactPlayer } from "../src/iheart-player.js";
 import { renderHomePage } from "../src/pages/home.js";
 import { renderVideosPage } from "../src/pages/videos.js";
 import { renderArticlesPage } from "../src/pages/articles.js";
@@ -32,10 +33,13 @@ assert.ok(!home.includes("v7eztbo"), "Unrelated Rumble video must never return")
 assert.ok(!JSON.stringify(SITE).includes("v7eztbo"), "Configuration must not restore unrelated video");
 assert.ok(home.includes("WHITE HOUSE COVERAGE"), "White House reference should describe the coverage");
 
-const interview = "https://www.iheart.com/podcast/175-the-glenn-beck-program-23014384/episode/best-of-the-program-guest-348722739/";
 for (const page of [home, videos, interviews]) {
-  assert.ok(page.includes(interview), "The verified 29 October interview must be easy to find");
+  assert.ok(page.includes(GLENN_BECK_EPISODE_URL), "The verified 29 October interview URL must be easy to find");
+  assert.ok(page.includes(GLENN_BECK_EMBED_URL), "Exact Natalie episode iHeart iframe must be visible");
 }
+const player = renderGlennBeckCompactPlayer();
+assert.match(player, /height="120"/, "Player should be compact");
+assert.doesNotMatch(player, /allow="autoplay"|autoplay=true|autoplay=1/i, "Audio must never autoplay");
 
 const noCover = {
   id: "missing-cover",
