@@ -1,10 +1,10 @@
 import { SITE } from "../config.js";
-import { articleImageUrl, renderLayout } from "../layout.js";
+import { articleImageUrl, renderEditorialArticleCover, renderLayout } from "../layout.js";
 import { escapeHtml, formatDate } from "../utils.js";
 
 function imageMarkup(post, className, width = 1200, height = 675) {
   const src = articleImageUrl(post);
-  if (!src) return `<div class="${className}"><div class="archive-no-image">NATALIE G. WINTERS</div></div>`;
+  if (!src) return renderEditorialArticleCover(post, className);
 
   return `
     <div class="${className}">

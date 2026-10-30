@@ -1,37 +1,11 @@
 import { SITE } from "../config.js";
+import { renderGlennBeckCompactPlayer } from "../iheart-player.js";
 import { renderArticleCards, renderLayout } from "../layout.js";
-import { escapeHtml, formatDate } from "../utils.js";
-import { VIDEOS } from "../video-data.js";
-import { getVideoBrand, getVideoThumbnail } from "../video-thumbnails.js";
-
-function renderVideoCard(video) {
-  if (!video) return "";
-
-  const thumbnail = getVideoThumbnail(video.slug);
-  const brand = getVideoBrand(video.slug, "RUMBLE");
-  const date = formatDate(video.date);
-
-  return `
-    <a class="video-thumb-card" href="/videos/${escapeHtml(video.slug)}">
-      <div class="video-thumb">
-        ${thumbnail
-          ? `<img src="${escapeHtml(thumbnail)}" alt="Video thumbnail for ${escapeHtml(video.title)}" width="1280" height="720" loading="lazy" decoding="async" referrerpolicy="no-referrer">`
-          : `<div class="archive-no-image">NATALIE G. WINTERS</div>`}
-      </div>
-      <div class="video-card-copy">
-        <div class="video-card-brand">
-          <span>${escapeHtml(brand.toUpperCase())}</span>
-          ${date ? `<span>${escapeHtml(date)}</span>` : ""}
-        </div>
-        <h3>${escapeHtml(video.title)}</h3>
-        <p>${escapeHtml(video.summary)}</p>
-      </div>
-    </a>
-  `;
-}
+import { escapeHtml } from "../utils.js";
+import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredVideos = VIDEOS.slice(0, 4);
+  const newestVideo = RECENT_RUMBLE_VIDEOS[0];
 
   const pageContent = `
     <main class="editorial-home">
@@ -51,19 +25,15 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head">
-              <span>FEATURED VERIFIED VIDEO · ${escapeHtml(formatDate(featuredVideos[0].date))}</span>
-              <a href="${escapeHtml(featuredVideos[0].rumbleUrl)}" target="_blank" rel="noopener noreferrer">WATCH ON RUMBLE →</a>
+              <span>RECENT RUMBLE BROADCAST · LATE OCTOBER 2026</span>
+              <a href="${escapeHtml(newestVideo.url)}" target="_blank" rel="noopener noreferrer">WATCH ORIGINAL →</a>
             </div>
-            <div class="home-video-frame">
-              <iframe
-                src="${escapeHtml(featuredVideos[0].embedUrl)}"
-                title="${escapeHtml(featuredVideos[0].sourceTitle)}"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-                loading="lazy"
-              ></iframe>
-            </div>
+            <a class="home-recent-video-feature" href="${escapeHtml(newestVideo.url)}" target="_blank" rel="noopener noreferrer">
+              <span class="home-recent-feature-kicker">${escapeHtml(newestVideo.publisher)}</span>
+              <strong>${escapeHtml(newestVideo.title)}</strong>
+              <span>${escapeHtml(newestVideo.summary)}</span>
+              <b>WATCH THE LATEST VERIFIED RUMBLE VIDEO ↗</b>
+            </a>
           </div>
         </div>
       </section>
@@ -106,25 +76,11 @@ export function renderHomePage(posts) {
           <div class="home-section-head">
             <div>
               <span>WATCH NATALIE</span>
-              <h2 id="home-video-title">Selected video appearances</h2>
+              <h2 id="home-video-title">Recent video appearances</h2>
             </div>
-            <p>Browse dated, source-linked Rumble appearances. The most recent verified video in this archive is dated 7 October 2026; newer broadcasts are added only after their source and playback details are confirmed.</p>
+            <p>Newly published Rumble recordings from late October 2026, linked directly to their original broadcasters. Older clips remain available in the full video archive.</p>
           </div>
-          <div class="video-thumb-grid">
-            ${featuredVideos.map(renderVideoCard).join("")}
-          </div>
-        </div>
-      </section>
-
-      <section class="home-section white" aria-labelledby="recent-rumble-title">
-        <div class="home-section-inner">
-          <div class="home-section-head">
-            <div>
-              <span>WAR ROOM · OCTOBER 26, 2026</span>
-              <h2 id="recent-rumble-title">Recent Rumble appearance</h2>
-            </div>
-            <p>Natalie Winters discusses an Obama alumni network and election-related content moderation in a 27-minute War Room segment. <a href="https://rumble.com/playlists/FtvHjVmJo7c" target="_blank" rel="noopener noreferrer">FIND THE VIDEO ON RUMBLE →</a></p>
-          </div>
+          ${renderRecentRumbleCards()}
         </div>
       </section>
 
@@ -135,8 +91,9 @@ export function renderHomePage(posts) {
               <span>VERIFIED MEDIA APPEARANCE · OCTOBER 29, 2026</span>
               <h2 id="latest-interview-title">Natalie Winters on The Glenn Beck Program</h2>
             </div>
-            <p>Natalie discusses her reporting on midterm-election preparations in an appearance listed by the original broadcaster on 29 October. <a href="https://www.iheart.com/podcast/175-the-glenn-beck-program-23014384/episode/best-of-the-program-guest-348722739/" target="_blank" rel="noopener noreferrer">LISTEN TO THE EPISODE →</a> <a href="/interviews">ALL INTERVIEWS →</a></p>
+            <p>Natalie discusses her reporting on midterm-election preparations during Glenn Beck’s 29 October broadcast. <a href="/interviews">ALL INTERVIEWS →</a></p>
           </div>
+          ${renderGlennBeckCompactPlayer()}
         </div>
       </section>
 

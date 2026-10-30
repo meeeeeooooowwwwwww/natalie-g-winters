@@ -1099,3 +1099,51 @@ figcaption{color:#6d5d64!important}
 .home-section-head a{font-weight:700;text-underline-offset:3px}
 .home-video-frame iframe,.video-frame iframe{border:0;display:block;width:100%;height:100%}
 @media(max-width:760px){.home-section-head a{display:inline-block;margin-top:8px}.footer-disclosure{margin:24px 0 18px}}
+
+/* Late-October publisher video links and documentary-style editorial fallback.
+   Never show an invented news photograph or a fake Rumble thumbnail. */
+.recent-rumble-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch}
+.recent-rumble-card{min-width:0;border:1px solid var(--pub-line);border-radius:15px;overflow:hidden;background:#fff;box-shadow:0 14px 32px rgba(51,31,43,.055);transition:transform .2s ease,box-shadow .2s ease}
+.recent-rumble-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(51,31,43,.12)}
+.recent-rumble-link{display:flex;flex-direction:column;height:100%;text-decoration:none!important;color:var(--pub-ink)!important}
+.recent-rumble-link:focus-visible,.home-recent-video-feature:focus-visible{outline:3px solid #b72a6b;outline-offset:3px}
+.recent-rumble-poster{position:relative;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:16/9;min-height:160px;padding:19px;color:#fff;background:radial-gradient(ellipse at 83% 15%,rgba(222,126,161,.36),transparent 42%),linear-gradient(133deg,#101c2d 5%,#303049 55%,#784157 100%);overflow:hidden}
+.recent-rumble-poster::after{content:"";position:absolute;right:-8%;bottom:-45%;width:70%;aspect-ratio:1;border:1px solid rgba(255,255,255,.26);border-radius:50%;box-shadow:0 0 0 24px rgba(255,255,255,.025),0 0 0 52px rgba(255,255,255,.025);pointer-events:none}
+.recent-rumble-poster-kicker,.recent-rumble-poster-title{position:relative;z-index:1;font-size:10px;letter-spacing:.15em;font-weight:750}
+.recent-rumble-poster-title{font-size:9px;opacity:.82}
+.recent-rumble-play{position:absolute;z-index:2;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:57px;height:57px;border-radius:50%;display:grid;place-items:center;padding-left:3px;background:rgba(255,255,255,.95);box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:23px;color:#29223b}
+.recent-rumble-content{display:flex;flex-direction:column;flex:1;padding:18px 18px 21px;gap:9px}
+.recent-rumble-meta{display:flex;align-items:start;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--pub-pink-dark);font-weight:800;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
+.recent-rumble-content h3{margin:0;font:700 clamp(19px,1.5vw,25px)/1.17 Georgia,"Times New Roman",serif;letter-spacing:-.02em;color:var(--pub-ink)}
+.recent-rumble-content p{margin:0;color:var(--pub-muted);font-size:12px;line-height:1.6}
+.recent-rumble-cta{margin-top:auto;padding-top:9px;color:var(--pub-pink-dark);font-size:10px;font-weight:900;letter-spacing:.09em}
+.recent-rumble-section{padding:14px 0 32px}
+.home-recent-video-feature{position:relative;display:flex;flex-direction:column;justify-content:center;gap:22px;min-height:clamp(275px,29vw,440px);padding:clamp(25px,4vw,55px);color:#fff!important;text-decoration:none!important;background:radial-gradient(ellipse at 85% 20%,rgba(189,74,124,.47),transparent 48%),linear-gradient(130deg,#122039 0%,#303146 58%,#653246 100%);overflow:hidden}
+.home-recent-video-feature::after{content:"";pointer-events:none;position:absolute;right:-15%;bottom:-45%;width:70%;aspect-ratio:1;border:2px solid rgba(255,255,255,.14);border-radius:50%;box-shadow:0 0 0 40px rgba(255,255,255,.025),0 0 0 82px rgba(255,255,255,.018)}
+.home-recent-video-feature > *{z-index:1;position:relative}
+.home-recent-feature-kicker{font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#f3cedc}
+.home-recent-video-feature strong{font:700 clamp(29px,3vw,46px)/1.08 Georgia,"Times New Roman",serif;letter-spacing:-.025em;max-width:18ch}
+.home-recent-video-feature span:not(.home-recent-feature-kicker){max-width:55ch;font-size:13px;line-height:1.65;color:#f1e6ed}
+.home-recent-video-feature b{font-size:11px;letter-spacing:.08em;color:#fff}
+.editorial-article-cover{display:flex!important;align-items:stretch!important;justify-content:stretch!important;position:relative;isolation:isolate;overflow:hidden!important;background:linear-gradient(137deg,#182138 0%,#253650 54%,#7f4056 100%)!important;color:#fff!important}
+.editorial-article-cover::before{content:"";position:absolute;inset:auto -14% -65% auto;width:72%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.25);box-shadow:0 0 0 32px rgba(255,255,255,.025),0 0 0 76px rgba(255,255,255,.022);pointer-events:none}
+.editorial-article-cover-inner{position:relative;z-index:1;width:100%;height:100%;min-height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding:clamp(18px,2.5vw,38px);overflow:hidden}
+.editorial-article-cover .editorial-article-cover-kicker{font-size:clamp(8px,.74vw,11px)!important;letter-spacing:.18em!important;font-weight:800!important;color:#f4cddd!important;text-align:left!important;line-height:1.4!important}
+.editorial-article-cover .editorial-article-cover-title{font:700 clamp(16px,1.7vw,30px)/1.12 Georgia,"Times New Roman",serif!important;letter-spacing:-.025em!important;color:#fff!important;text-align:left!important;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;line-clamp:4;overflow:hidden;max-width:24ch}
+.article-grid .article-card:first-child .editorial-article-cover-title,.archive-lead-main .editorial-article-cover-title{font-size:clamp(23px,2.7vw,43px)!important;max-width:23ch}
+.editorial-article-cover-footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.editorial-article-cover .editorial-article-cover-footer span{font-size:clamp(7px,.68vw,10px)!important;letter-spacing:.11em!important;font-weight:700!important;color:#edcfdb!important;text-align:left!important}
+.archive-side-image.editorial-article-cover .editorial-article-cover-inner{padding:13px}
+.archive-side-image.editorial-article-cover .editorial-article-cover-title{font-size:clamp(11px,1.1vw,16px)!important;-webkit-line-clamp:3;line-clamp:3}
+.archive-side-image.editorial-article-cover .editorial-article-cover-footer{display:none}
+@media(max-width:1180px){.recent-rumble-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.recent-rumble-grid{grid-template-columns:1fr}.home-recent-video-feature{min-height:310px;padding:25px}.home-recent-video-feature strong{font-size:clamp(26px,7vw,38px)}.editorial-article-cover-inner{padding:18px}.editorial-article-cover .editorial-article-cover-title,.article-grid .article-card:first-child .editorial-article-cover-title{font-size:clamp(14px,4.4vw,25px)!important}.editorial-article-cover-footer span{font-size:8px!important}}
+@media(prefers-reduced-motion:reduce){.recent-rumble-card{transition:none}.recent-rumble-card:hover{transform:none}}
+
+/* Compact official iHeart show feed. Exact Natalie episode link sits below it. */
+.glenn-beck-compact-player{width:min(100%,510px);display:flex;flex-direction:column;gap:7px;margin:16px 0 0;padding:10px;border:1px solid var(--pub-line);border-radius:12px;background:#fff;box-shadow:0 6px 22px rgba(50,25,37,.05)}
+.glenn-beck-compact-player iframe{display:block;width:100%;height:120px;max-height:120px;border:0;border-radius:7px;background:#f5f2f4}
+.glenn-beck-compact-player a{display:block;color:var(--pub-pink-dark);font-size:10px;font-weight:800;line-height:1.4;letter-spacing:.06em;text-decoration:underline;text-underline-offset:3px}
+.appearance-brand-card .glenn-beck-compact-player{width:100%;padding:7px;margin-top:12px;box-shadow:none}
+.appearance-brand-card .glenn-beck-compact-player iframe{height:110px;max-height:110px}
+@media(max-width:760px){.glenn-beck-compact-player{width:100%}.glenn-beck-compact-player iframe{height:112px;max-height:112px}}

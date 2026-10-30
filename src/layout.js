@@ -57,6 +57,22 @@ export function articleImageUrl(post) {
   return `/media/substack/${encodeURIComponent(post.id)}/${encodeURIComponent(post.imageVersion)}`;
 }
 
+export function renderEditorialArticleCover(post, wrapperClass = "article-image article-placeholder") {
+  // Explicit editorial artwork, not a publisher-supplied photograph or purported
+  // primary-source document. Used only when Substack provides no verified cover.
+  const date = formatDate(post?.date);
+  return `<div class="${escapeHtml(wrapperClass)} editorial-article-cover" role="img" aria-label="Original editorial title card for ${escapeHtml(post?.title || "Natalie Winters report")}">
+    <div class="editorial-article-cover-inner">
+      <span class="editorial-article-cover-kicker">NATALIE G. WINTERS · INVESTIGATIVE REPORTING</span>
+      <span class="editorial-article-cover-title">${escapeHtml(post?.title || "Latest investigation")}</span>
+      <span class="editorial-article-cover-footer">
+        <span>ORIGINAL REPORT ON SUBSTACK</span>
+        ${date ? `<span>${escapeHtml(date)}</span>` : ""}
+      </span>
+    </div>
+  </div>`;
+}
+
 export function renderArticleCards(posts, limit = null, className = "article-grid") {
   const visiblePosts = Array.isArray(posts)
     ? (Number.isFinite(limit) ? posts.slice(0, limit) : posts)
@@ -75,7 +91,7 @@ export function renderArticleCards(posts, limit = null, className = "article-gri
     const proxyImage = articleImageUrl(post);
     const image = proxyImage
       ? `<div class="article-image"><img src="${escapeHtml(proxyImage)}" alt="Cover image for ${escapeHtml(post.title)} by Natalie G. Winters" width="700" height="394" loading="lazy" decoding="async"></div>`
-      : `<div class="article-image article-placeholder"><span>NATALIE G. WINTERS</span></div>`;
+      : renderEditorialArticleCover(post);
 
     const subtitle = post.subtitle
       ? `<p class="article-subtitle">${escapeHtml(post.subtitle)}</p>`

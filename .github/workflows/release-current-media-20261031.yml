@@ -1,0 +1,90 @@
+name: Natalie current video, cover and iHeart episode release 2026-10-31
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/release-current-media-20261031.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: natalie-production-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Verify Natalie destination and build restricted code-only configuration
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const c = JSON.parse(fs.readFileSync('wrangler.jsonc', 'utf8'));
+          if(c.name !== 'nataliegwinters-site' ||
+             c.routes?.length !== 1 || c.routes[0].pattern !== 'nataliegwinters.com' ||
+             c.routes[0].custom_domain !== true ||
+             c.kv_namespaces?.length !== 1 ||
+             c.kv_namespaces[0].id !== '7751d2c212db4316b98316b280882892' ||
+             c.addresses?.length !== 1 ||
+             c.addresses[0] !== 'articles@feeds.nataliegwinters.com' ||
+             c.vars?.NATALIE_EMAIL_RECIPIENT !== c.addresses[0]) {
+            throw Error('Natalie Worker, KV or email ownership mismatch');
+          }
+          delete c.addresses;
+          fs.writeFileSync('.wrangler-natalie-current-media-code-only.jsonc', JSON.stringify(c,null,2) + '\n');
+          NODE
+      - name: Run automated tests and Cloudflare dry run
+        run: |
+          npm ci --no-audit --no-fund
+          npm run check
+          npm test
+          npx wrangler deploy --config .wrangler-natalie-current-media-code-only.jsonc --dry-run
+      - name: Publish Natalie-only Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          test -n "${CLOUDFLARE_API_TOKEN:-}"
+          test -n "${CLOUDFLARE_ACCOUNT_ID:-}"
+          npx wrangler deploy --config .wrangler-natalie-current-media-code-only.jsonc --message "Natalie current video and no-autoplay iHeart release $GITHUB_SHA"
+      - name: Confirm public content and source URL
+        run: |
+          set -euo pipefail
+          origin=""
+          for base in https://nataliegwinters.com https://nataliegwinters-site.generalflynn17.workers.dev; do
+            code="$(curl --silent --show-error --location --max-time 30 --output "$RUNNER_TEMP/natalie-home.html" --write-out '%{http_code}' "$base/" || true)"
+            if [ "$code" = "200" ] && grep -q "v7hfm0m-winters.html" "$RUNNER_TEMP/natalie-home.html" && grep -q "recent-rumble-card" "$RUNNER_TEMP/natalie-home.html"; then
+              origin="$base"
+              break
+            fi
+          done
+          test -n "$origin" || { echo "::error::Homepage not reflecting late-October Rumble videos"; exit 1; }
+          grep -q 'best-of-the-program-guest-natalie-winters-102926-348722739/?embed=true' "$RUNNER_TEMP/natalie-home.html"
+          test "$(grep -o 'class="recent-rumble-card"' "$RUNNER_TEMP/natalie-home.html" | wc -l)" -eq 4
+          code="$(curl --silent --show-error --location --max-time 25 --output "$RUNNER_TEMP/natalie-videos.html" --write-out '%{http_code}' "$origin/videos")"
+          test "$code" = "200"
+          grep -q 'v7hcxyw-natalie-winters' "$RUNNER_TEMP/natalie-videos.html"
+          grep -q 'v7hape6-natalie.html' "$RUNNER_TEMP/natalie-videos.html"
+          code="$(curl --silent --show-error --location --max-time 25 --output "$RUNNER_TEMP/natalie-articles.html" --write-out '%{http_code}' "$origin/articles")"
+          test "$code" = "200"
+          grep -q 'Inside the Left' "$RUNNER_TEMP/natalie-articles.html"
+          grep -q 'editorial-article-cover' "$RUNNER_TEMP/natalie-articles.html"
+          code="$(curl --silent --show-error --location --max-time 25 --output "$RUNNER_TEMP/natalie-status.json" --write-out '%{http_code}' "$origin/api/status")"
+          test "$code" = "200"
+          node -e "const s=require(process.argv[1]); if(!Number.isInteger(s.articleCount)||s.articleCount<1||!String(s.newestUrl||'').startsWith('https://nataliegwinters.substack.com/p/')) throw Error('Article archive invalid'); console.log('PASS: '+s.articleCount+' articles, newest '+s.newestUrl)" "$RUNNER_TEMP/natalie-status.json"
+          echo "PASS: Natalie site on $origin has four new Rumble cards, latest hero, iHeart episode player and article cover"

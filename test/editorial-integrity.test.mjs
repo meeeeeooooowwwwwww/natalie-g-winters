@@ -2,10 +2,13 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { SITE } from "../src/config.js";
 import { VIDEOS } from "../src/video-data.js";
+import { RECENT_RUMBLE_VIDEOS } from "../src/recent-rumble.js";
+import { GLENN_BECK_EPISODE_URL, GLENN_BECK_EMBED_URL, renderGlennBeckCompactPlayer } from "../src/iheart-player.js";
 import { renderHomePage } from "../src/pages/home.js";
 import { renderVideosPage } from "../src/pages/videos.js";
+import { renderArticlesPage } from "../src/pages/articles.js";
 import { renderInterviewsPage } from "../src/pages/interviews.js";
-import { renderFooter } from "../src/layout.js";
+import { renderArticleCards, renderFooter } from "../src/layout.js";
 
 const home = renderHomePage([]);
 const videos = renderVideosPage([]);
@@ -13,27 +16,49 @@ const interviews = renderInterviewsPage([]);
 const footer = renderFooter();
 const featured = VIDEOS[0];
 
-assert.ok(featured, "A dated archive video is required");
-assert.ok(home.includes(featured.embedUrl), "Homepage must embed a source-linked archive video");
-assert.ok(home.includes(featured.rumbleUrl), "Homepage must link to the original recording");
-assert.ok(home.includes(featured.sourceTitle), "Homepage iframe must identify the programme");
+assert.ok(featured, "A dated video archive must remain available");
+assert.equal(RECENT_RUMBLE_VIDEOS.length, 5, "Five newer Rumble source videos expected");
+assert.equal(new Set(RECENT_RUMBLE_VIDEOS.map(v => v.url)).size, 5, "No duplicate sources");
+for (const [index, video] of RECENT_RUMBLE_VIDEOS.entries()) {
+  assert.match(video.url, /^https:\/\/rumble\.com\/v[0-9a-z]+-[a-z0-9-]+\.html$/);
+  assert.ok(video.title.length >= 20 && video.sourceTitle.length >= 30);
+  assert.ok(home.includes(video.url) === (index < 4), "Homepage should feature the four newest distinct topics");
+  assert.ok(videos.includes(video.url), "Videos page must contain each current source video");
+}
+assert.ok(home.includes(RECENT_RUMBLE_VIDEOS[0].title), "Homepage hero must feature the latest Rumble video");
+assert.ok(home.includes("Recent video appearances"), "Homepage must show current video heading");
+assert.ok(!home.includes(featured.embedUrl), "An October 7 clip must not be featured on homepage");
+assert.ok(videos.includes(featured.embedUrl), "Historic playable clips must remain on videos archive");
 assert.ok(!home.includes("v7eztbo"), "Unrelated Rumble video must never return");
 assert.ok(!JSON.stringify(SITE).includes("v7eztbo"), "Configuration must not restore unrelated video");
 assert.ok(home.includes("WHITE HOUSE COVERAGE"), "White House reference should describe the coverage");
-assert.ok(home.includes("Selected video appearances"), "Curated archive must not imply a live feed");
 
-const interview = "https://www.iheart.com/podcast/175-the-glenn-beck-program-23014384/episode/best-of-the-program-guest-348722739/";
 for (const page of [home, videos, interviews]) {
-  assert.ok(page.includes(interview), "The verified 29 October interview must be easy to find");
+  assert.ok(page.includes(GLENN_BECK_EPISODE_URL), "The verified 29 October interview URL must be easy to find");
+  assert.ok(page.includes(GLENN_BECK_EMBED_URL), "Exact Natalie episode iHeart iframe must be visible");
 }
-const rumblePlaylist = "https://rumble.com/playlists/FtvHjVmJo7c";
-for (const page of [home, videos]) {
-  assert.ok(page.includes(rumblePlaylist), "The 26 October appearance must link to its original publisher playlist");
+const player = renderGlennBeckCompactPlayer();
+assert.match(player, /height="120"/, "Player should be compact");
+assert.doesNotMatch(player, /allow="autoplay"|autoplay=true|autoplay=1/i, "Audio must never autoplay");
+
+const noCover = {
+  id: "missing-cover",
+  title: "Inside the Left’s Election Backchannel—and the Talking Points It Didn’t Want Public",
+  url: "https://nataliegwinters.substack.com/p/inside-the-lefts-election-backchanneland",
+  image: "", date: "2026-10-30T10:00:00Z"
+};
+const homeCards = renderArticleCards([noCover]);
+const archive = renderArticlesPage([noCover]);
+for (const output of [homeCards, archive]) {
+  assert.ok(output.includes("editorial-article-cover"), "Missing-cover article must have designed title-card fallback");
+  assert.ok(output.includes("ORIGINAL REPORT ON SUBSTACK"), "Do not imply a publisher-supplied photograph exists");
+  assert.ok(output.includes(noCover.title), "Original article title must survive");
 }
+assert.doesNotMatch(homeCards, /class="article-image article-placeholder"><span>NATALIE G. WINTERS<\/span><\/div>/);
 assert.match(footer, /Not an official White House or United States government website/);
 assert.doesNotMatch(footer, /magnificently excessive|Yoga may be involved/);
 
 const workerSource = readFileSync(new URL("../src/worker.js", import.meta.url), "utf8");
 assert.doesNotMatch(workerSource, /SITEMAP_LASTMOD\s*=/, "Global stale sitemap date must not be restored");
 assert.match(workerSource, /lastmod:.*video\.date/);
-console.log("editorial integrity regression checks passed");
+console.log("editorial integrity checks passed: recent Rumble videos and article covers");
