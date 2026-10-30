@@ -37,11 +37,13 @@ for (const brand of ["whitehouse", "warroom", "oan", "rav", "glenn"]) {
 assert.doesNotMatch(homepage, /AVN_YT_Banner_Pandemic_Live/);
 assert.doesNotMatch(homepage, /brand-mark--substack|>SUBSTACK<\//, "Substack must not appear in homepage logo strip");
 assert.doesNotMatch(editorial, /brand-mark--substack/, "Remove dead Substack logo styling");
-assert.match(homepage, /src="\/images\/white-house-mark\.svg"/, "Local White House symbol required");
+assert.match(homepage, /Second_Trump_administration_White_House_logo\.svg\/330px-/, "Use authentic White House wordmark rather than a fabricated emblem");
+assert.match(editorial, /\.home-brand-ribbon \.brand-mark--whitehouse img\{[^}]*filter:none;[^}]*opacity:1;/, "Preserve original official-logo colours");
+assert.doesNotMatch(homepage, /white-house-mark\.svg/, "Do not restore the improvised White House logo");
 assert.match(homepage, /src="\/images\/oan-wordmark\.svg"/, "Local OAN mark required");
 assert.doesNotMatch(homepage, /www\.oann\.com\/images\/logos/, "Broken external OAN logo must not return");
 assert.match(editorial, /grid-template-columns:minmax\(116px,\.72fr\) repeat\(5,minmax\(0,1fr\)\)/, "Five-logo ribbon must not leave an empty column");
-for (const name of ["white-house-mark.svg", "oan-wordmark.svg"]) {
+for (const name of ["oan-wordmark.svg"]) {
   const vector = fs.readFileSync(new URL("../public/images/" + name, import.meta.url), "utf8");
   assert.match(vector, /<svg[^>]*viewBox=/);
   assert.doesNotMatch(vector, /<script|(?:href|src)="https?:\/\//i, "Local logos must not load remote assets or scripts");
