@@ -22,8 +22,9 @@ export function renderInterviewsPage(posts) {
         </section>
 
         <section class="prestige-section" style="margin-top:34px;padding-top:0;border-top:0">
-          <div class="prestige-section-head"><h2>Current conservative media</h2><p>Recent 2026 appearances only. The promoted destinations below were re-checked during the September 2026 site audit.</p></div>
+          <div class="prestige-section-head"><h2>Current conservative media</h2><p>Dated appearances are linked to their original broadcasters and publication pages. Newer verified interviews appear first.</p></div>
           <div class="appearance-brand-grid">
+            <article class="appearance-brand-card"><div class="appearance-brand-top"><span class="brand-wordmark">GLENN BECK</span></div><span>THE GLENN BECK PROGRAM · OCTOBER 29, 2026</span><h3>Midterm planning and political messaging</h3><p>Natalie G. Winters joins Glenn Beck to discuss her reporting on a progressive legal network's preparations for the 2026 midterm elections. The publisher lists this appearance in its October 29 programme.</p><a href="https://www.iheart.com/podcast/175-the-glenn-beck-program-23014384/episode/best-of-the-program-guest-348722739/" target="_blank" rel="noopener noreferrer">LISTEN TO OCTOBER 29 EPISODE →</a></article>
             <article class="appearance-brand-card"><div class="appearance-brand-top"><img class="reverse" src="https://www.oann.com/images/logos/OAN-only-logo.svg" alt="OAN" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div><span>OAN · AUGUST 24, 2026</span><h3>The Matt Gaetz Show</h3><p>Winters responds to attempts to intimidate or belittle her over her White House presence and says audience size has changed the media hierarchy.</p><a href="https://www.oann.com/video/the-matt-gaetz-show-video/natalie-winters-joins-the-matt-gaetz-show-with-a-message/" target="_blank" rel="noopener noreferrer">WATCH ON OAN →</a></article>
             <article class="appearance-brand-card"><div class="appearance-brand-top"><img class="reverse" src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Logo_Real_America%27s_Voice.svg" alt="Real America's Voice" loading="lazy" decoding="async"></div><span>REAL AMERICA'S VOICE · AUGUST 26, 2026</span><h3>War Room: investigations hour</h3><p>RAV's War Room feed devotes the hour to Winters' current investigations, including CDC influencer funding and institutional reporting.</p><a href="https://omny.fm/shows/real-america-s-voice/cdc-pays-influencers-as-girl-scouts-embrace-islam-the-war-room-with-stephen-k-bannon-ep-5619" target="_blank" rel="noopener noreferrer">LISTEN ON RAV FEED →</a></article>
             <article class="appearance-brand-card"><div class="appearance-brand-top"><img class="reverse" src="https://premierenetworks.s3.amazonaws.com/logo/2021-06/GlennBeckLogo.png" alt="The Glenn Beck Program" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div><span>THE GLENN BECK PROGRAM · JULY 28, 2026</span><h3>Journalists and Chinese influence</h3><p>Glenn Beck hosts Winters to discuss her reporting on American journalists and China-linked influence programmes.</p><a href="https://newsradio1410.iheart.com/featured/glenn-beck/content/2026-07-28-175-the-glenn-beck-program-best-of-the-program-guest-natalie-winters-72826/" target="_blank" rel="noopener noreferrer">LISTEN ON IHEART →</a></article>
@@ -32,7 +33,7 @@ export function renderInterviewsPage(posts) {
         </section>
 
         <section class="prestige-section">
-          <div class="prestige-section-head"><h2>Major interviews, debates & international appearances</h2><p>Different environments show a different kind of credibility: long-form context, hostile questioning and senior international interviews.</p></div>
+          <div class="prestige-section-head"><h2>Major interviews, debates & international appearances</h2><p>Long-form interviews and international appearances, with links to the original programmes or institutional records.</p></div>
           <div class="appearance-brand-grid">
             <article class="appearance-brand-card"><div class="appearance-brand-top"><span class="brand-wordmark">PBS</span></div><span>FIRING LINE · JUNE 4, 2026</span><h3>Firing Line with Margaret Hoover</h3><p>Natalie G. Winters and Adam Mockler discuss politics, trust in media, journalistic standards, immigration and digital audiences at Hofstra University.</p><a href="https://www.pbs.org/video/natalie-winters-and-adam-mockler-gcgw4i/" target="_blank" rel="noopener noreferrer">WATCH ON PBS →</a></article>
             <article class="appearance-brand-card"><div class="appearance-brand-top"><span class="brand-wordmark">Taiwan</span></div><span>PRESIDENTIAL OFFICE · DECEMBER 2, 2025</span><h3>Vice President Hsiao Bi-khim</h3><p>Winters interviews Taiwan's vice president on geopolitics, cross-strait relations, defence, Taiwan-U.S. relations and investment.</p><a href="https://english.president.gov.tw/Page/645" target="_blank" rel="noopener noreferrer">VIEW PRESIDENTIAL OFFICE RECORD →</a></article>
@@ -41,14 +42,14 @@ export function renderInterviewsPage(posts) {
           </div>
         </section>
 
-        <div class="quote-panel"><p>Long-form appearances matter because they show Natalie G. Winters' arguments, reporting themes and ability to operate outside a single friendly format.</p><small>THE CLIPS ARE THE RECEIPTS</small></div>
+        <div class="quote-panel"><p>These original broadcasts and interviews provide a record of the topics discussed, the questions asked and the responses given.</p><small>ORIGINAL SOURCES</small></div>
       </article>
     </main>
   `;
 
   return renderLayout({
     title: "Natalie G. Winters Interviews | OAN, Real America's Voice, Glenn Beck & More",
-    description: "Natalie G. Winters interviews and media appearances including current 2026 appearances on OAN, Real America's Voice and Glenn Beck, plus PBS, Piers Morgan and an official Taiwan Presidential Office record.",
+    description: "Natalie G. Winters interviews and media appearances including a 29 October 2026 Glenn Beck appearance, OAN, Real America's Voice, plus PBS, Piers Morgan and an official Taiwan Presidential Office record.",
     canonical: `${SITE.domain}/interviews`,
     pageContent,
     posts,
