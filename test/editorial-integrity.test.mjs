@@ -25,7 +25,9 @@ for (const [index, video] of RECENT_RUMBLE_VIDEOS.entries()) {
   assert.ok(home.includes(video.url) === (index < 4), "Homepage should feature the four newest distinct topics");
   assert.ok(videos.includes(video.url), "Videos page must contain each current source video");
 }
-assert.ok(home.includes(RECENT_RUMBLE_VIDEOS[0].title), "Homepage hero must feature the latest Rumble video");
+assert.ok(home.includes(RECENT_RUMBLE_VIDEOS[0].title), "Homepage recent appearance cards must retain the latest Rumble video");
+assert.ok(home.includes('Aqua - Barbie Girl (Official Music Video)'), "Non-editorial hero is explicitly labelled as music");
+assert.ok(!home.includes("RECENT RUMBLE BROADCAST · LATE OCTOBER 2026"), "Hero must not mislabel music as a Natalie broadcast");
 assert.ok(home.includes("Recent video appearances"), "Homepage must show current video heading");
 assert.ok(!home.includes(featured.embedUrl), "An October 7 clip must not be featured on homepage");
 assert.ok(videos.includes(featured.embedUrl), "Historic playable clips must remain on videos archive");
