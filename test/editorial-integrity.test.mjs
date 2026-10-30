@@ -26,7 +26,7 @@ for (const [index, video] of RECENT_RUMBLE_VIDEOS.entries()) {
   assert.ok(videos.includes(video.url), "Videos page must contain each current source video");
 }
 assert.ok(home.includes(RECENT_RUMBLE_VIDEOS[0].title), "Homepage recent appearance cards must retain the latest Rumble video");
-assert.ok(home.includes('Aqua - Barbie Girl (Official Music Video)'), "Non-editorial hero is explicitly labelled as music");
+assert.ok(home.includes('Behind the scenes with Natalie Winters (just for fun)') && home.includes('A completely unofficial look behind the curtain'), "Non-editorial hero is explicitly labelled as an unofficial just-for-fun feature");
 assert.ok(!home.includes("RECENT RUMBLE BROADCAST · LATE OCTOBER 2026"), "Hero must not mislabel music as a Natalie broadcast");
 assert.ok(home.includes("Recent video appearances"), "Homepage must show current video heading");
 assert.ok(!home.includes(featured.embedUrl), "An October 7 clip must not be featured on homepage");
