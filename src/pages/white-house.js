@@ -39,7 +39,7 @@ export function renderWhiteHousePage(posts) {
           </a>
           <a class="brand-ribbon-card" href="https://www.youtube.com/watch?v=CP-Wzou3NzI" target="_blank" rel="noopener noreferrer">
             <small>TELEVISION</small>
-            <span class="brand-logo-box"><img class="reverse" src="https://www.oann.com/images/logos/OAN-only-logo.svg" alt="OAN" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
+            <span class="brand-logo-box"><img src="/images/oan-wordmark.svg" alt="One America News (OAN)" width="320" height="130" loading="lazy" decoding="async"></span>
             <strong class="role">THE MATT GAETZ SHOW</strong><span class="detail">White House role and media hierarchy</span>
           </a>
         </nav>
