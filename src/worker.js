@@ -1,5 +1,4 @@
 import { SITE } from "./config.js";
-import { recoverVerifiedOctoberArticles } from "./article-recovery-20261023.js";
 import {
   findStoredPostById,
   getLatestPosts,
@@ -317,9 +316,6 @@ export default {
     }
 
     if (url.pathname === "/api/status") {
-      // One-time bounded recovery. Fail independently of read-only diagnostics.
-      try { await recoverVerifiedOctoberArticles(env); }
-      catch (error) { console.error("Natalie article catch-up failed:", error); }
       const status = await getUpdaterStatus(env);
       return new Response(JSON.stringify(status, null, 2), {
         headers: {
@@ -346,7 +342,6 @@ export default {
   },
 
   async scheduled(controller, env, ctx) {
-    ctx.waitUntil(recoverVerifiedOctoberArticles(env).catch((error) => console.error("Natalie article catch-up failed:", error)));
     ctx.waitUntil(
       refreshArticlesIfChanged(env).catch((error) => {
         console.error("Scheduled Substack check failed:", error);
