@@ -9,6 +9,8 @@ import { renderVideosPage } from "../src/pages/videos.js";
 import { renderAboutPage } from "../src/pages/about.js";
 import { renderArticlesPage } from "../src/pages/articles.js";
 import { renderInterviewsPage } from "../src/pages/interviews.js";
+import { PROFILE_DEPTH_CONTENT, PROFILE_DEPTH_PATHS, renderProfileDepthPage } from "../src/pages/profile-deep-dives.js";
+import { PHOTO_ARCHIVE_ITEMS, renderPhotoArchivePage } from "../src/pages/photo-archive.js";
 import { renderArticleCards, renderFooter } from "../src/layout.js";
 
 const home = renderHomePage([]);
@@ -16,6 +18,51 @@ const videos = renderVideosPage([]);
 const about = renderAboutPage([]);
 const interviews = renderInterviewsPage([]);
 const footer = renderFooter();
+
+const photos = renderPhotoArchivePage([]);
+assert.deepEqual([...PROFILE_DEPTH_PATHS].sort(), ["/firing-line-2026", "/national-pulse-history", "/shes-so-right"].sort());
+for (const path of PROFILE_DEPTH_PATHS) {
+  const entry = PROFILE_DEPTH_CONTENT[path];
+  assert.ok(entry.sections.length >= 4, "No thin standalone profile pages");
+  assert.ok(entry.sources.length >= 2, "Each profile needs original references");
+  const html = renderProfileDepthPage(path, []);
+  assert.ok(html.includes('rel="canonical" href="https://nataliegwinters.com' + path + '"'));
+  assert.ok(html.includes("Original references") && html.includes('class="source-link"'));
+  assert.ok(!html.includes("imdb.com"));
+}
+assert.equal(PHOTO_ARCHIVE_ITEMS.length, 4);
+assert.match(photos, /class="photo-grid"/);
+assert.match(photos, /id="photo-viewer"/);
+assert.match(photos, /\/assets\/photo-gallery\.css/);
+assert.match(photos, /\/assets\/photo-gallery\.js/);
+assert.match(photos, /ImageGallery/);
+assert.ok(about.includes("Photographs through the years") && about.includes('class="photo-preview-grid"'));
+assert.ok(about.includes('id="photo-viewer"'));
+assert.ok(about.includes('id="birth-details-title"'), "Birthday section must survive");
+assert.ok(about.lastIndexOf('id="birth-details-title"') > about.indexOf("In-depth profiles"), "Keep birth details at bottom");
+assert.ok(!home.includes('id="photo-viewer"'), "Only photo-enabled pages load the lightbox");
+assert.ok(footer.includes('href="/photos"'), "Photo archive discoverable from footer");
+for (const pic of PHOTO_ARCHIVE_ITEMS) {
+  assert.match(pic.src, /^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/thumb\//);
+  assert.match(pic.full, /^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\//);
+  assert.ok(pic.caption.length > 35 && pic.alt.length > 30 && pic.credit.length > 5);
+  assert.ok(pic.source.startsWith("https://commons.wikimedia.org/wiki/File:"));
+  assert.ok(pic.licenseUrl.startsWith("https://creativecommons.org/licenses/"));
+  assert.ok(photos.includes(pic.credit));
+  assert.ok(photos.includes(pic.full.replace(/&/g, "&amp;")));
+}
+assert.ok(interviews.includes('href="/firing-line-2026"'));
+const galleryJs = readFileSync(new URL("../public/assets/photo-gallery.js", import.meta.url), "utf8");
+const galleryCss = readFileSync(new URL("../public/assets/photo-gallery.css", import.meta.url), "utf8");
+assert.ok(galleryJs.length < 1700 && galleryCss.length < 3500, "Viewer must stay lightweight");
+assert.match(galleryJs, /dialog\.showModal\(\)/);
+assert.match(galleryJs, /dialog\.close\(\)/);
+assert.match(galleryJs, /removeAttribute\("src"\)/, "Full image removed on close");
+assert.match(galleryCss, /max-width:640px/, "Mobile image layout required");
+const sitemapWorker = readFileSync(new URL("../src/worker.js", import.meta.url), "utf8");
+assert.match(sitemapWorker, /\.{3}PROFILE_DEPTH_PATHS/);
+assert.match(sitemapWorker, /"\/photos"/);
+
 assert.match(about, /<time datetime="2001-02-24"><strong>24 February 2001<\/strong><\/time>/, "About page should show the requested birthday");
 assert.match(about, /Los Angeles, California, USA/, "About page should show birthplace");
 assert.ok(about.lastIndexOf('id="birth-details-title"') > about.indexOf('Explore Natalie G. Winters in depth'), "Birth details should remain at the bottom of About");
