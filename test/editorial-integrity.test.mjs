@@ -6,14 +6,22 @@ import { RECENT_RUMBLE_VIDEOS } from "../src/recent-rumble.js";
 import { GLENN_BECK_EPISODE_URL, GLENN_BECK_EMBED_URL, renderGlennBeckCompactPlayer } from "../src/iheart-player.js";
 import { renderHomePage } from "../src/pages/home.js";
 import { renderVideosPage } from "../src/pages/videos.js";
+import { renderAboutPage } from "../src/pages/about.js";
 import { renderArticlesPage } from "../src/pages/articles.js";
 import { renderInterviewsPage } from "../src/pages/interviews.js";
 import { renderArticleCards, renderFooter } from "../src/layout.js";
 
 const home = renderHomePage([]);
 const videos = renderVideosPage([]);
+const about = renderAboutPage([]);
 const interviews = renderInterviewsPage([]);
 const footer = renderFooter();
+assert.match(about, /<time datetime="2001-02-24"><strong>24 February 2001<\/strong><\/time>/, "About page should show the requested birthday");
+assert.match(about, /Los Angeles, California, USA/, "About page should show birthplace");
+assert.ok(about.lastIndexOf('id="birth-details-title"') > about.indexOf('Explore Natalie G. Winters in depth'), "Birth details should remain at the bottom of About");
+assert.ok(about.includes('https://www.imdb.com/name/nm7903169/bio/'), "Birth details should have an external source");
+assert.match(about, /"birthDate":"2001-02-24"/, "Person structured data should share the birthday");
+assert.match(about, /"birthPlace":\{"@type":"Place","name":"Los Angeles, California, USA"\}/, "Person structured data should share the birthplace");
 const featured = VIDEOS[0];
 
 assert.ok(featured, "A dated video archive must remain available");
