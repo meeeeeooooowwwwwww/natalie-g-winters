@@ -3,6 +3,80 @@ import { renderLayout } from "../layout.js";
 import { escapeHtml } from "../utils.js";
 import { PAGE_BRAND_STYLES } from "../page-brand-ui.js";
 export const PROFILE_DEPTH_CONTENT = {
+  "/early-life-education": {
+    "title": "Natalie Winters Education | Harvard-Westlake School & University of Chicago",
+    "heading": "Natalie Winters: Early Life and Education",
+    "tag": "SANTA MONICA · HARVARD-WESTLAKE · UNIVERSITY OF CHICAGO",
+    "dek": "From a Los Angeles preparatory school and student political organising to university studies and an early reporting internship, with contemporary sources for each stage.",
+    "sections": [
+      [
+        "Growing up in Santa Monica",
+        "Winters grew up in Santa Monica, California. In an April 2025 New York Times profile, journalist Andrew Trunsky traced her upbringing and described her attendance at Harvard-Westlake School in Los Angeles, a private college-preparatory school. The school's name does not mean it is affiliated with Harvard University.",
+        "Her political interests sharpened during the 2016 US presidential campaign. That period marked the beginning of the outspoken conservatism she would carry into political reporting and broadcasting."
+      ],
+      [
+        "Harvard-Westlake: political organising and guest speakers",
+        "A November 2021 speaker biography circulated by Stand Up Riverside says Winters founded Harvard-Westlake's Young Americans for Freedom chapter. The same biography credits her with persuading commentators Ben Shapiro and Dennis Prager to speak to students, and says she participated in PragerU's PragerForce programme.",
+        "Her early political organising brought national conservative speakers to a Los Angeles school community and introduced her to public political advocacy well before she was a professional journalist."
+      ],
+      [
+        "Disagreements on campus",
+        "The New York Times profile records Winters' own recollections of political disagreement during high school. She criticised a school campaign about the gender pay gap and a student walkout following the Parkland school shooting. According to that reporting, her contribution to the school newspaper was a letter to the editor supporting Brett Kavanaugh's US Supreme Court confirmation.",
+        "Her support for Kavanaugh and disagreement with campus activism positioned her politically apart from many classmates. Looking back, she told the newspaper that her conservative views and support for Trump contributed to social isolation at school."
+      ],
+      [
+        "From senior year to Washington",
+        "The New York Times reported that, after gaining admission to the University of Chicago, Winters travelled to Washington to start an internship with Raheem Kassam, who was then associated with War Room. The trip meant she missed her high-school graduation ceremony and prom, according to the profile.",
+        "She chose to begin a career in political media in Washington rather than attend the traditional senior-year celebrations. It was the opening chapter of a working relationship with Kassam, Bannon and the network that would later become central to her public profile."
+      ],
+      [
+        "University of Chicago and work alongside study",
+        "The 2021 Stand Up Riverside biography describes Winters as studying political science with a history minor at the University of Chicago while reporting for The National Pulse. A 2024 Claremont Institute Lincoln Fellows listing also identifies her University of Chicago education.",
+        "During her first year at university she became a War Room staff writer, travelling frequently to Washington. Her work expanded into on-camera appearances around the beginning of the COVID-19 pandemic. Her early National Pulse bylines and podcast credits trace the next stages of that career."
+      ],
+      [
+        "Education and the start of a reporting career",
+        "Winters' story connects the school years in Santa Monica and Los Angeles with a University of Chicago education and an unusually early start in Washington political media. Student political organising, speaking events and a strong interest in national politics came before her later investigative work on China and foreign influence.",
+        "The chronology continues through The National Pulse, War Room and her White House correspondence. The original references below document these formative years; the linked career and early reporting profiles follow her professional work."
+      ]
+    ],
+    "sources": [
+      [
+        "New York Times profile, 11 April 2025",
+        "https://www.nytimes.com/2025/04/11/style/natalie-winters-trump-bannon.html",
+        "Andrew Trunsky reporting on school, political engagement and early internship"
+      ],
+      [
+        "Stand Up Riverside speaker biography, November 2021",
+        "https://storage.googleapis.com/production-constantcontact-v1-0-4/344/420344/YFykhgsu/4bde36a48fe448ff886d71d6b23dcf89?fileName=SUR+Email+Natalie+Winters.pdf",
+        "Contemporaneous event introduction describing school activism and university study"
+      ],
+      [
+        "Claremont Institute, 2024 Lincoln Fellows",
+        "https://www.claremont.org/2024-lincoln-fellows/",
+        "Institutional biography and University of Chicago education"
+      ],
+      [
+        "Harvard-Westlake School",
+        "https://www.hw.com/",
+        "Harvard-Westlake School website"
+      ]
+    ],
+    "related": [
+      [
+        "/about",
+        "Full biography"
+      ],
+      [
+        "/national-pulse-history",
+        "First reporting and podcast credits"
+      ],
+      [
+        "/career",
+        "Career chronology"
+      ]
+    ]
+  },
   "/national-pulse-history": {
     "title": "Natalie Winters at The National Pulse | Investigations and Podcast History",
     "heading": "Natalie Winters at The National Pulse",
