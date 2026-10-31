@@ -92,6 +92,18 @@ assert.match(about, /<time datetime="2001-02-24"><strong>24 February 2001<\/stro
 assert.match(about, /Los Angeles, California, USA/, "About page should show birthplace");
 assert.ok(about.lastIndexOf('id="birth-details-title"') > about.indexOf('Explore Natalie G. Winters in depth'), "Birth details should remain at the bottom of About");
 assert.ok(!about.includes("imdb.com"), "Do not link to competing biography websites");
+assert.match(about, /Harvard-Westlake School/, "Early education must appear in the about page");
+assert.match(about, /Young Americans for Freedom/, "School chapter activity should be attributed in the biography");
+assert.match(about, /2021 speaker biography/, "Historical activities must be attributed to a source");
+assert.match(about, /folha\.uol\.com\.br\/mundo\/2025\/04\//, "Independent school attendance source required");
+assert.match(about, /SUR\+Email\+Natalie\+Winters\.pdf/, "Speaker event biography source required");
+const aboutStructured = [...about.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+assert.equal(aboutStructured.length, 1, "One Person structured data block expected on about page");
+const education = JSON.parse(aboutStructured[0][1])["@graph"].find(node => node["@type"] === "Person")?.alumniOf;
+assert.deepEqual(education?.map(school => [school["@type"], school.name]), [
+  ["HighSchool", "Harvard-Westlake School"],
+  ["CollegeOrUniversity", "University of Chicago"],
+], "Person schema must describe both schools");
 assert.match(about, /"birthDate":"2001-02-24"/, "Person structured data should share the birthday");
 assert.match(about, /"birthPlace":\{"@type":"Place","name":"Los Angeles, California, USA"\}/, "Person structured data should share the birthplace");
 const featured = VIDEOS[0];

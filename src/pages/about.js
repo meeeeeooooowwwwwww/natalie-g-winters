@@ -54,7 +54,8 @@ export function renderAboutPage(posts) {
           <div class="visual-feature-copy">
             <span class="prestige-kicker">BIOGRAPHY</span>
             <div class="prestige-prose">
-              <p>Winters grew up in Santa Monica, California and graduated from the <strong>University of Chicago</strong>. She entered political media at a young age and developed a reporting speciality around Chinese Communist Party influence in American institutions.</p>
+              <p>Winters grew up in Santa Monica, California and attended <strong>Harvard-Westlake School</strong>, a college-preparatory school in Los Angeles, before graduating from the <strong>University of Chicago</strong>. Her Harvard-Westlake attendance is documented in <a href="https://www1.folha.uol.com.br/mundo/2025/04/quem-e-natalie-winters-jornalista-simpatica-a-trump-com-passe-livre-na-casa-branca.shtml" target="_blank" rel="noopener noreferrer">independent biographical reporting</a>.</p>
+              <p>A <a href="https://storage.googleapis.com/production-constantcontact-v1-0-4/344/420344/YFykhgsu/4bde36a48fe448ff886d71d6b23dcf89?fileName=SUR+Email+Natalie+Winters.pdf" target="_blank" rel="noopener noreferrer">2021 speaker biography</a> credits her with founding the school's <strong>Young Americans for Freedom</strong> chapter and arranging student talks by <strong>Ben Shapiro</strong> and <strong>Dennis Prager</strong>. She entered political media at a young age and developed a reporting speciality around Chinese Communist Party influence in American institutions.</p>
               <p>She became a <strong>senior investigative reporter at The National Pulse</strong> and co-hosted <em>The National Pulse Podcast</em> with Raheem Kassam. On October 25, 2022, <strong>War Room</strong> formally announced Winters as a co-host and executive editor.</p>
               <p>In January 2025, Natalie G. Winters began reporting from the <strong>White House</strong> for <em>War Room</em>, adding briefing-room and on-location reporting to her regular broadcasting and political commentary.</p>
               <p>She also publishes independent investigations through <strong>Substack</strong> and founded the USA-made lifestyle brand <strong>She's So Right!</strong>.</p>
@@ -67,7 +68,7 @@ export function renderAboutPage(posts) {
         <section class="prestige-section">
           <div class="prestige-section-head"><h2>The profile in six markers</h2><p>A concise map of the roles and institutions that define the public career.</p></div>
           <div class="prestige-milestones">
-            <article class="prestige-milestone"><span>EDUCATION</span><strong>University of Chicago</strong><small>Academic foundation before entering national political media.</small></article>
+            <article class="prestige-milestone"><span>EDUCATION</span><strong>Harvard-Westlake &amp; University of Chicago</strong><small>Los Angeles preparatory school followed by university studies.</small></article>
             <article class="prestige-milestone"><span>REPORTING</span><strong>The National Pulse</strong><small>Senior investigative reporter and podcast co-host.</small></article>
             <article class="prestige-milestone"><span>BROADCAST</span><strong>War Room</strong><small>Co-host and executive editor since 2022.</small></article>
             <article class="prestige-milestone"><span>WASHINGTON</span><strong>White House</strong><small>Correspondent since January 2025.</small></article>
@@ -116,7 +117,7 @@ export function renderAboutPage(posts) {
 
   return renderLayout({
     title: "Natalie G. Winters Biography | About Natalie Winters",
-    description: "Biography of Natalie G. Winters, also known as Natalie Winters: investigative journalist, War Room co-host, White House correspondent, University of Chicago graduate and She's So Right! founder.",
+    description: "Natalie G. Winters biography: Harvard-Westlake School, University of Chicago, investigative reporting, War Room, White House correspondence and She's So Right!.",
     canonical: `${SITE.domain}/about`,
     pageContent,
     posts,

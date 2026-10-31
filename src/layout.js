@@ -232,10 +232,18 @@ function renderStructuredData({ canonical, description, title, pageType = "WebPa
       "Foreign influence",
       "Media and political institutions"
     ],
-    alumniOf: {
-      "@type": "CollegeOrUniversity",
-      name: "University of Chicago",
-    },
+    alumniOf: [
+      {
+        "@type": "HighSchool",
+        name: "Harvard-Westlake School",
+        url: "https://www.hw.com/",
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        name: "University of Chicago",
+        url: "https://www.uchicago.edu/",
+      },
+    ],
     sameAs: [
       "https://x.com/nataliegwinters",
       SITE.substackHome,
