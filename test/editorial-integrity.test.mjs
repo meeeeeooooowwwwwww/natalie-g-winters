@@ -60,6 +60,12 @@ assert.ok(PHOTO_ARCHIVE_ITEMS.some(p => p.title.includes("New York Times")));
 assert.ok(PHOTO_ARCHIVE_ITEMS.some(p => p.title.includes("Telegraph")));
 assert.ok(PHOTO_ARCHIVE_ITEMS.some(p => p.title.includes("Reddit")));
 assert.ok(PHOTO_ARCHIVE_ITEMS.some(p => p.source.includes("File:Natalie_Winters_(52985166073).jpg")), "Use original Wikimedia photograph instead of cropped duplicate");
+
+const nytPortrait = PHOTO_ARCHIVE_ITEMS.find(pic => pic.title === "The New York Times portrait");
+assert.equal(nytPortrait?.cropPosition, "top", "NYT portrait should show the top of the photograph");
+assert.match(photos, /photo-card-focus-top/, "NYT card must opt into portrait-specific framing");
+const galleryCropCss = readFileSync(new URL("../public/assets/photo-gallery.css", import.meta.url), "utf8");
+assert.match(galleryCropCss, /\.photo-card-focus-top \.photo-zoom img\{object-position:center top\}/, "Portrait adjustment must not affect other photos");
 assert.ok(interviews.includes('href="/firing-line-2026"'));
 const galleryJs = readFileSync(new URL("../public/assets/photo-gallery.js", import.meta.url), "utf8");
 const galleryCss = readFileSync(new URL("../public/assets/photo-gallery.css", import.meta.url), "utf8");
