@@ -83,8 +83,10 @@ assert.match(galleryJs, /dialog\.close\(\)/);
 assert.match(galleryJs, /removeAttribute\("src"\)/, "Full image removed on close");
 assert.match(galleryCss, /max-width:640px/, "Mobile image layout required");
 const sitemapWorker = readFileSync(new URL("../src/worker.js", import.meta.url), "utf8");
-assert.match(sitemapWorker, /\.{3}PROFILE_DEPTH_PATHS/);
-assert.match(sitemapWorker, /"\/photos"/);
+assert.match(sitemapWorker, /renderSitemapXml/);
+const canonicalSitemap = readFileSync(new URL("../src/sitemap.js", import.meta.url), "utf8");
+assert.match(canonicalSitemap, /\.{3}PROFILE_DEPTH_PATHS/);
+assert.match(canonicalSitemap, /"\/photos"/);
 
 assert.match(about, /<time datetime="2001-02-24"><strong>24 February 2001<\/strong><\/time>/, "About page should show the requested birthday");
 assert.match(about, /Los Angeles, California, USA/, "About page should show birthplace");
