@@ -13,10 +13,21 @@
     if (!link) return;
     event.preventDefault();
     opener = link;
+    delete image.dataset.fallback;
     image.src = link.href;
     image.alt = link.dataset.photoAlt || "Expanded photograph";
     caption.textContent = link.dataset.photoTitle || image.alt;
     dialog.showModal();
+  });
+  image.addEventListener("error", () => {
+    const preview = opener?.querySelector("img")?.currentSrc;
+    if (!image.dataset.fallback && preview && preview !== image.src) {
+      image.dataset.fallback = "1";
+      image.src = preview;
+    } else {
+      image.removeAttribute("src");
+      caption.textContent = "Image unavailable. Open the original image from the link beneath the photo.";
+    }
   });
   close.addEventListener("click", () => dialog.close());
   dialog.addEventListener("click", event => {
