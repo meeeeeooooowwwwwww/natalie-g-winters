@@ -90,6 +90,11 @@ export function renderCareerPage(posts) {
             <a class="source-link" href="https://www.claremont.org/2024-lincoln-fellows/" target="_blank" rel="noopener noreferrer"><div><span>Claremont Institute: 2024 Lincoln Fellows</span><small>Official fellowship biography</small></div><b>→</b></a>
           </div>
         </section>
+        <section class="prestige-section"><div class="prestige-section-head"><h2>Explore the original record</h2><p>Chronological bylines, the company launch and photographs.</p></div><div class="editorial-grid">
+          <a class="editorial-card" href="/national-pulse-history"><span class="card-index">2020–2022</span><h3>Early journalism</h3><p>The National Pulse reporting and podcast history.</p><span class="card-link">READ MORE →</span></a>
+          <a class="editorial-card" href="/shes-so-right"><span class="card-index">2024</span><h3>She's So Right!</h3><p>Founder profile and contemporary sources.</p><span class="card-link">READ MORE →</span></a>
+          <a class="editorial-card" href="/photos"><span class="card-index">PHOTO ARCHIVE</span><h3>Photographs by year</h3><p>Public event images with source and licence details.</p><span class="card-link">VIEW PHOTOS →</span></a>
+        </div></section>
       </article>
     </main>
   `;
