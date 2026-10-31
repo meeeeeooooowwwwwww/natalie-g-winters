@@ -16,7 +16,13 @@ function fixture(failWrites = false) {
 }
 try {
   let calls = [];
+  let indexNowCalls = 0;
   globalThis.fetch = async (url, options) => {
+    if (new URL(url).hostname === "api.indexnow.org") {
+      indexNowCalls++;
+      assert.equal(new URL(url).searchParams.get("url"), "https://nataliegwinters.com/articles");
+      return new Response(null, { status: 202 });
+    }
     calls.push(String(url));
     assert.ok(options.signal, 'each request has a timeout signal');
     return new Response(String(url).endsWith('/feed') ? rss : JSON.stringify([post('old-post', '13')]));
@@ -26,12 +32,17 @@ try {
   assert.equal(refreshArticlesIfChanged(env), first, 'same-isolate refreshes share work');
   await first;
   assert.equal(calls.length, 2);
+  assert.equal(indexNowCalls, 1, 'changed archive triggers exactly one IndexNow notification');
   assert.equal((await getUpdaterStatus(env)).newestTitle, 'new-post', 'stale API cannot hide newer RSS');
   assert.equal((await getStoredArticleState(env)).posts.length, 2);
 
   calls = [];
   const partial = fixture();
   globalThis.fetch = async url => {
+    if (new URL(url).hostname === "api.indexnow.org") {
+      indexNowCalls++;
+      return new Response(null, { status: 202 });
+    }
     calls.push(String(url));
     return String(url).endsWith('/feed') ? new Response(rss)
       : new Response('limited', { status: 429, headers: { 'Retry-After': '43200' } });
@@ -43,6 +54,7 @@ try {
   assert.equal(status.rateLimited, true);
   assert.ok(status.nextRetryAt > Date.now() + 11 * 3600000);
   await refreshArticlesIfChanged(partial.env);
+  assert.equal(indexNowCalls, 2, 'partial content update is notified once, cooldown is not');
   assert.equal(calls.length, 2, 'partial success must still respect rate limits');
 
   globalThis.fetch = async url => new Response(String(url).endsWith('/feed') ? rss : JSON.stringify([post('new-post', '15')]));
