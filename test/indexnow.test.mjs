@@ -18,10 +18,13 @@ const successful = async (request, options) => {
   calls++;
   const url = new URL(request);
   assert.equal(url.hostname, "api.indexnow.org");
-  assert.equal(url.searchParams.get("url"), "https://nataliegwinters.com/articles");
-  assert.equal(url.searchParams.get("key"), INDEXNOW_KEY);
-  assert.equal(url.searchParams.get("keyLocation"), `https://nataliegwinters.com${INDEXNOW_KEY_PATH}`);
-  assert.equal(options.method, "GET");
+  assert.equal(url.pathname, "/indexnow");
+  assert.equal(options.method, "POST");
+  const payload = JSON.parse(options.body);
+  assert.equal(payload.host, "nataliegwinters.com");
+  assert.equal(payload.key, INDEXNOW_KEY);
+  assert.equal(payload.keyLocation, `https://nataliegwinters.com${INDEXNOW_KEY_PATH}`);
+  assert.deepEqual(payload.urlList, ["https://nataliegwinters.com/", "https://nataliegwinters.com/articles"]);
   return new Response(null, { status: 202 });
 };
 assert.equal(await notifyIndexNowArchive(successful), 202);
