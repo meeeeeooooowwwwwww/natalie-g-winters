@@ -46,6 +46,7 @@ export function renderCareerPage(posts) {
 
         <div class="prestige-content-grid">
           <div class="prestige-main prestige-prose">
+            <p>Winters attended <strong>Harvard-Westlake School</strong> in Los Angeles and later studied at the <strong>University of Chicago</strong>. She began political organising while in high school and travelled to Washington for her first political-media internship during her senior year. <a href="/early-life-education">Explore her early life and education →</a></p>
             <p><strong>Natalie G. Winters</strong> developed a reporting speciality around Chinese Communist Party influence, foreign influence networks, universities, scientific institutions, government and public policy. At <strong>The National Pulse</strong>, she became a senior investigative reporter and co-hosted <em>The National Pulse Podcast</em> with Raheem Kassam.</p>
             <p>On October 25, 2022, <strong>War Room</strong> announced Winters as a co-host and executive editor, saying her reporting would include China, the CCP, the COVID-19 pandemic and government accountability. That formalised a relationship already familiar to the programme's audience.</p>
             <p>In 2024, the <strong>Claremont Institute</strong> selected Natalie G. Winters as a Lincoln Fellow. Its official biography identifies her as a War Room co-host, former National Pulse senior investigative reporter, University of Chicago graduate and founder of <strong>She's So Right!</strong>.</p>
@@ -54,7 +55,7 @@ export function renderCareerPage(posts) {
 
           <aside class="prestige-rail" aria-label="Career chronology">
             <div class="prestige-rail-head"><span>CAREER ARC</span><strong>From research to the press room</strong></div>
-            <div class="rail-static"><b>FOUNDATION</b><span>University of Chicago</span></div>
+            <a href="/early-life-education"><b>EDUCATION</b><span>Harvard-Westlake &amp; University of Chicago →</span></a>
             <div class="rail-static"><b>REPORTING</b><span>The National Pulse</span></div>
             <div class="rail-static"><b>BROADCAST</b><span>War Room</span></div>
             <div class="rail-static"><b>FELLOWSHIP</b><span>Claremont Institute · 2024</span></div>
@@ -65,7 +66,7 @@ export function renderCareerPage(posts) {
         <section class="prestige-section">
           <div class="prestige-section-head"><h2>Six defining stages</h2><p>The chronology is powerful enough that it does not need exaggerated copy. The progression speaks for itself.</p></div>
           <div class="prestige-milestones">
-            <article class="prestige-milestone"><span>01 · FOUNDATION</span><strong>University of Chicago</strong><small>Academic foundation before entering political media.</small></article>
+            <article class="prestige-milestone"><span>01 · FOUNDATION</span><strong>Harvard-Westlake &amp; University of Chicago</strong><small>High-school political organising, university study and early Washington work.</small></article>
             <article class="prestige-milestone"><span>02 · INVESTIGATIVE REPORTING</span><strong>The National Pulse</strong><small>Senior investigative reporter focused heavily on China and institutional influence.</small></article>
             <article class="prestige-milestone"><span>03 · PODCASTING</span><strong>The National Pulse Podcast</strong><small>Co-host alongside Raheem Kassam.</small></article>
             <article class="prestige-milestone"><span>04 · 2022</span><strong>War Room</strong><small>Named co-host and executive editor.</small></article>
@@ -92,7 +93,8 @@ export function renderCareerPage(posts) {
         </section>
         <section class="prestige-section">
           <div class="prestige-section-head"><h2>Career background in detail</h2><p>Contemporary source records, not repeated biography summaries.</p></div>
-          <div class="editorial-grid">
+          <div class="editorial-grid four-up-grid">
+            <a class="editorial-card" href="/early-life-education"><span class="card-index">EDUCATION</span><h3>Harvard-Westlake to Chicago</h3><p>Her school years, political organising and first Washington internship.</p><span class="card-link">READ MORE →</span></a>
             <a class="editorial-card" href="/national-pulse-history"><span class="card-index">EARLY REPORTING</span><h3>The National Pulse</h3><p>Original bylines, podcast dates and War Room appointment.</p><span class="card-link">READ MORE →</span></a>
             <a class="editorial-card" href="/shes-so-right"><span class="card-index">BUSINESS</span><h3>She's So Right!</h3><p>Launch history and manufacturing claims.</p><span class="card-link">READ MORE →</span></a>
             <a class="editorial-card" href="/photos"><span class="card-index">PHOTOS</span><h3>Public photo archive</h3><p>Year-by-year images with credits and full-size viewing.</p><span class="card-link">VIEW PHOTOS →</span></a>
