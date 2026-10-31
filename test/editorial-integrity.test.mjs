@@ -19,7 +19,7 @@ const footer = renderFooter();
 assert.match(about, /<time datetime="2001-02-24"><strong>24 February 2001<\/strong><\/time>/, "About page should show the requested birthday");
 assert.match(about, /Los Angeles, California, USA/, "About page should show birthplace");
 assert.ok(about.lastIndexOf('id="birth-details-title"') > about.indexOf('Explore Natalie G. Winters in depth'), "Birth details should remain at the bottom of About");
-assert.ok(about.includes('https://www.imdb.com/name/nm7903169/bio/'), "Birth details should have an external source");
+assert.ok(!about.includes("imdb.com"), "Do not link to competing biography websites");
 assert.match(about, /"birthDate":"2001-02-24"/, "Person structured data should share the birthday");
 assert.match(about, /"birthPlace":\{"@type":"Place","name":"Los Angeles, California, USA"\}/, "Person structured data should share the birthplace");
 const featured = VIDEOS[0];
