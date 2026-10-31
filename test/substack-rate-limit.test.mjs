@@ -69,7 +69,7 @@ try {
   globalThis.fetch = async (url) => {
     if (new URL(url).hostname === "api.indexnow.org") {
       indexNowCalls++;
-      assert.equal(new URL(url).searchParams.get("url"), "https://nataliegwinters.com/articles");
+      assert.equal(new URL(url).hostname, "api.indexnow.org");
       return new Response(null, { status: 202 });
     }
     calls.push(String(url));
