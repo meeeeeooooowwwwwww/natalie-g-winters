@@ -18,7 +18,7 @@ Cloudflare Worker site for **nataliegwinters.com**.
 - `/national-pulse-history` - early reporting and archived podcast source chronology
 - `/shes-so-right` - January 2024 fashion venture and documented US manufacturing claims
 - `/firing-line-2026` - sourced PBS 2026 discussion and broadcasts
-- `/photos` - licensed public photo gallery with accessible tap-to-enlarge viewing
+- `/photos` - original-source-linked portraits and public photos with accessible tap-to-enlarge viewing
 - `/verdict` - legacy satirical personal page (not indexed; not included in sitemap)
 - `/sitemap.xml` - Worker-generated sitemap including video pages
 - `/<indexnow-key>.txt` - IndexNow ownership proof for the apex domain
@@ -94,7 +94,7 @@ After deploying, verify the key-file endpoint (HTTP 200, plain text matches file
 
 ## Photograph performance and accessibility
 
-`/photos` uses four captioned, licensed Wikimedia Commons photographs, correct `upload.wikimedia.org` URLs and 960px lazy thumbnails. Full-view photographs load only after a click or tap. Native `<dialog>` supports keyboard Escape, outside-click dismissal, and a labelled 44px close button; with JavaScript disabled, links open the image itself. Desktop grids collapse to a single mobile column without horizontal scrolling. The optional gallery CSS is about 2.4 KB uncompressed and JavaScript about 1.1 KB, loaded only on `/photos` and `/about`. No gallery dependency or third-party widget.
+`/photos` has nine distinct portraits and event images, including original-source links for the supplied Telegraph, SCMP, Claremont, New York Times and Reddit photos, plus the corrected uncropped Wikimedia Commons image. The four existing dated archive slots remain (the 2023 crop was replaced by its original). Source and image-file URLs are separately linked in captions when they differ. External publishers serve the images directly; they are not copied into this repo. Each item's schema only includes a licence if one is actually documented. Full-view photographs load only after a click or tap. Native `<dialog>` supports keyboard Escape, outside-click dismissal, and a labelled 44px close button; with JavaScript disabled, links open the image itself. Desktop grids collapse to a single mobile column without horizontal scrolling. The optional gallery CSS is about 2.4 KB uncompressed and JavaScript about 1.1 KB, loaded only on `/photos` and `/about`. No gallery dependency or third-party widget.
 
 ## Static assets and Worker routing
 
