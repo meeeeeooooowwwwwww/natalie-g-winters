@@ -65,7 +65,13 @@ try {
     nextRetryAt: Date.now() - 1000,
   });
   calls.length = 0;
+  let indexNowCalls = 0;
   globalThis.fetch = async (url) => {
+    if (new URL(url).hostname === "api.indexnow.org") {
+      indexNowCalls++;
+      assert.equal(new URL(url).searchParams.get("url"), "https://nataliegwinters.com/articles");
+      return new Response(null, { status: 202 });
+    }
     calls.push(String(url));
     if (String(url).endsWith("/feed")) return new Response("<rss><channel></channel></rss>");
     if (!String(url).includes("/api/v1/archive")) {
@@ -87,6 +93,7 @@ try {
   const recovery = await refreshArticlesIfChanged(env);
   assert.equal(recovery.changed, true);
   assert.equal(calls.length, 2, "RSS and archive use at most two requests on recovery");
+  assert.equal(indexNowCalls, 1, "only persisted recovery triggers IndexNow");
   const newStatus = await getUpdaterStatus(env);
   assert.equal(newStatus.newestTitle, "Newly published reporting");
   assert.equal(newStatus.lastCheckResult, "updated");
