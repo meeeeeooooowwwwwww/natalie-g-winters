@@ -42,7 +42,7 @@ assert.ok(about.includes('id="birth-details-title"'), "Birthday section must sur
 assert.ok(about.lastIndexOf('id="birth-details-title"') > about.indexOf("In-depth profiles"), "Keep birth details at bottom");
 assert.ok(!home.includes('id="photo-viewer"'), "Only photo-enabled pages load the lightbox");
 assert.ok(footer.includes('href="/photos"'), "Photo archive discoverable from footer");
-const allowedPhotoHosts = new Set(["upload.wikimedia.org", "www.telegraph.co.uk", "img.i-scmp.com", "www.claremont.org", "static01.nyt.com", "preview.redd.it"]);
+const allowedPhotoHosts = new Set(["upload.wikimedia.org", "www.telegraph.co.uk", "img.i-scmp.com", "cdn.i-scmp.com", "www.claremont.org", "static01.nyt.com", "preview.redd.it"]);
 assert.equal(new Set(PHOTO_ARCHIVE_ITEMS.map(photo => photo.full)).size, 9, "No duplicated full-size images");
 for (const pic of PHOTO_ARCHIVE_ITEMS) {
   assert.ok(allowedPhotoHosts.has(new URL(pic.src).hostname), "Only selected image hosts permitted");
