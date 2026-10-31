@@ -7,6 +7,7 @@ import { GLENN_BECK_EPISODE_URL, GLENN_BECK_EMBED_URL, renderGlennBeckCompactPla
 import { renderHomePage } from "../src/pages/home.js";
 import { renderVideosPage } from "../src/pages/videos.js";
 import { renderAboutPage } from "../src/pages/about.js";
+import { renderCareerPage } from "../src/pages/career.js";
 import { renderArticlesPage } from "../src/pages/articles.js";
 import { renderInterviewsPage } from "../src/pages/interviews.js";
 import { PROFILE_DEPTH_CONTENT, PROFILE_DEPTH_PATHS, renderProfileDepthPage } from "../src/pages/profile-deep-dives.js";
@@ -16,6 +17,7 @@ import { renderArticleCards, renderFooter } from "../src/layout.js";
 const home = renderHomePage([]);
 const videos = renderVideosPage([]);
 const about = renderAboutPage([]);
+const career = renderCareerPage([]);
 const interviews = renderInterviewsPage([]);
 const footer = renderFooter();
 // Keep footer cards in complete six/three/one rows without disturbing other grids.
@@ -84,6 +86,8 @@ assert.match(earlyEducation, /Young Americans for Freedom/);
 assert.match(earlyEducation, /Ben Shapiro and Dennis Prager/);
 assert.match(earlyEducation, /New York Times profile, 11 April 2025/);
 assert.match(earlyEducation, /Stand Up Riverside speaker biography, November 2021/);
+assert.match(career, /href="\/early-life-education"/, "Career chronology must link to education depth page");
+assert.doesNotMatch(earlyEducation, /not an endorsement|No precise high-school|the purpose is to make|independent school activity records/, "Education should read as an authoritative sourced biography");
 assert.match(earlyEducation, /Claremont Institute, 2024 Lincoln Fellows/);
 assert.match(earlyEducation, /href="\/about"/, "Education page needs a clear return path");
 const earlyEducationSitemap = (await import("../src/sitemap.js")).renderSitemapXml();
