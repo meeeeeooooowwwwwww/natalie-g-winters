@@ -1,6 +1,7 @@
 import { SITE } from "../config.js";
 import { externalImage, renderLayout } from "../layout.js";
 import { PAGE_BRAND_STYLES } from "../page-brand-ui.js";
+import { PHOTO_ARCHIVE_ITEMS } from "./photo-archive.js";
 
 export function renderAboutPage(posts) {
   const pageContent = `
@@ -75,12 +76,26 @@ export function renderAboutPage(posts) {
         </section>
 
         <section class="prestige-section">
+          <div class="prestige-section-head"><h2>On camera and at public events</h2><p>Verified photographs with dates and photographer credits.</p></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:18px">
+            ${PHOTO_ARCHIVE_ITEMS.slice(0,2).map(item => `<figure style="margin:0;background:#fff;min-width:0;border:1px solid var(--prestige-line)"><a href="/photos"><img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async" width="960" height="640" style="display:block;width:100%;aspect-ratio:4/3;object-fit:cover"></a><figcaption style="padding:12px 16px"><strong>${item.title} (${item.year})</strong><p style="margin:6px 0">Photograph: ${item.credit} · ${item.license}</p><a href="/photos">View photographs and full image credits →</a></figcaption></figure>`).join("")}
+          </div>
+        </section>
+        <section class="prestige-section">
           <div class="prestige-section-head"><h2>Explore Natalie G. Winters in depth</h2><p>The biography is the overview. These sections carry the evidence, appearances and reporting underneath it.</p></div>
           <div class="editorial-grid four-up-grid">
             <a class="editorial-card" href="/war-room"><span class="card-index">WAR ROOM</span><h3>Co-host & executive editor</h3><p>The programme most closely associated with Natalie G. Winters' broadcasting and political-media work.</p><span class="card-link">EXPLORE WAR ROOM →</span></a>
             <a class="editorial-card" href="/china"><span class="card-index">REPORTING</span><h3>China & CCP investigations</h3><p>The long-running reporting beat covering influence networks, institutions, Taiwan and national security.</p><span class="card-link">EXPLORE CHINA FILES →</span></a>
             <a class="editorial-card" href="/videos"><span class="card-index">VIDEO</span><h3>Broadcast archive</h3><p>Dedicated video pages connecting her name to interviews, reporting and major appearances.</p><span class="card-link">BROWSE VIDEOS →</span></a>
             <a class="editorial-card" href="/interviews"><span class="card-index">MEDIA</span><h3>Interviews & debates</h3><p>External appearances across television, podcasts, panels and debates.</p><span class="card-link">BROWSE INTERVIEWS →</span></a>
+          </div>
+        </section>
+        <section class="prestige-section">
+          <div class="prestige-section-head"><h2>More than a career summary</h2><p>Extended, dated profiles based on original records.</p></div>
+          <div class="editorial-grid">
+            <a class="editorial-card" href="/national-pulse-history"><span class="card-index">EARLY JOURNALISM</span><h3>National Pulse reporting and podcasts</h3><p>Early bylines, archived episodes and the documented transition to War Room.</p><span class="card-link">READ THE HISTORY →</span></a>
+            <a class="editorial-card" href="/shes-so-right"><span class="card-index">FOUNDER</span><h3>She's So Right! brand story</h3><p>The 2024 launch, design choices and US manufacturing claims.</p><span class="card-link">EXPLORE THE BUSINESS →</span></a>
+            <a class="editorial-card" href="/firing-line-2026"><span class="card-index">PBS</span><h3>Firing Line debate in context</h3><p>What was said at Hofstra University and where to watch both published versions.</p><span class="card-link">READ THE DISCUSSION →</span></a>
           </div>
         </section>
       </article>
