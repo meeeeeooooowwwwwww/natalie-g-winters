@@ -95,22 +95,22 @@ export function renderPhotoArchivePage(posts) {
     <main class="content-page prestige-page">
       <article class="content-inner prestige-shell">
         <section class="prestige-hero">
-          <div><span class="prestige-kicker">PHOTOGRAPHS · 2023–2025 · LICENSED SOURCES</span>
+          <div><span class="prestige-kicker">PHOTOGRAPHS · PUBLIC APPEARANCES · 2023–2025</span>
             <h1>Natalie G. Winters: Photo Archive</h1>
-            <p class="prestige-deck">Photographs from public events and interviews, with captions, credits and original-source links. Tap or click any image to enlarge it.</p>
+            <p class="prestige-deck">Natalie G. Winters at public events and interviews. Tap or click a photograph to see it larger.</p>
           </div>
           <aside class="prestige-summary">
-            <div class="prestige-summary-head"><span>IMAGE ARCHIVE</span><strong>Documented public photographs</strong></div>
+            <div class="prestige-summary-head"><span>PHOTO ARCHIVE</span><strong>Public appearances through the years</strong></div>
             <div class="prestige-summary-row"><span>CREDIT</span><strong>Photographer and source identified</strong></div>
-            <div class="prestige-summary-row"><span>RIGHTS</span><strong>Creative Commons attribution</strong></div>
+            <div class="prestige-summary-row"><span>GALLERY</span><strong>Tap to enlarge on mobile or desktop</strong></div>
           </aside>
         </section>
         <section class="prestige-section" aria-label="Natalie Winters photo gallery">
           <div class="photo-grid">${gallery}</div>
         </section>
         <section class="prestige-section"><div class="prestige-prose">
-          <p>Photographs link to their original Commons records. The image viewer can be closed by pressing Escape, tapping outside the image or using the close control. If scripting is unavailable, clicking an image opens the photograph directly.</p>
-          <p>See the <a href="/about">biography</a>, <a href="/career">career chronology</a> and <a href="/interviews">interviews</a> for related reporting and appearances.</p>
+          <p>Use the close button or press Escape to return to the gallery. Browse the <a href="/about">biography</a>, <a href="/career">career chronology</a> and <a href="/interviews">interviews</a> for related appearances.</p>
+          
         </div></section>
       </article>
     </main>
