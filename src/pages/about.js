@@ -91,7 +91,6 @@ export function renderAboutPage(posts) {
           </div>
           <div class="prestige-prose">
             <p>Natalie G. Winters was born on <time datetime="2001-02-24"><strong>24 February 2001</strong></time> in <strong>Los Angeles, California, USA</strong>.</p>
-            <p><small>Birth details: <a href="https://www.imdb.com/name/nm7903169/bio/" target="_blank" rel="noopener noreferrer">IMDb biography</a>.</small></p>
           </div>
         </section>
       </article>
