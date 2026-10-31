@@ -3,6 +3,7 @@ import { renderLayout } from "../layout.js";
 import { escapeHtml, formatDate } from "../utils.js";
 import { getRelatedVideos } from "../video-data.js";
 import { getVideoCopy } from "../video-copy.js";
+import { getVideoThumbnail } from "../video-thumbnails.js";
 
 const CATEGORY_CONTEXT = {
   china: {
@@ -156,5 +157,12 @@ export function renderVideoDetailPage(video, posts) {
     pageContent,
     posts,
     active: "videos",
+    video: getVideoThumbnail(video.slug) ? {
+      name: video.title,
+      description: video.summary,
+      thumbnailUrl: getVideoThumbnail(video.slug),
+      embedUrl: video.embedUrl,
+      duration: video.duration,
+    } : null,
   });
 }
