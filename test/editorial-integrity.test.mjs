@@ -65,7 +65,7 @@ const nytPortrait = PHOTO_ARCHIVE_ITEMS.find(pic => pic.title === "The New York 
 assert.equal(nytPortrait?.cropPosition, "top", "NYT portrait should show the top of the photograph");
 assert.match(photos, /photo-card-focus-top/, "NYT card must opt into portrait-specific framing");
 const galleryCropCss = readFileSync(new URL("../public/assets/photo-gallery.css", import.meta.url), "utf8");
-assert.match(galleryCropCss, /\.photo-card-focus-top \.photo-zoom img\{object-position:center top\}/, "Portrait adjustment must not affect other photos");
+assert.match(galleryCropCss, /\.photo-card-focus-top \.photo-zoom img\{object-position:center 30%\}/, "Portrait adjustment must not affect other photos");
 assert.ok(interviews.includes('href="/firing-line-2026"'));
 const galleryJs = readFileSync(new URL("../public/assets/photo-gallery.js", import.meta.url), "utf8");
 const galleryCss = readFileSync(new URL("../public/assets/photo-gallery.css", import.meta.url), "utf8");
