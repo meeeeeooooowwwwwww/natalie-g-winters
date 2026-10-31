@@ -19,7 +19,7 @@ export const PHOTO_ARCHIVE_ITEMS = [
     "title": "South China Morning Post portrait",
     "caption": "Portrait featured in the South China Morning Post's February 2025 profile of Natalie Winters.",
     "alt": "Natalie Winters wearing a light knit top in a portrait featured by the South China Morning Post",
-    "src": "https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=560,format=auto/sites/default/files/d8/images/canvas/2025/02/04/743277c5-8954-448f-9277-50d9be98018a_9709b187.jpg",
+    "src": "https://cdn.i-scmp.com/sites/default/files/styles/768x768/public/d8/images/canvas/2025/02/04/743277c5-8954-448f-9277-50d9be98018a_9709b187.jpg?itok=Lnr_PZbv",
     "full": "https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1024,format=auto/sites/default/files/d8/images/canvas/2025/02/04/743277c5-8954-448f-9277-50d9be98018a_9709b187.jpg",
     "credit": "South China Morning Post",
     "source": "https://www.scmp.com/magazines/style/entertainment/article/3297287/who-white-house-correspondent-natalie-winters-controversial-journalist-works-steve-bannon-slammed"
