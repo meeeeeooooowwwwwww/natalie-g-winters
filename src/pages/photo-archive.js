@@ -27,6 +27,7 @@ export const PHOTO_ARCHIVE_ITEMS = [
   {
     "year": "2025",
     "title": "The New York Times portrait",
+    "cropPosition": "top",
     "caption": "Photograph accompanying The New York Times' April 2025 profile of Natalie Winters.",
     "alt": "Natalie Winters portrait published with The New York Times April 2025 profile",
     "src": "https://static01.nyt.com/images/2025/04/24/multimedia/07NATALIE-WINTERS-01-lpbg/07NATALIE-WINTERS-01-lpbg-superJumbo-v4.jpg?quality=75&auto=avif",
@@ -109,7 +110,7 @@ export function renderPhotoCard(item, compact = false) {
   const label = `Enlarge photograph: ${item.title}, ${item.year}`;
   const sourceLink = item.source && item.source !== item.full ? `<a href="${safe(item.source)}" target="_blank" rel="noopener noreferrer">Source</a> · ` : "";
   const licenseLink = item.licenseUrl ? ` · <a href="${safe(item.licenseUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.license)}</a>` : "";
-  return `<figure class="photo-card${compact ? " photo-card-compact" : ""}">
+  return `<figure class="photo-card${compact ? " photo-card-compact" : ""}${item.cropPosition === "top" ? " photo-card-focus-top" : ""}">
     <a class="photo-zoom" href="${safe(item.full)}" target="_blank" rel="noopener noreferrer" data-photo-zoom
       data-photo-title="${safe(item.title)}" data-photo-alt="${safe(item.alt)}" aria-label="${safe(label)}">
       <img src="${safe(item.src)}" alt="${safe(item.alt)}" width="960" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer">
