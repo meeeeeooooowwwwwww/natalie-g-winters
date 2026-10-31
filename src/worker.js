@@ -8,6 +8,7 @@ import {
 } from "./substack.js";
 import { htmlResponse } from "./utils.js";
 import { serveIndexNowKey, notifyIndexNowArchive } from "./indexnow.js";
+import { PRIMARY_PATHS, renderSitemapXml } from "./sitemap.js";
 import { receiveSubstackEmail } from "./email-feed.js";
 import { renderLayout } from "./layout.js";
 import { renderHomePage } from "./pages/home.js";
@@ -27,21 +28,6 @@ import { PROFILE_DEPTH_PATHS, renderProfileDepthPage } from "./pages/profile-dee
 import { renderPhotoArchivePage } from "./pages/photo-archive.js";
 
 const IMAGE_CACHE_SECONDS = 30 * 24 * 60 * 60;
-
-const PRIMARY_PATHS = [
-  "/",
-  "/about",
-  "/career",
-  "/reporting",
-  "/white-house",
-  "/war-room",
-  "/videos",
-  "/interviews",
-  "/articles",
-  "/china",
-  ...PROFILE_DEPTH_PATHS,
-  "/photos",
-];
 
 function safeDecode(value) {
   try {
@@ -190,37 +176,8 @@ async function serveSubstackImage(request, env, ctx, id, version) {
   return response;
 }
 
-function xmlEscape(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}
-
-function renderSitemap() {
-  const primary = PRIMARY_PATHS.map((path) => ({
-    loc: `${SITE.domain}${path === "/" ? "/" : path}`,
-    priority: path === "/" ? "1.0" : path === "/articles" ? "0.95" : "0.9",
-    changefreq: path === "/" || path === "/articles" ? "daily" : "weekly",
-    lastmod: "",
-  }));
-
-  const videoPages = VIDEOS.map((video) => ({
-    loc: `${SITE.domain}/videos/${video.slug}`,
-    priority: "0.8",
-    changefreq: "monthly",
-    lastmod: /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(video.date || "") ? video.date : "",
-  }));
-
-  const urls = [...primary, ...videoPages].map((entry) => `  <url><loc>${xmlEscape(entry.loc)}</loc>${entry.lastmod ? `<lastmod>${xmlEscape(entry.lastmod)}</lastmod>` : ""}<changefreq>${entry.changefreq}</changefreq><priority>${entry.priority}</priority></url>`).join("\n");
-
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
-}
-
 function renderSitemapResponse() {
-  return new Response(renderSitemap(), {
+  return new Response(renderSitemapXml(), {
     status: 200,
     headers: {
       "Content-Type": "application/xml; charset=UTF-8",
@@ -229,7 +186,6 @@ function renderSitemapResponse() {
     },
   });
 }
-
 function routePage(pathname, posts) {
   const clean = pathname.replace(/\/$/, "") || "/";
 
