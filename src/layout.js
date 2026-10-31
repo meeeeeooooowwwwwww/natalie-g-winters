@@ -202,7 +202,7 @@ export function externalImage(src, alt, className = "feature-photo", width = 120
   return `<img class="${className}" src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" width="${width}" height="${height}" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
 }
 
-function renderStructuredData({ canonical, description, title, pageType = "WebPage" }) {
+function renderStructuredData({ canonical, description, title, pageType = "WebPage", video = null }) {
   const personId = `${SITE.domain}/#natalie-winters`;
   const websiteId = `${SITE.domain}/#website`;
   const pageId = `${canonical}#webpage`;
@@ -285,6 +285,26 @@ function renderStructuredData({ canonical, description, title, pageType = "WebPa
     page,
   ];
 
+  if (video?.thumbnailUrl && video?.embedUrl && video?.name && video?.description) {
+    const object = {
+      "@type": "VideoObject",
+      "@id": canonical + "#video",
+      name: video.name,
+      description: video.description,
+      thumbnailUrl: video.thumbnailUrl,
+      embedUrl: video.embedUrl,
+      url: canonical,
+      mainEntityOfPage: { "@id": pageId },
+    };
+    if (Number.isInteger(video.duration) && video.duration > 0) {
+      object.duration = "PT" + video.duration + "S";
+    }
+    // Google's video rich results also require verified first-publication
+    // uploadDate. Do not turn a broadcast/air date into a fabricated uploadDate.
+    graph.push(object);
+    page.mainEntity = { "@id": object["@id"] };
+  }
+
   return JSON.stringify({
     "@context": "https://schema.org",
     "@graph": graph,
@@ -302,11 +322,12 @@ export function renderLayout({
   pageType = "WebPage",
   showLatestReporting = true,
   photoViewer = false,
+  video = null,
 }) {
   const safeTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description);
   const safeCanonical = escapeHtml(canonical);
-  const ogImage = escapeHtml(SITE.images.profile16x9);
+  const ogImage = escapeHtml(video?.thumbnailUrl || SITE.images.profile16x9);
   const ogType = pageType === "ProfilePage" ? "profile" : "website";
 
   return `<!doctype html>
@@ -353,7 +374,7 @@ export function renderLayout({
   <meta name="twitter:description" content="${safeDescription}">
   <meta name="twitter:image" content="${ogImage}">
   <meta name="twitter:image:alt" content="Natalie G. Winters, also known as Natalie Winters">
-  <script type="application/ld+json">${renderStructuredData({ canonical, description, title, pageType })}</script>
+  <script type="application/ld+json">${renderStructuredData({ canonical, description, title, pageType, video })}</script>
 </head>
 <body>
   <div class="site-bg" aria-hidden="true"></div>
