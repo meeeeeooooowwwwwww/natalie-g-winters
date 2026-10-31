@@ -3,7 +3,7 @@
 .photo-card{min-width:0;margin:0;background:#fff;border:1px solid var(--prestige-line,#dccbd2);overflow:hidden}
 .photo-card .photo-zoom{display:block;position:relative;overflow:hidden;background:#e8dfe3;cursor:zoom-in}
 .photo-card .photo-zoom img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
-.photo-card-focus-top .photo-zoom img{object-position:center top}
+.photo-card-focus-top .photo-zoom img{object-position:center 30%}
 .photo-zoom:focus-visible{outline:3px solid #a61952;outline-offset:-3px}
 .photo-zoom-label{position:absolute;bottom:9px;right:9px;padding:8px 11px;background:rgba(20,13,18,.87);color:#fff;font-size:11px;letter-spacing:.04em;border-radius:4px}
 .photo-card-caption{padding:15px 17px 18px;line-height:1.5;overflow-wrap:anywhere}
