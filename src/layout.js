@@ -16,6 +16,7 @@ const FOOTER_EXPLORE = [
   ["/interviews", "INTERVIEWS", "Long-form appearances, debates and conversations beyond War Room."],
   ["/articles", "ARTICLES", "A rolling archive of Natalie G. Winters' Substack investigations."],
   ["/china", "CHINA REPORTING", "Coverage and reporting involving China, foreign influence and national security."],
+  ["/photos", "PHOTO ARCHIVE", "Licensed public photographs with photographer credits and full-view images."],
 ];
 
 export function renderHeader(active = "") {
@@ -300,6 +301,7 @@ export function renderLayout({
   robots = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
   pageType = "WebPage",
   showLatestReporting = true,
+  photoViewer = false,
 }) {
   const safeTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description);
@@ -333,6 +335,7 @@ export function renderLayout({
   <link rel="stylesheet" href="/assets/layout-v2.css">
   <link rel="stylesheet" href="/assets/footer-icons.css">
   <link rel="stylesheet" href="/assets/editorial-substack.css">
+  ${photoViewer ? `<link rel="stylesheet" href="/assets/photo-gallery.css"><script src="/assets/photo-gallery.js" defer></script>` : ""}
   <script src="/assets/rumble-player.js" defer></script>
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="shortcut icon" href="/favicon.ico">
@@ -360,6 +363,13 @@ export function renderLayout({
     ${showLatestReporting ? renderLatestReporting(posts) : ""}
     ${renderFooter()}
   </div>
+  ${photoViewer ? `<dialog id="photo-viewer" class="photo-viewer" aria-label="Photograph viewer">
+    <div class="photo-viewer-content">
+      <button type="button" class="photo-viewer-close" aria-label="Close photograph">×</button>
+      <img class="photo-viewer-image" alt="" referrerpolicy="no-referrer">
+      <p class="photo-viewer-caption"></p>
+    </div>
+  </dialog>` : ""}
 </body>
 </html>`;
 }

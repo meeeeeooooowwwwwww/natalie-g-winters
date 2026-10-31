@@ -1,8 +1,10 @@
 import { SITE } from "../config.js";
 import { externalImage, renderLayout } from "../layout.js";
 import { PAGE_BRAND_STYLES } from "../page-brand-ui.js";
+import { PHOTO_ARCHIVE_ITEMS, renderPhotoCard } from "./photo-archive.js";
 
 export function renderAboutPage(posts) {
+  const photoPreviews = PHOTO_ARCHIVE_ITEMS.slice(0, 2).map(item => renderPhotoCard(item, true)).join("");
   const pageContent = `
     ${PAGE_BRAND_STYLES}
     <main class="content-page prestige-page">
@@ -75,12 +77,27 @@ export function renderAboutPage(posts) {
         </section>
 
         <section class="prestige-section">
+          <div class="prestige-section-head"><h2>Photographs through the years</h2><p>Licensed public photographs. Tap any image for a full view.</p></div>
+          <div class="photo-preview-grid">${photoPreviews}</div>
+          <p class="prestige-prose"><a href="/photos">See all photographs, captions and credits →</a></p>
+        </section>
+
+        <section class="prestige-section">
           <div class="prestige-section-head"><h2>Explore Natalie G. Winters in depth</h2><p>The biography is the overview. These sections carry the evidence, appearances and reporting underneath it.</p></div>
           <div class="editorial-grid four-up-grid">
             <a class="editorial-card" href="/war-room"><span class="card-index">WAR ROOM</span><h3>Co-host & executive editor</h3><p>The programme most closely associated with Natalie G. Winters' broadcasting and political-media work.</p><span class="card-link">EXPLORE WAR ROOM →</span></a>
             <a class="editorial-card" href="/china"><span class="card-index">REPORTING</span><h3>China & CCP investigations</h3><p>The long-running reporting beat covering influence networks, institutions, Taiwan and national security.</p><span class="card-link">EXPLORE CHINA FILES →</span></a>
             <a class="editorial-card" href="/videos"><span class="card-index">VIDEO</span><h3>Broadcast archive</h3><p>Dedicated video pages connecting her name to interviews, reporting and major appearances.</p><span class="card-link">BROWSE VIDEOS →</span></a>
             <a class="editorial-card" href="/interviews"><span class="card-index">MEDIA</span><h3>Interviews & debates</h3><p>External appearances across television, podcasts, panels and debates.</p><span class="card-link">BROWSE INTERVIEWS →</span></a>
+          </div>
+        </section>
+
+        <section class="prestige-section" aria-labelledby="more-research-title">
+          <div class="prestige-section-head"><h2 id="more-research-title">In-depth profiles and original records</h2><p>Research beyond the career summary.</p></div>
+          <div class="editorial-grid">
+            <a class="editorial-card" href="/national-pulse-history"><span class="card-index">EARLY JOURNALISM</span><h3>The National Pulse years</h3><p>Early reporting credits, 2021 podcast records and the War Room transition.</p><span class="card-link">READ THE HISTORY →</span></a>
+            <a class="editorial-card" href="/shes-so-right"><span class="card-index">FOUNDER</span><h3>She's So Right!</h3><p>The 2024 brand launch, creative approach and stated US manufacturing.</p><span class="card-link">EXPLORE THE BUSINESS →</span></a>
+            <a class="editorial-card" href="/firing-line-2026"><span class="card-index">PBS</span><h3>Firing Line discussion</h3><p>Journalism, political bias, immigration and the complete source record.</p><span class="card-link">READ THE CONTEXT →</span></a>
           </div>
         </section>
 
@@ -105,5 +122,6 @@ export function renderAboutPage(posts) {
     posts,
     active: "about",
     pageType: "ProfilePage",
+    photoViewer: true,
   });
 }

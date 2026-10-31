@@ -15,6 +15,10 @@ Cloudflare Worker site for **nataliegwinters.com**.
 - `/interviews` - interviews and external appearances
 - `/articles` - rolling Substack archive
 - `/china` - China / CCP reporting hub
+- `/national-pulse-history` - early reporting and archived podcast source chronology
+- `/shes-so-right` - January 2024 fashion venture and documented US manufacturing claims
+- `/firing-line-2026` - sourced PBS 2026 discussion and broadcasts
+- `/photos` - licensed public photo gallery with accessible tap-to-enlarge viewing
 - `/verdict` - legacy satirical personal page (not indexed; not included in sitemap)
 - `/sitemap.xml` - Worker-generated sitemap including video pages
 - `/<indexnow-key>.txt` - IndexNow ownership proof for the apex domain
@@ -87,6 +91,10 @@ The public `robots.txt` points at the generated `/sitemap.xml` (primary pages an
 IndexNow ownership proof is served by the Worker at the static key-file path in `src/indexnow.js`. When a **genuine archive change** persists from scheduled/request-triggered polling or a validated Substack email, a best-effort IndexNow notification reports **only** the changed homepage and `https://nataliegwinters.com/articles`. Duplicate emails, failed source polling and unmodified checks never notify. IndexNow network failures are logged without failing article ingestion. The `api.indexnow.org` submission is shared with participating search engines, including Bing and Yandex; it does not submit to Google or Brave, nor guarantee indexing. The key file must be publicly reachable on the canonical domain for successful ownership validation.
 
 After deploying, verify the key-file endpoint (HTTP 200, plain text matches filename), submit the existing sitemap to Google Search Console and Bing Webmaster Tools, and inspect Bing's IndexNow submissions/errors. The CDN/WAF must allow genuine search crawlers to retrieve pages, robots.txt and sitemap. Do not weaken Cloudflare bot protection merely to make a synthetic test pass. For major non-archive site updates, request recrawls through the search engine consoles; this IndexNow hook intentionally does not ping unchanged pages on every deployment.
+
+## Photograph performance and accessibility
+
+`/photos` uses four captioned, licensed Wikimedia Commons photographs, correct `upload.wikimedia.org` URLs and 960px lazy thumbnails. Full-view photographs load only after a click or tap. Native `<dialog>` supports keyboard Escape, outside-click dismissal, and a labelled 44px close button; with JavaScript disabled, links open the image itself. Desktop grids collapse to a single mobile column without horizontal scrolling. The optional gallery CSS is about 2.4 KB uncompressed and JavaScript about 1.1 KB, loaded only on `/photos` and `/about`. No gallery dependency or third-party widget.
 
 ## Static assets and Worker routing
 
