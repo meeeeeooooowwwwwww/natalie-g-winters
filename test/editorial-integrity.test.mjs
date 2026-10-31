@@ -140,5 +140,8 @@ assert.doesNotMatch(footer, /magnificently excessive|Yoga may be involved/);
 
 const workerSource = readFileSync(new URL("../src/worker.js", import.meta.url), "utf8");
 assert.doesNotMatch(workerSource, /SITEMAP_LASTMOD\s*=/, "Global stale sitemap date must not be restored");
-assert.match(workerSource, /lastmod:.*video\.date/);
+assert.match(workerSource, /renderSitemapXml\(\)/, "Worker must serve the verified video sitemap");
+const sitemapSource = readFileSync(new URL("../src/sitemap.js", import.meta.url), "utf8");
+assert.match(sitemapSource, /xmlns:video/, "Video sitemap namespace must be published");
+assert.doesNotMatch(sitemapSource, /lastmod:.*video\.date/, "Air dates are not sitemap modification dates");
 console.log("editorial integrity checks passed: recent Rumble videos and article covers");
