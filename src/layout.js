@@ -16,6 +16,7 @@ const FOOTER_EXPLORE = [
   ["/interviews", "INTERVIEWS", "Long-form appearances, debates and conversations beyond War Room."],
   ["/articles", "ARTICLES", "A rolling archive of Natalie G. Winters' Substack investigations."],
   ["/china", "CHINA REPORTING", "Coverage and reporting involving China, foreign influence and national security."],
+  ["/photos", "PHOTO ARCHIVE", "Credited photographs of public appearances and interviews."],
 ];
 
 export function renderHeader(active = "") {
