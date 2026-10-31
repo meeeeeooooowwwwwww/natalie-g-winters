@@ -20,7 +20,7 @@ try {
   globalThis.fetch = async (url, options) => {
     if (new URL(url).hostname === "api.indexnow.org") {
       indexNowCalls++;
-      assert.equal(new URL(url).searchParams.get("url"), "https://nataliegwinters.com/articles");
+      assert.equal(JSON.parse(options.body).urlList[1], "https://nataliegwinters.com/articles");
       return new Response(null, { status: 202 });
     }
     calls.push(String(url));
