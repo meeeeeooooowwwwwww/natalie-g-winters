@@ -20,7 +20,7 @@ const interviews = renderInterviewsPage([]);
 const footer = renderFooter();
 // Keep footer cards in complete six/three/one rows without disturbing other grids.
 const footerStyles = readFileSync(new URL("../public/assets/styles.css", import.meta.url), "utf8");
-assert.equal((footer.match(/class="footer-explore-card"/g) || []).length, 1, "Template uses one reusable footer card component");
+assert.equal((footer.match(/class="footer-explore-card"/g) || []).length, 6, "Six footer cards must fill the wide row");
 assert.match(footerStyles, /\.footer-explore\{display:grid;grid-template-columns:repeat\(6,minmax\(0,1fr\)\);gap:8px\}/);
 assert.match(footerStyles, /@media \(max-width:1180px\)\{[\s\S]*?\.footer-explore\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)\}/);
 assert.match(footerStyles, /@media \(max-width:900px\)\{[\s\S]*?\.footer-explore\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)\}/);
