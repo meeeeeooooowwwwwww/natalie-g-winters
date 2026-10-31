@@ -8,11 +8,41 @@ import { renderHomePage } from "../src/pages/home.js";
 import { renderVideosPage } from "../src/pages/videos.js";
 import { renderArticlesPage } from "../src/pages/articles.js";
 import { renderInterviewsPage } from "../src/pages/interviews.js";
+import { PROFILE_DEPTH_PATHS, PROFILE_DEPTH_CONTENT, renderProfileDepthPage } from "../src/pages/profile-deep-dives.js";
+import { PHOTO_ARCHIVE_ITEMS, renderPhotoArchivePage } from "../src/pages/photo-archive.js";
+import { renderAboutPage } from "../src/pages/about.js";
 import { renderArticleCards, renderFooter } from "../src/layout.js";
 
 const home = renderHomePage([]);
 const videos = renderVideosPage([]);
 const interviews = renderInterviewsPage([]);
+const about = renderAboutPage([]);
+const photos = renderPhotoArchivePage([]);
+assert.deepEqual([...PROFILE_DEPTH_PATHS].sort(), ["/national-pulse-history","/shes-so-right","/firing-line-2026"].sort());
+for (const path of PROFILE_DEPTH_PATHS) {
+  const entry = PROFILE_DEPTH_CONTENT[path];
+  assert.ok(entry.sections.length >= 4, "Profile depth needs four substantive sections");
+  assert.ok(entry.sources.length >= 2, "Profile needs original sources");
+  const html = renderProfileDepthPage(path, []);
+  assert.ok(html.includes('rel="canonical" href="https://nataliegwinters.com'+path+'"'));
+  assert.ok(html.includes("Original references"));
+  assert.ok(!/imdb\.com/i.test(html), "No IMDb links");
+}
+assert.equal(PHOTO_ARCHIVE_ITEMS.length, 4);
+assert.ok(photos.includes('Natalie G. Winters: Photo Archive'));
+assert.ok(about.includes('On camera and at public events') && about.includes('href="/photos"'));
+for (const photo of PHOTO_ARCHIVE_ITEMS) {
+  assert.ok(photo.src.startsWith("https://thumb.wikimedia.org/"));
+  assert.ok(photo.alt.length > 25 && photo.caption.length > 30);
+  assert.ok(photo.source.startsWith("https://commons.wikimedia.org/wiki/File:"));
+  assert.ok(photo.licenseUrl.startsWith("https://creativecommons.org/licenses/"));
+  assert.ok(photos.includes(photo.credit));
+}
+assert.ok(interviews.includes('href="/firing-line-2026"'));
+const depthWorker = readFileSync(new URL("../src/worker.js", import.meta.url), "utf8");
+assert.match(depthWorker, /\.\.\.PROFILE_DEPTH_PATHS/);
+assert.match(depthWorker, /"\/photos"/);
+
 const footer = renderFooter();
 const featured = VIDEOS[0];
 
