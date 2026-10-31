@@ -139,7 +139,7 @@ export function renderPhotoArchivePage(posts) {
       thumbnailUrl: item.src,
       creditText: item.credit,
       ...(item.licenseUrl ? { license: item.licenseUrl } : {}),
-      ...(item.source ? { acquireLicensePage: item.source } : {})
+      ...(item.source ? { citation: item.source } : {})
     }))
   }).replace(/</g,"\\u003c");
   const pageContent = `${PAGE_BRAND_STYLES}
