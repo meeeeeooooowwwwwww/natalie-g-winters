@@ -83,6 +83,16 @@ export function renderAboutPage(posts) {
             <a class="editorial-card" href="/interviews"><span class="card-index">MEDIA</span><h3>Interviews & debates</h3><p>External appearances across television, podcasts, panels and debates.</p><span class="card-link">BROWSE INTERVIEWS →</span></a>
           </div>
         </section>
+
+        <section class="prestige-section" aria-labelledby="birth-details-title">
+          <div class="prestige-section-head">
+            <h2 id="birth-details-title">Birth and early life</h2>
+            <p>A short biographical note.</p>
+          </div>
+          <div class="prestige-prose">
+            <p>Natalie G. Winters was born on <time datetime="2001-02-24"><strong>24 February 2001</strong></time> in <strong>Los Angeles, California, USA</strong>.</p>
+          </div>
+        </section>
       </article>
     </main>
   `;

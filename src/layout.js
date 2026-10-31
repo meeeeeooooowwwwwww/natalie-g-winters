@@ -214,6 +214,8 @@ function renderStructuredData({ canonical, description, title, pageType = "WebPa
     name: "Natalie G. Winters",
     alternateName: ["Natalie Winters", "Natalie G Winters", "Miss Winters", "Ms Winters"],
     url: `${SITE.domain}/`,
+    birthDate: "2001-02-24",
+    birthPlace: { "@type": "Place", name: "Los Angeles, California, USA" },
     description: "Natalie G. Winters, also known as Natalie Winters, is an investigative journalist, War Room co-host and White House correspondent.",
     image: [
       SITE.images.profile1x1,
