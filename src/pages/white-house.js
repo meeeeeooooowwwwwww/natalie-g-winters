@@ -5,6 +5,13 @@ import { PAGE_BRAND_STYLES } from "../page-brand-ui.js";
 export function renderWhiteHousePage(posts) {
   const pageContent = `
     ${PAGE_BRAND_STYLES}
+    <style>
+      .archive-clip-poster img{display:block;width:100%;height:100%;object-fit:cover}
+      .archive-clip-label{position:absolute;left:16px;bottom:16px;max-width:calc(100% - 32px);padding:10px 13px;background:rgba(12,12,12,.88);color:#fff;font-size:11px;font-weight:700;letter-spacing:.09em;line-height:1.5}
+      .archive-clip-links{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+      .archive-clip-links a{text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+      @media(max-width:560px){.archive-clip-label{left:10px;bottom:10px;max-width:calc(100% - 20px);padding:7px 9px;font-size:9px}}
+    </style>
     <main class="content-page prestige-page">
       <article class="content-inner prestige-shell">
         <section class="prestige-hero">
@@ -75,8 +82,19 @@ export function renderWhiteHousePage(posts) {
         <section class="prestige-section">
           <div class="prestige-section-head"><h2>The announcement</h2><p>The original War Room clip that made the role public.</p></div>
           <div class="video-feature">
-            <div class="video-frame"><iframe src="https://rumble.com/embed/v6c48kg/?pub=4" title="Natalie G. Winters announced as War Room White House correspondent" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe></div>
-            <div class="video-copy"><span>WAR ROOM · JANUARY 28, 2025</span><h3>The White House correspondent announcement</h3><p>War Room formally introduces Natalie G. Winters in the role while she reports live from the White House.</p><a href="https://warroom.org/bannons-warroom-show-clip-roundup-28-jan-25-am/" target="_blank" rel="noopener noreferrer">OPEN WAR ROOM SOURCE →</a></div>
+            <div class="video-frame archive-clip-poster">
+              <img src="https://hugh.cdn.rumble.cloud/video/fwe2/87/s8/6/U/H/6/d/UH6dx.qR4e.1.jpg" alt="Original War Room broadcast showing Steve Bannon and Natalie G. Winters reporting from outside the White House" width="1000" height="563" loading="lazy" decoding="async">
+              <span class="archive-clip-label">ORIGINAL BROADCAST · RUMBLE PREMIUM</span>
+            </div>
+            <div class="video-copy">
+              <span>WAR ROOM · JANUARY 28, 2025</span>
+              <h3>The White House correspondent announcement</h3>
+              <p>War Room formally introduced Natalie G. Winters as its White House correspondent during her live report. The publisher now restricts this particular recording to Rumble Premium subscribers, so it cannot be played publicly here.</p>
+              <div class="archive-clip-links">
+                <a href="https://rumble.com/embed/v6c48kg/?pub=4" target="_blank" rel="noopener noreferrer">ORIGINAL VIDEO ON RUMBLE (PREMIUM) →</a>
+                <a href="https://warroom.org/bannons-warroom-show-clip-roundup-28-jan-25-am/" target="_blank" rel="noopener noreferrer">WAR ROOM'S ORIGINAL COVERAGE →</a>
+              </div>
+            </div>
           </div>
         </section>
 
