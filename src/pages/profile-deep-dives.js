@@ -11,7 +11,7 @@ export const PROFILE_DEPTH_CONTENT = {
     "sections": [
       [
         "Growing up in Santa Monica",
-        "Winters grew up in Santa Monica, California. In an April 2025 New York Times profile, journalist Andrew Trunsky traced her upbringing and described her attendance at Harvard-Westlake School in Los Angeles, a private college-preparatory school. The school's name does not mean it is affiliated with Harvard University.",
+        "Winters grew up in Santa Monica, California. In an April 2025 New York Times profile, journalist Andrew Trunsky traced her upbringing and described her attendance at Harvard-Westlake School in Los Angeles, a private college-preparatory school.",
         "Her political interests sharpened during the 2016 US presidential campaign. That period marked the beginning of the outspoken conservatism she would carry into political reporting and broadcasting."
       ],
       [
