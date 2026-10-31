@@ -15,6 +15,10 @@ Cloudflare Worker site for **nataliegwinters.com**.
 - `/interviews` - interviews and external appearances
 - `/articles` - rolling Substack archive
 - `/china` - China / CCP reporting hub
+- `/national-pulse-history` - sourced early journalism and podcast timeline
+- `/shes-so-right` - documented fashion-business launch and manufacturing claims
+- `/firing-line-2026` - full PBS discussion context and dated programme references
+- `/photos` - sourced, licensed 2023–2025 public photographs with attribution
 - `/verdict` - legacy satirical personal page (not indexed; not included in sitemap)
 - `/sitemap.xml` - Worker-generated sitemap including video pages
 - `/api/status` - non-indexed operational status for the article updater
