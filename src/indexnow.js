@@ -2,7 +2,7 @@
 // retain their publisher's canonical URLs and must never be submitted here.
 export const INDEXNOW_KEY = "ab4217eb5bafe937a14c84ab1d3afc50";
 export const INDEXNOW_KEY_PATH = `/${INDEXNOW_KEY}.txt`;
-const ARCHIVE_URL = "https://nataliegwinters.com/articles";
+const CHANGED_PAGES = ["https://nataliegwinters.com/", "https://nataliegwinters.com/articles"];
 const KEY_URL = `https://nataliegwinters.com${INDEXNOW_KEY_PATH}`;
 
 export function serveIndexNowKey(request) {
@@ -24,12 +24,15 @@ export function serveIndexNowKey(request) {
 // Invoke only after an actual KV article archive change, not on every request,
 // cron tick, or unrelated video/page. IndexNow does not guarantee indexing.
 export async function notifyIndexNowArchive(fetcher = fetch) {
-  const url = new URL("https://api.indexnow.org/indexnow");
-  url.searchParams.set("url", ARCHIVE_URL);
-  url.searchParams.set("key", INDEXNOW_KEY);
-  url.searchParams.set("keyLocation", KEY_URL);
-  const response = await fetcher(url, {
-    method: "GET",
+  const response = await fetcher("https://api.indexnow.org/indexnow", {
+    method: "POST",
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify({
+      host: "nataliegwinters.com",
+      key: INDEXNOW_KEY,
+      keyLocation: KEY_URL,
+      urlList: CHANGED_PAGES,
+    }),
     signal: AbortSignal.timeout(5000),
   });
   if (response.status !== 200 && response.status !== 202) {
