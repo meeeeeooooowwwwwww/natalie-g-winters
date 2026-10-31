@@ -3,6 +3,80 @@ import { renderLayout } from "../layout.js";
 import { escapeHtml } from "../utils.js";
 import { PAGE_BRAND_STYLES } from "../page-brand-ui.js";
 export const PROFILE_DEPTH_CONTENT = {
+  "/early-life-education": {
+    "title": "Natalie Winters Education | Harvard-Westlake School & University of Chicago",
+    "heading": "Natalie Winters: Early Life and Education",
+    "tag": "SANTA MONICA · HARVARD-WESTLAKE · UNIVERSITY OF CHICAGO",
+    "dek": "From a Los Angeles preparatory school and student political organising to university studies and an early reporting internship, with contemporary sources for each stage.",
+    "sections": [
+      [
+        "Growing up in Santa Monica",
+        "Winters grew up in Santa Monica, California. In an April 2025 New York Times profile, journalist Andrew Trunsky traced her upbringing and described her attendance at Harvard-Westlake School in Los Angeles, a private college-preparatory school. The school's name does not mean it is affiliated with Harvard University.",
+        "The profile reports that her interest in politics took shape around the 2016 US presidential campaign. This is more precise than suggesting she had always been politically active: the account places her growing interest in public affairs during her school years."
+      ],
+      [
+        "Harvard-Westlake: political organising and guest speakers",
+        "A November 2021 speaker biography circulated by Stand Up Riverside says Winters founded Harvard-Westlake's Young Americans for Freedom chapter. The same biography credits her with persuading commentators Ben Shapiro and Dennis Prager to speak to students, and says she participated in PragerU's PragerForce programme.",
+        "These details come from the organisers' published introduction rather than independent school activity records. They establish what was publicly claimed about her school work in 2021; the available record does not establish dates for the individual talks or the chapter's membership."
+      ],
+      [
+        "Disagreements on campus",
+        "The New York Times profile records Winters' own recollections of political disagreement during high school. She criticised a school campaign about the gender pay gap and a student walkout following the Parkland school shooting. According to that reporting, her contribution to the school newspaper was a letter to the editor supporting Brett Kavanaugh's US Supreme Court confirmation.",
+        "Those examples illustrate how she described finding a political voice at school. They should be read as her recollections relayed in an interview, not as proof that classmates or teachers shared her interpretation of those events."
+      ],
+      [
+        "From senior year to Washington",
+        "The New York Times reported that, after gaining admission to the University of Chicago, Winters travelled to Washington to start an internship with Raheem Kassam, who was then associated with War Room. The trip meant she missed her high-school graduation ceremony and prom, according to the profile.",
+        "That transition helps explain why her professional chronology begins so early. Rather than assuming the university years came before any journalism, the sources show school, university and political-media work overlapping near the start of her career."
+      ],
+      [
+        "University of Chicago and work alongside study",
+        "The 2021 Stand Up Riverside biography describes Winters as studying political science with a history minor at the University of Chicago while reporting for The National Pulse. A 2024 Claremont Institute Lincoln Fellows listing also identifies her University of Chicago education.",
+        "The New York Times profile says she worked on War Room during her first year of university and often travelled to Washington. These records provide a picture of study and work developing together. For later journalism credits, the site's National Pulse history page links original articles, podcast entries and War Room's dated announcement."
+      ],
+      [
+        "How the sources fit together",
+        "The 2025 newspaper profile is a retrospective interview and provides the fullest published narrative of her school years. The November 2021 speaker introduction is closer to the events but is promotional material; its detailed claims are therefore explicitly attributed. The Claremont Institute listing corroborates the university link, while Harvard-Westlake's own website provides information about the school.",
+        "No precise high-school enrolment dates, school records, transcripts or photographs from that period are claimed here. The purpose is to make the available published record transparent and help readers distinguish independently reported facts from claims made in an event biography."
+      ]
+    ],
+    "sources": [
+      [
+        "New York Times profile, 11 April 2025",
+        "https://www.nytimes.com/2025/04/11/style/natalie-winters-trump-bannon.html",
+        "Andrew Trunsky reporting on school, political engagement and early internship"
+      ],
+      [
+        "Stand Up Riverside speaker biography, November 2021",
+        "https://storage.googleapis.com/production-constantcontact-v1-0-4/344/420344/YFykhgsu/4bde36a48fe448ff886d71d6b23dcf89?fileName=SUR+Email+Natalie+Winters.pdf",
+        "Contemporaneous event introduction describing school activism and university study"
+      ],
+      [
+        "Claremont Institute, 2024 Lincoln Fellows",
+        "https://www.claremont.org/2024-lincoln-fellows/",
+        "Institutional biography and University of Chicago education"
+      ],
+      [
+        "Harvard-Westlake School",
+        "https://www.hw.com/",
+        "School information; not an endorsement of this independent biography"
+      ]
+    ],
+    "related": [
+      [
+        "/about",
+        "Full biography"
+      ],
+      [
+        "/national-pulse-history",
+        "First reporting and podcast credits"
+      ],
+      [
+        "/career",
+        "Career chronology"
+      ]
+    ]
+  },
   "/national-pulse-history": {
     "title": "Natalie Winters at The National Pulse | Investigations and Podcast History",
     "heading": "Natalie Winters at The National Pulse",
