@@ -22,6 +22,8 @@ import { renderInterviewsPage } from "./pages/interviews.js";
 import { renderArticlesPage } from "./pages/articles.js";
 import { renderChinaPage } from "./pages/china.js";
 import { VIDEOS, getVideoBySlug } from "./video-data.js";
+import { PROFILE_DEPTH_PATHS, renderProfileDepthPage } from "./pages/profile-deep-dives.js";
+import { renderPhotoArchivePage } from "./pages/photo-archive.js";
 
 const IMAGE_CACHE_SECONDS = 30 * 24 * 60 * 60;
 
@@ -36,6 +38,8 @@ const PRIMARY_PATHS = [
   "/interviews",
   "/articles",
   "/china",
+  ...PROFILE_DEPTH_PATHS,
+  "/photos",
 ];
 
 function safeDecode(value) {
@@ -236,8 +240,11 @@ function routePage(pathname, posts) {
     return video ? renderVideoDetailPage(video, posts) : null;
   }
 
+  if (PROFILE_DEPTH_PATHS.includes(clean)) return renderProfileDepthPage(clean, posts);
+
   switch (clean) {
     case "/": return renderHomePage(posts);
+    case "/photos": return renderPhotoArchivePage(posts);
     case "/about": return renderAboutPage(posts);
     case "/career": return renderCareerPage(posts);
     case "/reporting": return renderReportingPage(posts);
