@@ -7,6 +7,7 @@ import {
   refreshArticlesIfChanged,
 } from "./substack.js";
 import { htmlResponse } from "./utils.js";
+import { serveIndexNowKey, notifyIndexNowArchive } from "./indexnow.js";
 import { receiveSubstackEmail } from "./email-feed.js";
 import { renderLayout } from "./layout.js";
 import { renderHomePage } from "./pages/home.js";
@@ -288,6 +289,9 @@ export default {
       return withSeoHostProtection(renderSitemapResponse(), request);
     }
 
+    const indexNowKeyResponse = serveIndexNowKey(request);
+    if (indexNowKeyResponse) return withSeoHostProtection(indexNowKeyResponse, request);
+
     if (
       env?.ASSETS &&
       (
@@ -337,7 +341,12 @@ export default {
   },
 
   async email(message, env, ctx) {
-    await receiveSubstackEmail(message, env);
+    const saved = await receiveSubstackEmail(message, env);
+    if (saved?.changed) {
+      ctx.waitUntil(notifyIndexNowArchive().catch((error) => {
+        console.error("IndexNow email archive notification failed:", error);
+      }));
+    }
   },
 
   async scheduled(controller, env, ctx) {

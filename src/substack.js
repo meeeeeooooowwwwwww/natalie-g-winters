@@ -1,3 +1,4 @@
+import { notifyIndexNowArchive } from "./indexnow.js";
 import { SITE } from "./config.js";
 
 // Exact covers independently verified against Substack's public archive API.
@@ -1070,7 +1071,19 @@ export async function getStoredArticleState(env) {
 export function refreshArticlesIfChanged(env) {
   // Coalesce visitors and cron in the same isolate; KV is not a global lock.
   if (activeRefreshes.has(env)) return activeRefreshes.get(env);
-  const pending = refreshArticles(env).finally(() => activeRefreshes.delete(env));
+  const pending = refreshArticles(env)
+    .then(async (result) => {
+      if (result?.changed) {
+        try {
+          await notifyIndexNowArchive();
+        } catch (error) {
+          // Search submission must never break a successful article update.
+          console.error("IndexNow refreshed archive notification failed:", error);
+        }
+      }
+      return result;
+    })
+    .finally(() => activeRefreshes.delete(env));
   activeRefreshes.set(env, pending);
   return pending;
 }
