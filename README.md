@@ -17,6 +17,7 @@ Cloudflare Worker site for **nataliegwinters.com**.
 - `/china` - China / CCP reporting hub
 - `/verdict` - legacy satirical personal page (not indexed; not included in sitemap)
 - `/sitemap.xml` - Worker-generated sitemap including video pages
+- `/<indexnow-key>.txt` - IndexNow ownership proof for the apex domain
 - `/api/status` - non-indexed operational status for the article updater
 
 All normal public pages share the global header, latest Substack reporting and footer. The `/articles` archive suppresses the duplicate five-card latest-reporting strip because those posts are already displayed there.
@@ -78,6 +79,14 @@ stack vertically, avoiding the former 42% / 58% compressed column layout.
 Regression tests: `npm test` includes `test/rumble-inline.test.mjs` to
 guard mobile article stacking, real thumbnail URLs, embed ownership and
 click-to-load behaviour.
+
+## Search discovery and IndexNow
+
+The public `robots.txt` points at the generated `/sitemap.xml` (primary pages and video-detail pages). The rolling Substack archive is an indexable **local** `/articles` page; individual articles retain their **external** Substack canonical URLs and are not submitted to search engines as if hosted on this site.
+
+IndexNow ownership proof is served by the Worker at the static key-file path in `src/indexnow.js`. When a **genuine archive change** persists from scheduled/request-triggered polling or a validated Substack email, a best-effort IndexNow notification reports **only** `https://nataliegwinters.com/articles`. Duplicate emails, failed source polling and unmodified checks never notify. IndexNow network failures are logged without failing article ingestion. The `api.indexnow.org` submission is shared with participating search engines, including Bing and Yandex; it does not submit to Google or Brave, nor guarantee indexing. The key file must be publicly reachable on the canonical domain for successful ownership validation.
+
+After deploying, verify the key-file endpoint (HTTP 200, plain text matches filename), submit the existing sitemap to Google Search Console and Bing Webmaster Tools, and inspect Bing's IndexNow submissions/errors. The CDN/WAF must allow genuine search crawlers to retrieve pages, robots.txt and sitemap. Do not weaken Cloudflare bot protection merely to make a synthetic test pass. For major non-archive site updates, request recrawls through the search engine consoles; this IndexNow hook intentionally does not ping unchanged pages on every deployment.
 
 ## Static assets and Worker routing
 
