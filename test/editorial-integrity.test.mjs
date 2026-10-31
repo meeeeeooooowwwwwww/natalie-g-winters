@@ -28,7 +28,7 @@ assert.match(footerStyles, /@media \(max-width:560px\)\{[\s\S]*?\.footer-explore
 
 
 const photos = renderPhotoArchivePage([]);
-assert.deepEqual([...PROFILE_DEPTH_PATHS].sort(), ["/firing-line-2026", "/national-pulse-history", "/shes-so-right"].sort());
+assert.deepEqual([...PROFILE_DEPTH_PATHS].sort(), ["/early-life-education", "/firing-line-2026", "/national-pulse-history", "/shes-so-right"].sort());
 for (const path of PROFILE_DEPTH_PATHS) {
   const entry = PROFILE_DEPTH_CONTENT[path];
   assert.ok(entry.sections.length >= 4, "No thin standalone profile pages");
@@ -74,6 +74,20 @@ assert.equal(nytPortrait?.cropPosition, "top", "NYT portrait should show the top
 assert.match(photos, /photo-card-focus-top/, "NYT card must opt into portrait-specific framing");
 const galleryCropCss = readFileSync(new URL("../public/assets/photo-gallery.css", import.meta.url), "utf8");
 assert.match(galleryCropCss, /\.photo-card-focus-top \.photo-zoom img\{object-position:center 30%\}/, "Portrait adjustment must not affect other photos");
+const earlyEducation = renderProfileDepthPage("/early-life-education", []);
+assert.ok(about.includes('<h2 id="education-history-title">Harvard-Westlake, political activism and university</h2>'), "Prominent education overview must appear on About");
+assert.ok(about.includes('href="/early-life-education"'), "About must link to full school history");
+assert.match(earlyEducation, /Natalie Winters: Early Life and Education/);
+assert.match(earlyEducation, /Harvard-Westlake School/);
+assert.match(earlyEducation, /University of Chicago/);
+assert.match(earlyEducation, /Young Americans for Freedom/);
+assert.match(earlyEducation, /Ben Shapiro and Dennis Prager/);
+assert.match(earlyEducation, /New York Times profile, 11 April 2025/);
+assert.match(earlyEducation, /Stand Up Riverside speaker biography, November 2021/);
+assert.match(earlyEducation, /Claremont Institute, 2024 Lincoln Fellows/);
+assert.match(earlyEducation, /href="\/about"/, "Education page needs a clear return path");
+const earlyEducationSitemap = (await import("../src/sitemap.js")).renderSitemapXml();
+assert.match(earlyEducationSitemap, /<loc>https:\/\/nataliegwinters\.com\/early-life-education<\/loc>/, "Education page must be in XML sitemap");
 assert.ok(interviews.includes('href="/firing-line-2026"'));
 const galleryJs = readFileSync(new URL("../public/assets/photo-gallery.js", import.meta.url), "utf8");
 const galleryCss = readFileSync(new URL("../public/assets/photo-gallery.css", import.meta.url), "utf8");
