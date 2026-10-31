@@ -30,7 +30,7 @@ for (const path of PROFILE_DEPTH_PATHS) {
   assert.ok(html.includes("Original references") && html.includes('class="source-link"'));
   assert.ok(!html.includes("imdb.com"));
 }
-assert.equal(PHOTO_ARCHIVE_ITEMS.length, 4);
+assert.equal(PHOTO_ARCHIVE_ITEMS.length, 9, "Preserve four existing archive photographs and add five distinct publisher images");
 assert.match(photos, /class="photo-grid"/);
 assert.match(photos, /id="photo-viewer"/);
 assert.match(photos, /\/assets\/photo-gallery\.css/);
@@ -42,15 +42,24 @@ assert.ok(about.includes('id="birth-details-title"'), "Birthday section must sur
 assert.ok(about.lastIndexOf('id="birth-details-title"') > about.indexOf("In-depth profiles"), "Keep birth details at bottom");
 assert.ok(!home.includes('id="photo-viewer"'), "Only photo-enabled pages load the lightbox");
 assert.ok(footer.includes('href="/photos"'), "Photo archive discoverable from footer");
+const allowedPhotoHosts = new Set(["upload.wikimedia.org", "www.telegraph.co.uk", "img.i-scmp.com", "www.claremont.org", "static01.nyt.com", "preview.redd.it"]);
+assert.equal(new Set(PHOTO_ARCHIVE_ITEMS.map(photo => photo.full)).size, 9, "No duplicated full-size images");
 for (const pic of PHOTO_ARCHIVE_ITEMS) {
-  assert.match(pic.src, /^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/thumb\//);
-  assert.match(pic.full, /^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\//);
-  assert.ok(pic.caption.length > 35 && pic.alt.length > 30 && pic.credit.length > 5);
-  assert.ok(pic.source.startsWith("https://commons.wikimedia.org/wiki/File:"));
-  assert.ok(pic.licenseUrl.startsWith("https://creativecommons.org/licenses/"));
+  assert.ok(allowedPhotoHosts.has(new URL(pic.src).hostname), "Only selected image hosts permitted");
+  assert.ok(allowedPhotoHosts.has(new URL(pic.full).hostname), "Only selected originals permitted");
+  assert.ok(pic.caption.length >= 35 && pic.alt.length >= 30 && pic.credit.length >= 5);
+  assert.equal(new URL(pic.source).protocol, "https:", "Publisher sources must use HTTPS");
+  if (pic.licenseUrl) assert.ok(pic.licenseUrl.startsWith("https://creativecommons.org/licenses/"));
   assert.ok(photos.includes(pic.credit));
-  assert.ok(photos.includes(pic.full.replace(/&/g, "&amp;")));
+  assert.ok(photos.includes(pic.full.replace(/&/g, "&amp;")), "Every original must be linked");
+  assert.ok(photos.includes(pic.source.replace(/&/g, "&amp;")), "Original publisher source must be linked");
 }
+assert.ok(PHOTO_ARCHIVE_ITEMS[0].title.includes("Claremont"));
+assert.ok(PHOTO_ARCHIVE_ITEMS[1].title.includes("South China Morning Post"));
+assert.ok(PHOTO_ARCHIVE_ITEMS.some(p => p.title.includes("New York Times")));
+assert.ok(PHOTO_ARCHIVE_ITEMS.some(p => p.title.includes("Telegraph")));
+assert.ok(PHOTO_ARCHIVE_ITEMS.some(p => p.title.includes("Reddit")));
+assert.ok(PHOTO_ARCHIVE_ITEMS.some(p => p.source.includes("File:Natalie_Winters_(52985166073).jpg")), "Use original Wikimedia photograph instead of cropped duplicate");
 assert.ok(interviews.includes('href="/firing-line-2026"'));
 const galleryJs = readFileSync(new URL("../public/assets/photo-gallery.js", import.meta.url), "utf8");
 const galleryCss = readFileSync(new URL("../public/assets/photo-gallery.css", import.meta.url), "utf8");
