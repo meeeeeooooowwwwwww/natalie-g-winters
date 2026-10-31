@@ -4,6 +4,7 @@ import vm from "node:vm";
 import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards } from "../src/recent-rumble.js";
 import { renderHomePage } from "../src/pages/home.js";
 import { renderVideosPage } from "../src/pages/videos.js";
+import { renderWhiteHousePage } from "../src/pages/white-house.js";
 
 const home = renderHomePage([]);
 const videos = renderVideosPage([]);
@@ -71,4 +72,13 @@ assert.equal(inserted.className, "recent-rumble-frame");
 assert.equal(inserted.attributes.loading, "eager");
 assert.equal(inserted.attributes.allowfullscreen, "");
 assert.ok(!inserted.src.includes("autoplay"), "Do not autoplay before visitor uses native player");
+
+const whiteHouse = renderWhiteHousePage([]);
+assert.ok(whiteHouse.includes("ORIGINAL BROADCAST · RUMBLE PREMIUM"), "White House video must show the publisher restriction");
+assert.ok(whiteHouse.includes("https://hugh.cdn.rumble.cloud/video/fwe2/87/s8/6/U/H/6/d/UH6dx.qR4e.1.jpg"), "White House archive must use the publisher's real thumbnail");
+assert.ok(whiteHouse.includes("https://rumble.com/embed/v6c48kg/?pub=4"), "White House archive retains the original video source");
+assert.ok(whiteHouse.includes("https://warroom.org/bannons-warroom-show-clip-roundup-28-jan-25-am/"), "White House archive retains contemporary coverage");
+assert.ok(!whiteHouse.includes('<iframe src="https://rumble.com/embed/v6c48kg/'), "Do not display a dead Rumble Premium iframe as a playable video");
+assert.ok(!whiteHouse.includes("▶ PLAY VIDEO"), "Restricted videos must never advertise public playback");
+
 console.log("Rumble inline playback, native thumbnails and mobile article layouts: PASS");
