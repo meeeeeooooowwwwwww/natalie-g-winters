@@ -65,6 +65,18 @@ export function renderAboutPage(posts) {
           </div>
         </section>
 
+        <section class="prestige-section" aria-labelledby="education-history-title">
+          <div class="prestige-section-head">
+            <h2 id="education-history-title">Harvard-Westlake, political activism and university</h2>
+            <p>The earlier story behind her reporting career.</p>
+          </div>
+          <div class="prestige-prose">
+            <p>Before her national media work, Winters attended <strong>Harvard-Westlake School</strong> in Los Angeles. A <a href="https://www.nytimes.com/2025/04/11/style/natalie-winters-trump-bannon.html" target="_blank" rel="noopener noreferrer">2025 New York Times profile</a> places her political awakening around the 2016 election, describes disputes over political activities at school and records her departure for an early Washington internship.</p>
+            <p>A separate <a href="https://storage.googleapis.com/production-constantcontact-v1-0-4/344/420344/YFykhgsu/4bde36a48fe448ff886d71d6b23dcf89?fileName=SUR+Email+Natalie+Winters.pdf" target="_blank" rel="noopener noreferrer">2021 speaker biography</a> credits her with founding the school's Young Americans for Freedom chapter and arranging student talks by Ben Shapiro and Dennis Prager. She subsequently studied at the <strong>University of Chicago</strong> while beginning her reporting career.</p>
+            <p><a href="/early-life-education"><strong>Read the full early-life and education profile, with original sources →</strong></a></p>
+          </div>
+        </section>
+
         <section class="prestige-section">
           <div class="prestige-section-head"><h2>The profile in six markers</h2><p>A concise map of the roles and institutions that define the public career.</p></div>
           <div class="prestige-milestones">
@@ -95,7 +107,8 @@ export function renderAboutPage(posts) {
 
         <section class="prestige-section" aria-labelledby="more-research-title">
           <div class="prestige-section-head"><h2 id="more-research-title">In-depth profiles and original records</h2><p>Research beyond the career summary.</p></div>
-          <div class="editorial-grid">
+          <div class="editorial-grid four-up-grid">
+            <a class="editorial-card" href="/early-life-education"><span class="card-index">EARLY LIFE &amp; SCHOOL</span><h3>Harvard-Westlake and university</h3><p>Her Los Angeles school years, student activism, University of Chicago studies and first Washington internship, with dated references.</p><span class="card-link">READ EDUCATION HISTORY →</span></a>
             <a class="editorial-card" href="/national-pulse-history"><span class="card-index">EARLY JOURNALISM</span><h3>The National Pulse years</h3><p>Early reporting credits, 2021 podcast records and the War Room transition.</p><span class="card-link">READ THE HISTORY →</span></a>
             <a class="editorial-card" href="/shes-so-right"><span class="card-index">FOUNDER</span><h3>She's So Right!</h3><p>The 2024 brand launch, creative approach and stated US manufacturing.</p><span class="card-link">EXPLORE THE BUSINESS →</span></a>
             <a class="editorial-card" href="/firing-line-2026"><span class="card-index">PBS</span><h3>Firing Line discussion</h3><p>Journalism, political bias, immigration and the complete source record.</p><span class="card-link">READ THE CONTEXT →</span></a>
