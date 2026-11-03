@@ -11,7 +11,7 @@ import { renderCareerPage } from "../src/pages/career.js";
 import { renderArticlesPage } from "../src/pages/articles.js";
 import { renderInterviewsPage } from "../src/pages/interviews.js";
 import { PROFILE_DEPTH_CONTENT, PROFILE_DEPTH_PATHS, renderProfileDepthPage } from "../src/pages/profile-deep-dives.js";
-import { PHOTO_ARCHIVE_ITEMS, renderPhotoArchivePage } from "../src/pages/photo-archive.js";
+import { PHOTO_ARCHIVE_ITEMS, renderPhotoArchivePage, renderPhotoCard } from "../src/pages/photo-archive.js";
 import { renderArticleCards, renderFooter } from "../src/layout.js";
 
 const home = renderHomePage([]);
@@ -54,11 +54,24 @@ assert.ok(!home.includes('id="photo-viewer"'), "Only photo-enabled pages load th
 assert.ok(footer.includes('href="/photos"'), "Photo archive discoverable from footer");
 const allowedPhotoHosts = new Set(["upload.wikimedia.org", "www.telegraph.co.uk", "img.i-scmp.com", "cdn.i-scmp.com", "www.claremont.org", "static01.nyt.com", "preview.redd.it", "nataliegwinters.com"]);
 assert.equal(new Set(PHOTO_ARCHIVE_ITEMS.map(photo => photo.full)).size, 10, "No duplicated full-size images");
-assert.ok(PHOTO_ARCHIVE_ITEMS.some(pic => pic.artwork && pic.title.includes("NATALI3")), "Include visibly labelled NATALI3 parody");
+const natali3 = PHOTO_ARCHIVE_ITEMS.find(pic => pic.artwork);
+assert.equal(natali3?.title, "NATALI3", "NATALI3 title should contain nothing else");
+assert.equal(natali3?.cropPosition, "face", "NATALI3 thumbnail should show the face");
+const natali3Card = renderPhotoCard(natali3);
+assert.match(natali3Card, /class="photo-card photo-card-focus-face"/, "NATALI3 should use the standard photo card");
+assert.match(natali3Card, /<figcaption class="photo-card-caption">\s*<h2>NATALI3<\/h2>\s*<\/figcaption>/, "Only show NATALI3 in the caption area");
+assert.doesNotMatch(natali3Card, /Fan-made|AI-assisted|Full artwork|movie-poster parody/i, "Remove explanatory text");
 assert.ok(readFileSync(new URL("../public/images/natali3-poster.webp", import.meta.url)).length > 60_000, "Poster asset must exist and be intact");
 for (const pic of PHOTO_ARCHIVE_ITEMS) {
   assert.ok(allowedPhotoHosts.has(new URL(pic.src).hostname), "Only selected image hosts permitted");
   assert.ok(allowedPhotoHosts.has(new URL(pic.full).hostname), "Only selected originals permitted");
+  if (pic.artwork) {
+    assert.equal(pic.caption, undefined);
+    assert.equal(pic.credit, undefined);
+    assert.equal(pic.source, undefined);
+    assert.ok(photos.includes(pic.full), "Full-size artwork must be available");
+    continue;
+  }
   assert.ok(pic.caption.length >= 35 && pic.alt.length >= 30 && pic.credit.length >= 5);
   assert.equal(new URL(pic.source).protocol, "https:", "Publisher sources must use HTTPS");
   if (pic.licenseUrl) assert.ok(pic.licenseUrl.startsWith("https://creativecommons.org/licenses/"));
@@ -78,6 +91,8 @@ assert.equal(nytPortrait?.cropPosition, "top", "NYT portrait should show the top
 assert.match(photos, /photo-card-focus-top/, "NYT card must opt into portrait-specific framing");
 const galleryCropCss = readFileSync(new URL("../public/assets/photo-gallery.css", import.meta.url), "utf8");
 assert.match(galleryCropCss, /\.photo-card-focus-top \.photo-zoom img\{object-position:center 30%\}/, "Portrait adjustment must not affect other photos");
+assert.match(galleryCropCss, /\.photo-card-focus-face \.photo-zoom img\{object-position:center 12%\}/, "NATALI3 face crop should use the same 4:3 gallery format");
+assert.doesNotMatch(galleryCropCss, /\.photo-card-artwork/, "No separate poster thumbnail styling");
 const earlyEducation = renderProfileDepthPage("/early-life-education", []);
 assert.ok(about.includes('<h2 id="education-history-title">Harvard-Westlake, political activism and university</h2>'), "Prominent education overview must appear on About");
 assert.ok(about.includes('href="/early-life-education"'), "About must link to full school history");
