@@ -5,7 +5,7 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredYouTubeId = "1c7XccFwJrQ";
+  const featuredRumbleEmbedUrl = "https://rumble.com/embed/v7flik4/?pub=4kxtac";
 
   const pageContent = `
     <main class="editorial-home">
@@ -25,22 +25,22 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head">
-              <span>FEATURED VIDEO · JUST FOR FUN</span>
-              <a href="https://www.youtube.com/watch?v=${featuredYouTubeId}" target="_blank" rel="noopener noreferrer">WATCH ON YOUTUBE →</a>
+              <span>FEATURED VIDEO</span>
+              <a href="${featuredRumbleEmbedUrl}" target="_blank" rel="noopener noreferrer">OPEN ON RUMBLE →</a>
             </div>
             <div class="home-video-frame">
               <iframe
-                src="https://www.youtube-nocookie.com/embed/${featuredYouTubeId}?rel=0"
-                title="Behind the scenes with Natalie Winters (just for fun)"
+                src="${featuredRumbleEmbedUrl}"
+                title="Featured video on Rumble"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allow="encrypted-media; picture-in-picture; web-share"
+                allow="encrypted-media; picture-in-picture; fullscreen"
                 allowfullscreen
               ></iframe>
             </div>
             <div class="home-video-feature-caption">
-              <strong>Behind the scenes with Natalie Winters</strong>
-              <span>A completely unofficial look behind the curtain · YouTube</span>
+              <strong>Featured video</strong>
+              <span>Watch here using the Rumble player</span>
             </div>
           </div>
         </div>
