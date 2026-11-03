@@ -25,13 +25,14 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
   assert.ok(home.includes(video.embedUrl), "Homepage embeds one of four current clips");
   assert.ok(home.includes(video.thumbnailUrl), "Homepage uses verified publisher thumbnail");
 }
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/1c7XccFwJrQ?rel=0"'), "Hero must embed the requested YouTube video");
-assert.ok(home.includes('href="https://www.youtube.com/watch?v=1c7XccFwJrQ"'), "Hero must link to the same source video");
+assert.ok(home.includes('src="https://rumble.com/embed/v7flik4/?pub=4kxtac"'), "Hero must embed the requested Rumble video");
+assert.ok(home.includes('href="https://rumble.com/embed/v7flik4/?pub=4kxtac"'), "Hero must link to the same Rumble video");
 assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
-assert.ok(home.includes('Behind the scenes with Natalie Winters'), "Hero needs the requested playful caption");
-assert.ok(home.includes('A completely unofficial look behind the curtain'), "Satirical hero must remain clearly unofficial");
+assert.ok(home.includes('OPEN ON RUMBLE'), "Hero must label its player source correctly");
+assert.ok(home.includes('Watch here using the Rumble player'), "Hero caption must match the Rumble embed");
 assert.ok(assets.includes(".home-video-frame iframe") && assets.includes("aspect-ratio:16/9"), "Hero iframe must remain responsive");
 assert.ok(!home.includes("autoplay=1"), "Hero must not autoplay");
+assert.ok(!home.includes("youtube-nocookie.com/embed/1c7XccFwJrQ"), "Old YouTube hero must be removed");
 assert.ok(home.includes("/assets/rumble-player.js"), "Player handler must load on homepage");
 assert.ok(poster.includes("<button") && poster.includes('data-rumble-embed="'));
 assert.ok(!poster.includes('class="recent-rumble-link"'), "Thumbnail must no longer be an external link");
