@@ -105,14 +105,12 @@ export const PHOTO_ARCHIVE_ITEMS = [
   },
   {
     "year": "2026",
-    "title": "NATALI3: movie-poster parody",
-    "caption": "Fan-made, AI-assisted movie-poster parody inspired by M3GAN, featuring a fictional doll-style portrayal of Natalie G. Winters. Not an official film poster or a documentary photograph.",
-    "alt": "NATALI3 parody movie poster featuring a stylised blonde woman in a beige dress, striped sleeves, and a large striped neck bow.",
+    "title": "NATALI3",
+    "alt": "NATALI3 poster featuring a blonde doll-like woman in a beige dress, striped sleeves, and an oversized striped neck bow.",
     "src": "https://nataliegwinters.com/images/natali3-poster.webp",
     "full": "https://nataliegwinters.com/images/natali3-poster.webp",
-    "credit": "AI-assisted fan artwork",
-    "source": "https://nataliegwinters.com/images/natali3-poster.webp",
-    "artwork": true
+    "artwork": true,
+    "cropPosition": "face"
   }
 ];
 const safe = (value) => escapeHtml(String(value));
@@ -122,17 +120,18 @@ export function renderPhotoCard(item, compact = false) {
   const sourceLink = item.source && item.source !== item.full ? `<a href="${safe(item.source)}" target="_blank" rel="noopener noreferrer">Source</a> · ` : "";
   const fileLabel = item.artwork ? "Full artwork" : "Original image";
   const licenseLink = item.licenseUrl ? ` · <a href="${safe(item.licenseUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.license)}</a>` : "";
-  return `<figure class="photo-card${compact ? " photo-card-compact" : ""}${item.artwork ? " photo-card-artwork" : ""}${item.cropPosition === "top" ? " photo-card-focus-top" : ""}">
+  return `<figure class="photo-card${compact ? " photo-card-compact" : ""}${item.cropPosition === "top" ? " photo-card-focus-top" : ""}${item.cropPosition === "face" ? " photo-card-focus-face" : ""}">
     <a class="photo-zoom" href="${safe(item.full)}" target="_blank" rel="noopener noreferrer" data-photo-zoom
       data-photo-title="${safe(item.title)}" data-photo-alt="${safe(item.alt)}" aria-label="${safe(label)}">
       <img src="${safe(item.src)}" alt="${safe(item.alt)}" width="${item.artwork ? 900 : 960}" height="${item.artwork ? 1314 : 640}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
       <span class="photo-zoom-label" aria-hidden="true">VIEW FULL PHOTO ↗</span>
     </a>
     <figcaption class="photo-card-caption">
+      ${item.artwork ? `<h2>${safe(item.title)}</h2>` : `
       <span class="photo-card-year">${safe(item.year)}</span>
       <h2>${safe(item.title)}</h2>
       ${compact ? "" : `<p>${safe(item.caption)}</p>`}
-      <small>${safe(item.credit)} · ${sourceLink}<a href="${safe(item.full)}" target="_blank" rel="noopener noreferrer">${fileLabel}</a>${licenseLink}</small>
+      <small>${safe(item.credit)} · ${sourceLink}<a href="${safe(item.full)}" target="_blank" rel="noopener noreferrer">${fileLabel}</a>${licenseLink}</small>`}
     </figcaption>
   </figure>`;
 }
@@ -147,10 +146,10 @@ export function renderPhotoArchivePage(posts) {
     associatedMedia: PHOTO_ARCHIVE_ITEMS.map(item => ({
       "@type": "ImageObject",
       name: item.title,
-      description: item.caption,
+      description: item.caption || item.title,
       contentUrl: item.full,
       thumbnailUrl: item.src,
-      creditText: item.credit,
+      ...(item.credit ? { creditText: item.credit } : {}),
       ...(item.licenseUrl ? { license: item.licenseUrl } : {}),
       ...(item.source ? { citation: item.source } : {})
     }))
