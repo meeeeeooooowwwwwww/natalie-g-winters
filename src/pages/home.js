@@ -5,7 +5,8 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredRumbleEmbedUrl = "https://rumble.com/embed/v7flik4/?pub=4kxtac";
+  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/xQunYnM25Tg";
+  const featuredYouTubeSourceUrl = "https://www.youtube.com/watch?v=xQunYnM25Tg";
 
   const pageContent = `
     <main class="editorial-home">
@@ -26,12 +27,12 @@ export function renderHomePage(posts) {
           <div class="home-video-panel">
             <div class="home-video-head">
               <span>FEATURED VIDEO</span>
-              <a href="${featuredRumbleEmbedUrl}" target="_blank" rel="noopener noreferrer">OPEN ON RUMBLE →</a>
+              <a href="${featuredYouTubeSourceUrl}" target="_blank" rel="noopener noreferrer">OPEN ON YOUTUBE →</a>
             </div>
             <div class="home-video-frame">
               <iframe
-                src="${featuredRumbleEmbedUrl}"
-                title="Featured video on Rumble"
+                src="${featuredYouTubeEmbedUrl}"
+                title="Featured video on YouTube"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="encrypted-media; picture-in-picture; fullscreen"
@@ -40,7 +41,7 @@ export function renderHomePage(posts) {
             </div>
             <div class="home-video-feature-caption">
               <strong>Featured video</strong>
-              <span>Watch here using the Rumble player</span>
+              <span>Watch here using the YouTube player</span>
             </div>
           </div>
         </div>
