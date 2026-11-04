@@ -55,9 +55,10 @@ Article images are restricted to Substack media hosts. Profile/avatar/logo-sized
 An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
 
 ## Current media
-The homepage featured-video hero shows the directly supplied Rumble player
-(`https://rumble.com/embed/v7flik4/?pub=4kxtac`) with autoplay disabled.
-Its source link opens the same Rumble embed; the feature remains separate from reporting. The homepage's separate appearance section
+The homepage featured-video hero shows the directly supplied YouTube video
+(`https://www.youtube.com/watch?v=xQunYnM25Tg`) using a privacy-enhanced
+YouTube embed with autoplay disabled. Its source link opens the original
+YouTube watch page; the feature remains separate from reporting. The homepage's separate appearance section
 and the top of /videos show verified late-October 2026 Rumble source-page
 links (not guessed playback IDs or third-party stock thumbnails).
 Older confirmed embedded clips remain in the historical archive. The 29 October
