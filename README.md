@@ -56,7 +56,7 @@ An old verified post list is retained only as a last-resort bootstrap if KV is e
 
 ## Current media
 The homepage featured-video hero shows the directly supplied YouTube video
-(`https://www.youtube.com/watch?v=sXqOqNAJ4wQ`) using a privacy-enhanced
+(`https://www.youtube.com/watch?v=a3JSbOt7CLo`) using a privacy-enhanced
 YouTube embed with autoplay disabled. Its source link opens the original
 YouTube watch page; the feature remains separate from reporting. The homepage's separate appearance section
 and the top of /videos show verified late-October 2026 Rumble source-page
