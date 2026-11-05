@@ -5,8 +5,8 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/a3JSbOt7CLo";
-  const featuredYouTubeSourceUrl = "https://www.youtube.com/watch?v=a3JSbOt7CLo";
+  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/OW2UZhCVVtI";
+  const featuredYouTubeSourceUrl = "https://www.youtube.com/watch?v=OW2UZhCVVtI";
 
   const pageContent = `
     <main class="editorial-home">
