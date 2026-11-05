@@ -25,8 +25,8 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
   assert.ok(home.includes(video.embedUrl), "Homepage embeds one of four current clips");
   assert.ok(home.includes(video.thumbnailUrl), "Homepage uses verified publisher thumbnail");
 }
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/a3JSbOt7CLo"'), "Hero must embed the requested YouTube video");
-assert.ok(home.includes('href="https://www.youtube.com/watch?v=a3JSbOt7CLo"'), "Hero must link to the same YouTube video");
+assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/OW2UZhCVVtI"'), "Hero must embed the requested YouTube video");
+assert.ok(home.includes('href="https://www.youtube.com/watch?v=OW2UZhCVVtI"'), "Hero must link to the same YouTube video");
 assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
 assert.ok(home.includes('OPEN ON YOUTUBE'), "Hero must label its player source correctly");
 assert.ok(home.includes('Watch here using the YouTube player'), "Hero caption must match the YouTube embed");
