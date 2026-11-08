@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-09",
+  "sourcePr": 50,
+  "productionRun": "42537354440",
+  "conclusion": "success",
+  "verifiedDomain": "nataliegwinters-site.generalflynn17.workers.dev",
+  "videoHttp": "200",
+  "homeHttp": "200",
+  "verifiedEmbedIds": [
+    "v7fqsp6",
+    "v7fqrxc",
+    "v7fqq8e",
+    "v7fqpqq",
+    "v7fonwo"
+  ],
+  "thumbnailPresent": true,
+  "rumblePlayerBindingPresent": true,
+  "emailRoutingChanges": false
+}
