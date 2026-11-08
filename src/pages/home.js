@@ -86,7 +86,7 @@ export function renderHomePage(posts) {
               <span>WATCH NATALIE</span>
               <h2 id="home-video-title">Recent video appearances</h2>
             </div>
-            <p>November War Room appearances are listed first. Earlier verified clips can be played here; originals remain linked to their publisher.</p>
+            <p>Recent War Room appearances with real Rumble thumbnails. Select Play to watch on this page, or open the publisher’s original video.</p>
           </div>
           <h3 class="recent-rumble-subheading">Early November War Room uploads</h3>
           ${renderNewRumbleListings()}
