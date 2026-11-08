@@ -1202,3 +1202,10 @@ figcaption{color:#6d5d64!important}
   .editorial-article-cover .editorial-article-cover-title,.article-grid .article-card:first-child .editorial-article-cover-title{font-size:clamp(15px,4.6vw,20px)!important}
 }
 @media(prefers-reduced-motion:reduce){.recent-rumble-poster:hover .recent-rumble-play{transform:translate(-50%,-50%)}}
+
+/* Source-linked November War Room listings. No false Play button where Rumble blocks verification. */
+.recent-rumble-lookup{display:flex;min-height:215px;width:100%;padding:24px;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:linear-gradient(145deg,#1c2436,#304565);text-decoration:none;color:#fff;text-align:center;box-sizing:border-box;transition:filter .2s ease}
+.recent-rumble-lookup:hover,.recent-rumble-lookup:focus-visible{filter:brightness(1.15)}
+.recent-rumble-lookup-brand{font-size:clamp(16px,2vw,23px);font-weight:800;letter-spacing:.08em}
+.recent-rumble-lookup-action{font-size:12px;font-weight:700;letter-spacing:.11em;color:#eef2fa}
+.recent-rumble-subheading{font-size:18px;font-weight:700;margin:20px 0 16px}
