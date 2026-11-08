@@ -85,7 +85,7 @@ assert.ok(!whiteHouse.includes("▶ PLAY VIDEO"), "Restricted videos must never 
 
 assert.equal(NEW_RUMBLE_LISTINGS.length, 5, "Five distinct screenshot-supported November clips");
 assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.id)).size, 5);
-assert.ok(NEW_RUMBLE_LISTINGS.every(x => /rumble\\.com\\/c\\/BannonsWarRoom\\/videos\\?page=[23]/.test(x.sourcePage)));
+assert.ok(NEW_RUMBLE_LISTINGS.every(x => x.sourcePage.startsWith("https://rumble.com/c/BannonsWarRoom/videos?page=")));
 assert.ok(!renderNewRumbleListings(NEW_RUMBLE_LISTINGS).includes('data-rumble-embed='), "No fabricated embeds");
 assert.ok(NEW_RUMBLE_LISTINGS.slice(0,4).every(x => home.includes(x.title)), "Homepage lists new November appearances");
 assert.ok(NEW_RUMBLE_LISTINGS.every(x => videos.includes(x.title)), "Video archive lists all five new appearances");
