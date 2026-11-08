@@ -2,7 +2,7 @@ import { SITE } from "../config.js";
 import { renderGlennBeckCompactPlayer } from "../iheart-player.js";
 import { renderArticleCards, renderLayout } from "../layout.js";
 import { escapeHtml } from "../utils.js";
-import { renderRecentRumbleCards } from "../recent-rumble.js";
+import { renderRecentRumbleCards, renderNewRumbleListings } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
   const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/NmjrfXO0mdk";
@@ -86,8 +86,11 @@ export function renderHomePage(posts) {
               <span>WATCH NATALIE</span>
               <h2 id="home-video-title">Recent video appearances</h2>
             </div>
-            <p>Newer Rumble broadcasts with original thumbnails. Tap Play to watch here without leaving the website; the original publisher link remains available below each video.</p>
+            <p>November War Room appearances are listed first. Earlier verified clips can be played here; originals remain linked to their publisher.</p>
           </div>
+          <h3 class="recent-rumble-subheading">Early November War Room uploads</h3>
+          ${renderNewRumbleListings()}
+          <h3 class="recent-rumble-subheading">Earlier clips with verified players</h3>
           ${renderRecentRumbleCards()}
         </div>
       </section>

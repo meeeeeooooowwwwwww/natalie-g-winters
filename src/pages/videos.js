@@ -4,7 +4,7 @@ import { renderLayout } from "../layout.js";
 import { escapeHtml, formatDate } from "../utils.js";
 import { VIDEOS } from "../video-data.js";
 import { getVideoBrand, getVideoThumbnail } from "../video-thumbnails.js";
-import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards } from "../recent-rumble.js";
+import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards, NEW_RUMBLE_LISTINGS, renderNewRumbleListings } from "../recent-rumble.js";
 
 const CATEGORY_LABELS = {
   china: "CHINA",
@@ -69,12 +69,20 @@ export function renderVideosPage(posts) {
             <span>WATCH · WAR ROOM · WHITE HOUSE · INTERVIEWS</span>
             <h1>Natalie G. Winters Videos</h1>
           </div>
-          <p>Watch recent Rumble appearances directly on this page using verified embedded players and thumbnails. Earlier interviews and archive recordings follow below.</p>
+          <p>Browse the latest War Room listings and play earlier Rumble appearances here using verified embedded players and thumbnails. Interviews and archive recordings follow below.</p>
         </header>
+
+        <section class="recent-rumble-section" aria-label="New November War Room video listings">
+          <div class="video-library-head">
+            <h2>New War Room appearances · early November</h2>
+            <p>${NEW_RUMBLE_LISTINGS.length} clips visible in the publisher’s listings. Direct player links are not yet verified; links open the relevant publisher listing page.</p>
+          </div>
+          ${renderNewRumbleListings(NEW_RUMBLE_LISTINGS)}
+        </section>
 
         <section class="recent-rumble-section" aria-label="Latest Natalie Winters Rumble video uploads">
           <div class="video-library-head">
-            <h2>Latest Rumble videos</h2>
+            <h2>Earlier playable Rumble videos</h2>
             <p>${RECENT_RUMBLE_VIDEOS.length} source-linked uploads · late October 2026</p>
           </div>
           ${renderRecentRumbleCards(RECENT_RUMBLE_VIDEOS)}
