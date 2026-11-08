@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
-import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards } from "../src/recent-rumble.js";
+import { RECENT_RUMBLE_VIDEOS, renderRecentRumbleCards, NEW_RUMBLE_LISTINGS, renderNewRumbleListings } from "../src/recent-rumble.js";
 import { renderHomePage } from "../src/pages/home.js";
 import { renderVideosPage } from "../src/pages/videos.js";
 import { renderWhiteHousePage } from "../src/pages/white-house.js";
@@ -82,4 +82,12 @@ assert.ok(whiteHouse.includes("https://warroom.org/bannons-warroom-show-clip-rou
 assert.ok(!whiteHouse.includes('<iframe src="https://rumble.com/embed/v6c48kg/'), "Do not display a dead Rumble Premium iframe as a playable video");
 assert.ok(!whiteHouse.includes("▶ PLAY VIDEO"), "Restricted videos must never advertise public playback");
 
-console.log("Rumble inline playback, native thumbnails and mobile article layouts: PASS");
+
+assert.equal(NEW_RUMBLE_LISTINGS.length, 5, "Five distinct screenshot-supported November clips");
+assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.id)).size, 5);
+assert.ok(NEW_RUMBLE_LISTINGS.every(x => /rumble\\.com\\/c\\/BannonsWarRoom\\/videos\\?page=[23]/.test(x.sourcePage)));
+assert.ok(!renderNewRumbleListings(NEW_RUMBLE_LISTINGS).includes('data-rumble-embed='), "No fabricated embeds");
+assert.ok(NEW_RUMBLE_LISTINGS.slice(0,4).every(x => home.includes(x.title)), "Homepage lists new November appearances");
+assert.ok(NEW_RUMBLE_LISTINGS.every(x => videos.includes(x.title)), "Video archive lists all five new appearances");
+
+console.log("Rumble inline playback, verified legacy clips, and source-linked November listings: PASS");
