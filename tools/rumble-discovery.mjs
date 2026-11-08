@@ -3,7 +3,11 @@ import { mkdirSync, writeFileSync } from "node:fs";
 // Never invent a video permalink, iframe ID or thumbnail from its title.
 const urls = [
   "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl",
-  "https://rumble.com/c/BannonsWarRoom/videos?page=3&e9s=src_v1_cbl"
+  "https://rumble.com/c/BannonsWarRoom/videos?page=3&e9s=src_v1_cbl",
+  "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=2",
+  "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=3",
+  "https://rumble.com/c/BannonsWarRoom/rss",
+  "https://wn0.rumble.com/c/BannonsWarRoom/rss"
 ];
 const strip = (s) => s.replace(/<[^>]+>/g, " ").replace(/&(?:amp|#38);/g, "&").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
 let total = 0;
