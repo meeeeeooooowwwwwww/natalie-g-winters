@@ -1,0 +1,33 @@
+name: One-time Natalie November video content release
+on:
+  push:
+    paths:
+      - .github/workflows/one-time-natalie-video-release-2026-11-09.yml
+permissions:
+  contents: write
+  actions: write
+jobs:
+  dispatch-protected-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dispatch existing guarded code-only production release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -u
+          if gh api --method POST "repos/${GITHUB_REPOSITORY}/actions/workflows/deploy-production.yml/dispatches" -f ref=main -f 'inputs[confirm]=DEPLOY' -f 'inputs[manage_email_routing]=false'; then
+            outcome=accepted
+          else
+            outcome=failed
+          fi
+          echo "Deployment dispatch: ${outcome}"
+          mkdir -p docs/operations
+          printf '{\n  "request": "November 2026 Natalie Rumble listings",\n  "productionWorkflow": "deploy-production.yml",\n  "emailRoutingChanges": false,\n  "dispatchStatus": "%s",\n  "sourcePr": 49\n}\n' "${outcome}" > docs/operations/natalie-video-release-dispatch-2026-11-09.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/operations/natalie-video-release-dispatch-2026-11-09.json
+          git commit -m 'Record guarded November Natalie content release dispatch'
+          git push
+          test "${outcome}" = accepted
