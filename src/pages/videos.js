@@ -69,12 +69,12 @@ export function renderVideosPage(posts) {
             <span>WATCH · WAR ROOM · WHITE HOUSE · INTERVIEWS</span>
             <h1>Natalie G. Winters Videos</h1>
           </div>
-          <p>Browse the latest War Room listings and play earlier Rumble appearances here using verified embedded players and thumbnails. Interviews and archive recordings follow below.</p>
+          <p>Watch the latest War Room appearances using Rumble’s publisher-supplied thumbnails and inline players. Interviews and archive recordings follow below.</p>
         </header>
 
         <section class="recent-rumble-section" aria-label="New November War Room video listings">
           <div class="video-library-head">
-            <h2>New War Room appearances · early November</h2>
+            <h2>New War Room appearances · November 2026</h2>
             <p>${NEW_RUMBLE_LISTINGS.length} clips visible in the publisher’s listings. Direct player links are not yet verified; links open the relevant publisher listing page.</p>
           </div>
           ${renderNewRumbleListings(NEW_RUMBLE_LISTINGS)}
