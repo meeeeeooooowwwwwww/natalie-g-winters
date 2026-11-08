@@ -85,9 +85,19 @@ assert.ok(!whiteHouse.includes("▶ PLAY VIDEO"), "Restricted videos must never 
 
 assert.equal(NEW_RUMBLE_LISTINGS.length, 5, "Five distinct screenshot-supported November clips");
 assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.id)).size, 5);
-assert.ok(NEW_RUMBLE_LISTINGS.every(x => x.sourcePage.startsWith("https://rumble.com/c/BannonsWarRoom/videos?page=")));
-assert.ok(!renderNewRumbleListings(NEW_RUMBLE_LISTINGS).includes('data-rumble-embed='), "No fabricated embeds");
+assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.embedUrl)).size, 5, "Each clip has a unique verified embed");
+assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.url)).size, 5, "Each clip has a unique publisher permalink");
+for (const clip of NEW_RUMBLE_LISTINGS) {
+  assert.match(clip.url, /^https:\/\/rumble\.com\/v[0-9a-z]+-[^"]+\.html$/);
+  assert.match(clip.embedUrl, /^https:\/\/rumble\.com\/embed\/v[0-9a-z]+\/$/);
+  assert.match(clip.thumbnailUrl, /^https:\/\/hugh\.cdn\.rumble\.cloud\/video\/[^"]+\.jpg$/);
+  assert.ok(videos.includes(clip.embedUrl), "Video page embeds exact clip: " + clip.id);
+  assert.ok(videos.includes(clip.thumbnailUrl), "Video page includes original thumbnail: " + clip.id);
+  assert.ok(videos.includes(clip.url), "Video page includes canonical source: " + clip.id);
+}
+assert.ok(renderNewRumbleListings(NEW_RUMBLE_LISTINGS).includes('data-rumble-embed='), "New November clips use the existing click-to-play handler");
+assert.ok(!renderNewRumbleListings(NEW_RUMBLE_LISTINGS).includes('class="recent-rumble-lookup"'), "No publisher-list placeholder cards");
 assert.ok(NEW_RUMBLE_LISTINGS.slice(0,4).every(x => home.includes(x.title)), "Homepage lists new November appearances");
 assert.ok(NEW_RUMBLE_LISTINGS.every(x => videos.includes(x.title)), "Video archive lists all five new appearances");
 
-console.log("Rumble inline playback, verified legacy clips, and source-linked November listings: PASS");
+console.log("Rumble inline playback, verified legacy clips, and native November players: PASS");
