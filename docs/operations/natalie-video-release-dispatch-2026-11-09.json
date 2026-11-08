@@ -1,0 +1,7 @@
+{
+  "request": "November 2026 Natalie Rumble listings",
+  "productionWorkflow": "deploy-production.yml",
+  "emailRoutingChanges": false,
+  "dispatchStatus": "accepted",
+  "sourcePr": 49
+}
