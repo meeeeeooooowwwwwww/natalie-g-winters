@@ -32,8 +32,8 @@ for(const page of pages){
       const titleEsc=lastCapture(before,/"title":"((?:\\.|[^"\\])*)"/g);
       if(!titleEsc)continue;
       const title=parseValue(titleEsc);
-      if(!/natalie\\s+(?:g\\.?\\s+)?winters/i.test(title))continue;
-      const source=lastCapture(before,/"url":"(https:\/\/rumble\\.com\/v[0-9a-z]+-[^"]+\\.html)"/g);
+      if(!/natalie\s+(?:g\.?\s+)?winters/i.test(title))continue;
+      const source=lastCapture(before,/"url":"(https:\/\/rumble\.com\/v[0-9a-z]+-[^"]+\.html)"/g);
       // Only use the publisher's canonical URL when it matches the record ID.
       const sourceUrl=source && source.includes("/"+id+"-")?source:null;
       const candidate=sourceUrl || `https://rumble.com/${id}-winters.html`;
@@ -43,9 +43,9 @@ for(const page of pages){
         result.videos.push({id,title,sourceUrl,verified:false,error:String(e)});
         seen.add(id);continue;
       }
-      const iframe=meta.html?.match(/src="(https:\/\/rumble\\.com\/embed\/v[0-9a-z]+\/)" /)?.[1]
-         || meta.html?.match(/src="(https:\/\/rumble\\.com\/embed\/v[0-9a-z]+\/)"/)?.[1];
-      const verified=meta.title===title && !!iframe && /^https:\/\/hugh\\.cdn\\.rumble\\.cloud\/video\//.test(meta.thumbnail_url||"");
+      const iframe=meta.html?.match(/src="(https:\/\/rumble\.com\/embed\/v[0-9a-z]+\/)" /)?.[1]
+         || meta.html?.match(/src="(https:\/\/rumble\.com\/embed\/v[0-9a-z]+\/)"/)?.[1];
+      const verified=meta.title===title && !!iframe && /^https:\/\/hugh\.cdn\.rumble\.cloud\/video\//.test(meta.thumbnail_url||"");
       result.videos.push({id,title,sourceUrl:sourceUrl||candidate,embedUrl:verified?iframe:null,thumbnailUrl:verified?meta.thumbnail_url:null,duration:meta.duration,verified,page});
       seen.add(id);found++;
       if(result.videos.length>=30)break;
