@@ -1,0 +1,60 @@
+name: Verify Natalie November release (one time)
+on:
+  push:
+    paths:
+      - .github/workflows/one-time-natalie-release-check-2026-11-09.yml
+permissions:
+  actions: read
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect production workflow completion and new public video section
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          run_id=''
+          status='not_found'
+          conclusion=''
+          for attempt in $(seq 1 48); do
+            gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/deploy-production.yml/runs?event=workflow_dispatch&per_page=10" > /tmp/natalie-runs.json
+            matching="$(jq -c '[.workflow_runs[] | select(.created_at >= "2026-11-08T23:26:30Z")][0] // {}' /tmp/natalie-runs.json)"
+            run_id="$(printf '%s' "$matching" | jq -r '.id // ""')"
+            status="$(printf '%s' "$matching" | jq -r '.status // "not_found"')"
+            conclusion="$(printf '%s' "$matching" | jq -r '.conclusion // ""')"
+            echo "Attempt $attempt workflow_run=$run_id status=$status conclusion=$conclusion"
+            [ "$status" = completed ] && break
+            sleep 5
+          done
+          echo "Recorded workflow: $run_id, status: $status, conclusion: $conclusion"
+          live_code="$(curl --silent --show-error --location --max-time 25 --output /tmp/natalie-live.html --write-out '%{http_code}' https://nataliegwinters.com/videos || true)"
+          has_content=false
+          if [ "$live_code" = 200 ] && grep -q 'New War Room appearances' /tmp/natalie-live.html; then has_content=true; fi
+          worker_code=not_checked
+          worker_has_content=false
+          if [ "$has_content" = false ]; then
+            worker_code="$(curl --silent --show-error --location --max-time 25 --output /tmp/natalie-worker.html --write-out '%{http_code}' https://nataliegwinters-site.generalflynn17.workers.dev/videos || true)"
+            if [ "$worker_code" = 200 ] && grep -q 'New War Room appearances' /tmp/natalie-worker.html; then worker_has_content=true; fi
+          fi
+          mkdir -p docs/operations
+          jq -n --arg runId "$run_id" --arg status "$status" --arg conclusion "$conclusion" --arg customDomainHttp "$live_code" --arg customDomainHasContent "$has_content" --arg workerHttp "$worker_code" --arg workerHasContent "$worker_has_content" '{
+            productionWorkflow:"deploy-production.yml",
+            runId:$runId,
+            status:$status,
+            conclusion:$conclusion,
+            customDomainHttp:$customDomainHttp,
+            customDomainHasContent:($customDomainHasContent=="true"),
+            workerHttp:$workerHttp,
+            workerHasContent:($workerHasContent=="true"),
+            checkedFor:"New War Room appearances",
+            emailRoutingChanges:false
+          }' > docs/operations/natalie-video-release-verification-2026-11-09.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/operations/natalie-video-release-verification-2026-11-09.json
+          git commit -m 'Record guarded Natalie November release verification'
+          git push
