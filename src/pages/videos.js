@@ -72,7 +72,15 @@ export function renderVideosPage(posts) {
           <p>Browse the latest War Room listings and play earlier Rumble appearances here using verified embedded players and thumbnails. Interviews and archive recordings follow below.</p>
         </header>
 
-        <section class="recent-rumble-section" aria-label="New November War Room video listings">\n          <div class="video-library-head">\n            <h2>New War Room appearances · early November</h2>\n            <p>${NEW_RUMBLE_LISTINGS.length} clips visible in the publisher’s listings. Direct player links are not yet verified; links open the relevant publisher listing page.</p>\n          </div>\n          ${renderNewRumbleListings(NEW_RUMBLE_LISTINGS)}\n        </section>\n\n        <section class="recent-rumble-section" aria-label="Latest Natalie Winters Rumble video uploads">
+        <section class="recent-rumble-section" aria-label="New November War Room video listings">
+          <div class="video-library-head">
+            <h2>New War Room appearances · early November</h2>
+            <p>${NEW_RUMBLE_LISTINGS.length} clips visible in the publisher’s listings. Direct player links are not yet verified; links open the relevant publisher listing page.</p>
+          </div>
+          ${renderNewRumbleListings(NEW_RUMBLE_LISTINGS)}
+        </section>
+
+        <section class="recent-rumble-section" aria-label="Latest Natalie Winters Rumble video uploads">
           <div class="video-library-head">
             <h2>Earlier playable Rumble videos</h2>
             <p>${RECENT_RUMBLE_VIDEOS.length} source-linked uploads · late October 2026</p>
