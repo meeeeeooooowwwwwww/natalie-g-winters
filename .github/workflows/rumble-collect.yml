@@ -7,6 +7,10 @@ on:
         required: false
         default: "2,3"
         type: string
+  pull_request:
+    paths:
+      - tools/rumble-collect.mjs
+      - .github/workflows/rumble-collect.yml
   push:
     paths:
       - tools/rumble-collect.mjs
