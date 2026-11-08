@@ -1,3 +1,4 @@
+import { mkdirSync, writeFileSync } from "node:fs";
 // Read-only Rumble publisher listing discovery for editorial verification.
 // Never invent a video permalink, iframe ID or thumbnail from its title.
 const urls = [
@@ -6,6 +7,7 @@ const urls = [
 ];
 const strip = (s) => s.replace(/<[^>]+>/g, " ").replace(/&(?:amp|#38);/g, "&").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
 let total = 0;
+const report = { checkedAt: new Date().toISOString(), pages: [], videos: [] };
 for (const url of urls) {
   console.log("\nSOURCE", url);
   try {
@@ -19,6 +21,7 @@ for (const url of urls) {
     });
     const body = await response.text();
     console.log("STATUS", response.status, "BYTES", body.length);
+    report.pages.push({ url, status: response.status, bytes: body.length });
     if (!response.ok) continue;
     const matches = [...body.matchAll(/href=["']([^"']*\/v[0-9a-z]+-[^"']+?\.html(?:\?[^"']*)?)["']/gi)];
     const seen = new Set();
@@ -29,12 +32,18 @@ for (const url of urls) {
       seen.add(videoId);
       const near = strip(body.slice(Math.max(0,match.index - 700), Math.min(body.length, match.index + 900))).slice(0,700);
       const candidate = /natalie\s+(?:g\.?\s+)?winters/i.test(near) || /natalie.*winters/i.test(path);
-      console.log(JSON.stringify({ videoId, url: new URL(path, "https://rumble.com").href, natalieCandidate: candidate, excerpt: near }));
+      const video = { videoId, url: new URL(path, "https://rumble.com").href, natalieCandidate: candidate, excerpt: near, page: url };
+      report.videos.push(video);
+      console.log(JSON.stringify(video));
       total++;
     }
     console.log("VIDEO_LINKS",seen.size);
   } catch (error) {
     console.log("ERROR", String(error));
+    report.pages.push({ url, error: String(error) });
   }
 }
 console.log("TOTAL_VIDEO_LINKS",total);
+
+mkdirSync("docs/operations", { recursive: true });
+writeFileSync("docs/operations/rumble-discovery-last.json", JSON.stringify(report, null, 2)+"\n");
