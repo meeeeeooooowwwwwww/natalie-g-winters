@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-08T23:19:40.597Z",
+  "checkedAt": "2026-11-08T23:41:58.957Z",
   "pages": [
     {
       "url": "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl",
@@ -10,7 +10,77 @@
       "url": "https://rumble.com/c/BannonsWarRoom/videos?page=3&e9s=src_v1_cbl",
       "status": 403,
       "bytes": 5939
+    },
+    {
+      "url": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=2",
+      "status": 200,
+      "bytes": 464115
+    },
+    {
+      "url": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=3",
+      "status": 200,
+      "bytes": 464234
+    },
+    {
+      "url": "https://rumble.com/c/BannonsWarRoom/rss",
+      "status": 403,
+      "bytes": 5812
+    },
+    {
+      "url": "https://wn0.rumble.com/c/BannonsWarRoom/rss",
+      "status": 200,
+      "bytes": 485914
     }
   ],
-  "videos": []
+  "videos": [
+    {
+      "videoId": "7i2b3m",
+      "url": "https://rumble.com/v7i2b3m-ep-4030b-ds-worst-nightmare-happened-war-posture-activated-patriots-are-in-.html",
+      "natalieCandidate": false,
+      "excerpt": "ht=24 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round> Watch Later Featured Channels Featured X22 Report 9.71K <a class=\"main-menu-item-channel main-menu-item-channel-is-liv",
+      "page": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=2"
+    },
+    {
+      "videoId": "7fns6m",
+      "url": "https://rumble.com/v7fns6m-lofi-house-radio-lounge-music-to-vibechill-to.html",
+      "natalieCandidate": false,
+      "excerpt": "ser-image user-image--img user-image--img--id-b78b78e2b0acaa5590099b880d8ec375 channel-live' data-js=user-image> X22 Report 9.71K Lofi Girl 101 <a class=\"main-menu-item-channel \" title=\"Channel Five\" href=\"/c/ChannelFive?e9s=src_v",
+      "page": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=2"
+    },
+    {
+      "videoId": "7i2b3m",
+      "url": "https://rumble.com/v7i2b3m-ep-4030b-ds-worst-nightmare-happened-war-posture-activated-patriots-are-in-.html",
+      "natalieCandidate": false,
+      "excerpt": "ht=24 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round> Watch Later Featured Channels Featured X22 Report 9.71K <a class=\"main-menu-item-channel main-menu-item-channel-is-liv",
+      "page": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=3"
+    },
+    {
+      "videoId": "7fns6m",
+      "url": "https://rumble.com/v7fns6m-lofi-house-radio-lounge-music-to-vibechill-to.html",
+      "natalieCandidate": false,
+      "excerpt": "ser-image user-image--img user-image--img--id-b78b78e2b0acaa5590099b880d8ec375 channel-live' data-js=user-image> X22 Report 9.71K Lofi Girl 102 <a class=\"main-menu-item-channel \" title=\"Ann Coulter\" href=\"/c/AnnCoulter?e9s=src_v1_",
+      "page": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=3"
+    },
+    {
+      "videoId": "6m1ds9",
+      "url": "https://rumble.com/v6m1ds9-warroom-live.html",
+      "natalieCandidate": false,
+      "excerpt": "class=\"thumbnail__thumb thumbnail__thumb--dvr\" > DVR <path fill=\"currentColor\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.81928 2.48334C8.11217 2.19045 8.58705 2.19045 8.87994 2.48334L14.1832 7.78664C14.4761 8.07954 14.4761 8.55441 14.1832 8.8473C13.8903 9.1402 13.4155 9.1402 13.1226 8.8473L12.2977 8.02242L10.725 10.2256C11.2411 11.3356 11.0412 12.6964 10.1254 13.6122L9.41825 14.3193C9.02773 14.7099 8.39456 14.7099 8.00404 14.3193L5.70593 12.0212L2.8775 14.8497C2.5846 15.1426 2.10973 15.1426 1.81684 14.8497C1.52394 14.5568 1.52394 14.0819 1.81684 13.789L4.64527 10.9606L2.34718 8.66249C1.95666 8.27197 1.95666 7.6388 2.34718 7.24828L3.05429 6.54117C3.97016 5.6253 5.33089 5.4254 6.44094 5.94",
+      "page": "https://wn0.rumble.com/c/BannonsWarRoom/rss"
+    },
+    {
+      "videoId": "7i2b3m",
+      "url": "https://rumble.com/v7i2b3m-ep-4030b-ds-worst-nightmare-happened-war-posture-activated-patriots-are-in-.html",
+      "natalieCandidate": false,
+      "excerpt": "ht=24 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round> Watch Later Featured Channels Featured X22 Report 9.71K <a class=\"main-menu-item-channel main-menu-item-channel-is-liv",
+      "page": "https://wn0.rumble.com/c/BannonsWarRoom/rss"
+    },
+    {
+      "videoId": "7fns6m",
+      "url": "https://rumble.com/v7fns6m-lofi-house-radio-lounge-music-to-vibechill-to.html",
+      "natalieCandidate": false,
+      "excerpt": "ser-image user-image--img user-image--img--id-b78b78e2b0acaa5590099b880d8ec375 channel-live' data-js=user-image> X22 Report 9.71K Lofi Girl 102 <a class=\"main-menu-item-channel \" title=\"Tim Pool Show\" href=\"/c/TimPool?e9s=src_v1_c",
+      "page": "https://wn0.rumble.com/c/BannonsWarRoom/rss"
+    }
+  ]
 }
