@@ -163,3 +163,7 @@ https://nataliegwinters.com/api/status
 The JSON shows the newest cached article, article-cache update time, latest check, last successful check, source combination, partial source failures and any final error.
 
 `pollingHealth` distinguishes errors, unverified state, degraded source coverage and overdue checks. `emailHealth: no-email-received` means delivery is not yet proven, not that routing is necessarily absent. An `ok` polling result means sources answered; it cannot prove that Substack has exposed every new article.
+
+## Publishing Rumble videos
+
+For new Natalie Winters clips, verified inline players, native thumbnails, and the protected release sequence, **read [Rumble video publishing runbook](docs/operations/RUMBLE_VIDEO_PUBLISHING.md)** first. The reusable [read-only Rumble collector](tools/rumble-collect.mjs) is available in GitHub Actions under **Verify Natalie Rumble videos (read-only)**. Do not use channel-list placeholders when official oEmbed metadata is available.
