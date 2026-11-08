@@ -94,3 +94,74 @@ export function renderRecentRumbleCards(videos = RECENT_RUMBLE_VIDEOS.slice(0, 4
     </article>
   `).join("")}</div>`;
 }
+
+
+// Editorial index from the supplied 9 Nov 2026 screenshots of War Room
+// listing pages 2 and 3. Rumble refuses server-side requests (HTTP 403), so
+// no exact video URLs, player IDs or thumbnail URLs are asserted for these.
+export const NEW_RUMBLE_LISTINGS = Object.freeze([
+  {
+    id: "warroom-nov-post-election-agenda",
+    title: "Democrats’ post-election policy proposals",
+    publisher: "Bannon’s War Room",
+    period: "Early November 2026",
+    summary: "Natalie Winters discusses proposals attributed to Democrats in the aftermath of the midterm elections.",
+    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl"
+  },
+  {
+    id: "warroom-nov-ice-compensation",
+    title: "Proposals for compensation after ICE detention",
+    publisher: "Bannon’s War Room",
+    period: "Early November 2026",
+    summary: "A War Room appearance in which Winters discusses a proposal for financial compensation linked to ICE detentions.",
+    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl"
+  },
+  {
+    id: "warroom-nov-lutnick-allegations",
+    title: "Howard Lutnick and corruption allegations",
+    publisher: "Bannon’s War Room",
+    period: "Early November 2026",
+    summary: "Winters comments on allegations involving Howard Lutnick. Allegations discussed in the clip are not treated as established findings.",
+    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl"
+  },
+  {
+    id: "warroom-nov-national-popular-vote",
+    title: "House seats and the National Popular Vote Compact",
+    publisher: "Bannon’s War Room",
+    period: "Early November 2026",
+    summary: "Winters discusses the House election result and the proposed National Popular Vote Compact.",
+    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl"
+  },
+  {
+    id: "warroom-nov-january-6-investigations",
+    title: "Debate over January 6-style investigations",
+    publisher: "Bannon’s War Room",
+    period: "Early November 2026",
+    summary: "A War Room segment about the possibility of congressional investigations following the 2026 elections.",
+    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=3&e9s=src_v1_cbl"
+  }
+]);
+
+// These publisher-list links are intentionally NOT video embeds. The original
+// publisher permalinks will replace them only after exact URL verification.
+export function renderNewRumbleListings(videos = NEW_RUMBLE_LISTINGS.slice(0, 4)) {
+  return `<div class="recent-rumble-grid">${videos.map(video => `
+    <article class="recent-rumble-card">
+      <div class="recent-rumble-media">
+        <a class="recent-rumble-lookup" href="${escapeHtml(video.sourcePage)}"
+          target="_blank" rel="noopener noreferrer"
+          aria-label="Browse publisher listings for: ${escapeHtml(video.title)}">
+          <span class="recent-rumble-lookup-brand">BANNON’S WAR ROOM</span>
+          <span class="recent-rumble-lookup-action">BROWSE ON RUMBLE ↗</span>
+        </a>
+      </div>
+      <div class="recent-rumble-content">
+        <div class="recent-rumble-meta"><span>${escapeHtml(video.publisher)}</span><span>${escapeHtml(video.period)}</span></div>
+        <h3>${escapeHtml(video.title)}</h3>
+        <p>${escapeHtml(video.summary)}</p>
+        <a class="recent-rumble-source" href="${escapeHtml(video.sourcePage)}"
+          target="_blank" rel="noopener noreferrer">FIND IN PUBLISHER’S VIDEOS ↗</a>
+      </div>
+    </article>
+  `).join("")}</div>`;
+}
