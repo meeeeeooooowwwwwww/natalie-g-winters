@@ -1,35 +1,71 @@
 {
-  "checkedAt": "2026-11-08T23:41:58.957Z",
+  "checkedAt": "2026-11-08T23:43:24.017Z",
   "pages": [
     {
       "url": "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl",
       "status": 403,
-      "bytes": 5939
+      "bytes": 5939,
+      "titleTag": "<title>Just a moment...</title>",
+      "preview": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-ni8GpuWWaeuN8kqOkGcoTD&#39; &#39;unsafe-eva",
+      "natalieOccurrences": 0,
+      "videoIdOccurrences": 0,
+      "hReferences": [],
+      "natalieSnippet": ""
     },
     {
       "url": "https://rumble.com/c/BannonsWarRoom/videos?page=3&e9s=src_v1_cbl",
       "status": 403,
-      "bytes": 5939
+      "bytes": 5939,
+      "titleTag": "<title>Just a moment...</title>",
+      "preview": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-gklin74wqyc8NstiD0rmht&#39; &#39;unsafe-eva",
+      "natalieOccurrences": 0,
+      "videoIdOccurrences": 0,
+      "hReferences": [],
+      "natalieSnippet": ""
     },
     {
       "url": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=2",
       "status": 200,
-      "bytes": 464115
+      "bytes": 463974,
+      "titleTag": "<title>Bannons War Room</title>",
+      "preview": "<!doctype html>\n<html lang=en-US ><head prefix=\"og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#\"><script>!function(){window.semaphore=window.semaphore||[],window.ketch=function(){window.semaphore.push(arguments)};var e=document.createElement(\"script\");e.type=\"text/javascript\",e.src=\"https://global.ketchcdn.com/web/v3/config/rumble/rumble_com_web/boot.js\",e.defer=e.async=!0,e.onerror=function(){window.__ketchBootFailed=1;window.dispatchEvent(new Ev",
+      "natalieOccurrences": 4,
+      "videoIdOccurrences": 75,
+      "hReferences": [],
+      "natalieSnippet": "sp6.1ctt8hf\"},\"comments\":{\"count\":5},\"video_stats\":{\"rumble_plays\":301,\"youtube_views\":0,\"revenue\":0,\"revenue_units\":\"dollars\"},\"video_width\":1280,\"video_height\":720,\"preferred_video_resolution\":null,\"is_age_restricted\":false,\"has_access_to_premium\":false,\"id\":449707722,\"eid\":\"P81TgnUNbZ0\",\"title\":\"Natalie Winters: The most concerning stuff that the Democrats are pushing is the compounding of the amnesty stuff with what they want to do to elections, because that is fundamentally irreversible.\",\"duration\":313,\"thumb\":\"https://hugh.cdn.rumble.cloud/video/fwe2/ab/s8/6/a/F/C/b/aFCbB.OvCc.jpg\",\"upload_date\":\"2026-11-05T23:25:00+00:00\",\"is_short\":false,\"live\":false,\"live_placeholder\":false,\"live_datetime\":null,\"live_streamed_on\":null,\"livestream_status\":null,\"livestream_has_dvr\":null,\"watching_n"
     },
     {
       "url": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=3",
       "status": 200,
-      "bytes": 464234
+      "bytes": 464285,
+      "titleTag": "<title>Bannons War Room</title>",
+      "preview": "<!doctype html>\n<html lang=en-US ><head prefix=\"og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#\"><script>!function(){window.semaphore=window.semaphore||[],window.ketch=function(){window.semaphore.push(arguments)};var e=document.createElement(\"script\");e.type=\"text/javascript\",e.src=\"https://global.ketchcdn.com/web/v3/config/rumble/rumble_com_web/boot.js\",e.defer=e.async=!0,e.onerror=function(){window.__ketchBootFailed=1;window.dispatchEvent(new Ev",
+      "natalieOccurrences": 3,
+      "videoIdOccurrences": 75,
+      "hReferences": [],
+      "natalieSnippet": ""
     },
     {
       "url": "https://rumble.com/c/BannonsWarRoom/rss",
       "status": 403,
-      "bytes": 5812
+      "bytes": 5812,
+      "titleTag": "<title>Just a moment...</title>",
+      "preview": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-MNz5AIALwibZT0K0XT08Or&#39; &#39;unsafe-eva",
+      "natalieOccurrences": 0,
+      "videoIdOccurrences": 0,
+      "hReferences": [],
+      "natalieSnippet": ""
     },
     {
       "url": "https://wn0.rumble.com/c/BannonsWarRoom/rss",
       "status": 200,
-      "bytes": 485914
+      "bytes": 485880,
+      "titleTag": "<title>Bannons War Room</title>",
+      "preview": "<!doctype html>\n<html lang=en-US ><head prefix=\"og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#\"><script>!function(){window.semaphore=window.semaphore||[],window.ketch=function(){window.semaphore.push(arguments)};var e=document.createElement(\"script\");e.type=\"text/javascript\",e.src=\"https://global.ketchcdn.com/web/v3/config/rumble/rumble_com_web/boot.js\",e.defer=e.async=!0,e.onerror=function(){window.__ketchBootFailed=1;window.dispatchEvent(new Ev",
+      "natalieOccurrences": 0,
+      "videoIdOccurrences": 24,
+      "hReferences": [],
+      "natalieSnippet": ""
     }
   ],
   "videos": [
@@ -37,28 +73,28 @@
       "videoId": "7i2b3m",
       "url": "https://rumble.com/v7i2b3m-ep-4030b-ds-worst-nightmare-happened-war-posture-activated-patriots-are-in-.html",
       "natalieCandidate": false,
-      "excerpt": "ht=24 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round> Watch Later Featured Channels Featured X22 Report 9.71K <a class=\"main-menu-item-channel main-menu-item-channel-is-liv",
+      "excerpt": "ht=24 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round> Watch Later Featured Channels Featured X22 Report 10K <a class=\"main-menu-item-channel main-menu-item-channel-is-live\"",
       "page": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=2"
     },
     {
       "videoId": "7fns6m",
       "url": "https://rumble.com/v7fns6m-lofi-house-radio-lounge-music-to-vibechill-to.html",
       "natalieCandidate": false,
-      "excerpt": "ser-image user-image--img user-image--img--id-b78b78e2b0acaa5590099b880d8ec375 channel-live' data-js=user-image> X22 Report 9.71K Lofi Girl 101 <a class=\"main-menu-item-channel \" title=\"Channel Five\" href=\"/c/ChannelFive?e9s=src_v",
+      "excerpt": "s='user-image user-image--img user-image--img--id-b78b78e2b0acaa5590099b880d8ec375 channel-live' data-js=user-image> X22 Report 10K Lofi Girl 101 <a class=\"main-menu-item-channel \" title=\"Sport Fishing Championship\" href=\"/c/SportsF",
       "page": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=2"
     },
     {
       "videoId": "7i2b3m",
       "url": "https://rumble.com/v7i2b3m-ep-4030b-ds-worst-nightmare-happened-war-posture-activated-patriots-are-in-.html",
       "natalieCandidate": false,
-      "excerpt": "ht=24 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round> Watch Later Featured Channels Featured X22 Report 9.71K <a class=\"main-menu-item-channel main-menu-item-channel-is-liv",
+      "excerpt": "ht=24 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round> Watch Later Featured Channels Featured X22 Report 10K <a class=\"main-menu-item-channel main-menu-item-channel-is-live\"",
       "page": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=3"
     },
     {
       "videoId": "7fns6m",
       "url": "https://rumble.com/v7fns6m-lofi-house-radio-lounge-music-to-vibechill-to.html",
       "natalieCandidate": false,
-      "excerpt": "ser-image user-image--img user-image--img--id-b78b78e2b0acaa5590099b880d8ec375 channel-live' data-js=user-image> X22 Report 9.71K Lofi Girl 102 <a class=\"main-menu-item-channel \" title=\"Ann Coulter\" href=\"/c/AnnCoulter?e9s=src_v1_",
+      "excerpt": "s='user-image user-image--img user-image--img--id-b78b78e2b0acaa5590099b880d8ec375 channel-live' data-js=user-image> X22 Report 10K Lofi Girl 101 <a class=\"main-menu-item-channel \" title=VSiNLive href=\"/c/VSiNLive?e9s=src_v1_clr\"",
       "page": "https://wn0.rumble.com/c/BannonsWarRoom/videos?page=3"
     },
     {
@@ -72,14 +108,14 @@
       "videoId": "7i2b3m",
       "url": "https://rumble.com/v7i2b3m-ep-4030b-ds-worst-nightmare-happened-war-posture-activated-patriots-are-in-.html",
       "natalieCandidate": false,
-      "excerpt": "ht=24 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round> Watch Later Featured Channels Featured X22 Report 9.71K <a class=\"main-menu-item-channel main-menu-item-channel-is-liv",
+      "excerpt": "ht=24 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round> Watch Later Featured Channels Featured X22 Report 10K <a class=\"main-menu-item-channel main-menu-item-channel-is-live\"",
       "page": "https://wn0.rumble.com/c/BannonsWarRoom/rss"
     },
     {
       "videoId": "7fns6m",
       "url": "https://rumble.com/v7fns6m-lofi-house-radio-lounge-music-to-vibechill-to.html",
       "natalieCandidate": false,
-      "excerpt": "ser-image user-image--img user-image--img--id-b78b78e2b0acaa5590099b880d8ec375 channel-live' data-js=user-image> X22 Report 9.71K Lofi Girl 102 <a class=\"main-menu-item-channel \" title=\"Tim Pool Show\" href=\"/c/TimPool?e9s=src_v1_c",
+      "excerpt": "s='user-image user-image--img user-image--img--id-b78b78e2b0acaa5590099b880d8ec375 channel-live' data-js=user-image> X22 Report 10K Lofi Girl 101 <a class=\"main-menu-item-channel \" title=\"Alex Zedra\" href=\"/c/AlexZedra?e9s=src_v1_cl",
       "page": "https://wn0.rumble.com/c/BannonsWarRoom/rss"
     }
   ]
