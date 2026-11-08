@@ -88,8 +88,10 @@ export function renderHomePage(posts) {
             </div>
             <p>November War Room appearances are listed first. Earlier verified clips can be played here; originals remain linked to their publisher.</p>
           </div>
-          <h3 class="recent-rumble-subheading">Early November War Room uploads</h3>\n          ${renderNewRumbleListings()}
-          <h3 class="recent-rumble-subheading">Earlier clips with verified players</h3>\n          ${renderRecentRumbleCards()}
+          <h3 class="recent-rumble-subheading">Early November War Room uploads</h3>
+          ${renderNewRumbleListings()}
+          <h3 class="recent-rumble-subheading">Earlier clips with verified players</h3>
+          ${renderRecentRumbleCards()}
         </div>
       </section>
 
