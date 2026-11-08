@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-11-08T23:19:40.597Z",
+  "pages": [
+    {
+      "url": "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl",
+      "status": 403,
+      "bytes": 5939
+    },
+    {
+      "url": "https://rumble.com/c/BannonsWarRoom/videos?page=3&e9s=src_v1_cbl",
+      "status": 403,
+      "bytes": 5939
+    }
+  ],
+  "videos": []
+}
