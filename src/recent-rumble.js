@@ -96,72 +96,69 @@ export function renderRecentRumbleCards(videos = RECENT_RUMBLE_VIDEOS.slice(0, 4
 }
 
 
-// Editorial index from the supplied 9 Nov 2026 screenshots of War Room
-// listing pages 2 and 3. Rumble refuses server-side requests (HTTP 403), so
-// no exact video URLs, player IDs or thumbnail URLs are asserted for these.
+// Verified against the publisher's official oEmbed JSON on 9 Nov 2026.
+// The original URL, real Rumble iframe URL, and native CDN thumbnail must
+// travel together. No guessed player IDs or generic stock thumbnails.
 export const NEW_RUMBLE_LISTINGS = Object.freeze([
   {
-    id: "warroom-nov-post-election-agenda",
+    id: "v7hx5mo",
     title: "Democrats’ post-election policy proposals",
+    sourceTitle: "Natalie Winters: The most concerning stuff that the Democrats are pushing is the compounding of the amnesty stuff with what they want to do to elections, because that is fundamentally irreversible.",
+    url: "https://rumble.com/v7hx5mo-winters.html",
+    embedUrl: "https://rumble.com/embed/v7fqsp6/",
+    thumbnailUrl: "https://hugh.cdn.rumble.cloud/video/fwe2/ab/s8/6/a/F/C/b/aFCbB.qR4e.jpg",
     publisher: "Bannon’s War Room",
-    period: "Early November 2026",
-    summary: "Natalie Winters discusses proposals attributed to Democrats in the aftermath of the midterm elections.",
-    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl"
+    period: "5 November 2026",
+    summary: "Natalie Winters discusses proposals attributed to Democrats in the aftermath of the midterm elections."
   },
   {
-    id: "warroom-nov-ice-compensation",
+    id: "v7hx4uu",
     title: "Proposals for compensation after ICE detention",
+    sourceTitle: "Natalie Winters: The Dems want to reimburse victims of ICE $500k—that’s the opening bid. For every additional day they were in detention, they’ll get another $100k. So you can only imagine what these people want to do when it comes to citizenship.",
+    url: "https://rumble.com/v7hx4uu-winters.html",
+    embedUrl: "https://rumble.com/embed/v7fqrxc/",
+    thumbnailUrl: "https://hugh.cdn.rumble.cloud/video/fwe2/f0/s8/6/w/p/C/b/wpCbB.qR4e.jpg",
     publisher: "Bannon’s War Room",
-    period: "Early November 2026",
-    summary: "A War Room appearance in which Winters discusses a proposal for financial compensation linked to ICE detentions.",
-    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl"
+    period: "5 November 2026",
+    summary: "A War Room appearance in which Winters discusses a proposal for financial compensation linked to ICE detentions."
   },
   {
-    id: "warroom-nov-lutnick-allegations",
+    id: "v7hx35w",
     title: "Howard Lutnick and corruption allegations",
+    sourceTitle: "Natalie Winters: People like Howard Lutnick have engaged in corruption and made some really shady deals. Democrats are going to try to link people like him—the actual grifters in the administration—to the entire MAGA movement.",
+    url: "https://rumble.com/v7hx35w-winters.html",
+    embedUrl: "https://rumble.com/embed/v7fqq8e/",
+    thumbnailUrl: "https://hugh.cdn.rumble.cloud/video/fww1/2f/s8/6/e/T/B/b/eTBbB.qR4e.jpg",
     publisher: "Bannon’s War Room",
-    period: "Early November 2026",
-    summary: "Winters comments on allegations involving Howard Lutnick. Allegations discussed in the clip are not treated as established findings.",
-    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl"
+    period: "5 November 2026",
+    summary: "Winters comments on allegations involving Howard Lutnick. Allegations discussed in the clip are not treated as established findings."
   },
   {
-    id: "warroom-nov-national-popular-vote",
+    id: "v7hx2o8",
     title: "House seats and the National Popular Vote Compact",
+    sourceTitle: "Natalie Winters: The number of House seats Dems hold now could allow them to institute the National Popular Vote Compact, meaning the Electoral College would no longer determine how we choose our presidents.",
+    url: "https://rumble.com/v7hx2o8-winters.html",
+    embedUrl: "https://rumble.com/embed/v7fqpqq/",
+    thumbnailUrl: "https://hugh.cdn.rumble.cloud/video/fww1/7d/s8/6/i/J/B/b/iJBbB.qR4e.jpg",
     publisher: "Bannon’s War Room",
-    period: "Early November 2026",
-    summary: "Winters discusses the House election result and the proposed National Popular Vote Compact.",
-    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=2&e9s=src_v1_cbl"
+    period: "5 November 2026",
+    summary: "Winters discusses the House election result and the proposed National Popular Vote Compact."
   },
   {
-    id: "warroom-nov-january-6-investigations",
+    id: "v7hv0u6",
     title: "Debate over January 6-style investigations",
+    sourceTitle: "NATALIE WINTERS: Democrats Want January 6-Style Investigations And Show Trials Against The Trump Administration With Republican Help",
+    url: "https://rumble.com/v7hv0u6-natalie-winters-democrats-want-january-6-style-investigations.html",
+    embedUrl: "https://rumble.com/embed/v7fonwo/",
+    thumbnailUrl: "https://hugh.cdn.rumble.cloud/video/fwe2/86/s8/6/-/l/e/b/-lebB.qR4e.jpg",
     publisher: "Bannon’s War Room",
-    period: "Early November 2026",
-    summary: "A War Room segment about the possibility of congressional investigations following the 2026 elections.",
-    sourcePage: "https://rumble.com/c/BannonsWarRoom/videos?page=3&e9s=src_v1_cbl"
+    period: "4 November 2026",
+    summary: "A War Room segment about the possibility of congressional investigations following the 2026 elections."
   }
 ]);
 
-// These publisher-list links are intentionally NOT video embeds. The original
-// publisher permalinks will replace them only after exact URL verification.
+// Use the same click-to-play component as the verified October archive.
+// This keeps the Rumble thumbnail, source link and iframe behaviour identical.
 export function renderNewRumbleListings(videos = NEW_RUMBLE_LISTINGS.slice(0, 4)) {
-  return `<div class="recent-rumble-grid">${videos.map(video => `
-    <article class="recent-rumble-card">
-      <div class="recent-rumble-media">
-        <a class="recent-rumble-lookup" href="${escapeHtml(video.sourcePage)}"
-          target="_blank" rel="noopener noreferrer"
-          aria-label="Browse publisher listings for: ${escapeHtml(video.title)}">
-          <span class="recent-rumble-lookup-brand">BANNON’S WAR ROOM</span>
-          <span class="recent-rumble-lookup-action">BROWSE ON RUMBLE ↗</span>
-        </a>
-      </div>
-      <div class="recent-rumble-content">
-        <div class="recent-rumble-meta"><span>${escapeHtml(video.publisher)}</span><span>${escapeHtml(video.period)}</span></div>
-        <h3>${escapeHtml(video.title)}</h3>
-        <p>${escapeHtml(video.summary)}</p>
-        <a class="recent-rumble-source" href="${escapeHtml(video.sourcePage)}"
-          target="_blank" rel="noopener noreferrer">FIND IN PUBLISHER’S VIDEOS ↗</a>
-      </div>
-    </article>
-  `).join("")}</div>`;
+  return renderRecentRumbleCards(videos);
 }
