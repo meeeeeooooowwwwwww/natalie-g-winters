@@ -1,0 +1,19 @@
+name: Read-only Rumble Natalie video discovery
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - tools/rumble-discovery.mjs
+      - .github/workflows/rumble-discovery.yml
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node tools/rumble-discovery.mjs
