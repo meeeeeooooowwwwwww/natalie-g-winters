@@ -27,12 +27,12 @@ for (const url of urls) {
     console.log("STATUS", response.status, "BYTES", body.length);
     report.pages.push({
       url, status: response.status, bytes: body.length,
-      title: body.match(/<title[^>]*>([^<]*)<\\/title>/i)?.[1]?.slice(0,200),
+      titleTag: body.slice(body.indexOf("<title"), body.indexOf("</title>") + 8).slice(0,200),
       preview: body.slice(0,450),
       natalieOccurrences: (body.match(/natalie/gi)||[]).length,
-      hrefOccurrences: (body.match(/\\/v7h[a-z0-9]+/gi)||[]).length,
+      videoIdOccurrences: (body.match(/v7h[a-z0-9]+/gi)||[]).length,
       hReferences: [...new Set((body.match(/v7h[a-z0-9]{5,9}/gi)||[]))].slice(0,80),
-      snippets: [...body.matchAll(/natalie(?:\\s|&nbsp;|%20|\\+){0,3}winters/gi)].slice(0,8).map(m=>body.slice(Math.max(0,m.index-300),m.index+350))
+      natalieSnippet: body.includes("Natalie") ? body.slice(Math.max(0,body.indexOf("Natalie")-300),body.indexOf("Natalie")+500) : ""
     });
     if (!response.ok) continue;
     const matches = [...body.matchAll(/href=["']([^"']*\/v[0-9a-z]+-[^"']+?\.html(?:\?[^"']*)?)["']/gi)];
