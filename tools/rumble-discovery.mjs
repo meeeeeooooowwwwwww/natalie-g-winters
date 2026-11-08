@@ -32,7 +32,8 @@ for (const url of urls) {
       natalieOccurrences: (body.match(/natalie/gi)||[]).length,
       videoIdOccurrences: (body.match(/v7h[a-z0-9]+/gi)||[]).length,
       hReferences: [...new Set((body.match(/v7h[a-z0-9]{5,9}/gi)||[]))].slice(0,80),
-      natalieSnippet: body.includes("Natalie") ? body.slice(Math.max(0,body.indexOf("Natalie")-300),body.indexOf("Natalie")+500) : ""
+      natalieSnippet: body.includes("Natalie") ? body.slice(Math.max(0,body.indexOf("Natalie")-300),body.indexOf("Natalie")+500) : "",
+      natalieRecords: [...body.matchAll(/"title":"(?:Natalie|NATALIE) Winters:[^"]+"/g)].slice(0,12).map(m=>body.slice(Math.max(0,m.index-110),m.index+1000))
     });
     if (!response.ok) continue;
     const matches = [...body.matchAll(/href=["']([^"']*\/v[0-9a-z]+-[^"']+?\.html(?:\?[^"']*)?)["']/gi)];
