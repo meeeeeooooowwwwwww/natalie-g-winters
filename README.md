@@ -58,19 +58,21 @@ An old verified post list is retained only as a last-resort bootstrap if KV is e
 The homepage featured-video hero shows the directly supplied YouTube video
 (`https://www.youtube.com/watch?v=NmjrfXO0mdk`) using a privacy-enhanced
 YouTube embed with autoplay disabled. Its source link opens the original
-YouTube watch page; the feature remains separate from reporting. The homepage's separate appearance section
-and the top of /videos show verified late-October 2026 Rumble source-page
-links (not guessed playback IDs or third-party stock thumbnails).
-Older confirmed embedded clips remain in the historical archive. The 29 October
+YouTube watch page; the feature remains separate from reporting. The homepage's separate recent-appearance section and the top of
+`/videos` now show the publisher-verified November 2026 Rumble clips
+with native CDN thumbnails and click-to-play inline embeds, not channel-list
+placeholders. The homepage shows four recent clips; `/videos` shows all five
+verified November clips plus the earlier October and historical archives.
+The older confirmed embedded clips remain available. The 29 October
 Natalie Winters appearance on The Glenn Beck Program uses the owner's
 **episode-specific** iHeart iframe, displayed at a compact 120px height with
 no autoplay permission and a direct episode link beside the player.
 
 ## Rumble in-page playback and mobile cards
 
-Recent videos now use the native Rumble oEmbed metadata (player IDs and
-`hugh.cdn.rumble.cloud` thumbnails), verified on 31 October 2026 against
-all five original source URLs. A video poster is an accessible **Play video**
+Recent videos use verified native Rumble oEmbed metadata (distinct player IDs
+and `hugh.cdn.rumble.cloud` thumbnails). October clips were verified
+on 31 October 2026; the five November clips were verified on 9 November 2026. A video poster is an accessible **Play video**
 button; clicking loads an iframe *in the same card*, without leaving the site.
 The separate original Rumble source link is kept for attribution. Players
 do not load or autoplay before a visitor clicks, protecting mobile bandwidth.
@@ -167,3 +169,5 @@ The JSON shows the newest cached article, article-cache update time, latest chec
 ## Publishing Rumble videos
 
 For new Natalie Winters clips, verified inline players, native thumbnails, and the protected release sequence, **read [Rumble video publishing runbook](docs/operations/RUMBLE_VIDEO_PUBLISHING.md)** first. The reusable [read-only Rumble collector](tools/rumble-collect.mjs) is available in GitHub Actions under **Verify Natalie Rumble videos (read-only)**. Do not use channel-list placeholders when official oEmbed metadata is available.
+
+**Next-session handover:** [9 November verified Rumble player release](docs/operations/handovers/NATALIE-RUMBLE-VIDEO-RELEASE-2026-11-09.md). The runbook is the maintained source of truth; it documents the working `wn0.rumble.com` discovery endpoint, the official Rumble oEmbed lookup, source/iframe ID differences, CI, the protected code-only deployment and the post-release checks.
