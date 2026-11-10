@@ -25,12 +25,12 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
   assert.ok(home.includes(video.embedUrl), "Homepage embeds one of four current clips");
   assert.ok(home.includes(video.thumbnailUrl), "Homepage uses verified publisher thumbnail");
 }
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/NmjrfXO0mdk"'), "Hero must embed the requested YouTube video");
-assert.ok(home.includes('href="https://www.youtube.com/watch?v=NmjrfXO0mdk"'), "Hero must link to the same YouTube video");
-assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
+assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/kcKdHchw3X0"'), "Hero must embed the requested YouTube video");
+assert.ok(home.includes('href="https://www.youtube.com/shorts/kcKdHchw3X0"'), "Hero must link to the same YouTube video");
+assert.ok(home.includes('class="home-video-frame home-video-frame--short"'), "Hero must retain responsive aspect-ratio wrapper");
 assert.ok(home.includes('OPEN ON YOUTUBE'), "Hero must label its player source correctly");
 assert.ok(home.includes('Watch here using the YouTube player'), "Hero caption must match the YouTube embed");
-assert.ok(assets.includes(".home-video-frame iframe") && assets.includes("aspect-ratio:16/9"), "Hero iframe must remain responsive");
+assert.ok(assets.includes(".home-video-frame iframe") && assets.includes(".home-video-frame--short{aspect-ratio:9/16;width:min(100%,300px);margin-inline:auto}"), "YouTube Short must have a responsive portrait player");
 assert.ok(!home.includes("autoplay=1"), "Hero must not autoplay");
 assert.ok(!home.includes("youtube-nocookie.com/embed/1c7XccFwJrQ"), "Old YouTube hero must be removed");
 assert.ok(home.includes("/assets/rumble-player.js"), "Player handler must load on homepage");
