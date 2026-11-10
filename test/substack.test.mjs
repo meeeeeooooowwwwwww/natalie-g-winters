@@ -262,7 +262,7 @@ try {
       "no deprecated offset=0 or search= parameter can reach Substack");
     return {
       ok: true,
-      text: async () => "Markdown Content:\\n"+JSON.stringify([
+      text: async () => "Markdown Content:\n"+JSON.stringify([
         { canonical_url: latestUrl, title: "Latest article", cover_image: latestCover },
       ]),
     };
