@@ -5,8 +5,8 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards, renderNewRumbleListings } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/NmjrfXO0mdk";
-  const featuredYouTubeSourceUrl = "https://www.youtube.com/watch?v=NmjrfXO0mdk";
+  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/kcKdHchw3X0";
+  const featuredYouTubeSourceUrl = "https://www.youtube.com/shorts/kcKdHchw3X0";
 
   const pageContent = `
     <main class="editorial-home">
@@ -24,12 +24,12 @@ export function renderHomePage(posts) {
             </nav>
           </div>
 
-          <div class="home-video-panel">
+          <div class="home-video-panel home-video-panel--short">
             <div class="home-video-head">
               <span>FEATURED VIDEO</span>
               <a href="${featuredYouTubeSourceUrl}" target="_blank" rel="noopener noreferrer">OPEN ON YOUTUBE →</a>
             </div>
-            <div class="home-video-frame">
+            <div class="home-video-frame home-video-frame--short">
               <iframe
                 src="${featuredYouTubeEmbedUrl}"
                 title="Featured video on YouTube"
