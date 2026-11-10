@@ -537,6 +537,10 @@ body{
   aspect-ratio:16/9;
   background:#111;
 }
+/* Portrait YouTube Shorts retain a natural 9:16 player inside the existing hero card. */
+.home-video-panel--short{background:#111}
+.home-video-frame--short{aspect-ratio:9/16;width:min(100%,300px);margin-inline:auto}
+.home-video-panel--short .home-video-feature-caption{background:#fff}
 .home-video-frame iframe{
   position:absolute;
   inset:0;
