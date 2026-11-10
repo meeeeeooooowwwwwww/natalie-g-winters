@@ -950,23 +950,23 @@ async function fetchLatestPostsFromSubstack() {
   let sawRateLimit = false;
   const results = [];
 
-  // RSS is the publication feed. Cross-check the archive for corrections and
-  // canonical covers; a usable but stale response is not proof of freshness.
-  // Keep this bounded: no homepage/sitemap crawling or per-article fan-out.
+  // Prefer Substack's official per-post archive JSON via the reader proxy.
+  // This supplies title, publication date and cover_image in one request.
+  // The direct Substack host currently rate-limits RSS/API from server IPs.
+  // Only fall back to direct sources when the canonical archive is missing
+  // or incomplete, avoiding repeated 429s and unnecessary requests.
   const sources = [
+    { host: "reader", fetcher: fetchJinaArchiveApiPosts },
     { host: "substack", fetcher: fetchRssPosts },
     { host: "substack", fetcher: fetchArchiveApiPosts },
-    { host: "reader", fetcher: fetchJinaArchiveApiPosts, fallback: true },
   ];
 
   for (const source of sources) {
     if (blockedHosts.has(source.host)) continue;
-    // Even if RSS succeeds, it may have no publication cover. Query the
-    // reader-backed archive when needed instead of treating article text
-    // availability as proof that canonical image metadata is present.
-    if (source.fallback && results.length &&
-        (sawRateLimit || results.some(result => result.posts?.slice(0, FRESH_POST_COUNT)
-          .every(post => post.image && post.imageQuality >= 500)))) continue;
+    if (results.some(result =>
+      result.source === "substack-reader-archive-api" &&
+      result.posts?.length >= FRESH_POST_COUNT
+    )) break;
     try {
       const result = await source.fetcher();
       if (result.posts?.length) results.push(result);
