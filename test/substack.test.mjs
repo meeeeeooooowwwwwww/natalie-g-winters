@@ -206,7 +206,7 @@ assert.equal(gapMerge[0].title, "Just-published post");
 assert.equal(__testing.postListsEqual(historyMerge, historyMerge.map((item) => ({ ...item }))), true);
 
 // Regression: a social-image fallback can be a generic publication photo,
- // not the article's own archive cover. Never promote it to a cover.
+// not the article's own archive cover. Never promote it to a cover.
 const socialOnly = __testing.normalisePost({
   title: "Social-only metadata",
   url: "https://nataliegwinters.substack.com/p/social-only-metadata",
@@ -226,7 +226,7 @@ assert.equal(staleSocial.image, "", "legacy cached social-image rank must be ret
 const firstUrl = "https://substack-post-media.s3.amazonaws.com/public/images/a/cover.jpeg";
 const secondUrl = "https://substack-post-media.s3.amazonaws.com/public/images/b/cover.jpeg";
 assert.notEqual(__testing.imageVersion(firstUrl), __testing.imageVersion(secondUrl));
-assert.match(__testing.imageVersion(firstUrl), /^v3-cover\\.jpeg-[0-9a-f]{8}$/);
+assert.match(__testing.imageVersion(firstUrl), /^v3-cover\.jpeg-[0-9a-f]{8}$/);
 assert.equal(__testing.imageVersion(firstUrl), __testing.imageVersion(firstUrl));
 
 // If one source image has been assigned to unrelated articles, show neither
