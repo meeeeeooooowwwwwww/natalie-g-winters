@@ -909,7 +909,7 @@ function mergeSourceResults(results) {
     });
   });
 
-  return [...records.values()]
+  const posts = [...records.values()]
     .sort((a, b) => {
       const aAuthoritative = Number.isFinite(a.authoritativeRank);
       const bAuthoritative = Number.isFinite(b.authoritativeRank);
