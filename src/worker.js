@@ -27,7 +27,9 @@ import { VIDEOS, getVideoBySlug } from "./video-data.js";
 import { PROFILE_DEPTH_PATHS, renderProfileDepthPage } from "./pages/profile-deep-dives.js";
 import { renderPhotoArchivePage } from "./pages/photo-archive.js";
 
-const IMAGE_CACHE_SECONDS = 30 * 24 * 60 * 60;
+// Re-validate remote images daily. URL fingerprints in substack.js ensure
+// updated covers do not reuse cached responses for an earlier image.
+const IMAGE_CACHE_SECONDS = 24 * 60 * 60;
 
 function safeDecode(value) {
   try {
@@ -159,10 +161,16 @@ async function serveSubstackImage(request, env, ctx, id, version) {
     cf: { cacheEverything: true, cacheTtl: IMAGE_CACHE_SECONDS },
   });
 
-  if (!upstream.ok) {
+  // Cloudflare/Substack error pages sometimes return HTTP 200 with HTML.
+  // Do not store those responses as immutable article photographs.
+  const mime = upstream.headers.get("Content-Type") || "";
+  if (!upstream.ok || !/^image\/(?:jpeg|png|webp|avif|gif)(?:\s*;|\s*$)/i.test(mime)) {
+    console.warn("Rejected invalid Substack image response", {
+      status: upstream.status, contentType: mime, id,
+    });
     return new Response("Image temporarily unavailable", {
       status: 502,
-      headers: { "Cache-Control": "public, max-age=60" },
+      headers: { "Cache-Control": "no-store" },
     });
   }
 
