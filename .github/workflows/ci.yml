@@ -24,8 +24,5 @@ jobs:
         run: npm run check
       - name: Run tests
         run: npm test
-      - name: Audit live vs published Substack article cover associations (read-only)
-        if: github.event_name == 'pull_request' && github.head_ref == 'fix/natalie-live-article-cover-source-20261110'
-        run: node tools/audit-live-covers.mjs
       - name: Dry-run Cloudflare Worker bundle
         run: npx wrangler deploy --dry-run --outdir /tmp/wrangler-dry-run
