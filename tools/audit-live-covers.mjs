@@ -38,12 +38,12 @@ for (const [name,url] of targets) {
     }else if(name.endsWith("articles")){
       const cards=body.match(/<article class="article-card"[\s\S]*?<\/article>/g)||[];
       console.log("CARDS",cards.length,"fragment",body.slice(body.indexOf("article-card")-70,body.indexOf("article-card")+360));
-      const hits=[...body.matchAll(/<a class="(?:archive-lead-main|archive-side-card|archive-row)" href="([^"]+)"[\\s\\S]*?<\\/a>/g)];
+      const hits=[...body.matchAll(/<a class="(?:archive-lead-main|archive-side-card|archive-row)" href="([^"]+)"[\s\S]*?<\/a>/g)];
       console.log("ARCHIVE-CARDS",hits.length);
       for(const hit of hits){
         const slug=hit[1].split("/p/")[1]||"";
         const image=hit[0].match(/<img src="([^"]+)"/)?.[1]||"";
-        const file=image.match(/([a-f0-9-]{36}_[0-9]+x[0-9]+\\.(?:png|jpeg|jpg|webp))/i)?.[1]||"";
+        const file=image.match(/([a-f0-9-]{36}_[0-9]+x[0-9]+\.(?:png|jpeg|jpg|webp))/i)?.[1]||"";
         const expected=sourceCovers.get(slug);
         console.log("COMPARE",JSON.stringify({slug,expected:expected||null,actual:file||null,match:expected===file,sourceImage:image.slice(0,180)}));
       }
