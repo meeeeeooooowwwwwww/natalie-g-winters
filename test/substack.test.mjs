@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { __testing } from "../src/substack.js";
+import { __testing, lookupPublicationCover } from "../src/substack.js";
 
 const sitemap = `
 [EXCLUSIVE: The CCP Infiltrated EPA’s Drinking-Water Committee](https://nataliegwinters.substack.com/p/exclusive-the-ccp-infiltrated-epas)
@@ -45,7 +45,7 @@ assert.equal(__testing.chooseArticleImage("/images/natalie-g-winters-profile-16x
 
 const jinaArchive = `Title:
 
-URL Source: http://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=1
+URL Source: http://nataliegwinters.substack.com/api/v1/archive?sort=new&limit=1
 
 Markdown Content:
 [{"id":123,"title":"Archive cover test","slug":"archive-cover-test","canonical_url":"https://nataliegwinters.substack.com/p/archive-cover-test","cover_image":"${coverImage}","post_date":"2026-10-04T13:34:42.943Z"}]`;
@@ -246,5 +246,31 @@ assert.ok(__testing.mergeSourceResults([{ source: "archive", posts: [
   { title: "Report A", url: "https://nataliegwinters.substack.com/p/report-a", cover_image: coverImage },
   { title: "Report B", url: "https://nataliegwinters.substack.com/p/report-b", cover_image: coverImage },
 ]}]).every(post => !post.image), "cross-article collisions must not escape via fresh source merge");
+
+// Regression: Substack now rejects offset=0 (HTTP 400). The reader-backed
+// canonical archive must omit offset/search and carry covers for all 25 posts.
+const latestUrl = "https://nataliegwinters.substack.com/p/democrats-censorship-bill-would-punish";
+const latestCover = "https://substack-post-media.s3.amazonaws.com/public/images/346a280e-6e96-4101-8409-14741ff74a57_1672x941.png";
+const knownLatest = __testing.normalisePost({ title: "Latest article", url: latestUrl });
+assert.equal(knownLatest.image, latestCover, "verified live cover immediately repairs missing image");
+const savedFetcher = globalThis.fetch;
+let archiveCalls = 0;
+try {
+  globalThis.fetch = async (url) => {
+    archiveCalls++;
+    assert.equal(String(url), "https://r.jina.ai/http://nataliegwinters.substack.com/api/v1/archive?sort=new&limit=25",
+      "no deprecated offset=0 or search= parameter can reach Substack");
+    return {
+      ok: true,
+      text: async () => "Markdown Content:\\n"+JSON.stringify([
+        { canonical_url: latestUrl, title: "Latest article", cover_image: latestCover },
+      ]),
+    };
+  };
+  assert.equal(await lookupPublicationCover(latestUrl), latestCover);
+  assert.equal(archiveCalls, 1);
+} finally {
+  globalThis.fetch = savedFetcher;
+}
 
 console.log("Substack updater source, ordering and cover-image tests: PASS");
