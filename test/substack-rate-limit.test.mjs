@@ -91,8 +91,9 @@ try {
   };
 
   const recovery = await refreshArticlesIfChanged(env);
+  assert.ok(calls[0].includes("r.jina.ai"), "official reader archive is the first discovery source");
   assert.equal(recovery.changed, true);
-  assert.equal(calls.length, 2, "RSS and archive use at most two requests on recovery");
+  assert.equal(calls.length, 3, "Partial archive is supplemented by RSS and direct archive only when needed");
   assert.equal(indexNowCalls, 1, "only persisted recovery triggers IndexNow");
   const newStatus = await getUpdaterStatus(env);
   assert.equal(newStatus.newestTitle, "Newly published reporting");
