@@ -31,7 +31,7 @@ try {
   const first = refreshArticlesIfChanged(env);
   assert.equal(refreshArticlesIfChanged(env), first, 'same-isolate refreshes share work');
   await first;
-  assert.equal(calls.length, 2);
+  assert.equal(calls.length, 3, "partial reader metadata is supplemented by two independent sources");
   assert.equal(indexNowCalls, 1, 'changed archive triggers exactly one IndexNow notification');
   assert.equal((await getUpdaterStatus(env)).newestTitle, 'new-post', 'stale API cannot hide newer RSS');
   assert.equal((await getStoredArticleState(env)).posts.length, 2);
@@ -55,7 +55,7 @@ try {
   assert.ok(status.nextRetryAt > Date.now() + 11 * 3600000);
   await refreshArticlesIfChanged(partial.env);
   assert.equal(indexNowCalls, 2, 'partial content update is notified once, cooldown is not');
-  assert.equal(calls.length, 2, 'partial success must still respect rate limits');
+  assert.equal(calls.length, 3, 'partial success respects rate limits after at most three discovery requests');
 
   globalThis.fetch = async url => new Response(String(url).endsWith('/feed') ? rss : JSON.stringify([post('new-post', '15')]));
   const broken = fixture(true);

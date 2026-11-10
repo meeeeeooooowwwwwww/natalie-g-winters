@@ -6,6 +6,8 @@ import { SITE } from "./config.js";
 // authoritative cover_image (500) always wins. Do not use newsletter body
 // images as publication covers or overwrite these with unverified guesses.
 const VERIFIED_ARCHIVE_COVERS = {
+  // Verified 10 November against Substack's public per-post archive API.
+  "https://nataliegwinters.substack.com/p/democrats-censorship-bill-would-punish": "https://substack-post-media.s3.amazonaws.com/public/images/346a280e-6e96-4101-8409-14741ff74a57_1672x941.png",
   "https://nataliegwinters.substack.com/p/he-helped-run-immigration-under-biden": "https://substack-post-media.s3.amazonaws.com/public/images/cd2d18ee-2ab8-461b-971f-ca39d16374ca_700x467.jpeg",
   "https://nataliegwinters.substack.com/p/blockade-and-riot-how-soros-and-gates": "https://substack-post-media.s3.amazonaws.com/public/images/c098b97a-820a-4f7d-8173-2da9bebae208_1260x859.jpeg",
   "https://nataliegwinters.substack.com/p/meet-the-american-university-leaders": "https://substack-post-media.s3.amazonaws.com/public/images/7e4aba5f-56b5-4c97-a8d9-9a69847a3955_1672x941.png",
@@ -18,7 +20,10 @@ const LEGACY_CACHE_KEY = "natalie_latest_articles_v3";
   Preserve this key across deployments: active Retry-After windows must survive.
   The article cache stays on v4 so a deploy never blanks the site.
 */
-const CHECK_STATE_KEY = "natalie_article_check_v8";
+// One-time recovery after correcting a breaking upstream archive query.
+// v9 allows a single fresh check instead of carrying a stale v8 failure cooldown
+// into the repaired source. Future Retry-After limits persist under v9.
+const CHECK_STATE_KEY = "natalie_article_check_v9";
 
 const CHECK_INTERVAL_MS = 60 * 60 * 1000;
 const RATE_LIMIT_BACKOFF_MS = 3 * 60 * 60 * 1000;
@@ -28,12 +33,14 @@ const REQUEST_TIMEOUT_MS = 8000;
 const activeRefreshes = new WeakMap();
 const MAX_STORED_POSTS = 25;
 const FRESH_POST_COUNT = 5;
-const DISCOVERY_COUNT = 10;
+const DISCOVERY_COUNT = 25;
 
 const SUBSTACK_HOME = SITE.substackHome;
 const SUBSTACK_ARCHIVE = `${SITE.substackHome}archive`;
 const SUBSTACK_FEED = `${SITE.substackHome}feed`;
-const SUBSTACK_ARCHIVE_API = `${SITE.substackHome}api/v1/archive?sort=new&search=&offset=0&limit=${DISCOVERY_COUNT}`;
+// Substack rejected offset=0 with HTTP 400; omit offset and search to get
+// the publisher's first page and its per-post cover_image entries.
+const SUBSTACK_ARCHIVE_API = `${SITE.substackHome}api/v1/archive?sort=new&limit=${DISCOVERY_COUNT}`;
 const JINA_READER = "https://r.jina.ai/http://nataliegwinters.substack.com";
 
 /*
@@ -466,7 +473,7 @@ export async function getUpdaterStatus(env) {
   const email = await readKey(env, "natalie_article_email_status_v1");
 
   return {
-    updaterVersion: "canonical-cover-v2",
+    updaterVersion: "canonical-cover-v3-source-recovery",
     pendingCoverCount: articles?.posts?.filter(post => !post.image).length || 0,
     pollingHealth: check?.result === "error" ? "error"
       : !check?.lastSuccessfulAt ? "unverified"
@@ -721,7 +728,7 @@ function parseJinaArchiveApi(text = "") {
 
 async function fetchJinaArchiveApiPosts() {
   const text = await fetchJinaText(
-    `/api/v1/archive?sort=new&search=&offset=0&limit=${DISCOVERY_COUNT}`
+    `/api/v1/archive?sort=new&limit=${DISCOVERY_COUNT}`
   );
   const rows = parseJinaArchiveApi(text);
 
@@ -943,23 +950,23 @@ async function fetchLatestPostsFromSubstack() {
   let sawRateLimit = false;
   const results = [];
 
-  // RSS is the publication feed. Cross-check the archive for corrections and
-  // canonical covers; a usable but stale response is not proof of freshness.
-  // Keep this bounded: no homepage/sitemap crawling or per-article fan-out.
+  // Prefer Substack's official per-post archive JSON via the reader proxy.
+  // This supplies title, publication date and cover_image in one request.
+  // The direct Substack host currently rate-limits RSS/API from server IPs.
+  // Only fall back to direct sources when the canonical archive is missing
+  // or incomplete, avoiding repeated 429s and unnecessary requests.
   const sources = [
+    { host: "reader", fetcher: fetchJinaArchiveApiPosts },
     { host: "substack", fetcher: fetchRssPosts },
     { host: "substack", fetcher: fetchArchiveApiPosts },
-    { host: "reader", fetcher: fetchJinaArchiveApiPosts, fallback: true },
   ];
 
   for (const source of sources) {
     if (blockedHosts.has(source.host)) continue;
-    // Even if RSS succeeds, it may have no publication cover. Query the
-    // reader-backed archive when needed instead of treating article text
-    // availability as proof that canonical image metadata is present.
-    if (source.fallback && results.length &&
-        (sawRateLimit || results.some(result => result.posts?.slice(0, FRESH_POST_COUNT)
-          .every(post => post.image && post.imageQuality >= 500)))) continue;
+    if (results.some(result =>
+      result.source === "substack-reader-archive-api" &&
+      result.posts?.length >= FRESH_POST_COUNT
+    )) break;
     try {
       const result = await source.fetcher();
       if (result.posts?.length) results.push(result);

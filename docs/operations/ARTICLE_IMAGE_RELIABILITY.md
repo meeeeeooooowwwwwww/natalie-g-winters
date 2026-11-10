@@ -30,3 +30,42 @@ Updated 10 November 2026 after repeated reports of incorrect article images.
 - The Substack archive JSON endpoint can return 429/403; a new article may temporarily show the designed title card until a verified per-post cover is available.
 - A passing GitHub check is not a verified Cloudflare production deploy, and the read-only tools cannot force remote Cloudflare KV records to refresh.
 - The duplicate-image rule protects against false associations but also suppresses intentionally reused publication artwork pending manual verification.
+
+## Root-cause investigation, 10 November 2026
+
+The previous image-cache patch was **deployed** successfully (GitHub Actions run
+`42775566874`, commit `7778fef`), yet the first article image was still
+missing. A read-only CI audit against the live Worker and the publisher's own
+archive established the following:
+
+- The live `/api/status` returned `pollingHealth=error`,
+  `lastCheckResult=error`, `consecutiveFailures=3`, with Substack RSS
+  HTTP 429 and the reader backed archive failing.
+- The old reader request contained `?sort=new&search=&offset=0&limit=10`.
+  Direct diagnosis found `offset=0` returned HTTP 400
+  (`offset: Invalid value`); direct Substack access also returned HTTP 403.
+- The corrected reader URL `https://r.jina.ai/http://nataliegwinters.substack.com/api/v1/archive?sort=new&limit=25`
+  returned HTTP 200 and 25 source records with individual `cover_image` URLs.
+- All 25 live article links were matched by slug to those 25 publisher records:
+  **24/25 referenced the same original cover filenames**; the newest
+  `democrats-censorship-bill-would-punish` had no local cover even though its
+  official source image was
+  `346a280e-6e96-4101-8409-14741ff74a57_1672x941.png`.
+- Six live image proxy responses were checked against the matching optimised
+  Substack CDN response: each returned HTTP 200 image/jpeg, equal byte lengths
+  and identical SHA-256 digests. This rules out proxy content substitution
+  for those six tested images; it does **not** prove every pixel the user sees.
+
+**Repair:** Fetch the reader-backed first page without invalid `offset`,
+prefer it ahead of direct 429-prone sources, retrieve all 25 canonical covers
+in one response, and bump the stored updater check-state key once (v8 to v9)
+to clear the failure cooldown only for this source recovery. An explicitly
+verified Nov 9 cover serves as an immediate read-time repair even before the
+next successful fetch. After this release, preserve v9 across deployments.
+
+For future audits use `node tools/audit-live-covers.mjs` on a network-enabled
+runner, compare each article's **slug + exact cover file**, and optionally
+hash-check the live `/media/substack/...` image against Substack's optimised
+source bytes. The previous source-focused tests did not check real production
+freshness or the invalid upstream query, which is why they passed while the
+site remained faulty.
