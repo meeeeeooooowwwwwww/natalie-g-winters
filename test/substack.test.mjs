@@ -205,4 +205,46 @@ assert.equal(gapMerge[0].title, "Just-published post");
 
 assert.equal(__testing.postListsEqual(historyMerge, historyMerge.map((item) => ({ ...item }))), true);
 
+// Regression: a social-image fallback can be a generic publication photo,
+// not the article's own archive cover. Never promote it to a cover.
+const socialOnly = __testing.normalisePost({
+  title: "Social-only metadata",
+  url: "https://nataliegwinters.substack.com/p/social-only-metadata",
+  social_image: coverImage,
+});
+assert.equal(socialOnly.image, "", "social-only metadata must not invent a cover");
+const staleSocial = __testing.normalisePost({
+  title: "Previously cached generic social image",
+  url: "https://nataliegwinters.substack.com/p/stale-social",
+  image: coverImage,
+  imageQuality: 450,
+});
+assert.equal(staleSocial.image, "", "legacy cached social-image rank must be retired");
+
+// The exact image URL, not the last filename alone, must form the cache key.
+// A changed cover must not load a 30-day-old proxy response.
+const firstUrl = "https://substack-post-media.s3.amazonaws.com/public/images/a/cover.jpeg";
+const secondUrl = "https://substack-post-media.s3.amazonaws.com/public/images/b/cover.jpeg";
+assert.notEqual(__testing.imageVersion(firstUrl), __testing.imageVersion(secondUrl));
+assert.match(__testing.imageVersion(firstUrl), /^v3-cover\.jpeg-[0-9a-f]{8}$/);
+assert.equal(__testing.imageVersion(firstUrl), __testing.imageVersion(firstUrl));
+
+// If one source image has been assigned to unrelated articles, show neither
+// with a misleading article-specific cover label until separately verified.
+const shared = __testing.mergeFreshWithHistory([
+  { title: "Report A", url: "https://nataliegwinters.substack.com/p/report-a", cover_image: coverImage },
+  { title: "Report B", url: "https://nataliegwinters.substack.com/p/report-b", cover_image: coverImage },
+]);
+assert.equal(shared.length, 2);
+assert.ok(shared.every(post => post.image === "" && post.imageVersion === ""), "reused cover must fail closed across distinct article URLs");
+const distinct = __testing.mergeFreshWithHistory([
+  { title: "Report A", url: "https://nataliegwinters.substack.com/p/report-a", cover_image: firstUrl },
+  { title: "Report B", url: "https://nataliegwinters.substack.com/p/report-b", cover_image: secondUrl },
+]);
+assert.ok(distinct.every(post => post.image), "distinct verified covers must remain available");
+assert.ok(__testing.mergeSourceResults([{ source: "archive", posts: [
+  { title: "Report A", url: "https://nataliegwinters.substack.com/p/report-a", cover_image: coverImage },
+  { title: "Report B", url: "https://nataliegwinters.substack.com/p/report-b", cover_image: coverImage },
+]}]).every(post => !post.image), "cross-article collisions must not escape via fresh source merge");
+
 console.log("Substack updater source, ordering and cover-image tests: PASS");
