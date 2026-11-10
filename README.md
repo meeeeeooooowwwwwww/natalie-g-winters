@@ -56,9 +56,10 @@ An old verified post list is retained only as a last-resort bootstrap if KV is e
 
 ## Current media
 The homepage featured-video hero shows the directly supplied YouTube video
-(`https://www.youtube.com/shorts/kcKdHchw3X0`) using a privacy-enhanced
-YouTube embed with autoplay disabled and responsive portrait framing. Its source link opens the original
-YouTube watch page; the feature remains separate from reporting. The homepage's separate recent-appearance section and the top of
+(`https://youtu.be/F6ZeQSWVWCk`) using a privacy-enhanced
+YouTube embed with autoplay disabled and responsive landscape framing. On wide screens,
+the video card stretches alongside the homepage introduction; on mobile it uses a 16:9 player.
+Its source link opens the original YouTube watch page; the feature remains separate from reporting. The homepage's separate recent-appearance section and the top of
 `/videos` now show the publisher-verified November 2026 Rumble clips
 with native CDN thumbnails and click-to-play inline embeds, not channel-list
 placeholders. The homepage shows four recent clips; `/videos` shows all five

@@ -451,10 +451,13 @@ body{
   max-width:1460px;
   margin:0 auto;
   display:grid;
-  grid-template-columns:minmax(330px,.8fr) minmax(520px,1.2fr);
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:clamp(32px,5vw,82px);
-  align-items:center;
+  align-items:stretch;
 }
+/* Align the top of the intro and the player card; keep CTAs level with its foot. */
+.home-publication-copy{display:flex;flex-direction:column;min-width:0}
+.home-publication-copy .home-actions{margin-top:auto;padding-top:24px}
 .home-publication-copy .home-kicker{
   display:inline-block;
   margin-bottom:15px;
@@ -511,6 +514,9 @@ body{
   color:#fff;
 }
 .home-video-panel{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
   overflow:hidden;
   border:1px solid var(--pub-line-strong);
   border-radius:16px;
@@ -532,15 +538,13 @@ body{
   letter-spacing:.12em;
 }
 .home-video-head a{color:var(--pub-pink-dark);text-decoration:none}
+/* The landscape player flexes to match the adjacent introduction height on desktop. */
 .home-video-frame{
   position:relative;
-  aspect-ratio:16/9;
+  flex:1 1 0;
+  min-height:clamp(260px,25vw,350px);
   background:#111;
 }
-/* Portrait YouTube Shorts retain a natural 9:16 player inside the existing hero card. */
-.home-video-panel--short{background:#111}
-.home-video-frame--short{aspect-ratio:9/16;width:min(100%,300px);margin-inline:auto}
-.home-video-panel--short .home-video-feature-caption{background:#fff}
 .home-video-frame iframe{
   position:absolute;
   inset:0;
@@ -924,6 +928,8 @@ body{
   .video-lead,
   .profile-feature{grid-template-columns:1fr}
   .home-publication-copy{max-width:760px}
+  /* Once the columns stack, preserve the video’s natural widescreen aspect ratio. */
+  .home-video-frame{flex:none;min-height:0;aspect-ratio:16/9}
   .home-section-head{display:block}
   .home-section-head p{margin-top:12px;text-align:left}
   .archive-side{grid-template-columns:repeat(2,minmax(0,1fr))}
