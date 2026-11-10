@@ -5,6 +5,10 @@ const targets = [
   ["source-api", "https://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=10"],
   ["source-rss", "https://nataliegwinters.substack.com/feed"],
   ["reader-api", "https://r.jina.ai/http://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=10"],
+  ["reader-api-no-offset", "https://r.jina.ai/http://nataliegwinters.substack.com/api/v1/archive?sort=new&limit=10"],
+  ["reader-api-offset-1", "https://r.jina.ai/http://nataliegwinters.substack.com/api/v1/archive?sort=new&search=&offset=1&limit=10"],
+  ["reader-archive", "https://r.jina.ai/http://nataliegwinters.substack.com/archive"],
+  ["reader-home", "https://r.jina.ai/http://nataliegwinters.substack.com/"],
   ["worker-articles", "https://nataliegwinters-site.generalflynn17.workers.dev/articles"],
   ["site-articles", "https://nataliegwinters.com/articles"],
   ["worker-status", "https://nataliegwinters-site.generalflynn17.workers.dev/api/status"],
@@ -31,14 +35,14 @@ for (const [name,url] of targets) {
       }
     }else if(name.endsWith("articles")){
       const cards=body.match(/<article class="article-card"[\s\S]*?<\/article>/g)||[];
-      console.log("CARDS",cards.length);
+      console.log("CARDS",cards.length,"fragment",body.slice(body.indexOf("article-card")-70,body.indexOf("article-card")+360));
       for(const card of cards.slice(0,12))console.log("CARD",JSON.stringify({href:card.match(/<a href="([^"]+)"/)?.[1],img:card.match(/<img src="([^"]+)"/)?.[1],title:card.match(/<h3>([\s\S]*?)<\/h3>/)?.[1]?.slice(0,140).replace(/<[^>]*>/g,""),placeholder:card.includes("editorial-article-cover")}));
     }else if(name==="worker-status"){
       console.log("STATUS",body.slice(0,2500));
-    }else if(name==="reader-api"){
+    }else if(name.startsWith("reader-")){
       const m=body.match(/Markdown Content:\s*\n([\s\S]*)/);
-      try {const parsed=JSON.parse(m?m[1]:body);for(const row of parsed.slice(0,10))console.log("READER",JSON.stringify({slug:row.slug,cover_image:row.cover_image,social_image:row.social_image}));}
-      catch(e){console.log("READER-PARSE",String(e),body.slice(0,400));}
+      try {const parsed=JSON.parse(m?m[1]:body);for(const row of (Array.isArray(parsed)?parsed:(parsed.posts||[])).slice(0,10))console.log("READER",JSON.stringify({slug:row.slug,cover_image:row.cover_image,social_image:row.social_image}));}
+      catch(e){console.log("READER-PARSE",String(e),body.slice(0,2200));}
     }
   }catch(e){console.log("AUDIT-ERROR",name,String(e));}
 }
