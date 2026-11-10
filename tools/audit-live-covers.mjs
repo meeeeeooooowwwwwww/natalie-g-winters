@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 // Read-only remote audit of article covers. Invoked only in the designated PR CI.
 // No tokens, writes, browser automation, cache purges or secrets.
 const targets = [
@@ -15,6 +16,7 @@ const targets = [
   ["worker-status", "https://nataliegwinters-site.generalflynn17.workers.dev/api/status"],
 ];
 const sourceCovers = new Map();
+const mediaSamples = [];
 for (const [name,url] of targets) {
   try {
     const response=await fetch(url,{headers:{Accept:"text/html,application/json,application/rss+xml,*/*"},signal:AbortSignal.timeout(12000)});
@@ -46,6 +48,7 @@ for (const [name,url] of targets) {
         const file=image.match(/([a-f0-9-]{36}_[0-9]+x[0-9]+\.(?:png|jpeg|jpg|webp))/i)?.[1]||"";
         const expected=sourceCovers.get(slug);
         console.log("COMPARE",JSON.stringify({slug,expected:expected||null,actual:file||null,match:expected===file,sourceImage:image.slice(0,180)}));
+        if(file && expected===file && mediaSamples.length < 6)mediaSamples.push({slug,file,path:image});
       }
       for(const card of cards.slice(0,12))console.log("CARD",JSON.stringify({href:card.match(/<a href="([^"]+)"/)?.[1],img:card.match(/<img src="([^"]+)"/)?.[1],title:card.match(/<h3>([\s\S]*?)<\/h3>/)?.[1]?.slice(0,140).replace(/<[^>]*>/g,""),placeholder:card.includes("editorial-article-cover")}));
     }else if(name==="worker-status"){
@@ -62,4 +65,26 @@ for (const [name,url] of targets) {
       catch(e){console.log("READER-PARSE",String(e),body.slice(0,2200));}
     }
   }catch(e){console.log("AUDIT-ERROR",name,String(e));}
+}
+
+for(const sample of mediaSamples){
+  try{
+    const original="https://substack-post-media.s3.amazonaws.com/public/images/"+sample.file;
+    const optimised="https://substackcdn.com/image/fetch/w_700,c_limit,f_auto,q_auto:good,fl_progressive:steep/"+encodeURIComponent(original);
+    const proxy="https://nataliegwinters-site.generalflynn17.workers.dev"+sample.path;
+    const headers={Accept:"image/avif,image/webp,image/*,*/*"};
+    const [sourceResponse,proxyResponse]=await Promise.all([
+      fetch(optimised,{headers,signal:AbortSignal.timeout(15000)}),
+      fetch(proxy,{headers,signal:AbortSignal.timeout(15000)}),
+    ]);
+    const [source,actual]=await Promise.all([sourceResponse.arrayBuffer(),proxyResponse.arrayBuffer()]);
+    const sha=bytes=>createHash("sha256").update(Buffer.from(bytes)).digest("hex").slice(0,16);
+    console.log("BINARY-CHECK",JSON.stringify({
+      slug:sample.slug,sourceStatus:sourceResponse.status,proxyStatus:proxyResponse.status,
+      sourceMime:sourceResponse.headers.get("content-type"),proxyMime:proxyResponse.headers.get("content-type"),
+      sourceLength:source.byteLength,proxyLength:actual.byteLength,
+      sourceSha:sha(source),proxySha:sha(actual),
+      exactMatch:sha(source)===sha(actual),
+    }));
+  }catch(e){console.log("BINARY-ERROR",sample.slug,String(e));}
 }
