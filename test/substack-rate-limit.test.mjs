@@ -21,7 +21,7 @@ cache.set("natalie_latest_articles_v4", {
   }],
   updatedAt: lastSuccessfulAt,
 });
-cache.set("natalie_article_check_v8", {
+cache.set("natalie_article_check_v9", {
   lastCheckedAt: lastSuccessfulAt,
   lastSuccessfulAt,
   result: "no-change",
@@ -60,8 +60,8 @@ try {
 
   // Simulate the retry window elapsing. A single healthy source must clear
   // the cooldown and publish newly discovered content without extra requests.
-  cache.set("natalie_article_check_v8", {
-    ...cache.get("natalie_article_check_v8"),
+  cache.set("natalie_article_check_v9", {
+    ...cache.get("natalie_article_check_v9"),
     nextRetryAt: Date.now() - 1000,
   });
   calls.length = 0;
