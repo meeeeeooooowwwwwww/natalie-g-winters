@@ -17,7 +17,7 @@ const sitemap = `
 const entries = __testing.extractJinaSitemapEntries(sitemap);
 
 assert.equal(entries[0].url, "https://nataliegwinters.substack.com/p/exclusive-the-ccp-infiltrated-epas");
-assert.equal(entries.length, 10);
+assert.equal(entries.length, 11, "25-post discovery includes all fixture sitemap entries");
 
 const profileImage = "https://substackcdn.com/image/fetch/w_80/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fauthor-profile-photo.jpeg";
 const coverImage = "https://substackcdn.com/image/fetch/w_1456,c_limit/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd9ee3dc4-0d1e-47a9-8332-263e77cf86de_1348x926.jpeg";
