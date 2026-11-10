@@ -313,12 +313,21 @@ function imageVersion(url = "") {
   const source = unwrapSubstackImageUrl(url) || url;
   if (!source) return "";
 
+  // Never reuse a 30-day edge image under an old filename-only cache key.
+  // Hash the *whole* source URL so a changed cover gets a different path,
+  // including when two CDN URLs share the same trailing filename.
+  let hash = 2166136261;
+  for (let i = 0; i < source.length; i++) {
+    hash = Math.imul(hash ^ source.charCodeAt(i), 16777619);
+  }
+  const fingerprint = (hash >>> 0).toString(16).padStart(8, "0");
   try {
     const parsed = new URL(source);
     const last = parsed.pathname.split("/").filter(Boolean).pop() || "image";
-    return last.replace(/[^a-zA-Z0-9._-]/g, "").slice(0, 180) || "image";
+    const label = last.replace(/[^a-zA-Z0-9._-]/g, "").slice(0, 140) || "image";
+    return `v3-${label}-${fingerprint}`;
   } catch {
-    return "image";
+    return `v3-image-${fingerprint}`;
   }
 }
 
@@ -328,12 +337,13 @@ function normalisePost(post = {}) {
   );
   const url = canonicalPostUrl(rawUrl);
   const rankedImage = chooseRankedArticleImage(
+    // Only the per-post Substack archive cover is authoritative. A social
+    // preview can be a shared publication default or unrelated inline photo.
     { image: post.cover_image, imageQuality: 500 },
-    { image: post.social_image, imageQuality: 450 },
     {
       // Retire images known to come from body/reader heuristics, including
       // already-cached email topImage entries. Preserve legacy unranked data.
-      image: [50, 80, 100, 120].includes(Number(post.imageQuality)) ? "" : post.image,
+      image: [50, 80, 100, 120, 450].includes(Number(post.imageQuality)) ? "" : post.image,
       imageQuality: post.imageQuality,
     },
     { image: VERIFIED_ARCHIVE_COVERS[url], imageQuality: 400 }
@@ -388,6 +398,26 @@ function mergePostMetadata(primary, fallback) {
     subtitle,
     date,
   };
+}
+
+// Cross-article reuse is a strong signal of a generic social default, a bad
+// cache merge or a publication avatar. Never caption one photograph as the
+// cover of multiple unrelated reports. Prefer the honest editorial title card.
+function suppressRepeatedArticleImages(posts = []) {
+  const occurrences = new Map();
+  for (const post of posts) {
+    if (!post.image || !post.url) continue;
+    const key = unwrapSubstackImageUrl(post.image) || post.image;
+    let urls = occurrences.get(key);
+    if (!urls) { urls = new Set(); occurrences.set(key, urls); }
+    urls.add(post.url);
+  }
+  return posts.map((post) => {
+    if (!post.image) return post;
+    const key = unwrapSubstackImageUrl(post.image) || post.image;
+    if ((occurrences.get(key)?.size || 0) <= 1) return post;
+    return { ...post, image: "", imageQuality: 0, imageVersion: "" };
+  });
 }
 
 function postListsEqual(a = [], b = []) {
@@ -900,8 +930,10 @@ function mergeSourceResults(results) {
       if (a.sourceIndex !== b.sourceIndex) return a.sourceIndex - b.sourceIndex;
       return a.firstSeen - b.firstSeen;
     })
-    .map((record) => record.post)
-    .slice(0, DISCOVERY_COUNT);
+    .map((record) => record.post);
+  // Duplicate image URLs across distinct articles should never be rendered
+  // with misleading article-specific alt text.
+  return suppressRepeatedArticleImages(posts).slice(0, DISCOVERY_COUNT);
 }
 
 async function fetchLatestPostsFromSubstack() {
@@ -1017,7 +1049,7 @@ function mergeFreshWithHistory(freshPosts, storedPosts = []) {
   freshPosts.forEach((post, index) => add(post, index));
   storedPosts.forEach((post) => add(post));
 
-  return [...records.values()]
+  const posts = [...records.values()]
     .sort((a, b) => {
       const aTime = Date.parse(a.post.date || "");
       const bTime = Date.parse(b.post.date || "");
@@ -1034,8 +1066,8 @@ function mergeFreshWithHistory(freshPosts, storedPosts = []) {
       if (a.freshRank !== b.freshRank) return a.freshRank - b.freshRank;
       return a.firstSeen - b.firstSeen;
     })
-    .map((record) => record.post)
-    .slice(0, MAX_STORED_POSTS);
+    .map((record) => record.post);
+  return suppressRepeatedArticleImages(posts).slice(0, MAX_STORED_POSTS);
 }
 
 export async function getStoredArticleState(env) {
@@ -1319,6 +1351,8 @@ export const __testing = {
   mergeFreshWithHistory,
   mergeSourceResults,
   normalisePost,
+  imageVersion,
+  suppressRepeatedArticleImages,
   parseJinaArchiveApi,
   postListsEqual,
 };
