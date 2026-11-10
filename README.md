@@ -38,11 +38,13 @@ A Cloudflare Cron Trigger runs hourly at minute 17:
 
 A normal page request also starts a background refresh when the last check is more than one hour old.
 
-The updater uses a bounded discovery pass:
+The updater uses a bounded, cover-first discovery pass:
 
-1. Substack RSS publication feed.
-2. Substack archive API, cross-checked even when RSS succeeds, for canonical covers and metadata.
-3. Reader-backed archive API only when neither direct source returns usable posts.
+1. Publisher archive JSON via the reader-backed endpoint (`api/v1/archive?sort=new&limit=25`), including per-article canonical `cover_image`.
+2. Direct Substack RSS if the reader archive is missing/incomplete.
+3. Direct Substack archive JSON if the first two sources are unavailable/incomplete.
+
+The former `offset=0` query returned HTTP 400, while direct RSS/API requests were often HTTP 429/403 from server IPs. Preferring the verified reader-backed archive avoids those repeated errors and supplies up to 25 official covers in one request.
 
 There are at most three discovery requests per pass, each with an eight-second timeout. There is no homepage/sitemap crawling or per-post request fan-out. A 429 stops further calls to that host; Retry-After and backoff survive deployments, including partial success. Concurrent refreshes in the same Worker isolate share one promise (this is not a distributed lock).
 
