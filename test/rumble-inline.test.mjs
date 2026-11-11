@@ -25,11 +25,11 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
   assert.ok(home.includes(video.embedUrl), "Homepage embeds one of four current clips");
   assert.ok(home.includes(video.thumbnailUrl), "Homepage uses verified publisher thumbnail");
 }
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/b5GpfJ0nvMg"'), "Hero must embed the requested YouTube video");
-assert.ok(home.includes('href="https://youtu.be/b5GpfJ0nvMg"'), "Hero must link to the same YouTube video");
+assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/0NS53Ydzq6o"'), "Hero must embed the requested YouTube video");
+assert.ok(home.includes('href="https://youtu.be/0NS53Ydzq6o"'), "Hero must link to the same YouTube video");
 assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
 assert.ok(home.includes('OPEN ON YOUTUBE'), "Hero must label its player source correctly");
-assert.ok(home.includes('Tune in tomorrow for episode 3! xD'), "Hero caption must match the YouTube embed");
+assert.ok(home.includes('Shit's gettin' real'), "Hero caption must match the YouTube embed");
 assert.ok(assets.includes(".home-video-frame iframe") && assets.includes("flex:1 1 0;") && assets.includes("align-items:stretch;"), "Desktop landscape player must stretch in line with the left intro");
 assert.ok(assets.includes(".home-video-frame{flex:none;min-height:0;aspect-ratio:16/9}"), "Stacked mobile player must retain natural widescreen aspect ratio");
 assert.ok(home.includes('class="home-video-panel"') && !home.includes("home-video-panel--short"), "Remove old Shorts-only portrait layout");
