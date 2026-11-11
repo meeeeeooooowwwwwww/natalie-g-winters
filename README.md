@@ -58,7 +58,7 @@ An old verified post list is retained only as a last-resort bootstrap if KV is e
 
 ## Current media
 The homepage featured-video hero shows the directly supplied YouTube video
-(`https://youtu.be/AfUGN74qrq8`) using a privacy-enhanced
+(`https://youtu.be/b5GpfJ0nvMg`) with the caption "Tune in tomorrow for episode 3! xD", using a privacy-enhanced
 YouTube embed with autoplay disabled and responsive landscape framing. On wide screens,
 the video card stretches alongside the homepage introduction; on mobile it uses a 16:9 player.
 Its source link opens the original YouTube watch page; the feature remains separate from reporting. The homepage's separate recent-appearance section and the top of
