@@ -57,11 +57,14 @@ Article images are restricted to Substack media hosts. Profile/avatar/logo-sized
 An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
 
 ## Current media
-The homepage featured-video hero shows the directly supplied YouTube video
-(`https://youtu.be/2AwmwORrepc`) with the caption "Shit's gettin' real", using a privacy-enhanced
-YouTube embed with autoplay disabled and responsive landscape framing. On wide screens,
+The homepage video hero shows the directly supplied YouTube video
+(`https://www.youtube.com/watch?v=9oFj54nkhgg`) with the heading
+"Our Exciting Jem & The Holograms Coverage" and the caption
+"Tune in tomorrow for the next exciting episode No.4! xD". The obsolete
+"Featured video" labels and top external YouTube link are removed. The privacy-enhanced
+YouTube embed has autoplay disabled and responsive landscape framing. On wide screens,
 the video card stretches alongside the homepage introduction; on mobile it uses a 16:9 player.
-Its source link opens the original YouTube watch page; the feature remains separate from reporting. The homepage's separate recent-appearance section and the top of
+The feature remains separate from reporting. The homepage's separate recent-appearance section and the top of
 `/videos` now show the publisher-verified November 2026 Rumble clips
 with native CDN thumbnails and click-to-play inline embeds, not channel-list
 placeholders. The homepage shows four recent clips; `/videos` shows all five
