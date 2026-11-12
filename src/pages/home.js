@@ -5,8 +5,7 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards, renderNewRumbleListings } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/2AwmwORrepc";
-  const featuredYouTubeSourceUrl = "https://youtu.be/2AwmwORrepc";
+  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/9oFj54nkhgg";
 
   const pageContent = `
     <main class="editorial-home">
@@ -26,13 +25,12 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head">
-              <span>FEATURED VIDEO</span>
-              <a href="${featuredYouTubeSourceUrl}" target="_blank" rel="noopener noreferrer">OPEN ON YOUTUBE →</a>
+              <span>Our Exciting Jem &amp; The Holograms Coverage</span>
             </div>
             <div class="home-video-frame">
               <iframe
                 src="${featuredYouTubeEmbedUrl}"
-                title="Featured video on YouTube"
+                title="Jem and the Holograms video on YouTube"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="encrypted-media; picture-in-picture; fullscreen"
@@ -40,8 +38,7 @@ export function renderHomePage(posts) {
               ></iframe>
             </div>
             <div class="home-video-feature-caption">
-              <strong>Featured video</strong>
-              <span>Shit's gettin' real</span>
+              <span>Tune in tomorrow for the next exciting episode No.4! xD</span>
             </div>
           </div>
         </div>
