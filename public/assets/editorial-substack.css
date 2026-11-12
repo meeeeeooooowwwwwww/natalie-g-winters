@@ -1168,9 +1168,8 @@ figcaption{color:#6d5d64!important}
 .recent-rumble-content h3{overflow-wrap:anywhere}
 .recent-rumble-source{margin-top:auto;padding-top:12px;color:var(--pub-pink-dark)!important;font-size:11px;font-weight:850;letter-spacing:.08em;line-height:1.4;text-decoration:underline;text-underline-offset:3px}
 .home-recent-inline-player .recent-rumble-poster{padding:22px}
-.home-video-feature-caption{padding:13px 18px 18px;display:flex;flex-wrap:wrap;gap:7px 20px;align-items:start;justify-content:space-between;color:var(--pub-ink)}
-.home-video-feature-caption strong{min-width:0;max-width:42ch;font:700 clamp(16px,1.7vw,22px)/1.2 Georgia,"Times New Roman",serif;overflow-wrap:anywhere}
-.home-video-feature-caption span{font-size:10px;color:var(--pub-muted);font-weight:700;line-height:1.5}
+.home-video-feature-caption{padding:13px 18px 18px;display:flex;flex-wrap:wrap;gap:7px 20px;align-items:start;justify-content:flex-end;color:var(--pub-ink)}
+.home-video-feature-caption span{font-size:10px;color:var(--pub-muted);font-weight:700;line-height:1.5;text-align:right;max-width:100%}
 @media(max-width:980px) and (min-width:761px){
   .article-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .article-grid .article-card:first-child{grid-column:span 2;grid-row:auto}
@@ -1203,7 +1202,6 @@ figcaption{color:#6d5d64!important}
   .recent-rumble-content h3{font-size:clamp(20px,6vw,26px)}
   .home-video-head{gap:10px;flex-wrap:wrap;align-items:center}
   .home-video-feature-caption{padding:12px 15px 16px}
-  .home-video-feature-caption strong{font-size:18px}
 }
 @media(max-width:380px){
   .home-section{padding-left:12px;padding-right:12px}
