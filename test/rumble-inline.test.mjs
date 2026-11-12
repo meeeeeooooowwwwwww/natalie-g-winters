@@ -25,11 +25,13 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
   assert.ok(home.includes(video.embedUrl), "Homepage embeds one of four current clips");
   assert.ok(home.includes(video.thumbnailUrl), "Homepage uses verified publisher thumbnail");
 }
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/2AwmwORrepc"'), "Hero must embed the requested YouTube video");
-assert.ok(home.includes('href="https://youtu.be/2AwmwORrepc"'), "Hero must link to the same YouTube video");
+assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/9oFj54nkhgg"'), "Hero must embed the newly requested YouTube video");
 assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
-assert.ok(home.includes('OPEN ON YOUTUBE'), "Hero must label its player source correctly");
-assert.ok(home.includes("Shit's gettin' real"), "Hero caption must match the YouTube embed");
+assert.ok(home.includes("Our Exciting Jem &amp; The Holograms Coverage"), "Hero must show the new coverage heading");
+assert.ok(home.includes("Tune in tomorrow for the next exciting episode No.4! xD"), "Hero must show the exact episode 4 teaser");
+assert.ok(!home.includes('OPEN ON YOUTUBE'), "Hero header must not have the external YouTube link");
+assert.ok(!home.includes('<strong>Featured video</strong>'), "Hero bottom must not show the obsolete label");
+assert.ok(!home.includes('href="https://youtu.be/2AwmwORrepc"'), "Old video link must not return");
 assert.ok(assets.includes(".home-video-frame iframe") && assets.includes("flex:1 1 0;") && assets.includes("align-items:stretch;"), "Desktop landscape player must stretch in line with the left intro");
 assert.ok(assets.includes(".home-video-frame{flex:none;min-height:0;aspect-ratio:16/9}"), "Stacked mobile player must retain natural widescreen aspect ratio");
 assert.ok(home.includes('class="home-video-panel"') && !home.includes("home-video-panel--short"), "Remove old Shorts-only portrait layout");
