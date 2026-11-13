@@ -57,10 +57,10 @@ Article images are restricted to Substack media hosts. Profile/avatar/logo-sized
 An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
 
 ## Current media
-The homepage video hero shows the directly supplied YouTube video
-(`https://www.youtube.com/watch?v=9oFj54nkhgg`) with the heading
-"Our Exciting Jem & The Holograms Coverage" and the caption
-"Tune in tomorrow for the next exciting episode No.4! xD". The obsolete
+The homepage video hero shows Jem & The Holograms Episode 4
+(`https://www.youtube.com/watch?v=NuQ1jZ_bcyM`) with the heading
+"Tonight's Totally Treacherous Jem & The Holograms: Episode 4" and the caption
+"Transmission trouble tamed! After a 90-minute tape-tracking tantrum, Episode 4 is transmitting now. Tune in for tunes, treachery and The Misfits!". The obsolete
 "Featured video" labels and top external YouTube link are removed. The privacy-enhanced
 YouTube embed has autoplay disabled and responsive landscape framing. On wide screens,
 the video card stretches alongside the homepage introduction; on mobile it uses a 16:9 player.
