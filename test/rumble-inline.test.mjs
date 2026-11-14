@@ -25,10 +25,10 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
   assert.ok(home.includes(video.embedUrl), "Homepage embeds one of four current clips");
   assert.ok(home.includes(video.thumbnailUrl), "Homepage uses verified publisher thumbnail");
 }
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/NuQ1jZ_bcyM"'), "Hero must embed Jem and the Holograms episode 4");
+assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/_pwA_zL3gE8"'), "Hero must embed Jem and the Holograms episode 05");
 assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
-assert.ok(home.includes("Tonight's Totally Treacherous Jem &amp; The Holograms: Episode 4"), "Hero must show the retro episode 4 heading");
-assert.ok(home.includes("Transmission trouble tamed! After a 90-minute tape-tracking tantrum, Episode 4 is transmitting now. Tune in for tunes, treachery and The Misfits!"), "Hero must show the new transmission-delay caption");
+assert.ok(home.includes("Jem &amp; The Holograms: Episode 05"), "Hero must show the episode 05 heading");
+assert.ok(home.includes("Tune in tomorrow for Episode 06!"), "Hero must show the next-episode caption");
 assert.ok(!home.includes('OPEN ON YOUTUBE'), "Hero header must not have the external YouTube link");
 assert.ok(!home.includes('<strong>Featured video</strong>'), "Hero bottom must not show the obsolete label");
 assert.ok(!home.includes('href="https://youtu.be/2AwmwORrepc"'), "Old video link must not return");
