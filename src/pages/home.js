@@ -5,7 +5,7 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards, renderNewRumbleListings } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/NuQ1jZ_bcyM";
+  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/_pwA_zL3gE8";
 
   const pageContent = `
     <main class="editorial-home">
@@ -25,7 +25,7 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head">
-              <span>Tonight's Totally Treacherous Jem &amp; The Holograms: Episode 4</span>
+              <span>Jem &amp; The Holograms: Episode 05</span>
             </div>
             <div class="home-video-frame">
               <iframe
@@ -38,7 +38,7 @@ export function renderHomePage(posts) {
               ></iframe>
             </div>
             <div class="home-video-feature-caption">
-              <span>Transmission trouble tamed! After a 90-minute tape-tracking tantrum, Episode 4 is transmitting now. Tune in for tunes, treachery and The Misfits!</span>
+              <span>Tune in tomorrow for Episode 06!</span>
             </div>
           </div>
         </div>
