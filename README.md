@@ -64,6 +64,10 @@ The supporting tagline is "From USAID to LEMON-AID: The lemons plead the Fifth."
 "Featured video" labels and top external YouTube link are removed. The privacy-enhanced
 YouTube embed has autoplay disabled and responsive landscape framing. On wide screens,
 the video card stretches alongside the homepage introduction; on mobile it uses a 16:9 player.
+The **Natalie G. Winters** masthead is kept on one line with fluid, capped serif
+type (including narrow phones), while the two-column desktop introduction
+distributes vertical spacing to retain top and bottom alignment with the video.
+At 900px and below, the hero stacks naturally above the widescreen player.
 The feature remains separate from reporting. The homepage's separate recent-appearance section and the top of
 `/videos` now show the publisher-verified November 2026 Rumble clips
 with native CDN thumbnails and click-to-play inline embeds, not channel-list
