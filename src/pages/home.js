@@ -38,8 +38,7 @@ export function renderHomePage(posts) {
               ></iframe>
             </div>
             <div class="home-video-feature-caption home-video-feature-caption--expose">
-              <span>From USAID to LEMON-AID.</span>
-              <span>Natalie G. Winters follows the money. The lemons plead the Fifth.</span>
+              <span>From USAID to LEMON-AID: The lemons plead the Fifth.</span>
             </div>
           </div>
         </div>
