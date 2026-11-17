@@ -25,7 +25,7 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head home-video-head--expose">
-              <span>LEMON-AID EXPOSED: THE SOUR SCANDAL THEY DIDN&#39;T WANT YOU TO SEE</span>
+              <span>LEMON-AID: THE SOUR SCANDAL</span>
             </div>
             <div class="home-video-frame">
               <iframe
@@ -39,7 +39,7 @@ export function renderHomePage(posts) {
             </div>
             <div class="home-video-feature-caption home-video-feature-caption--expose">
               <span>From USAID to LEMON-AID.</span>
-              <span>If you thought USAID was bad, wait, there&#39;s more!</span>
+              <span>Natalie G. Winters follows the money. The lemons plead the Fifth.</span>
             </div>
           </div>
         </div>
