@@ -25,10 +25,12 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
   assert.ok(home.includes(video.embedUrl), "Homepage embeds one of four current clips");
   assert.ok(home.includes(video.thumbnailUrl), "Homepage uses verified publisher thumbnail");
 }
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/_pwA_zL3gE8"'), "Hero must embed Jem and the Holograms episode 05");
+assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/p2LXMSgldYo"'), "Hero must embed the LEMON-AID short film");
 assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
-assert.ok(home.includes("Jem &amp; The Holograms: Episode 05"), "Hero must show the episode 05 heading");
-assert.ok(home.includes("Tune in tomorrow for Episode 06!"), "Hero must show the next-episode caption");
+assert.ok(home.includes('title="LEMON-AID short film by Sumner McMurtry on YouTube"'), "Hero accessible title must identify the film");
+assert.ok(home.includes('class="home-video-head home-video-head--expose"'), "Exposé headline has the appropriate visual treatment");
+assert.ok(home.includes("LEMON-AID EXPOSED: THE SOUR SCANDAL THEY DIDN&#39;T WANT YOU TO SEE"), "Hero must show the LEMON-AID expose headline");
+assert.ok(home.includes("From USAID to LEMON-AID.") && home.includes("If you thought USAID was bad, wait, there&#39;s more!"), "Hero must show both LEMON-AID punchlines");
 assert.ok(!home.includes('OPEN ON YOUTUBE'), "Hero header must not have the external YouTube link");
 assert.ok(!home.includes('<strong>Featured video</strong>'), "Hero bottom must not show the obsolete label");
 assert.ok(!home.includes('href="https://youtu.be/2AwmwORrepc"'), "Old video link must not return");
