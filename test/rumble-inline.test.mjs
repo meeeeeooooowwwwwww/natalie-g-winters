@@ -30,7 +30,7 @@ assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsiv
 assert.ok(home.includes('title="LEMON-AID short film by Sumner McMurtry on YouTube"'), "Hero accessible title must identify the film");
 assert.ok(home.includes('class="home-video-head home-video-head--expose"'), "Exposé headline has the appropriate visual treatment");
 assert.ok(home.includes("LEMON-AID: THE SOUR SCANDAL"), "Hero must show the LEMON-AID expose headline");
-assert.ok(home.includes("From USAID to LEMON-AID.") && home.includes("Natalie G. Winters follows the money. The lemons plead the Fifth."), "Hero must show both LEMON-AID punchlines");
+assert.ok(home.includes("From USAID to LEMON-AID: The lemons plead the Fifth."), "Hero must show the single-line LEMON-AID tagline");
 assert.ok(!home.includes('OPEN ON YOUTUBE'), "Hero header must not have the external YouTube link");
 assert.ok(!home.includes('<strong>Featured video</strong>'), "Hero bottom must not show the obsolete label");
 assert.ok(!home.includes('href="https://youtu.be/2AwmwORrepc"'), "Old video link must not return");
