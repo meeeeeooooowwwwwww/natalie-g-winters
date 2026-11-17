@@ -60,8 +60,7 @@ An old verified post list is retained only as a last-resort bootstrap if KV is e
 The homepage video hero shows **LEMON-AID** by Sumner McMurtry
 (`https://www.youtube.com/watch?v=p2LXMSgldYo`) under the headline
 "LEMON-AID: THE SOUR SCANDAL".
-The supporting lines are "From USAID to LEMON-AID." and
-"Natalie G. Winters follows the money. The lemons plead the Fifth.". The obsolete
+The supporting tagline is "From USAID to LEMON-AID: The lemons plead the Fifth.". The obsolete
 "Featured video" labels and top external YouTube link are removed. The privacy-enhanced
 YouTube embed has autoplay disabled and responsive landscape framing. On wide screens,
 the video card stretches alongside the homepage introduction; on mobile it uses a 16:9 player.
