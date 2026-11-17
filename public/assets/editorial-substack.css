@@ -458,6 +458,12 @@ body{
 /* Align the top of the intro and the player card; keep CTAs level with its foot. */
 .home-publication-copy{display:flex;flex-direction:column;min-width:0}
 .home-publication-copy .home-actions{margin-top:auto;padding-top:24px}
+/* Share the space saved by the one-line heading across the copy, rather than
+   leaving a large blank area above the buttons. The stacked layout is untouched. */
+@media(min-width:901px){
+  .home-publication-copy{justify-content:space-between}
+  .home-publication-copy .home-actions{margin-top:20px;padding-top:0}
+}
 .home-publication-copy .home-kicker{
   display:inline-block;
   margin-bottom:15px;
@@ -470,9 +476,11 @@ body{
   margin:0;
   color:var(--pub-ink);
   font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(50px,6vw,88px);
-  line-height:.88;
+  /* Preserve the editorial serif style without forcing a two-line desktop name. */
+  font-size:clamp(36px,4vw,66px);
+  line-height:1.02;
   letter-spacing:-.06em;
+  white-space:nowrap;
 }
 .home-publication-copy .home-tagline{
   max-width:650px;
@@ -986,7 +994,7 @@ body{
   .home-brand-ribbon .brand-mark--warroom img{width:74px;max-height:74px}
   .home-brand-ribbon .brand-mark--glenn{grid-column:1/-1}
   .home-publication-hero{padding-top:36px}
-  .home-publication-copy h1{font-size:clamp(46px,14vw,68px)}
+  .home-publication-copy h1{font-size:clamp(22px,7.75vw,58px)}
   .home-video-head{font-size:8px}
 }
 @media(max-width:520px){
