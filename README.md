@@ -57,10 +57,11 @@ Article images are restricted to Substack media hosts. Profile/avatar/logo-sized
 An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
 
 ## Current media
-The homepage video hero shows Jem & The Holograms Episode 05
-(`https://www.youtube.com/watch?v=_pwA_zL3gE8`) with the heading
-"Jem & The Holograms: Episode 05" and the caption
-"Tune in tomorrow for Episode 06!". The obsolete
+The homepage video hero shows **LEMON-AID** by Sumner McMurtry
+(`https://www.youtube.com/watch?v=p2LXMSgldYo`) under the headline
+"LEMON-AID EXPOSED: THE SOUR SCANDAL THEY DIDN'T WANT YOU TO SEE".
+The supporting lines are "From USAID to LEMON-AID." and
+"If you thought USAID was bad, wait, there's more!". The obsolete
 "Featured video" labels and top external YouTube link are removed. The privacy-enhanced
 YouTube embed has autoplay disabled and responsive landscape framing. On wide screens,
 the video card stretches alongside the homepage introduction; on mobile it uses a 16:9 player.

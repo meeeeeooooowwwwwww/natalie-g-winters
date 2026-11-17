@@ -5,7 +5,7 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards, renderNewRumbleListings } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/_pwA_zL3gE8";
+  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/p2LXMSgldYo";
 
   const pageContent = `
     <main class="editorial-home">
@@ -24,21 +24,22 @@ export function renderHomePage(posts) {
           </div>
 
           <div class="home-video-panel">
-            <div class="home-video-head">
-              <span>Jem &amp; The Holograms: Episode 05</span>
+            <div class="home-video-head home-video-head--expose">
+              <span>LEMON-AID EXPOSED: THE SOUR SCANDAL THEY DIDN&#39;T WANT YOU TO SEE</span>
             </div>
             <div class="home-video-frame">
               <iframe
                 src="${featuredYouTubeEmbedUrl}"
-                title="Jem and the Holograms video on YouTube"
+                title="LEMON-AID short film by Sumner McMurtry on YouTube"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="encrypted-media; picture-in-picture; fullscreen"
                 allowfullscreen
               ></iframe>
             </div>
-            <div class="home-video-feature-caption">
-              <span>Tune in tomorrow for Episode 06!</span>
+            <div class="home-video-feature-caption home-video-feature-caption--expose">
+              <span>From USAID to LEMON-AID.</span>
+              <span>If you thought USAID was bad, wait, there&#39;s more!</span>
             </div>
           </div>
         </div>
