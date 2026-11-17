@@ -53,4 +53,12 @@ for (const breakpoint of ["1180", "760", "380"]) {
   assert.match(editorial, new RegExp(`@media\\(max-width:${breakpoint}px\\)`), `missing responsive breakpoint: ${breakpoint}`);
 }
 
+// The homepage masthead stays on one line in the side-by-side desktop layout.
+// The buttons must still track the video card's bottom; small screens stack.
+assert.match(homepage, /<h1 id="home-title">Natalie G\. Winters<\/h1>/);
+assert.match(editorial, /\.home-publication-copy h1\{[^}]*font-size:clamp\(36px,4vw,66px\);[^}]*white-space:nowrap;/);
+assert.match(editorial, /@media\(min-width:901px\)\{[\s\S]*?\.home-publication-copy\{justify-content:space-between\}[\s\S]*?\.home-publication-copy \.home-actions\{margin-top:20px;padding-top:0\}/);
+assert.match(editorial, /@media\(max-width:900px\)\{[\s\S]*?\.home-publication-inner,[\s\S]*?grid-template-columns:1fr/);
+assert.match(editorial, /\.home-publication-copy h1\{font-size:clamp\(22px,7\.75vw,58px\)\}/);
+
 console.log("visual theme regression checks passed");
