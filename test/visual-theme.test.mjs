@@ -58,7 +58,7 @@ for (const breakpoint of ["1180", "760", "380"]) {
 // not the entire card (which also includes the caption).
 assert.match(homepage, /class="home-publication-copy"[\s\S]*?class="home-kicker"[\s\S]*?class="home-publication-body"[\s\S]*?<h1 id="home-title">Natalie G\. Winters<\/h1>/);
 assert.match(editorial, /\.home-publication-copy h1\{[^}]*font-size:clamp\(36px,4vw,66px\);[^}]*white-space:nowrap;/);
-assert.match(editorial, /@media\(min-width:1151px\)\{[\s\S]*?\.home-publication-inner\{grid-template-rows:auto minmax\(0,1fr\) auto\}/);
+assert.match(editorial, /@media\(min-width:1151px\)\{[\s\S]*?\.home-publication-inner\{grid-template-rows:min-content minmax\(0,1fr\) min-content;row-gap:0\}/);
 assert.match(editorial, /\.home-publication-copy\{display:grid;grid-column:1;grid-row:1 \/ span 3;grid-template-rows:subgrid\}/);
 assert.match(editorial, /\.home-publication-copy \.home-kicker\{grid-row:1;display:flex;align-items:center;/);
 assert.match(editorial, /\.home-publication-body\{grid-row:2;justify-content:space-between\}/);
