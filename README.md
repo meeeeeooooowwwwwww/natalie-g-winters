@@ -65,9 +65,13 @@ The supporting tagline is "From USAID to LEMON-AID: The lemons plead the Fifth."
 YouTube embed has autoplay disabled and responsive landscape framing. On wide screens,
 the video card stretches alongside the homepage introduction; on mobile it uses a 16:9 player.
 The **Natalie G. Winters** masthead is kept on one line with fluid, capped serif
-type (including narrow phones), while the two-column desktop introduction
-distributes vertical spacing to retain top and bottom alignment with the video.
-At 900px and below, the hero stacks naturally above the widescreen player.
+type (including narrow phones). Above 1150px, the introduction and video card
+share a three-row CSS subgrid: the WHITE HOUSE / WAR ROOM / INVESTIGATIONS kicker
+aligns with the LEMON-AID headline; the name, bio and navigation fit alongside
+the actual embedded video picture; and the video's bottom caption has its own
+row. This ensures the text and buttons match the film picture, not the outer
+card's top/bottom. At 1150px and below, the introduction stacks naturally above
+the widescreen player, with no forced-height blank space.
 The feature remains separate from reporting. The homepage's separate recent-appearance section and the top of
 `/videos` now show the publisher-verified November 2026 Rumble clips
 with native CDN thumbnails and click-to-play inline embeds, not channel-list
