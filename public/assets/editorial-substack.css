@@ -455,14 +455,23 @@ body{
   gap:clamp(32px,5vw,82px);
   align-items:stretch;
 }
-/* Align the top of the intro and the player card; keep CTAs level with its foot. */
+/* Separate the masthead kicker from the text block so desktop can match the
+   video heading, embedded picture and caption rows exactly. */
 .home-publication-copy{display:flex;flex-direction:column;min-width:0}
-.home-publication-copy .home-actions{margin-top:auto;padding-top:24px}
-/* Share the space saved by the one-line heading across the copy, rather than
-   leaving a large blank area above the buttons. The stacked layout is untouched. */
-@media(min-width:901px){
-  .home-publication-copy{justify-content:space-between}
-  .home-publication-copy .home-actions{margin-top:20px;padding-top:0}
+.home-publication-body{display:flex;flex-direction:column;min-width:0}
+.home-publication-body .home-actions{margin-top:auto;padding-top:24px}
+/* The desktop grid shares all three row tracks across both columns. Unlike
+   matching fixed margins, subgrid stays aligned when video captions wrap. */
+@media(min-width:1151px){
+  .home-publication-inner{grid-template-rows:auto minmax(0,1fr) auto}
+  .home-publication-copy{display:grid;grid-column:1;grid-row:1 / span 3;grid-template-rows:subgrid}
+  .home-publication-copy .home-kicker{grid-row:1;display:flex;align-items:center;margin-bottom:0;padding:11px 0}
+  .home-publication-body{grid-row:2;justify-content:space-between}
+  .home-publication-body .home-actions{margin-top:auto;padding-top:16px}
+  .home-video-panel{display:grid;grid-column:2;grid-row:1 / span 3;grid-template-rows:subgrid}
+  .home-video-head{grid-row:1}
+  .home-video-frame{grid-row:2}
+  .home-video-feature-caption{grid-row:3}
 }
 .home-publication-copy .home-kicker{
   display:inline-block;
@@ -919,6 +928,14 @@ body{
 .footer-mini-divider{background:rgba(255,255,255,.12)!important}
 
 /* Responsive */
+/* Stack the whole introduction before its two-column frame becomes cramped.
+   The film keeps its natural landscape aspect ratio on tablet and mobile. */
+@media(max-width:1150px){
+  .home-publication-inner{grid-template-columns:minmax(0,1fr)}
+  .home-publication-copy{max-width:760px}
+  .home-publication-copy h1{font-size:clamp(22px,7.75vw,64px)}
+  .home-video-frame{flex:none;min-height:0;aspect-ratio:16/9}
+}
 @media(max-width:1180px){
   .article-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
   .article-grid .article-card:first-child{grid-column:span 2}
@@ -930,14 +947,10 @@ body{
   .video-library-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:900px){
-  .home-publication-inner,
   .archive-lead,
   .video-publication-header,
   .video-lead,
   .profile-feature{grid-template-columns:1fr}
-  .home-publication-copy{max-width:760px}
-  /* Once the columns stack, preserve the video’s natural widescreen aspect ratio. */
-  .home-video-frame{flex:none;min-height:0;aspect-ratio:16/9}
   .home-section-head{display:block}
   .home-section-head p{margin-top:12px;text-align:left}
   .archive-side{grid-template-columns:repeat(2,minmax(0,1fr))}
