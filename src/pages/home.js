@@ -13,14 +13,16 @@ export function renderHomePage(posts) {
         <div class="home-publication-inner">
           <div class="home-publication-copy">
             <span class="home-kicker">WHITE HOUSE · WAR ROOM · INVESTIGATIONS</span>
-            <h1 id="home-title">Natalie G. Winters</h1>
-            <p class="home-tagline">Investigative reporting, political media and the paper trail behind the headline.</p>
-            <p class="home-summary"><strong>Natalie G. Winters</strong> is a White House correspondent, investigative journalist and <em>War Room</em> co-host and executive editor. This site brings her reporting, broadcasts, interviews and public work together in one visual archive.</p>
-            <nav class="home-actions" aria-label="Explore Natalie G. Winters">
-              <a href="/articles">READ THE LATEST</a>
-              <a href="/videos">WATCH VIDEOS</a>
-              <a href="/about">ABOUT NATALIE</a>
-            </nav>
+            <div class="home-publication-body">
+              <h1 id="home-title">Natalie G. Winters</h1>
+              <p class="home-tagline">Investigative reporting, political media and the paper trail behind the headline.</p>
+              <p class="home-summary"><strong>Natalie G. Winters</strong> is a White House correspondent, investigative journalist and <em>War Room</em> co-host and executive editor. This site brings her reporting, broadcasts, interviews and public work together in one visual archive.</p>
+              <nav class="home-actions" aria-label="Explore Natalie G. Winters">
+                <a href="/articles">READ THE LATEST</a>
+                <a href="/videos">WATCH VIDEOS</a>
+                <a href="/about">ABOUT NATALIE</a>
+              </nav>
+            </div>
           </div>
 
           <div class="home-video-panel">

@@ -34,8 +34,8 @@ assert.ok(home.includes("From USAID to LEMON-AID: The lemons plead the Fifth."),
 assert.ok(!home.includes('OPEN ON YOUTUBE'), "Hero header must not have the external YouTube link");
 assert.ok(!home.includes('<strong>Featured video</strong>'), "Hero bottom must not show the obsolete label");
 assert.ok(!home.includes('href="https://youtu.be/2AwmwORrepc"'), "Old video link must not return");
-assert.ok(assets.includes(".home-video-frame iframe") && assets.includes("flex:1 1 0;") && assets.includes("align-items:stretch;"), "Desktop landscape player must stretch in line with the left intro");
-assert.ok(assets.includes(".home-video-frame{flex:none;min-height:0;aspect-ratio:16/9}"), "Stacked mobile player must retain natural widescreen aspect ratio");
+assert.ok(assets.includes(".home-video-frame iframe") && assets.includes("grid-template-rows:subgrid") && assets.includes("align-items:stretch;"), "Desktop video and introduction must share a three-row alignment grid");
+assert.ok(assets.includes("@media(max-width:1150px)") && assets.includes(".home-video-frame{flex:none;min-height:0;aspect-ratio:16/9}"), "Stacked tablet/mobile player must retain natural widescreen aspect ratio");
 assert.ok(home.includes('class="home-video-panel"') && !home.includes("home-video-panel--short"), "Remove old Shorts-only portrait layout");
 assert.ok(!home.includes("autoplay=1"), "Hero must not autoplay");
 assert.ok(!home.includes("youtube-nocookie.com/embed/1c7XccFwJrQ"), "Old YouTube hero must be removed");
