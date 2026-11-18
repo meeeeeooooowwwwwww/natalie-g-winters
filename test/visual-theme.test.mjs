@@ -70,5 +70,6 @@ for (const [className,row] of [["head",1],["frame",2],["feature-caption",3]]) {
 assert.match(editorial, /@media\(max-width:1150px\)\{[\s\S]*?\.home-publication-inner\{grid-template-columns:minmax\(0,1fr\)\}/);
 assert.match(editorial, /\.home-video-frame\{flex:none;min-height:0;aspect-ratio:16\/9\}/);
 assert.match(editorial, /\.home-publication-copy h1\{font-size:clamp\(22px,7\.75vw,58px\)\}/);
+assert.ok(editorial.indexOf("@media(min-width:1151px)") > editorial.indexOf(".home-video-frame iframe{"), "Subgrid desktop rules must follow base card rules in the cascade");
 
 console.log("visual theme regression checks passed");
