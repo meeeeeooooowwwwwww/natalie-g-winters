@@ -53,12 +53,22 @@ for (const breakpoint of ["1180", "760", "380"]) {
   assert.match(editorial, new RegExp(`@media\\(max-width:${breakpoint}px\\)`), `missing responsive breakpoint: ${breakpoint}`);
 }
 
-// The homepage masthead stays on one line in the side-by-side desktop layout.
-// The buttons must still track the video card's bottom; small screens stack.
-assert.match(homepage, /<h1 id="home-title">Natalie G\. Winters<\/h1>/);
+// Separate the small kicker into the same grid row as the LEMON-AID header.
+// The heading, description and CTAs share the embedded video picture's row,
+// not the entire card (which also includes the caption).
+assert.match(homepage, /class="home-publication-copy"[\s\S]*?class="home-kicker"[\s\S]*?class="home-publication-body"[\s\S]*?<h1 id="home-title">Natalie G\. Winters<\/h1>/);
 assert.match(editorial, /\.home-publication-copy h1\{[^}]*font-size:clamp\(36px,4vw,66px\);[^}]*white-space:nowrap;/);
-assert.match(editorial, /@media\(min-width:901px\)\{[\s\S]*?\.home-publication-copy\{justify-content:space-between\}[\s\S]*?\.home-publication-copy \.home-actions\{margin-top:20px;padding-top:0\}/);
-assert.match(editorial, /@media\(max-width:900px\)\{[\s\S]*?\.home-publication-inner,[\s\S]*?grid-template-columns:1fr/);
+assert.match(editorial, /@media\(min-width:1151px\)\{[\s\S]*?\.home-publication-inner\{grid-template-rows:auto minmax\(0,1fr\) auto\}/);
+assert.match(editorial, /\.home-publication-copy\{display:grid;grid-column:1;grid-row:1 \/ span 3;grid-template-rows:subgrid\}/);
+assert.match(editorial, /\.home-publication-copy \.home-kicker\{grid-row:1;display:flex;align-items:center;/);
+assert.match(editorial, /\.home-publication-body\{grid-row:2;justify-content:space-between\}/);
+assert.match(editorial, /\.home-publication-body \.home-actions\{margin-top:auto;padding-top:16px\}/);
+assert.match(editorial, /\.home-video-panel\{display:grid;grid-column:2;grid-row:1 \/ span 3;grid-template-rows:subgrid\}/);
+for (const [className,row] of [["head",1],["frame",2],["feature-caption",3]]) {
+  assert.ok(editorial.includes(`.home-video-${className}{grid-row:${row}}`), `video ${className} must occupy row ${row}`);
+}
+assert.match(editorial, /@media\(max-width:1150px\)\{[\s\S]*?\.home-publication-inner\{grid-template-columns:minmax\(0,1fr\)\}/);
+assert.match(editorial, /\.home-video-frame\{flex:none;min-height:0;aspect-ratio:16\/9\}/);
 assert.match(editorial, /\.home-publication-copy h1\{font-size:clamp\(22px,7\.75vw,58px\)\}/);
 
 console.log("visual theme regression checks passed");
