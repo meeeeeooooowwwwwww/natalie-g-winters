@@ -460,19 +460,6 @@ body{
 .home-publication-copy{display:flex;flex-direction:column;min-width:0}
 .home-publication-body{display:flex;flex-direction:column;min-width:0}
 .home-publication-body .home-actions{margin-top:auto;padding-top:24px}
-/* The desktop grid shares all three row tracks across both columns. Unlike
-   matching fixed margins, subgrid stays aligned when video captions wrap. */
-@media(min-width:1151px){
-  .home-publication-inner{grid-template-rows:min-content minmax(0,1fr) min-content;row-gap:0}
-  .home-publication-copy{display:grid;grid-column:1;grid-row:1 / span 3;grid-template-rows:subgrid}
-  .home-publication-copy .home-kicker{grid-row:1;display:flex;align-items:center;margin-bottom:0;padding:11px 0}
-  .home-publication-body{grid-row:2;justify-content:space-between}
-  .home-publication-body .home-actions{margin-top:auto;padding-top:16px}
-  .home-video-panel{display:grid;grid-column:2;grid-row:1 / span 3;grid-template-rows:subgrid}
-  .home-video-head{grid-row:1}
-  .home-video-frame{grid-row:2}
-  .home-video-feature-caption{grid-row:3}
-}
 .home-publication-copy .home-kicker{
   display:inline-block;
   margin-bottom:15px;
@@ -555,7 +542,7 @@ body{
   letter-spacing:.12em;
 }
 .home-video-head a{color:var(--pub-pink-dark);text-decoration:none}
-/* The landscape player flexes to match the adjacent introduction height on desktop. */
+/* The landscape frame stretches alongside the body on desktop; tablets use 16:9. */
 .home-video-frame{
   position:relative;
   flex:1 1 0;
@@ -569,6 +556,21 @@ body{
   height:100%;
   border:0;
 }
+
+/* The desktop grid shares all three row tracks across both columns. Unlike
+   matching fixed margins, subgrid stays aligned when video captions wrap. */
+@media(min-width:1151px){
+  .home-publication-inner{grid-template-rows:min-content minmax(0,1fr) min-content;row-gap:0}
+  .home-publication-copy{display:grid;grid-column:1;grid-row:1 / span 3;grid-template-rows:subgrid}
+  .home-publication-copy .home-kicker{grid-row:1;display:flex;align-items:center;margin-bottom:0;padding:11px 0}
+  .home-publication-body{grid-row:2;justify-content:space-between}
+  .home-publication-body .home-actions{margin-top:auto;padding-top:16px}
+  .home-video-panel{display:grid;grid-column:2;grid-row:1 / span 3;grid-template-rows:subgrid}
+  .home-video-head{grid-row:1}
+  .home-video-frame{grid-row:2}
+  .home-video-feature-caption{grid-row:3}
+}
+
 .brand-ribbon-wrap{
   padding:0 clamp(16px,3vw,42px) 36px;
 }
