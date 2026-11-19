@@ -53,7 +53,7 @@ for (const breakpoint of ["1180", "760", "380"]) {
   assert.match(editorial, new RegExp(`@media\\(max-width:${breakpoint}px\\)`), `missing responsive breakpoint: ${breakpoint}`);
 }
 
-// Separate the small kicker into the same grid row as the LEMON-AID header.
+// Separate the small kicker into the same grid row as the featured-video title.
 // The heading, description and CTAs share the embedded video picture's row,
 // not the entire card (which also includes the caption).
 assert.match(homepage, /class="home-publication-copy"[\s\S]*?class="home-kicker"[\s\S]*?class="home-publication-body"[\s\S]*?<h1 id="home-title">Natalie G\. Winters<\/h1>/);

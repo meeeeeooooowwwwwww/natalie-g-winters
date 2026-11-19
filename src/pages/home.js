@@ -5,7 +5,7 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards, renderNewRumbleListings } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/p2LXMSgldYo";
+  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/-Zmv97_0mG8";
 
   const pageContent = `
     <main class="editorial-home">
@@ -26,21 +26,21 @@ export function renderHomePage(posts) {
           </div>
 
           <div class="home-video-panel">
-            <div class="home-video-head home-video-head--expose">
-              <span>LEMON-AID: THE SOUR SCANDAL</span>
+            <div class="home-video-head home-video-head--featured">
+              <span>Last Night Again</span>
             </div>
             <div class="home-video-frame">
               <iframe
                 src="${featuredYouTubeEmbedUrl}"
-                title="LEMON-AID short film by Sumner McMurtry on YouTube"
+                title="Last Night Again by LilScopic on YouTube"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="encrypted-media; picture-in-picture; fullscreen"
                 allowfullscreen
               ></iframe>
             </div>
-            <div class="home-video-feature-caption home-video-feature-caption--expose">
-              <span>From USAID to LEMON-AID: The lemons plead the Fifth.</span>
+            <div class="home-video-feature-caption home-video-feature-caption--featured">
+              <span>LilScopic</span>
             </div>
           </div>
         </div>

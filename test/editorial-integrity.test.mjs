@@ -153,8 +153,9 @@ for (const [index, video] of RECENT_RUMBLE_VIDEOS.entries()) {
   assert.ok(videos.includes(video.url), "Videos page must contain each current source video");
 }
 assert.ok(home.includes(RECENT_RUMBLE_VIDEOS[0].title), "Homepage recent appearance cards must retain the latest Rumble video");
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/p2LXMSgldYo"') && home.includes('title="LEMON-AID short film by Sumner McMurtry on YouTube"'), "Homepage hero must use the LEMON-AID YouTube player");
+assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/-Zmv97_0mG8"') && home.includes('title="Last Night Again by LilScopic on YouTube"'), "Homepage hero must use Last Night Again by LilScopic");
 assert.ok(!home.includes("RECENT RUMBLE BROADCAST · LATE OCTOBER 2026"), "Hero must not mislabel music as a Natalie broadcast");
+assert.ok(home.includes("<span>Last Night Again</span>") && home.includes("<span>LilScopic</span>"), "Homepage must show title above and artist below the featured video");
 assert.ok(home.includes("Recent video appearances"), "Homepage must show current video heading");
 assert.ok(!home.includes(featured.embedUrl), "An October 7 clip must not be featured on homepage");
 assert.ok(videos.includes(featured.embedUrl), "Historic playable clips must remain on videos archive");

@@ -25,12 +25,12 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
   assert.ok(home.includes(video.embedUrl), "Homepage embeds one of four current clips");
   assert.ok(home.includes(video.thumbnailUrl), "Homepage uses verified publisher thumbnail");
 }
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/p2LXMSgldYo"'), "Hero must embed the LEMON-AID short film");
+assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/-Zmv97_0mG8"'), "Hero must embed Last Night Again");
 assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
-assert.ok(home.includes('title="LEMON-AID short film by Sumner McMurtry on YouTube"'), "Hero accessible title must identify the film");
-assert.ok(home.includes('class="home-video-head home-video-head--expose"'), "Exposé headline has the appropriate visual treatment");
-assert.ok(home.includes("LEMON-AID: THE SOUR SCANDAL"), "Hero must show the LEMON-AID expose headline");
-assert.ok(home.includes("From USAID to LEMON-AID: The lemons plead the Fifth."), "Hero must show the single-line LEMON-AID tagline");
+assert.ok(home.includes('title="Last Night Again by LilScopic on YouTube"'), "Hero accessible title must identify song and artist");
+assert.ok(home.includes('class="home-video-head home-video-head--featured"'), "Featured title has the appropriate visual treatment");
+assert.ok(home.includes("Last Night Again"), "Hero must show the song title above the player");
+assert.ok(home.includes("LilScopic"), "Hero must show the artist below the player");
 assert.ok(!home.includes('OPEN ON YOUTUBE'), "Hero header must not have the external YouTube link");
 assert.ok(!home.includes('<strong>Featured video</strong>'), "Hero bottom must not show the obsolete label");
 assert.ok(!home.includes('href="https://youtu.be/2AwmwORrepc"'), "Old video link must not return");
@@ -38,6 +38,7 @@ assert.ok(assets.includes(".home-video-frame iframe") && assets.includes("grid-t
 assert.ok(assets.includes("@media(max-width:1150px)") && assets.includes(".home-video-frame{flex:none;min-height:0;aspect-ratio:16/9}"), "Stacked tablet/mobile player must retain natural widescreen aspect ratio");
 assert.ok(home.includes('class="home-video-panel"') && !home.includes("home-video-panel--short"), "Remove old Shorts-only portrait layout");
 assert.ok(!home.includes("autoplay=1"), "Hero must not autoplay");
+assert.ok(!home.includes("LEMON-AID: THE SOUR SCANDAL"), "Former hero title must be removed");
 assert.ok(!home.includes("youtube-nocookie.com/embed/1c7XccFwJrQ"), "Old YouTube hero must be removed");
 assert.ok(home.includes("/assets/rumble-player.js"), "Player handler must load on homepage");
 assert.ok(poster.includes("<button") && poster.includes('data-rumble-embed="'));

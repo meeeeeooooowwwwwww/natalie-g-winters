@@ -57,13 +57,14 @@ Article images are restricted to Substack media hosts. Profile/avatar/logo-sized
 An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
 
 ## Current media
-The homepage video hero shows **LEMON-AID** by Sumner McMurtry
-(`https://www.youtube.com/watch?v=p2LXMSgldYo`) under the headline
-"LEMON-AID: THE SOUR SCANDAL".
-The supporting tagline is "From USAID to LEMON-AID: The lemons plead the Fifth.". The obsolete
-"Featured video" labels and top external YouTube link are removed. The privacy-enhanced
-YouTube embed has autoplay disabled and responsive landscape framing. On wide screens,
-the video card stretches alongside the homepage introduction; on mobile it uses a 16:9 player.
+The homepage featured video is **Last Night Again** by **LilScopic**
+(`https://youtu.be/-Zmv97_0mG8`). The song title appears immediately above the
+responsive YouTube player, with the artist credit immediately below. The former
+LEMON-AID heading and caption have been replaced. The obsolete "Featured video"
+label and top external YouTube link remain removed. The privacy-enhanced YouTube
+embed does not autoplay, and retains its responsive landscape framing. On wide
+screens, the video card stretches alongside the homepage introduction; on mobile
+it uses a 16:9 player.
 The **Natalie G. Winters** masthead is kept on one line with fluid, capped serif
 type (including narrow phones). Above 1150px, the introduction and video card
 share a three-row CSS subgrid: the WHITE HOUSE / WAR ROOM / INVESTIGATIONS kicker
