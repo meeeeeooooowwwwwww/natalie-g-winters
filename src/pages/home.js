@@ -5,7 +5,7 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards, renderNewRumbleListings } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredYouTubeEmbedUrl = "https://www.youtube-nocookie.com/embed/-Zmv97_0mG8";
+  const featuredRumbleEmbedUrl = "https://rumble.com/embed/v7gf5wo/?pub=4kxtac";
 
   const pageContent = `
     <main class="editorial-home">
@@ -27,12 +27,12 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head home-video-head--featured">
-              <span>Last Night Again</span>
+              <span>Looney Tunes: Rabbit of Seville</span>
             </div>
             <div class="home-video-frame">
               <iframe
-                src="${featuredYouTubeEmbedUrl}"
-                title="Last Night Again by LilScopic on YouTube"
+                src="${featuredRumbleEmbedUrl}"
+                title="Looney Tunes: Rabbit of Seville (1950) on Rumble"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="encrypted-media; picture-in-picture; fullscreen"
@@ -40,7 +40,7 @@ export function renderHomePage(posts) {
               ></iframe>
             </div>
             <div class="home-video-feature-caption home-video-feature-caption--featured">
-              <span>LilScopic</span>
+              <span>Warner Bros. · 1950</span>
             </div>
           </div>
         </div>
