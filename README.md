@@ -57,12 +57,12 @@ Article images are restricted to Substack media hosts. Profile/avatar/logo-sized
 An old verified post list is retained only as a last-resort bootstrap if KV is empty and every live Substack source is unavailable. It is not re-injected into a healthy rolling archive.
 
 ## Current media
-The homepage featured video is **Looney Tunes: Rabbit of Seville (1950)**,
+The homepage featured video is **Natural Born Killers – Shitlist (L7) Scene (1994)**,
 published on Rumble at
-`https://rumble.com/v7iliu6-looney-tunes-rabbit-of-seville-1950-a-masterpiece-of-human-creativity.html`.
+`https://rumble.com/v7iuino-shitlist-scene-l7-natural-born-killers.html`.
 The homepage uses the publisher-provided embed
-`https://rumble.com/embed/v7gf5wo/?pub=4kxtac`, with the cartoon title above and
-**Warner Bros. · 1950** below. The Rumble player owns its thumbnail/poster;
+`https://rumble.com/embed/v7go5q6/?pub=4kxtac`, with the film title above and
+**Shitlist (L7) · 1994** below. The Rumble player owns its thumbnail/poster;
 no separate, unverifiable CDN cover URL is constructed. The player does not
 autoplay and retains the existing responsive 16:9 framing and alignment.
 The former LilScopic / Last Night Again video, heading and credit are removed.

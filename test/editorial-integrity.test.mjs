@@ -153,9 +153,9 @@ for (const [index, video] of RECENT_RUMBLE_VIDEOS.entries()) {
   assert.ok(videos.includes(video.url), "Videos page must contain each current source video");
 }
 assert.ok(home.includes(RECENT_RUMBLE_VIDEOS[0].title), "Homepage recent appearance cards must retain the latest Rumble video");
-assert.ok(home.includes('src="https://rumble.com/embed/v7gf5wo/?pub=4kxtac"') && home.includes('title="Looney Tunes: Rabbit of Seville (1950) on Rumble"'), "Homepage hero must use the supplied Rabbit of Seville Rumble player");
+assert.ok(home.includes('src="https://rumble.com/embed/v7go5q6/?pub=4kxtac"') && home.includes('title="Natural Born Killers – Shitlist (L7) Scene (1994) on Rumble"'), "Homepage hero must use the supplied Shitlist Rumble player");
 assert.ok(!home.includes("RECENT RUMBLE BROADCAST · LATE OCTOBER 2026"), "Hero must not mislabel music as a Natalie broadcast");
-assert.ok(home.includes("<span>Looney Tunes: Rabbit of Seville</span>") && home.includes("<span>Warner Bros. · 1950</span>"), "Homepage must show cartoon title above and studio/year below the featured video");
+assert.ok(home.includes("<span>Natural Born Killers</span>") && home.includes("<span>Shitlist (L7) · 1994</span>"), "Homepage must show film title above and studio/year below the featured video");
 assert.ok(home.includes("Recent video appearances"), "Homepage must show current video heading");
 assert.ok(!home.includes(featured.embedUrl), "An October 7 clip must not be featured on homepage");
 assert.ok(videos.includes(featured.embedUrl), "Historic playable clips must remain on videos archive");

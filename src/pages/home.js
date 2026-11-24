@@ -5,7 +5,7 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards, renderNewRumbleListings } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredRumbleEmbedUrl = "https://rumble.com/embed/v7gf5wo/?pub=4kxtac";
+  const featuredRumbleEmbedUrl = "https://rumble.com/embed/v7go5q6/?pub=4kxtac";
 
   const pageContent = `
     <main class="editorial-home">
@@ -27,12 +27,12 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head home-video-head--featured">
-              <span>Looney Tunes: Rabbit of Seville</span>
+              <span>Natural Born Killers</span>
             </div>
             <div class="home-video-frame">
               <iframe
                 src="${featuredRumbleEmbedUrl}"
-                title="Looney Tunes: Rabbit of Seville (1950) on Rumble"
+                title="Natural Born Killers – Shitlist (L7) Scene (1994) on Rumble"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="encrypted-media; picture-in-picture; fullscreen"
@@ -40,7 +40,7 @@ export function renderHomePage(posts) {
               ></iframe>
             </div>
             <div class="home-video-feature-caption home-video-feature-caption--featured">
-              <span>Warner Bros. · 1950</span>
+              <span>Shitlist (L7) · 1994</span>
             </div>
           </div>
         </div>
