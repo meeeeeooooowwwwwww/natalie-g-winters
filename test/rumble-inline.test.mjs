@@ -25,12 +25,12 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
   assert.ok(home.includes(video.embedUrl), "Homepage embeds one of four current clips");
   assert.ok(home.includes(video.thumbnailUrl), "Homepage uses verified publisher thumbnail");
 }
-assert.ok(home.includes('src="https://rumble.com/embed/v7gf5wo/?pub=4kxtac"'), "Hero must embed the exact supplied Rabbit of Seville Rumble player");
+assert.ok(home.includes('src="https://rumble.com/embed/v7go5q6/?pub=4kxtac"'), "Hero must embed the exact supplied Shitlist Rumble player");
 assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
-assert.ok(home.includes('title="Looney Tunes: Rabbit of Seville (1950) on Rumble"'), "Hero accessible title must identify the cartoon and platform");
+assert.ok(home.includes('title="Natural Born Killers – Shitlist (L7) Scene (1994) on Rumble"'), "Hero accessible title must identify the scene and platform");
 assert.ok(home.includes('class="home-video-head home-video-head--featured"'), "Featured title has the appropriate visual treatment");
-assert.ok(home.includes("Looney Tunes: Rabbit of Seville"), "Hero must show the film title above the player");
-assert.ok(home.includes("Warner Bros. · 1950"), "Hero must show the original studio and year below the player");
+assert.ok(home.includes("Natural Born Killers"), "Hero must show the film title above the player");
+assert.ok(home.includes("Shitlist (L7) · 1994"), "Hero must show the song, band and year below the player");
 assert.ok(!home.includes('OPEN ON YOUTUBE'), "Hero header must not have the former external YouTube link");
 assert.ok(!home.includes("Last Night Again") && !home.includes("LilScopic"), "Replaced artist and title must not remain in hero");
 assert.ok(!home.includes('<strong>Featured video</strong>'), "Hero bottom must not show the obsolete label");
