@@ -153,7 +153,7 @@ for (const [index, video] of RECENT_RUMBLE_VIDEOS.entries()) {
   assert.ok(videos.includes(video.url), "Videos page must contain each current source video");
 }
 assert.ok(home.includes(RECENT_RUMBLE_VIDEOS[0].title), "Homepage recent appearance cards must retain the latest Rumble video");
-assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/D-oF7S-CwrI"') && home.includes('title="Featured video on YouTube"'), "Homepage hero must use the supplied YouTube player");
+assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/D-oF7S-CwrI?start=957"') && home.includes('title="Featured video on YouTube"'), "Homepage hero must use the supplied YouTube player");
 assert.ok(!home.includes("RECENT RUMBLE BROADCAST · LATE OCTOBER 2026"), "Hero must not mislabel music as a Natalie broadcast");
 assert.ok(!home.includes("<span>Natural Born Killers</span>") && !home.includes("<span>Shitlist (L7) · 1994</span>"), "Homepage must not retain previous featured video labels");
 assert.ok(home.includes("Recent video appearances"), "Homepage must show current video heading");
