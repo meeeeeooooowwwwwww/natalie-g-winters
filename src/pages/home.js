@@ -5,7 +5,7 @@ import { escapeHtml } from "../utils.js";
 import { renderRecentRumbleCards, renderNewRumbleListings } from "../recent-rumble.js";
 
 export function renderHomePage(posts) {
-  const featuredRumbleEmbedUrl = "https://rumble.com/embed/v7go5q6/?pub=4kxtac";
+  const featuredVideoEmbedUrl = "https://www.youtube-nocookie.com/embed/D-oF7S-CwrI";
 
   const pageContent = `
     <main class="editorial-home">
@@ -27,12 +27,12 @@ export function renderHomePage(posts) {
 
           <div class="home-video-panel">
             <div class="home-video-head home-video-head--featured">
-              <span>Natural Born Killers</span>
+              
             </div>
             <div class="home-video-frame">
               <iframe
-                src="${featuredRumbleEmbedUrl}"
-                title="Natural Born Killers – Shitlist (L7) Scene (1994) on Rumble"
+                src="${featuredVideoEmbedUrl}"
+                title="Featured video on YouTube"
                 loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="encrypted-media; picture-in-picture; fullscreen"
@@ -40,7 +40,7 @@ export function renderHomePage(posts) {
               ></iframe>
             </div>
             <div class="home-video-feature-caption home-video-feature-caption--featured">
-              <span>Shitlist (L7) · 1994</span>
+              
             </div>
           </div>
         </div>
