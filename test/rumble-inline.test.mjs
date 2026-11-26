@@ -28,7 +28,7 @@ for (const video of RECENT_RUMBLE_VIDEOS.slice(0,4)) {
 assert.ok(home.includes('src="https://www.youtube-nocookie.com/embed/oponIfu5L3Y"'), "Hero must embed the exact supplied YouTube player");
 assert.ok(home.includes('class="home-video-frame"'), "Hero must retain responsive aspect-ratio wrapper");
 assert.ok(home.includes('title="Featured video on YouTube"'), "Hero accessible title must identify the scene and platform");
-assert.ok(home.includes('class="home-video-head home-video-head--featured"'), "Featured title has the appropriate visual treatment");
+assert.ok(!home.includes('class="home-video-head home-video-head--featured"'), "Homepage feature must not display a heading above the player");
 assert.ok(!home.includes("Natural Born Killers"), "Hero must not show the previous film title");
 assert.ok(!home.includes("Shitlist (L7) · 1994"), "Hero must not show the previous caption");
 assert.ok(!home.includes('OPEN ON YOUTUBE'), "Hero header must not have the former external YouTube link");
