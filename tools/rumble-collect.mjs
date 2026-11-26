@@ -32,7 +32,7 @@ for(const page of pages){
       const titleEsc=lastCapture(before,/"title":"((?:\\.|[^"\\])*)"/g);
       if(!titleEsc)continue;
       const title=parseValue(titleEsc);
-      if(!/natalie\s+(?:g\.?\s+)?winters/i.test(title))continue;
+      if(!/(?:\bnatalie\s+(?:g\.?\s+)?winters\b|^winters\s*:)/i.test(title))continue;
       const source=lastCapture(before,/"url":"(https:\/\/rumble\.com\/v[0-9a-z]+-[^"]+\.html)"/g);
       // Only use the publisher's canonical URL when it matches the record ID.
       const sourceUrl=source && source.includes("/"+id+"-")?source:null;
