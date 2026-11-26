@@ -26,9 +26,6 @@ export function renderHomePage(posts) {
           </div>
 
           <div class="home-video-panel">
-            <div class="home-video-head home-video-head--featured">
-              <h2>Today Inside Thailand</h2>
-            </div>
             <div class="home-video-frame">
               <iframe
                 src="${featuredVideoEmbedUrl}"
