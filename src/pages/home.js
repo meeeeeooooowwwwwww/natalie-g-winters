@@ -84,7 +84,7 @@ export function renderHomePage(posts) {
             </div>
             <p>Recent War Room appearances with real Rumble thumbnails. Select Play to watch on this page, or open the publisher’s original video.</p>
           </div>
-          <h3 class="recent-rumble-subheading">Early November War Room uploads</h3>
+          <h3 class="recent-rumble-subheading">November War Room uploads</h3>
           ${renderNewRumbleListings()}
           <h3 class="recent-rumble-subheading">Earlier clips with verified players</h3>
           ${renderRecentRumbleCards()}
