@@ -123,6 +123,17 @@ export const NEW_RUMBLE_LISTINGS = Object.freeze([
     "summary": "Winters discusses proposed investigations and legal proceedings."
   },
   {
+    "id": "v7iumfm",
+    "title": "Indivisible leaders discuss Brazil’s “Lula’s Army”",
+    "sourceTitle": "Winters: Indivisible leaders discuss copying Brazil’s “Lula’s Army” to learn “how to game the system” online, abolishing the Electoral College, and investigations intended to deter future admin staffers and donors.",
+    "url": "https://rumble.com/v7iumfm-winters-1.html",
+    "embedUrl": "https://rumble.com/embed/v7go9i4/",
+    "thumbnailUrl": "https://hugh.cdn.rumble.cloud/video/fww1/3d/s8/6/s/S/z/h/sSzhB.qR4e.jpg",
+    "publisher": "Bannon’s War Room",
+    "period": "Late November 2026",
+    "summary": "Winters discusses Indivisible’s organising strategies, the Electoral College and proposed investigations."
+  },
+  {
     id: "v7hx5mo",
     title: "Democrats’ post-election policy proposals",
     sourceTitle: "Natalie Winters: The most concerning stuff that the Democrats are pushing is the compounding of the amnesty stuff with what they want to do to elections, because that is fundamentally irreversible.",
