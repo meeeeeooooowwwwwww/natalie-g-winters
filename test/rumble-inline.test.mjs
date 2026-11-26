@@ -91,10 +91,10 @@ assert.ok(!whiteHouse.includes('<iframe src="https://rumble.com/embed/v6c48kg/')
 assert.ok(!whiteHouse.includes("▶ PLAY VIDEO"), "Restricted videos must never advertise public playback");
 
 
-assert.equal(NEW_RUMBLE_LISTINGS.length, 7, "Seven verified November clips");
-assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.id)).size, 7);
-assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.embedUrl)).size, 7, "Each clip has a unique verified embed");
-assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.url)).size, 7, "Each clip has a unique publisher permalink");
+assert.equal(NEW_RUMBLE_LISTINGS.length, 8, "Eight verified November clips");
+assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.id)).size, 8);
+assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.embedUrl)).size, 8, "Each clip has a unique verified embed");
+assert.equal(new Set(NEW_RUMBLE_LISTINGS.map(x => x.url)).size, 8, "Each clip has a unique publisher permalink");
 for (const clip of NEW_RUMBLE_LISTINGS) {
   assert.match(clip.url, /^https:\/\/rumble\.com\/v[0-9a-z]+-[^"]+\.html$/);
   assert.match(clip.embedUrl, /^https:\/\/rumble\.com\/embed\/v[0-9a-z]+\/$/);
@@ -106,6 +106,6 @@ for (const clip of NEW_RUMBLE_LISTINGS) {
 assert.ok(renderNewRumbleListings(NEW_RUMBLE_LISTINGS).includes('data-rumble-embed='), "New November clips use the existing click-to-play handler");
 assert.ok(!renderNewRumbleListings(NEW_RUMBLE_LISTINGS).includes('class="recent-rumble-lookup"'), "No publisher-list placeholder cards");
 assert.ok(NEW_RUMBLE_LISTINGS.slice(0,4).every(x => home.includes(x.title)), "Homepage lists new November appearances");
-assert.ok(NEW_RUMBLE_LISTINGS.every(x => videos.includes(x.title)), "Video archive lists all seven new appearances");
+assert.ok(NEW_RUMBLE_LISTINGS.every(x => videos.includes(x.title)), "Video archive lists all eight new appearances");
 
 console.log("Rumble inline playback, verified legacy clips, and native November players: PASS");
