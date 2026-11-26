@@ -101,6 +101,28 @@ export function renderRecentRumbleCards(videos = RECENT_RUMBLE_VIDEOS.slice(0, 4
 // travel together. No guessed player IDs or generic stock thumbnails.
 export const NEW_RUMBLE_LISTINGS = Object.freeze([
   {
+    "id": "v7iuooi",
+    "title": "Robert Garcia and congressional communications spending",
+    "sourceTitle": "Natalie Winters: Dems promised affordability. Meanwhile, Robert Garcia has devoted a QUARTER of his Oversight staff to a “presidential-style communication shop,” complete with videographers and influencer outreach.",
+    "url": "https://rumble.com/v7iuooi-winters.html",
+    "embedUrl": "https://rumble.com/embed/v7gobr0/",
+    "thumbnailUrl": "https://hugh.cdn.rumble.cloud/video/fwe2/7e/s8/6/Y/z/A/h/YzAhB.qR4e.jpg",
+    "publisher": "Bannon’s War Room",
+    "period": "Late November 2026",
+    "summary": "Winters discusses congressional staffing and communications priorities."
+  },
+  {
+    "id": "v7iuo24",
+    "title": "Former DOJ prosecutors and proposed investigations",
+    "sourceTitle": "Natalie Winters: Dems tap former DOJ prosecutors fired under Trump for investigations, former Obama adviser seeks a foreign trial for Hegseth, and Muslim activists urge Congress to investigate “Christian nationalism.”",
+    "url": "https://rumble.com/v7iuo24-winters.html",
+    "embedUrl": "https://rumble.com/embed/v7gob4m/",
+    "thumbnailUrl": "https://hugh.cdn.rumble.cloud/video/fwe2/2f/s8/6/m/n/A/h/mnAhB.qR4e.jpg",
+    "publisher": "Bannon’s War Room",
+    "period": "Late November 2026",
+    "summary": "Winters discusses proposed investigations and legal proceedings."
+  },
+  {
     id: "v7hx5mo",
     title: "Democrats’ post-election policy proposals",
     sourceTitle: "Natalie Winters: The most concerning stuff that the Democrats are pushing is the compounding of the amnesty stuff with what they want to do to elections, because that is fundamentally irreversible.",
