@@ -75,7 +75,7 @@ export function renderVideosPage(posts) {
         <section class="recent-rumble-section" aria-label="New November War Room video listings">
           <div class="video-library-head">
             <h2>New War Room appearances · November 2026</h2>
-            <p>${NEW_RUMBLE_LISTINGS.length} clips visible in the publisher’s listings. Direct player links are not yet verified; links open the relevant publisher listing page.</p>
+            <p>${NEW_RUMBLE_LISTINGS.length} clips with verified Rumble players and publisher thumbnails. Select Play to watch here, or open the original on Rumble.</p>
           </div>
           ${renderNewRumbleListings(NEW_RUMBLE_LISTINGS)}
         </section>
